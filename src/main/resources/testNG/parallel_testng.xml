@@ -5,7 +5,7 @@
         <listener class-name="com.biodata.labguru.CustomListener"/>
     </listeners>
  
-<test  name="Home Test">
+<test  name="Test on Exist Account">
    	<parameter name ="url" value="staging"/>
    	<parameter name ="user" value="labguru.qa+s_0702"/>
     <parameter name ="password" value="Test1234"/>
