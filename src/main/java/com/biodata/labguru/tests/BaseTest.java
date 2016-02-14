@@ -55,8 +55,11 @@ public class BaseTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      */
     private ThreadLocal<String> sessionId = new ThreadLocal<String>();
     
-    
-    public static final String URL = "http://" + "gonichazor" + ":" + "bc580ecc-f8c7-4559-8337-fa6b16861e14" + "@ondemand.saucelabs.com:80/wd/hub";
+
+    private static final String USERNAME = System.getenv("SAUCE_USERNAME");
+    private static final String ACCESS_KEY = System.getenv("SAUCE_ACCESS_KEY");
+    public static final String URL = "http://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:80/wd/hub";
+//    public static final String URL = "http://" + "gonichazor" + ":" + "bc580ecc-f8c7-4559-8337-fa6b16861e14" + "@ondemand.saucelabs.com:80/wd/hub";
 
 	private ResourceBundleMessageSource messageSource;	
 
@@ -211,7 +214,7 @@ public class BaseTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
 //                dc));
         //for saucelabs plugin on jenkins
         webDriver.set(new RemoteWebDriver(
-                new URL("http://" + System.getenv("SAUCE_USERNAME") + ":" + System.getenv("SAUCE_ACCESS_KEY") + "@ondemand.saucelabs.com:80/wd/hub"),
+                new URL("http://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:80/wd/hub"),
                 dc));
 
         // set current sessionId        
