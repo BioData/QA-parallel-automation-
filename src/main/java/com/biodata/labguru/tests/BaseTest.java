@@ -206,20 +206,20 @@ public class BaseTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      */
     private WebDriver createDriver(DesiredCapabilities dc) throws MalformedURLException {
         // Launch remote browser and set it as the current thread	
-        webDriver.set(new RemoteWebDriver(
-                new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"),
-                dc));
-        //for saucelabs plugin on jenkins
 //        webDriver.set(new RemoteWebDriver(
-//                new URL("http://" + System.getenv("SAUCE_USERNAME") + ":" + System.getenv("SAUCE_ACCESS_KEY") + "@ondemand.saucelabs.com:80/wd/hub"),
+//                new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"),
 //                dc));
+        //for saucelabs plugin on jenkins
+        webDriver.set(new RemoteWebDriver(
+                new URL("http://" + System.getenv("SAUCE_USERNAME") + ":" + System.getenv("SAUCE_ACCESS_KEY") + "@ondemand.saucelabs.com:80/wd/hub"),
+                dc));
 
         // set current sessionId        
         String id = ((RemoteWebDriver) getWebDriver()).getSessionId().toString();
         sessionId.set(id);
 
         // print out sessionId and jobname for consumption by Sauce Jenkins plugin
-        System.out.println(String.format("SauceOnDemandSessionID=%1$s job-name=%2$s", id, buildUniqueName("Job_")));
+        System.out.println(String.format("SauceOnDemandSessionID=%1$s job-name=%2$s", id, dc.getCapability("name")));
 
         return webDriver.get();
     }
