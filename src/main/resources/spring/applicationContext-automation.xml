@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="http://www.springframework.org/schema/context
+		    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		    http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/util
+			http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+        <!-- Activates scanning of @Autowired -->
+        <context:annotation-config/>
+        <context:component-scan base-package="com.biodata.labguru" />
+
+        <context:property-placeholder location="classpath:/application.properties" ignore-resource-not-found="false"/>
+        
+		<bean id="messageSource"
+			class="org.springframework.context.support.ResourceBundleMessageSource" scope="prototype">
+			<property name="basename">
+       			<value>locales/labguru_bundle</value>
+			</property>
+		</bean>
+        
+        <bean id="pageManager" class="com.biodata.labguru.pages.PageManager" scope="prototype">
+            <property name="productionUrl" value="${production.url}" />
+            <property name= "stagingUrl" value="${staging.url}" />
+             <property name= "otherUrl" value="${other.url}" />
+            <property name= "gmailUrl" value="${labguru.qa.gmail.url}" />
+         	<property name= "gmailAccount" value="${labguru.qa.gmail.mail}" />
+         	<property name= "gmailPassword" value="${labguru.qa.gmail.password}" />
+        </bean>
+</beans>

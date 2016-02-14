@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="3" name="Failed suite [Labguru Automation Suite]" parallel="classes">
+  <parameter name="password" value="Test1234"/>
+  <parameter name="browser" value="firefox"/>
+  <parameter name="newAccount" value="false"/>
+  <parameter name="user" value="labguru.qa+s_0702"/>
+  <parameter name="url" value="staging"/>
+  <listeners>
+    <listener class-name="com.biodata.labguru.CustomListener"/>
+  </listeners>
+  <test name="Home Test(failed)" parallel="classes">
+    <parameter name="password" value="Test1234"/>
+    <parameter name="browser" value="firefox"/>
+    <parameter name="newAccount" value="false"/>
+    <parameter name="user" value="labguru.qa+s_0702"/>
+    <parameter name="url" value="staging"/>
+    <groups>
+      <run>
+        <include name="basic sanity"/>
+        <include name="v2"/>
+        <include name="deep"/>
+        <exclude name="scarlet"/>
+        <exclude name="special"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.biodata.labguru.tests.inventory.purchasables.AntibodiesTest">
+        <methods>
+          <include name="addAntibodyFromOnlineDir"/>
+          <include name="editCollectionItemFromItemShowPage"/>
+          <include name="duplicateItem"/>
+          <include name="showMenu"/>
+          <include name="showAntybodyFromDirectory"/>
+          <include name="checkSingleCollection"/>
+          <include name="deleteAttachment"/>
+          <include name="addStockLocatedInBox"/>
+          <include name="addStockFromStocksTab"/>
+          <include name="tearDown"/>
+          <include name="addCustomFieldAndGenerateCollectionTemplate"/>
+          <include name="importCollection"/>
+          <include name="uncheckSingleCollection"/>
+          <include name="addStockFromMetaDataSection"/>
+          <include name="uploadImage"/>
+          <include name="addItemSaveAndNew"/>
+          <include name="deleteCollectionItemFromIndexTable"/>
+          <include name="searchItemInShoppingList"/>
+          <include name="setup"/>
+          <include name="initialize"/>
+          <include name="deleteAllItemsFromIndexTable"/>
+          <include name="addTag"/>
+        </methods>
+      </class> <!-- com.biodata.labguru.tests.inventory.purchasables.AntibodiesTest -->
+      <class name="com.biodata.labguru.tests.inventory.purchasables.ConsumablesTest">
+        <methods>
+          <include name="addToShoppingListFromShowPage"/>
+          <include name="showMenu"/>
+          <include name="deleteCollectionItemFromItemShowPage"/>
+          <include name="addStockLocatedInBox"/>
+          <include name="checkCustomizeTableView"/>
+          <include name="tearDown"/>
+          <include name="addSimpleItem"/>
+          <include name="checkShowPageOfCreatedItem"/>
+          <include name="importCollection"/>
+          <include name="uncheckSingleCollection"/>
+          <include name="uploadImage"/>
+          <include name="deleteCollectionItemFromIndexTable"/>
+          <include name="addFromProductDirectory"/>
+          <include name="searchItemInShoppingList"/>
+          <include name="addTask"/>
+          <include name="initialize"/>
+          <include name="deleteAllItemsFromIndexTable"/>
+          <include name="addConsumableToShoppingList"/>
+        </methods>
+      </class> <!-- com.biodata.labguru.tests.inventory.purchasables.ConsumablesTest -->
+      <class name="com.biodata.labguru.tests.inventory.purchasables.ProteinsTest">
+        <methods>
+          <include name="editCollectionItemFromItemShowPage"/>
+          <include name="showMenu"/>
+          <include name="deleteCollectionItemFromItemShowPage"/>
+          <include name="checkCollectionCustomizeBreadCrumbs"/>
+          <include name="deleteAttachment"/>
+          <include name="deleteStockFromStocksTab"/>
+          <include name="archiveStockFromStocksTab"/>
+          <include name="addStockFromStocksTab"/>
+          <include name="uncheckSingleCollection"/>
+          <include name="addStockFromMetaDataSection"/>
+          <include name="deleteAllItemsFromIndexTable"/>
+          <include name="duplicateItem"/>
+          <include name="checkSingleCollection"/>
+          <include name="addStockLocatedInBox"/>
+          <include name="checkCustomizeTableView"/>
+          <include name="tearDown"/>
+          <include name="addCustomFieldAndGenerateCollectionTemplate"/>
+          <include name="checkShowPageOfCreatedItem"/>
+          <include name="importCollection"/>
+          <include name="uploadImage"/>
+          <include name="addItemSaveAndNew"/>
+          <include name="deleteCollectionItemFromIndexTable"/>
+          <include name="searchItemInShoppingList"/>
+          <include name="addTask"/>
+          <include name="initialize"/>
+          <include name="addTag"/>
+        </methods>
+      </class> <!-- com.biodata.labguru.tests.inventory.purchasables.ProteinsTest -->
+      <class name="com.biodata.labguru.tests.inventory.purchasables.WormsTest">
+        <methods>
+          <include name="editCollectionItemFromItemShowPage"/>
+          <include name="showMenu"/>
+          <include name="checkSingleCollection"/>
+          <include name="deleteAttachment"/>
+          <include name="addStockLocatedInBox"/>
+          <include name="deleteStockFromStocksTab"/>
+          <include name="archiveStockFromStocksTab"/>
+          <include name="addStockFromStocksTab"/>
+          <include name="checkCustomizeTableView"/>
+          <include name="tearDown"/>
+          <include name="addCustomFieldAndGenerateCollectionTemplate"/>
+          <include name="addSimpleItem"/>
+          <include name="checkShowPageOfCreatedItem"/>
+          <include name="importCollection"/>
+          <include name="uncheckSingleCollection"/>
+          <include name="addStockFromMetaDataSection"/>
+          <include name="addItemSaveAndNew"/>
+          <include name="deleteCollectionItemFromIndexTable"/>
+          <include name="searchItemInShoppingList"/>
+          <include name="initialize"/>
+          <include name="deleteAllItemsFromIndexTable"/>
+          <include name="addTag"/>
+        </methods>
+      </class> <!-- com.biodata.labguru.tests.inventory.purchasables.WormsTest -->
+      <class name="com.biodata.labguru.tests.inventory.purchasables.YeastsTest">
+        <methods>
+          <include name="showMenu"/>
+          <include name="deleteCollectionItemFromItemShowPage"/>
+          <include name="checkSingleCollection"/>
+          <include name="deleteAttachment"/>
+          <include name="addStockLocatedInBox"/>
+          <include name="deleteStockFromStocksTab"/>
+          <include name="archiveStockFromStocksTab"/>
+          <include name="addStockFromStocksTab"/>
+          <include name="checkCustomizeTableView"/>
+          <include name="tearDown"/>
+          <include name="addCustomFieldAndGenerateCollectionTemplate"/>
+          <include name="addSimpleItem"/>
+          <include name="checkShowPageOfCreatedItem"/>
+          <include name="importCollection"/>
+          <include name="uncheckSingleCollection"/>
+          <include name="addStockFromMetaDataSection"/>
+          <include name="uploadImage"/>
+          <include name="addItemSaveAndNew"/>
+          <include name="deleteCollectionItemFromIndexTable"/>
+          <include name="searchItemInShoppingList"/>
+          <include name="addTask"/>
+          <include name="initialize"/>
+          <include name="deleteAllItemsFromIndexTable"/>
+          <include name="addTag"/>
+        </methods>
+      </class> <!-- com.biodata.labguru.tests.inventory.purchasables.YeastsTest -->
+    </classes>
+  </test> <!-- Home Test(failed) -->
+</suite> <!-- Failed suite [Labguru Automation Suite] -->

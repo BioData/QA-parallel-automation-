@@ -1,0 +1,86 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Labguru Automation Suite" verbose="1" parallel="classes" thread-count="3">
+   <listeners>
+        <listener class-name="com.biodata.labguru.CustomListener"/>
+    </listeners>
+ 
+<test  name="Home Test">
+   	<parameter name ="url" value="staging"/>
+   	<parameter name ="user" value="labguru.qa+s_0702"/>
+    <parameter name ="password" value="Test1234"/>
+    <parameter name ="newAccount" value="false"/>
+    <parameter name ="browser" value="firefox"/>
+	<groups>
+		<run>
+			<include name="basic sanity"></include>
+			<include name="v2"></include>
+			<exclude name="deep"></exclude>
+			<exclude name="scarlet"></exclude>
+			<exclude name="special"></exclude>
+			
+		</run>
+	</groups>	
+    <classes> 
+            <class name="com.biodata.labguru.tests.inventory.purchasables.ConsumablesTest" />
+       <class name="com.biodata.labguru.tests.home.RecentResultsTest"/>
+	   <class name="com.biodata.labguru.tests.home.LabActivitiesTest"/>
+	   
+	      	 	 <class name="com.biodata.labguru.tests.enotebook.ProjectTest"/>
+
+
+       <!-- 
+       	  <class name="com.biodata.labguru.tests.LoginTest" />
+ 	 	<class name="com.biodata.labguru.tests.AccountAdminTest" />
+ 	   <class name="com.biodata.labguru.tests.home.DashboardTest"/> 
+       <class name="com.biodata.labguru.tests.home.CalendarTest"/> 
+       <class name="com.biodata.labguru.tests.home.RecentResultsTest"/>
+	   <class name="com.biodata.labguru.tests.home.LabActivitiesTest"/>
+	   
+	      	 	 <class name="com.biodata.labguru.tests.enotebook.ProjectTest"/>
+              <class name="com.biodata.labguru.tests.enotebook.ProtocolsTest" /> 
+           <class name="com.biodata.labguru.tests.enotebook.ExperimentTest"/>
+        <class name="com.biodata.labguru.tests.enotebook.ExperimentV2Test"/>
+   
+	 
+       <class name="com.biodata.labguru.tests.storage.BoxesTest" />
+       <class name="com.biodata.labguru.tests.storage.StocksTest"/>	
+       <class name="com.biodata.labguru.tests.storage.CryogenicCanesTest"/>	
+       <class name="com.biodata.labguru.tests.storage.StoragesTest"/>
+       <class name="com.biodata.labguru.tests.storage.EquipmentTest" />
+   
+       <class name="com.biodata.labguru.tests.knowledgebase.RecipesTest" />
+       <class name="com.biodata.labguru.tests.knowledgebase.DocumentsTest" />
+       <class name="com.biodata.labguru.tests.knowledgebase.PapersTest" />
+       
+        <class name="com.biodata.labguru.tests.inventory.purchasables.ConsumablesTest" />
+      <class name="com.biodata.labguru.tests.inventory.purchasables.AntibodiesTest" /> 
+	   <class name="com.biodata.labguru.tests.inventory.purchasables.PlasmidsTest" />  
+	   <class name="com.biodata.labguru.tests.inventory.purchasables.PrimersTest" />  
+       <class name="com.biodata.labguru.tests.inventory.purchasables.CellLinesTest" />
+       <class name="com.biodata.labguru.tests.inventory.purchasables.BacteriaTest" />
+        <class name="com.biodata.labguru.tests.inventory.purchasables.FungiTest" />
+	   <class name="com.biodata.labguru.tests.inventory.purchasables.FliesTest" />   
+	   <class name="com.biodata.labguru.tests.inventory.purchasables.LipidsTest" />  
+	   <class name="com.biodata.labguru.tests.inventory.purchasables.ProteinsTest" />
+	   <class name="com.biodata.labguru.tests.inventory.purchasables.WormsTest" />  
+       <class name="com.biodata.labguru.tests.inventory.purchasables.YeastsTest" />
+       <class name="com.biodata.labguru.tests.inventory.purchasables.TissuesTest" />
+ 	   <class name="com.biodata.labguru.tests.inventory.rodents.SpecimensTest" />
+  		<class name="com.biodata.labguru.tests.inventory.rodents.StrainsTest" />	
+  		 <class name="com.biodata.labguru.tests.inventory.purchasables.botany.PlantsTest" />
+         <class name="com.biodata.labguru.tests.inventory.purchasables.botany.SeedsTest" />
+       <class name="com.biodata.labguru.tests.inventory.GenesTest" />
+       <class name="com.biodata.labguru.tests.inventory.VirusesTest" />
+	   <class name="com.biodata.labguru.tests.inventory.SequencesTest" />  
+	   <class name="com.biodata.labguru.tests.inventory.ZebrafishesTest" />
+	   <class name="com.biodata.labguru.tests.inventory.ShoppingListTest" />
+	   <class name="com.biodata.labguru.tests.inventory.purchasables.GenericCollectionTest" />
+	          <class name="com.biodata.labguru.tests.inventory.rodents.TreatmentsTest" />
+       <class name="com.biodata.labguru.tests.inventory.rodents.CagesTest" /> 
+       
+        -->
+    </classes>
+  </test>
+
+ </suite>
