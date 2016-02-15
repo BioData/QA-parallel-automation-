@@ -36,8 +36,10 @@ public class BaseTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
      * Constructs a {@link SauceOnDemandAuthentication} instance using the supplied user name/access key.  To use the authentication
      * supplied by environment variables or from an external file, use the no-arg {@link SauceOnDemandAuthentication} constructor.
      */
-    public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication("gonichazor", "bc580ecc-f8c7-4559-8337-fa6b16861e14");
- 
+   // public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication("gonichazor", "bc580ecc-f8c7-4559-8337-fa6b16861e14");
+	public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication("revitalkr", "9dbad2a7-0c75-4303-a4ae-1224d71e92fd");
+
+
  
     private static ApplicationContext applicationContext;
 
