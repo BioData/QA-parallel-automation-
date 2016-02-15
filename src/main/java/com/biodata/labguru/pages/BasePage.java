@@ -17,6 +17,7 @@ import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -834,7 +835,17 @@ public abstract class BasePage {
 				(By.xpath(".//*[@id='ui-id-2']/div[2]/div/ul")));
 	}
 
+	protected void waitForPageCompleteLoading() {
 
+		driverWait.until(new ExpectedCondition<Object>() {
+				@Override
+				public Object apply(WebDriver driver) {
+					getLogger().info("waiting for page load to complete");
+					return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");	
+				}
+		    });
+
+	}
 	
 	public void refreshPage() throws InterruptedException {
 		
