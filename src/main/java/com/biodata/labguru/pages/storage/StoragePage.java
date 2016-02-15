@@ -208,10 +208,13 @@ public class StoragePage extends AdminPage{
 		int size = folders.size();
 		for (int i=1 ; i<size ;i++) {
 			
-			WebElement folder = getWebDriver().findElement(By.xpath(".//*[@id='storages_tree']/ul/li[1]/ul/li[" + i + "]/div/a"));
-			if(folder.getAttribute("class").equals("jqtree_common jqtree-toggler")){
-				folder.click();
-				TimeUnit.SECONDS.sleep(1);
+			WebElement folder = getWebDriver().findElement(By.xpath(".//*[@id='storages_tree']/ul/li[1]/ul/li[" + i + "]"));
+			if(folder.getAttribute("class").equals("jqtree_common jqtree-folder jqtree-closed")){
+				WebElement arrow = getWebDriver().findElement(By.xpath(".//*[@id='storages_tree']/ul/li[1]/ul/li[" + i + "]/div/a"));
+				if(arrow.getAttribute("class").equals("jqtree_common jqtree-toggler jqtree-closed")){
+					arrow.click();
+					TimeUnit.SECONDS.sleep(1);
+				}
 			}
 		}
 		return size;
