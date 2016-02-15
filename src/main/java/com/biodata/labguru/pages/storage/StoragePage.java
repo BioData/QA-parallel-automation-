@@ -59,15 +59,15 @@ public class StoragePage extends AdminPage{
 		TimeUnit.SECONDS.sleep(1);
 		new Select(getWebDriver().findElement(By.id("select_storage_type"))).selectByValue(value);
 		TimeUnit.SECONDS.sleep(2);
-	
+		
 		if(name.equals("Vertical Rack")){
-			WebElement rows = getWebDriver().findElement(By.id("rows"));
+			WebElement rows = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("rows")));
 			rows.sendKeys("2");
 		}else if(name.equals("Slide Rack") || name.equals("Horizontal Rack")){
-			WebElement rows = getWebDriver().findElement(By.id("rows"));
+			WebElement rows = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("rows")));
 			rows.sendKeys("2");
 			
-			WebElement cols = getWebDriver().findElement(By.id("cols"));
+			WebElement cols = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("cols")));
 			cols.sendKeys("4");
 		}
 		save();
