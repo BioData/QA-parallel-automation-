@@ -22,11 +22,16 @@
 		</run>
 	</groups>	
     <classes> 
-            <class name="com.biodata.labguru.tests.inventory.purchasables.ConsumablesTest" />
-       <class name="com.biodata.labguru.tests.home.RecentResultsTest"/>
-	   <class name="com.biodata.labguru.tests.home.LabActivitiesTest"/>
-	   
-	      	 	 <class name="com.biodata.labguru.tests.enotebook.ProjectTest"/>
+            <class name="com.biodata.labguru.tests.enotebook.ProtocolsTest" /> 
+           <class name="com.biodata.labguru.tests.enotebook.ExperimentTest"/>
+        <class name="com.biodata.labguru.tests.enotebook.ExperimentV2Test"/>
+   
+	 
+       <class name="com.biodata.labguru.tests.storage.BoxesTest" />
+       <class name="com.biodata.labguru.tests.storage.StocksTest"/>	
+       <class name="com.biodata.labguru.tests.storage.CryogenicCanesTest"/>	
+       <class name="com.biodata.labguru.tests.storage.StoragesTest"/>
+       <class name="com.biodata.labguru.tests.storage.EquipmentTest" />
 
 
        <!-- 
