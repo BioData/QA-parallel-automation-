@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.pages.AdminPage;
 
 
@@ -41,7 +42,44 @@ public class StoragePage extends AdminPage{
 		return storage;
 	}
 
+	
+	public String addNewStorageByType(String name,int typeIndex) throws InterruptedException{
+		
+		int lastNodeIndex = collapseAllNodes();
+		WebElement lblAddNew = getWebDriver().findElement(By.xpath(".//*[@id='storages_tree']/ul/li[1]/ul/li["+ lastNodeIndex + "]/div/span/span"));
+		lblAddNew.click();
+		
+		WebElement txtName = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.id("name")));
+		sendKeys(txtName, GenericHelper.buildUniqueName(name));
+		
 
+		String script = "return document.getElementById('select_storage_type').getElementsByTagName('option')[" +typeIndex + "].value;";
+		String value = (String) executeJavascript(script);
+		TimeUnit.SECONDS.sleep(1);
+		new Select(getWebDriver().findElement(By.id("select_storage_type"))).selectByValue(value);
+		TimeUnit.SECONDS.sleep(2);
+	
+		if(name.equals("Vertical Rack")){
+			WebElement rows = getWebDriver().findElement(By.id("rows"));
+			rows.sendKeys("2");
+		}else if(name.equals("Slide Rack") || name.equals("Horizontal Rack")){
+			WebElement rows = getWebDriver().findElement(By.id("rows"));
+			rows.sendKeys("2");
+			
+			WebElement cols = getWebDriver().findElement(By.id("cols"));
+			cols.sendKeys("4");
+		}
+		save();
+		
+		TimeUnit.SECONDS.sleep(2);
+
+		
+		WebElement selectedStorage = getSelectedNode();
+		String storage =  selectedStorage.getText();
+		return storage;
+	
+	}
 
 	public String editStorage(String name) throws InterruptedException {
 		//take the selected 
@@ -83,8 +121,12 @@ public class StoragePage extends AdminPage{
 
 
 	public WebElement getSelectedNode() {
+		
 		WebElement selectedStorage = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-				(By.xpath(".//*[@class='jqtree_common jqtree-folder jqtree-selected']/div/span")));
+				(By.cssSelector(".jqtree_common.jqtree-selected>div>span")));
+		if(!selectedStorage.getAttribute("class") .equals("jqtree_common jqtree-title jqtree-title-folder")){
+			selectedStorage = getWebDriver().findElement(By.cssSelector(".jqtree_common.jqtree-selected>div>span>span"));
+		}
 		return selectedStorage;
 	}
 	

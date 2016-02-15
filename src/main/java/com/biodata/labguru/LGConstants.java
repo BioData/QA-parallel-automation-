@@ -129,6 +129,22 @@ public final class LGConstants {
 	public static final String ENVELOPE = "Envelope";
 	public static final String OTHER = "Other";
 	public static String[] STOCK_TYPES_ARRAY = new String[]{TUBE,PACKAGE,BOTTLE,VIAL,SLIDE,BLOCK,ENVELOPE,OTHER};
+	
+	
+	
+	public static final String ROOM = "Room";
+	public static final String SHELF = "Shelf";
+	public static final String CLOSET = "Closet";
+	public static final String DRAWER = "Drawer";
+	public static final String REFRIGERATOR = "Refrigerator";
+	public static final String FREEZER = "Freezer";
+	public static final String CRYO_CONTAINER = "Cryo container";
+	public static final String VERTICAL_RACK = "Vertical Rack";
+	public static final String SLIDE_RACK = "Slide Rack";
+	public static final String HORIZONTAL_RACK = "Horizontal Rack";
+
+	public static String[] STORAGE_TYPES_ARRAY = new String[]{ROOM,SHELF,CLOSET,DRAWER,REFRIGERATOR,FREEZER,
+		CRYO_CONTAINER,VERTICAL_RACK,SLIDE_RACK,HORIZONTAL_RACK,OTHER};
 
 	
 	//shopping list buttons labels

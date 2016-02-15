@@ -23,7 +23,31 @@ public class StoragesTest extends BaseTest{
 			AssertJUnit.assertEquals(getMessageSource().getMessage("storage.title.has.storage",null,Locale.US), pageTitle);
 			
 		} catch (Exception e) {
-			setLog(e, "canSelectStorages");
+			setLog(e, "showMenu");
+		}
+	}
+	
+	
+	@Test (groups = {"deep"})
+	public void addNewStorageByType(){
+		
+		try {
+			getPageManager().getAdminPage().showStorages();
+			
+			
+			String[] types = LGConstants.STORAGE_TYPES_ARRAY;
+			for (int i = 0; i < types.length; i++) {	
+				String type = types[i];
+				String createdStorage = getPageManager().getStoragePage().addNewStorageByType(type,i);
+				AssertJUnit.assertTrue(createdStorage.startsWith(type));
+				
+				//delete after test is finished
+				getPageManager().getStoragePage().deleteStorage(createdStorage);
+			}
+			
+		}  catch (Exception e) {
+			setLog(e, "addNewStorageByType");
+			AssertJUnit.fail(e.getMessage());
 		}
 	}
 	
