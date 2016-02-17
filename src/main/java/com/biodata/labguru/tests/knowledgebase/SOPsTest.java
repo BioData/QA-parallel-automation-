@@ -141,15 +141,14 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		
 		try {
 			showTableIndex();			
-			String name = addNewItem();
+			addNewItem();
 			
 			String note = getPage().signAndLock();
 			
 			AssertJUnit.assertTrue(note.startsWith(getMessageSource().getMessage("signed.by.note.prefix",null, Locale.US)));
 			
 			//delete sop after test
-			showTableIndex();
-			getPageManager().getSOPPage().openSOPPage(name);
+			getPageManager().getSOPPage().revertSignature();
 			getPageManager().getSOPPage().deleteKnowledgebaseItem();
 		} catch (Exception e) {
 			setLog(e,"signAndLock");

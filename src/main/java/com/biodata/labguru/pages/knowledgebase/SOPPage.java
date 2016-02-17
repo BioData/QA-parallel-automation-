@@ -205,4 +205,23 @@ public class SOPPage extends DocumentPage{
 				.visibilityOfElementLocated(By.xpath(".//*[@id='knowledgebase_sop_title_input']/span")));
 		
 	}
+	
+	/**
+	 * This only applies for admin users or for the user that signed the sop
+	 */
+	public boolean revertSignature() throws InterruptedException {
+		
+		WebElement btnSign = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sign_n_lock")));
+		btnSign.click();
+		
+		TimeUnit.SECONDS.sleep(1);
+		checkForAlerts();
+		TimeUnit.SECONDS.sleep(2);
+		btnSign = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".sign_n_lock")));
+		
+		if(btnSign.getText().equals("Sign"))
+			return true;
+		return false;
+		
+	}
 }
