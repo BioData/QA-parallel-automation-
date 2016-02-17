@@ -315,7 +315,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 		}
 	}
 
-	@Test (groups = {"basic sanity"})
+	@Test (groups = {"test"})
 	public void addStockLocatedInBox(){
 		
 		try {

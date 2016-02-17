@@ -204,12 +204,13 @@ public class ConsumablesPage extends PurchasableCollectionPage{
 
 	}
 
-	public String addNonComercialMaterial(String materialName) {
+	public String addNonComercialMaterial(String materialName) throws InterruptedException {
 		
 		addItemWithGivenName(materialName);   
 		
 		WebElement cbNonComercial = getWebDriver().findElement(By.id("non_commercial"));
 		cbNonComercial.click();
+		TimeUnit.SECONDS.sleep(1);
 		
 		WebElement producedBy = getWebDriver().findElement(By.id("catalog_material_produce_by"));
 		producedBy.sendKeys("Automated");
@@ -224,5 +225,24 @@ public class ConsumablesPage extends PurchasableCollectionPage{
         	return msg;
         
         return "Material not created as expected.";
+	}
+
+	public String moveTo(String moveToItem) throws InterruptedException {
+		
+		WebElement moveTo = getWebDriver().findElement(By.id("move_to"));
+		moveTo.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+		List<WebElement> collectionsList = getWebDriver().findElements(By.cssSelector(".select2-result-label"));
+		for (WebElement selection : collectionsList) {
+			if(selection.getText().equals(moveToItem)){
+				selection.click();
+				TimeUnit.SECONDS.sleep(1);
+				checkForAlerts();
+				break;
+			}
+		}
+		String msg = checkForNotyMessage(By.cssSelector(".noty_text")) ;
+		return msg;
 	}
 }
