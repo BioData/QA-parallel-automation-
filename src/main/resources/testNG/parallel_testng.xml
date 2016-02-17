@@ -7,7 +7,7 @@
  
 <test  name="Test on Exist Account">
    	<parameter name ="url" value="staging"/>
-   	<parameter name ="user" value="labguru.qa+s_0702"/>
+   	<parameter name ="user" value="labguru.qa+s_1702"/>
     <parameter name ="password" value="Test1234"/>
     <parameter name ="newAccount" value="false"/>
     <parameter name ="browser" value="firefox"/>
