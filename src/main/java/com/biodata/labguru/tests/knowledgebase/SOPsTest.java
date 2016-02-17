@@ -57,6 +57,11 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 
 			showTableIndex();
 			assertTrue(getPage().searchForItem(name));
+			
+			//delete sop after test
+			getPageManager().getSOPPage().openSOPPage(name);
+			getPageManager().getSOPPage().deleteKnowledgebaseItem();
+			
 		} catch (Exception e) {
 			setLog(e,"addNewSOP");
 			AssertJUnit.fail(e.getMessage());
@@ -69,13 +74,23 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		try {
 			//create protocol to select later
 			getPageManager().getProtocolPage().showProtocols();
+			
 			String protocol = getPageManager().getProtocolPage().addProtocolToAccount(buildUniqueName(LGConstants.PROTOCOL_PREFIX));
+		
 			showTableIndex();
 			
 			String name = buildUniqueName(LGConstants.SOP_PREFIX);
 			String addedProtocol = getPageManager().getSOPPage().addSOPWithProtocol(name,protocol);
 
 			Assert.assertEquals(protocol, addedProtocol);
+			
+			//delete sop after test
+			getPageManager().getSOPPage().openSOPPage(name);
+			getPageManager().getSOPPage().deleteKnowledgebaseItem();
+			
+			//delete the protocol after test
+			deleteProtocolAfterTest(protocol);
+			
 		} catch (Exception e) {
 			setLog(e,"addNewSOPWithProtocol");
 			AssertJUnit.fail(e.getMessage());
@@ -104,11 +119,16 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		
 		try {
 			showTableIndex();			
-			addNewItem();
+			String name = addNewItem();
 			
 			String notyMsg = getPage().activateArchivedItemFromNotyMessage();
 			
 			AssertJUnit.assertEquals(getMessageSource().getMessage("sops.activated.msg",null, Locale.US),notyMsg);
+			
+			//delete sop after test
+			showTableIndex();
+			getPageManager().getSOPPage().openSOPPage(name);
+			getPageManager().getSOPPage().deleteKnowledgebaseItem();
 		} catch (Exception e) {
 			setLog(e,"activateSOPFromNotyMessage");
 			AssertJUnit.fail(e.getMessage());
@@ -121,11 +141,16 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		
 		try {
 			showTableIndex();			
-			addNewItem();
+			String name = addNewItem();
 			
 			String note = getPage().signAndLock();
 			
 			AssertJUnit.assertTrue(note.startsWith(getMessageSource().getMessage("signed.by.note.prefix",null, Locale.US)));
+			
+			//delete sop after test
+			showTableIndex();
+			getPageManager().getSOPPage().openSOPPage(name);
+			getPageManager().getSOPPage().deleteKnowledgebaseItem();
 		} catch (Exception e) {
 			setLog(e,"signAndLock");
 			AssertJUnit.fail(e.getMessage());
@@ -147,6 +172,10 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 			String linkedProtocol = getPageManager().getSOPPage().startExperimentFromSOP(addedProtocol);
 			
 			AssertJUnit.assertEquals(addedProtocol, linkedProtocol);
+			
+			//delete the protocol after test
+			deleteProtocolAfterTest(protocol);
+			
 		} catch (Exception e) {
 			setLog(e,"startExperimentFromSOP");
 			AssertJUnit.fail(e.getMessage());
@@ -165,13 +194,20 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		
 		String name = buildUniqueName(LGConstants.SOP_PREFIX);
 		getPageManager().getSOPPage().addEmptySOP(name);
-		return name;
-		
+		return name;	
 	}
 
 	@Override
 	protected AbstractKnowledgebasePage getPage() {
 		
 		return getPageManager().getSOPPage();
+	}
+	
+	private void deleteProtocolAfterTest(String protocol) throws InterruptedException {
+		
+		getPageManager().getProtocolPage().showProtocols();
+		getPage().searchForItemInList(protocol);
+		getPageManager().getProtocolPage().selectProtocol();
+		getPageManager().getProtocolPage().deleteFromShowPage(protocol);
 	}
 }

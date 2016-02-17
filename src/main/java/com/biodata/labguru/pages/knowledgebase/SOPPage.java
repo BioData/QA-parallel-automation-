@@ -5,11 +5,18 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SOPPage extends DocumentPage{
 
+	@Override
+	protected void initPage(WebDriver webDriver) {
+		PageFactory.initElements(webDriver, this);	
+	}
+	
 	
 	public boolean hasList() {
 		
@@ -178,5 +185,24 @@ public class SOPPage extends DocumentPage{
 		return "Protocol not found.";
 	}
 
+	public void openSOPPage(String itemToSearch) throws InterruptedException {
+		
+		showSOPs();
+		
+		WebElement txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".searchtextbox")));
+        sendKeys(txtSearch, itemToSearch);
+        
+        WebElement btnSearch = getWebDriver().findElement(By.xpath(".//*[@value='Search']"));
+        btnSearch.click();
+        TimeUnit.SECONDS.sleep(3);
+         
+		WebElement item = driverWait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath(".//*[@id='documents']/div[2]/h4/a/strong")));
+		
+		item.click();
 
+		driverWait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath(".//*[@id='knowledgebase_sop_title_input']/span")));
+		
+	}
 }
