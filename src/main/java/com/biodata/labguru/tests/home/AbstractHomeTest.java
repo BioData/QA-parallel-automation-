@@ -12,7 +12,7 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 public abstract class AbstractHomeTest extends BaseTest{
 
 	
-	@BeforeClass
+	@BeforeClass (alwaysRun = true , dependsOnMethods = "initialize")
 	public void discardNotyMessages(){
 		
 		getPageManager().getAdminPage().discardNotyMessages();

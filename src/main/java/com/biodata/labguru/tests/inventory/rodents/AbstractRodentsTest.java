@@ -25,7 +25,7 @@ public abstract class AbstractRodentsTest extends AbstractCollectionsTest{
 		return getCreationPrefix();
 	}
 	
-	@BeforeClass(alwaysRun = true)
+	@BeforeClass(alwaysRun = true ,dependsOnMethods = "initialize")
 	public void initDataForTest(){
 		
 		try {
