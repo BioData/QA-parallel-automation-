@@ -225,9 +225,13 @@ public class SpecimensTest extends AbstractRodentsTest{
 		
 		try {		
 			getPageManager().getAdminPage().showRodentSpecimens();
-
-			boolean valid = getPageManager().getRodentSpecimensPage().addTreatmentFromSpecimensTable();
 			
+			if(!getPage().hasList()){
+				addNewItem();
+				showTableIndex();
+			}
+			
+			boolean valid = getPageManager().getRodentSpecimensPage().addTreatmentFromSpecimensTable();	
 			AssertJUnit.assertTrue(valid);
 			
 		} catch (Exception e) {
