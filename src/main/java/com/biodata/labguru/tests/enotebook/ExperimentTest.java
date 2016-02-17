@@ -18,13 +18,21 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class ExperimentTest extends AbstractEnotebookTest {
 	
+	private String createNewExperimentAndChangeToCurrentVersion(String expName) throws InterruptedException {
+		
+		showTableIndex();
+		String name = getPage().addNewExperiment(expName);
+		//change to version V2
+		getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_CURRENT);
+		return name;
+	}
 	
 	@Test(groups = {"deep"})
 	public void signAndLock(){
 		
 		try {
-			showTableIndex();			
-			addNewItem();
+			String name = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
+			createNewExperimentAndChangeToCurrentVersion(name);
 			
 			String note = getPage().signAndLock();
 			
@@ -40,8 +48,8 @@ public class ExperimentTest extends AbstractEnotebookTest {
 		
 		try {
 			//add new experiment with attachment
-			showTableIndex();			
-			addNewItem();
+			String name = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
+			createNewExperimentAndChangeToCurrentVersion(name);
 			getPageManager().getAdminPage().uploadFile();
 			//sign the experiment
 			getPage().signAndLock();
@@ -117,8 +125,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void createAndUpdateExperiment() {
 		try {
 			
-			showTableIndex();
-			addNewItem();
+			createNewExperimentAndChangeToCurrentVersion(null);
 			
 	        String currentDate = getCurrentDateFormatted(LGConstants.CALENDAR_FORMAT);
 			
@@ -144,8 +151,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 		try {
 			String collectionName = buildUniqueName(LGConstants.GENERIC_COLLECTION_PREFIX);
 			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
-			getPageManager().getAdminPage().selectExperiments();
-			getPageManager().getExperimentPage().addNewExperiment("sampleWithGenericCollection");
+			createNewExperimentAndChangeToCurrentVersion("sampleWithGenericCollection");
 			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
 			assertTrue(sampleName +" was not shown as expected after refresh.",getPageManager().getExperimentPage().addSampleWithGenericCollection(collectionName,sampleName));
 			
@@ -161,8 +167,8 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void addSampleWithTube() {
 		
 		try {
-			showTableIndex();
-			getPageManager().getExperimentPage().addNewExperiment("sampleWithTube");
+			
+			createNewExperimentAndChangeToCurrentVersion("sampleWithTube");
 			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
 			assertTrue(sampleName +" was not shown as expected after refresh.",getPageManager().getExperimentPage().addSample(sampleName,true));//(true = with tube)
 			
@@ -222,8 +228,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void addTextDescriptionToExperiment() {
 		
 		try {
-			showTableIndex();
-			getPageManager().getExperimentPage().addNewExperiment("ExpWithDesc");
+			createNewExperimentAndChangeToCurrentVersion("ExpWithDesc");
 			
 			String descToTest = "Test text in experiment description";
 			String desc = getPageManager().getExperimentPage().addTextDescriptionToExperiment(descToTest);
@@ -239,8 +244,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void addSamplesToProcedure() {
 		
 		try {
-			showTableIndex();
-			getPageManager().getExperimentPage().addNewExperiment("ExpWithSample");
+			createNewExperimentAndChangeToCurrentVersion("ExpWithSample");
 			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
 			String notCreated = getPageManager().getExperimentPage().addSamplesToProcedure(sampleName);
 			assertTrue("The following sample types were not created as should be: " + notCreated , notCreated.isEmpty());
@@ -255,8 +259,9 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void addSampleWithoutTubeAndEdit() {
 		
 		try {
-			showTableIndex();
-			getPageManager().getExperimentPage().addNewExperiment("sampleWithoutTube");
+		
+			String name = "sampleWithoutTube";
+			createNewExperimentAndChangeToCurrentVersion(name);
 			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
 			getPageManager().getExperimentPage().addSample(sampleName,false);
 			assertTrue("Tube in sample could not be edited.",getPageManager().getExperimentPage().editSample());
@@ -272,12 +277,12 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void addPlateToProcedure() {
 		
 		try {
-			showTableIndex();
-			String expName = "ExpWithPlate";
-			getPageManager().getExperimentPage().addNewExperiment(expName);
+			
+			String name = "ExpWithPlate";
+			createNewExperimentAndChangeToCurrentVersion(name);
 			assertTrue(getPageManager().getExperimentPage().addPlateToProcedure());
 			
-			assertEquals(expName,getPageManager().getExperimentPage().openExperiment(expName));
+			assertEquals(name,getPageManager().getExperimentPage().openExperiment(name));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -289,8 +294,8 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	@Test (groups = {"basic sanity"})
 	public void addStepsToProcedure() {
 		try {
-			showTableIndex();
-			getPageManager().getExperimentPage().addNewExperiment("ExpWithStep");
+			String name = "ExpWithStep";
+			createNewExperimentAndChangeToCurrentVersion(name);
 			int numOfSteps = 1;
 			assertTrue(getPageManager().getExperimentPage().addStepToProcedure(numOfSteps));
 		} catch (Exception e) {
@@ -303,8 +308,8 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	@Test (groups = {"basic sanity"})
 	public void deleteStepsOfProcedure() {
 		try {
-			showTableIndex();
-			getPageManager().getExperimentPage().addNewExperiment("ExpWithStepToDelete");
+			String name = "ExpWithStepToDelete";
+			createNewExperimentAndChangeToCurrentVersion(name);
 			int numOfSteps = 1;
 			getPageManager().getExperimentPage().addStepToProcedure(numOfSteps);
 			
@@ -321,8 +326,8 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void addTextDescriptionToExpProcedure() {
 		
 		try {
-			showTableIndex();
-			getPageManager().getExperimentPage().addNewExperiment("ExpWithProcedureDesc");
+			String name = "ExpWithProcedureDesc";
+			createNewExperimentAndChangeToCurrentVersion(name);
 			
 			String descToTest = "Test description of procedure";
 			String desc = getPageManager().getExperimentPage().addTextDescriptionToProcedure(descToTest);
@@ -337,13 +342,12 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void addCompoundDescToExpProcedure() {//only when compound option is enabled
 
 		try {
-			showTableIndex();
-			String expName = "ExpWithCompound";
-			getPageManager().getExperimentPage().addNewExperiment(expName);
+			String name = "ExpWithCompound";
+			createNewExperimentAndChangeToCurrentVersion(name);
 
 			assertTrue(getPageManager().getExperimentPage().addCompoundDescToExpProcedure());
 			
-			assertEquals(expName,getPageManager().getExperimentPage().openExperiment(expName));
+			assertEquals(name,getPageManager().getExperimentPage().openExperiment(name));
 		} catch (Exception e) {
 			setLog(e);
 			AssertJUnit.fail(e.getMessage());
@@ -356,14 +360,13 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void addTableToExpProcedure() {
 		
 		try {
-			showTableIndex();
-			
-			String expName = "ExpWithTable";
-			getPageManager().getExperimentPage().addNewExperiment(expName);
+			String name = "ExpWithTable";
+			createNewExperimentAndChangeToCurrentVersion(name);
+
 			String dataToWrite = "test";
 			assertTrue(getPageManager().getExperimentPage().addTableToProcedure(dataToWrite));
 
-			assertEquals(expName,getPageManager().getExperimentPage().openExperiment(expName));
+			assertEquals(name,getPageManager().getExperimentPage().openExperiment(name));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -376,8 +379,10 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	@Test (groups = {"basic sanity"})
 	public void addNewProcedure() {
 		try {
-			showTableIndex();
-			getPage().addNewExperiment("ExpWith2Procedures");
+	
+			String name = "ExpWith2Procedures";
+			createNewExperimentAndChangeToCurrentVersion(name);
+
 			
 			String procedureName = "Procedure2";
 			String newProcedure = getPageManager().getExperimentPage().addNewProcedure(procedureName);
@@ -393,8 +398,9 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void importReactionToExpProcedure() {
 		
 		try {
-			showTableIndex();
-			getPageManager().getExperimentPage().addNewExperiment("ExpWithReaction");
+			String name = "ExpWithReaction";
+			createNewExperimentAndChangeToCurrentVersion(name);
+			
 			assertTrue("Adding reaction to experiment procedure description ",getPageManager().getExperimentPage().addReactionToExpProcedure());
 			
 			assertTrue("Some data are not calculated as should be.. ",getPageManager().getExperimentPage().validateReactionEditingAndCalculating(new String[]{"450","375","185"}));
@@ -409,8 +415,8 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void reCalculateReaction() {
 		
 		try {
-			showTableIndex();
-			getPageManager().getExperimentPage().addNewExperiment(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
+			String name = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
+			createNewExperimentAndChangeToCurrentVersion(name);
 			getPageManager().getExperimentPage().addReactionToExpProcedure();
 			
 			getPageManager().getExperimentPage().validateReactionEditingAndCalculating(new String[]{"450","375","185"});
@@ -430,8 +436,9 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void addReactionToExpProcedureResults() {
 		
 		try {
-			showTableIndex();
-			getPageManager().getExperimentPage().addNewExperiment("ExpWithReactionInResults");
+			String name = "ExpWithReactionInResults";
+			createNewExperimentAndChangeToCurrentVersion(name);
+			
 			assertTrue("Adding reaction to experiment results ",getPageManager().getExperimentPage().addReactionToExpProcedureResults());
 			
 			getPageManager().getAdminPage().showRecentResults();
@@ -470,10 +477,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	public void searchByCompound(){
 		
 		try {
-			showTableIndex();
-			String expName = "ExpWithCompound";
-			getPageManager().getExperimentPage().addNewExperiment(expName);
-
+			createNewExperimentAndChangeToCurrentVersion("ExpWithCompound");
 			getPageManager().getExperimentPage().addCompoundDescToExpProcedure();
 			
 			TimeUnit.SECONDS.sleep(1);
@@ -498,6 +502,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 		
 		String name = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
 		getPageManager().getExperimentPage().addNewExperiment(name);
+		getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_CURRENT);
 		return name;
 	}
 

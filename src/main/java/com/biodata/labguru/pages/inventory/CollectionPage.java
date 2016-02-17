@@ -514,7 +514,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
         WebElement btnSearch = getWebDriver().findElement(By.xpath(".//*[@value='search-button']"));
         btnSearch.click();
         TimeUnit.SECONDS.sleep(2);
-        WebElement lblCount = getWebDriver().findElement(By.id("class_count"));
+        WebElement lblCount = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("class_count")));
         String count = lblCount.getText();
         return count;
 	}

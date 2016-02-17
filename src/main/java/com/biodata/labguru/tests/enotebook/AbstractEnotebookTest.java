@@ -3,11 +3,14 @@ package com.biodata.labguru.tests.enotebook;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.pages.enotebook.AbstractNotebookPage;
 import com.biodata.labguru.tests.AbstractLGTest;
+import com.biodata.labguru.tests.TestOrderRandomizer;
 
+@Listeners(TestOrderRandomizer.class)
 public abstract class AbstractEnotebookTest extends AbstractLGTest{
 	
 	protected abstract AbstractNotebookPage getPage();

@@ -108,7 +108,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"fail"})
+	@Test (groups = {"v2"})
 	public void loadSectionFromProtocol() {
 		try {
 			//add protocol with steps 
@@ -376,7 +376,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			
 			showTableIndex();
 			TimeUnit.SECONDS.sleep(2);
-			String resource = createNewExperimentAndChangeVersion(null);
+			createNewExperimentAndChangeVersion(null);
 			getPageManager().getExperimentPageV2().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,LGConstants.UPLOAD_TXT_TEST_FILENAME);
 			
 			boolean deleted = getPageManager().getExperimentPageV2().deleteAttachmentContainer(DESCRIPTION_SECTION_INDEX);
@@ -411,7 +411,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	//@Test (groups = {"v2"})//TODO
+	@Test (groups = {"test"})
 	public void addLinkToSection(){
 		
 		try {
@@ -453,6 +453,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String descName = "Description2";
 			String newDesc = getPageManager().getExperimentPageV2().addNewSection(DESCRIPTION_SECTION_INDEX,descName);
 			assertEquals(descName, newDesc);
+			
 		} catch (Exception e) {
 			setLog(e);
  			AssertJUnit.fail(e.getMessage());

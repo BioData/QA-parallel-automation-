@@ -9,8 +9,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.pages.AdminPage;
 import com.biodata.labguru.pages.IListView;
+
 
 
 public abstract class AbstractNotebookPage extends AdminPage implements IListView{
@@ -64,6 +66,34 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 				+ "var cell = sheet.getCell(1,1);"
 				+ "cell.value('" + data + "');";	
 		executeJavascript(script);
+	}
+	
+	public void changeVersion(String version) throws InterruptedException {
+		
+		WebElement versionBtn;
+		try {
+			//new account - will open experiment on beta version by default
+			versionBtn = getWebDriver().findElement(By.id("link_to_v1"));
+			
+			if(version.equals(LGConstants.EXPERIMENT_CURRENT)){
+				
+				versionBtn.click();
+				TimeUnit.SECONDS.sleep(3);
+			}
+		
+			
+		} catch (NoSuchElementException e) {
+			getLogger().debug("old account - should open on current version by default, switching to beta...");
+			if(version.equals(LGConstants.EXPERIMENT_CURRENT)){
+				//if we need current version - do nothing
+				return;
+			}
+			versionBtn = getWebDriver().findElement(By.id("link_to_beta"));
+			versionBtn.click();
+			TimeUnit.SECONDS.sleep(3);
+		}
+		
+		
 	}
 	
 	protected String readFromTable() throws InterruptedException {

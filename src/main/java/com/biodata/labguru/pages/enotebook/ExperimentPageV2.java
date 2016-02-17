@@ -61,7 +61,9 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		TimeUnit.SECONDS.sleep(2);
 		WebElement proceedBtn = getWebDriver().findElement(By.xpath(".//*[@id='approve_sign']/div"));
 		proceedBtn.click();
-		TimeUnit.SECONDS.sleep(3);
+		TimeUnit.SECONDS.sleep(5);
+		driverWait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.cssSelector(".signed_note.ng-binding")));
 		
 		WebElement signedNote = driverWait.until(ExpectedConditions
 				.visibilityOfElementLocated(By.cssSelector(".signed_note.ng-binding")));
@@ -668,21 +670,6 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		TimeUnit.SECONDS.sleep(2);
 
 	}
-
-	public void changeVersion(String version) throws InterruptedException {
-		
-		WebElement versionBtn;
-		try {//new account - will open experiment on beta version by default
-			versionBtn = getWebDriver().findElement(By.id("link_to_v1"));
-			
-		} catch (NoSuchElementException e) {
-			getLogger().debug("old account - should open on current version by default, switching to beta...");
-			versionBtn = getWebDriver().findElement(By.id("link_to_beta"));
-			versionBtn.click();
-			TimeUnit.SECONDS.sleep(3);
-		}
-		
-	}
 	
 	
 	private void saveSection(String sectionIndex) throws InterruptedException {
@@ -716,7 +703,6 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 
 		TimeUnit.SECONDS.sleep(2);
 	}
-	
 	
 	private String addText(String sectionIndex ,String descToTest) throws InterruptedException {
 		
@@ -899,23 +885,30 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		return "";
 	}
 	
+	
+		
 	private void selectResourceFromDialog(String resourceToLink) throws InterruptedException {
 		
-	      WebElement dialog = getWebDriver().switchTo().activeElement();
-	       driverWait.until(ExpectedConditions.visibilityOf(dialog));
+	      getWebDriver().switchTo().activeElement();
+	      
+	      driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("search_term")));
 
 	       //search for the given resource
-		   WebElement searchInput = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("gosearch")));
+		   WebElement searchInput = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("search_term")));
 		   searchInput.sendKeys(resourceToLink);
 		   searchInput.sendKeys(Keys.ENTER);
 		   TimeUnit.SECONDS.sleep(2);
+
 		   
-		   //selectResource
-		   WebElement resource = getWebDriver().findElement(By.xpath(".//*[@id='history_items']/ul/li[last()]"));
-		   resource.click();
-		   TimeUnit.SECONDS.sleep(1);
-		   
-	       WebElement AddLinkBtn = getWebDriver().findElement(By.xpath(".//*[@id='history_items']/div/button[2]"));//TODO change to unique id
+		  List<WebElement> resources = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				  (By.cssSelector(".link_resource")));
+		  for (WebElement resource : resources) {
+			   resource.click();
+			   TimeUnit.SECONDS.sleep(2); 
+			   break;
+		  }
+  
+	       WebElement AddLinkBtn = getWebDriver().findElement(By.id("add_links"));
 	       AddLinkBtn.click();
 	       TimeUnit.SECONDS.sleep(2);
 	       
