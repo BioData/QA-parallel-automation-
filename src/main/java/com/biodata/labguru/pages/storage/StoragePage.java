@@ -28,6 +28,7 @@ public class StoragePage extends AdminPage{
 		int lastNodeIndex = collapseAllNodes();
 		WebElement lblAddNew = getWebDriver().findElement(By.xpath(".//*[@id='storages_tree']/ul/li[1]/ul/li["+ lastNodeIndex + "]/div/span/span"));
 		lblAddNew.click();
+		TimeUnit.SECONDS.sleep(1);
 		
 		WebElement txtName = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.id("name")));
@@ -48,6 +49,7 @@ public class StoragePage extends AdminPage{
 		int lastNodeIndex = collapseAllNodes();
 		WebElement lblAddNew = getWebDriver().findElement(By.xpath(".//*[@id='storages_tree']/ul/li[1]/ul/li["+ lastNodeIndex + "]/div/span/span"));
 		lblAddNew.click();
+		TimeUnit.SECONDS.sleep(1);
 		
 		WebElement txtName = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.id("name")));
