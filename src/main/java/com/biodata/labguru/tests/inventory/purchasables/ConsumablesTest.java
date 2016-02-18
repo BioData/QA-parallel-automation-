@@ -148,6 +148,24 @@ public class ConsumablesTest extends PurchasableCollectionTest{
 		} 
 	}
 	
+	@Test (groups = {"deep"})
+	public void moveToFromShowPage(){
+		
+		try {
+			getPageManager().getAdminPage().showConsumables();
+			String materialName = buildUniqueName(LGConstants.CONSUMABLE_PREFIX);
+			getPageManager().getConsumablesPage().addNewItem(materialName);
+			
+			String msg = getPageManager().getConsumablesPage().moveTo(LGConstants.PRIMERS);
+			String collectionName = LGConstants.PRIMERS.toLowerCase();
+			// Check the title of the page
+			assertEquals(getMessageSource().getMessage("consumable.moveto.msg",new Object[]{collectionName}, Locale.US), msg);
+		} catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		} 
+	}
+	
 	@Override
 	protected String getCollectionNameForMessage() {
 		return "Material";
