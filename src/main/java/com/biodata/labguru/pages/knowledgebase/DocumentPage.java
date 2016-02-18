@@ -53,12 +53,13 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 	}
 
 	protected void saveAllItemsOnPage() {
-		List <WebElement> imgSaveList = getWebDriver().findElements(By.cssSelector(".fa.fa-check"));
+		List <WebElement> imgSaveList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".fa.fa-check")));
         for (WebElement imgSave : imgSaveList) {
         	if(imgSave.isDisplayed())
         		imgSave.click();
         }
 	}
+
 
 	public void addSimpleDocument(String docName) throws InterruptedException {
 		try{
