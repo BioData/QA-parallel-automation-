@@ -1,2 +1,7 @@
-/target/
-/src/
+target/
+test-output/
+.settings
+.DS_Store
+Screeshots/
+*.class
+*.html
