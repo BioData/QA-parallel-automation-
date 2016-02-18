@@ -22,11 +22,8 @@
 		</run>
 	</groups>	
     <classes> 
-   <class name="com.biodata.labguru.tests.inventory.purchasables.ConsumablesTest" />
-      <class name="com.biodata.labguru.tests.inventory.purchasables.AntibodiesTest" /> 
-	   <class name="com.biodata.labguru.tests.inventory.purchasables.PlasmidsTest" />  
-	   <class name="com.biodata.labguru.tests.inventory.purchasables.PrimersTest" />  
-       <class name="com.biodata.labguru.tests.inventory.purchasables.CellLinesTest" />
+         <class name="com.biodata.labguru.tests.home.RecentResultsTest"/>
+	   <class name="com.biodata.labguru.tests.home.LabActivitiesTest"/>
 
 
        <!-- 
