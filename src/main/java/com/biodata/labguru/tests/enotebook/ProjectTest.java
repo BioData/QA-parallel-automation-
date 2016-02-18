@@ -162,8 +162,7 @@ public class ProjectTest extends AbstractEnotebookTest{
 	@Test(groups = {"deep"})
 	public void checkNewExperimentFromDropdownInFolderShowPage(){
 		
-		try {
-				
+		try {			
 			//create protocol
 			String protocol = createNewProtocol();
 			
@@ -177,7 +176,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 			assertEquals(folderToCreate, folder);
 			logger.info("creating experiment from protocol");
 			checkCreateExpFromProtocolFromDropdown(protocol);
-			
+			//changing experiment to current version since it opens by default on beta version
+			getPageManager().getProjectPage().changeVersion(LGConstants.EXPERIMENT_CURRENT);
 			//back to the folder
 			logger.info("back to folder");
 			getPageManager().getProjectPage().goToRecentlyViewed(folder);
