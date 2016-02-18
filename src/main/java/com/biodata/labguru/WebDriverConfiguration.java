@@ -33,6 +33,7 @@ public class WebDriverConfiguration {
         dc.setCapability("screenResolution", "1280x800");
         dc.setJavascriptEnabled(true);
         dc.setCapability("maxDuration",10800);
+        dc.setCapability( "commandTimeout",600);
         dc.setCapability( "idleTimeout",1000);
         dc.setCapability(CapabilityType.SUPPORTS_FINDING_BY_CSS, "true");
         dc.setCapability(CapabilityType.SUPPORTS_ALERTS, "true");
