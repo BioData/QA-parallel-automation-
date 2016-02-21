@@ -33,22 +33,9 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 	public void addNewDocument(String docName) throws InterruptedException {
 		
 		addSimpleDocument(docName);
-				
-	   	executeJavascript("document.getElementsByClassName('edit_me')[0].click();");
-	   	TimeUnit.SECONDS.sleep(2);
-		
-		WebElement txtDocName = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("knowledgebase_document_title")));
-		sendKeys(txtDocName, docName);
-		
-		WebElement btnSave = getWebDriver().findElement(By.xpath(".//*[@id='knowledgebase_document_submit_action']/input"));
-        btnSave.click();
-		
-        TimeUnit.SECONDS.sleep(2);
-     
+	     
 		executeJavascript("document.getElementsByClassName('grid load')[0].click();");
 	   	TimeUnit.SECONDS.sleep(3);
-	  
-        saveAllItemsOnPage();
        
 	}
 
@@ -94,7 +81,7 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 
 			TimeUnit.SECONDS.sleep(2);
 			
-			 saveAllItemsOnPage();
+			saveAllItemsOnPage();
 			
 		}catch(NoSuchElementException ex){
 			//first document -  it automaticaly open in new document page - do nothing
