@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
   
-<suite name="Labguru Automation Suite" verbose="1" parallel="classes" thread-count="3">
+<suite name="Labguru Automation Suite" verbose="1" >
    <listeners>
         <listener class-name="com.biodata.labguru.CustomListener"/>
     </listeners>
