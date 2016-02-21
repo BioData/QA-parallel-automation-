@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
   
-<suite name="Labguru Automation Suite" verbose="1" >
+<suite name="Labguru Automation Suite" verbose="1" parallel="classes" thread-count="5">
    <listeners>
         <listener class-name="com.biodata.labguru.CustomListener"/>
     </listeners>
@@ -22,9 +22,13 @@
 		</run>
 	</groups>	
     <classes> 
-    <class name="com.biodata.labguru.tests.storage.CryogenicCanesTest"/>	
+       <class name="com.biodata.labguru.tests.storage.CryogenicCanesTest"/>	
        <class name="com.biodata.labguru.tests.storage.StoragesTest"/>
        <class name="com.biodata.labguru.tests.storage.EquipmentTest" />
+   
+       <class name="com.biodata.labguru.tests.knowledgebase.RecipesTest" />
+       <class name="com.biodata.labguru.tests.knowledgebase.DocumentsTest" />
+       <class name="com.biodata.labguru.tests.knowledgebase.PapersTest" />
 
        <!-- 
        	  <class name="com.biodata.labguru.tests.LoginTest" />
