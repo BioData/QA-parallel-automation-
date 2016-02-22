@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import com.biodata.labguru.GenericHelper;
@@ -210,6 +209,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 	}
 	
 
+
 	public String importCollection() throws InterruptedException{
 		
 		selectImportCollection();
@@ -217,9 +217,9 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		String pathToImport = workingDir + LGConstants.ASSETS_FILES_DIRECTORY +  LGConstants.COLLECTIONS_IMPORT_DIRECTORY + "/"+ getFileNameToImport();
 		uploadFileToImport(pathToImport);
 		//wait maximum 5 minutes for the noty message that indicates that import finished
-		WebElement notyMsg = (new WebDriverWait(getWebDriver(), 300)).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
-        String msg = notyMsg.getText();
-        notyMsg.click();
+		TimeUnit.MINUTES.sleep(5);
+        String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+
 	    return msg;
 	}
 
@@ -229,10 +229,11 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 
 		WebElement btnUpload = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@value='Upload']")));
 		btnUpload.click();
-		
+		TimeUnit.SECONDS.sleep(1);
 		
 		WebElement btnImport = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//input[@value='Start Import']")));
 		btnImport.click();
+		TimeUnit.SECONDS.sleep(1);
 	}
 
 	protected void selectImportCollection() throws InterruptedException {
