@@ -741,6 +741,22 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
+	@Test (groups = {"v2"})
+	public void uploadExcelAndAddToPage() {
+		try {
+			String attachmentToLoad = LGConstants.UPLOAD_XLS_TEST_FILENAME;
+			createNewExperimentAndChangeVersion(null);
+			getPageManager().getExperimentPageV2().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			getPageManager().getExperimentPageV2().refreshPage();
+			boolean pageAdded = getPageManager().getExperimentPageV2().addToPage(DESCRIPTION_SECTION_INDEX);
+			AssertJUnit.assertTrue("The file '" + attachmentToLoad + "' was not added to page.",pageAdded);
+			
+		} catch (Exception e) {
+			setLog(e,"uploadFile");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
 	/*
 
 	//@Test (groups = {"v2"})
