@@ -341,13 +341,12 @@ public class ExperimentPage extends AbstractNotebookPage {
 
 			TimeUnit.SECONDS.sleep(2);
 
-			WebElement newExpDialog = getWebDriver().switchTo().activeElement();
-			driverWait.until(ExpectedConditions.visibilityOf(newExpDialog));
+			getWebDriver().switchTo().activeElement();
 			driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("create_new_experiment_button")));
 
 			WebElement btnAdd = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("create_new_experiment_button")));
 			btnAdd.click();
-
+			TimeUnit.SECONDS.sleep(2);
 			getWebDriver().switchTo().activeElement();
 
 			TimeUnit.SECONDS.sleep(2);

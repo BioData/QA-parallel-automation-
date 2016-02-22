@@ -250,9 +250,14 @@ public class ProtocolPage extends ExperimentPage{
 		
 		sendKeys(txtProtocolName, newProtocol);
 		
-		WebElement btnSave = getWebDriver().findElement(By.xpath(".//*[@id='knowledgebase_protocol_submit_action']/input"));
-		btnSave.click();
-		TimeUnit.SECONDS.sleep(2);
+		List<WebElement> saveBtnList = getWebDriver().findElements(By.xpath(".//*[@id='knowledgebase_protocol_submit_action']/input"));
+		for (WebElement btnSave : saveBtnList) {
+			if(btnSave.isDisplayed()){
+				btnSave.click();
+				TimeUnit.SECONDS.sleep(1);
+			}
+		} 
+		
 		txtProtocolName = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.cssSelector(".element-plain-text")));
 		String txt =  txtProtocolName.getText();

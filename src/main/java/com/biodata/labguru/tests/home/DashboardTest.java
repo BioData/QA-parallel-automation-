@@ -72,7 +72,7 @@ public class DashboardTest extends AbstractHomeTest{
 	}
 	
 	
-	@Test(groups = {"test"})
+	@Test(groups = {"deep"})
 	public void startNewProtocolFromDropdown(){
 		
 		try {
