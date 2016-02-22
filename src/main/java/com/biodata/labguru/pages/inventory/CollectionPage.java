@@ -231,6 +231,8 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		btnUpload.click();
 		TimeUnit.SECONDS.sleep(1);
 		
+		closeIridizePopups();
+		
 		WebElement btnImport = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//input[@value='Start Import']")));
 		btnImport.click();
 		TimeUnit.SECONDS.sleep(1);

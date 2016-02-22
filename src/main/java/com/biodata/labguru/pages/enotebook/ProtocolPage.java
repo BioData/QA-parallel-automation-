@@ -244,11 +244,14 @@ public class ProtocolPage extends ExperimentPage{
 		TimeUnit.SECONDS.sleep(2);
 	   	executeJavascript("document.getElementsByClassName('edit_me')[0].click();");
 	   	TimeUnit.SECONDS.sleep(2);
-
+	   	closeIridizePopups();
+	   	
 		WebElement txtProtocolName = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.id("knowledgebase_protocol_name")));
 		
 		sendKeys(txtProtocolName, newProtocol);
+		
+		closeIridizePopups();
 		
 		List<WebElement> saveBtnList = getWebDriver().findElements(By.xpath(".//*[@id='knowledgebase_protocol_submit_action']/input"));
 		for (WebElement btnSave : saveBtnList) {
