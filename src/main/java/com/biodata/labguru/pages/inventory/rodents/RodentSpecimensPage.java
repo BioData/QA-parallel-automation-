@@ -70,7 +70,7 @@ public class RodentSpecimensPage extends RodentPage{
 		
 		selectTissuesAndSamplesTab() ;
 		
-		WebElement addTissueBtn = getWebDriver().findElement(By.id("add_new_tissue"));
+		WebElement addTissueBtn = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add_new_tissue")));
 		addTissueBtn.click();
 		TimeUnit.SECONDS.sleep(1);
 		
@@ -101,7 +101,7 @@ public class RodentSpecimensPage extends RodentPage{
 
 	public void selectTissuesAndSamplesTab() throws InterruptedException{
 		
-		 WebElement tissuesTab = getWebDriver().findElement(By.id("tabs-tissue-link"));
+		 WebElement tissuesTab = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tabs-tissue-link")));
 		 tissuesTab.click();
 		 TimeUnit.SECONDS.sleep(1);
 	}
