@@ -6,6 +6,7 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.tests.BaseTest;
 import com.biodata.labguru.tests.TestOrderRandomizer;
@@ -38,11 +39,12 @@ public class StoragesTest extends BaseTest{
 			String[] types = LGConstants.STORAGE_TYPES_ARRAY;
 			for (int i = 0; i < types.length; i++) {	
 				String type = types[i];
-				String createdStorage = getPageManager().getStoragePage().addNewStorageByType(type,i);
-				AssertJUnit.assertTrue(createdStorage.startsWith(type));
+				String name = GenericHelper.buildUniqueName(type);
+				String createdStorageType = getPageManager().getStoragePage().addNewStorageByType(name,i);
+				AssertJUnit.assertEquals(createdStorageType,type);
 				
 				//delete after test is finished
-				getPageManager().getStoragePage().deleteStorage(createdStorage);
+				getPageManager().getStoragePage().deleteStorage(name);
 			}
 			
 		}  catch (Exception e) {

@@ -10,7 +10,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
-import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.pages.AdminPage;
 
 
@@ -53,7 +52,7 @@ public class StoragePage extends AdminPage{
 		
 		WebElement txtName = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.id("name")));
-		sendKeys(txtName, GenericHelper.buildUniqueName(name));
+		sendKeys(txtName, name);
 		
 
 		String script = "return document.getElementById('select_storage_type').getElementsByTagName('option')[" +typeIndex + "].value;";
@@ -77,9 +76,10 @@ public class StoragePage extends AdminPage{
 		TimeUnit.SECONDS.sleep(2);
 
 		
-		WebElement selectedStorage = getSelectedNode();
-		String storage =  selectedStorage.getText();
-		return storage;
+		getSelectedNode();
+		WebElement typeElem = getWebDriver().findElement(By.id("lg_info_tab_type"));
+		String type =  typeElem.getText();
+		return type;
 	
 	}
 
