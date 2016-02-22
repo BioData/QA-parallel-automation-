@@ -99,23 +99,22 @@ public abstract class BasePage {
 
 	public String checkForAlerts() {
 		
-	   try{
-		    driverWait.until(ExpectedConditions.alertIsPresent());
-	        if(getWebDriver().switchTo().alert() != null){
-	           String parent = getWebDriver().getWindowHandle();
-	           Alert alert = getWebDriver().switchTo().alert();
-	           String msg = alert.getText();
-	           alert.accept();
-	           getLogger().info("after alert accepted");
-	           getWebDriver().switchTo().window(parent);
-	           return msg;
-	        }
-	    }catch(Exception e){
-	    	//do nothing
-	    }
-	   
-	   return "";
-	}
+		   try{
+			   driverWait.withTimeout(3, TimeUnit.SECONDS);
+			   driverWait.until(ExpectedConditions.alertIsPresent());
+		       if(getWebDriver().switchTo().alert() != null){
+		           Alert alert = getWebDriver().switchTo().alert();
+		           String msg = alert.getText();
+		           alert.accept();
+		           driverWait.withTimeout(STANDART_PAGE_LOAD_WAIT_TIME, TimeUnit.SECONDS);
+		           return msg;
+		       }
+		    }catch(Exception e){
+		    	//do nothing
+		    }
+		   driverWait.withTimeout(STANDART_PAGE_LOAD_WAIT_TIME, TimeUnit.SECONDS);
+		   return "";
+		}
 	
 	public void closeIridizePopups() throws InterruptedException {
 		JavascriptExecutor je = (JavascriptExecutor) getWebDriver();
