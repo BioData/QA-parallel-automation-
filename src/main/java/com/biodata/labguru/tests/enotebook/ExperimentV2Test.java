@@ -726,7 +726,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"fail"})
+	@Test (groups = {"v2"})
 	public void addSamplesToProcedure() {
 		
 		try {
