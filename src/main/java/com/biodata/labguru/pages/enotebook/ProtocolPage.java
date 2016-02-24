@@ -409,6 +409,35 @@ public class ProtocolPage extends ExperimentPage{
 		}
 		return false;
 	}
+	
+	public String copyProtocolFromDirectory() throws InterruptedException {
+		
+		WebElement btnAddFromDirectory = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.id("add_from_protocols_directory")));
+		
+		btnAddFromDirectory.click();
+		
+		WebElement pageTitle = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-content>div>h1")));
+		
+		if(pageTitle.getText().equals("Protocol Directory")){
+			
+			List <WebElement> list = getWebDriver().findElements(By.cssSelector(".vendor_protocols"));
+			if(list.size()> 0){
+				WebElement viewAllLink = list.get(0);
+				viewAllLink.click();
+				TimeUnit.SECONDS.sleep(1);
+				selectProtocol();
+				WebElement copyBtn = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("copy_protocol")));
+				copyBtn.click();
+				TimeUnit.SECONDS.sleep(1);
+			}
+			
+		}
+
+		String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+		return msg;
+		
+	}
 
 	public String updateContent() throws InterruptedException {
 		

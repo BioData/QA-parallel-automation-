@@ -18,6 +18,24 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 public class ProtocolsTest extends AbstractEnotebookTest{
 	
 	
+	@Test(groups = {"basic sanity"})
+	public void copyProtocolFromProtocolDirectory(){
+		
+		try {
+			getPageManager().getAdminPage().showProtocols();
+			
+			//return true if we succeeded to add specific protocol from directory
+			String msg = getPageManager().getProtocolPage().copyProtocolFromDirectory();
+			
+			AssertJUnit.assertEquals(getMessageSource().getMessage("protocol.external.copy.success",null, Locale.US),msg);
+			
+		} catch (Exception e) {
+			setLog(e,"copyProtocolFromProtocolDirectory");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	
 	@Test(groups = {"deep"})
 	public void shareProtocol(){
 		
