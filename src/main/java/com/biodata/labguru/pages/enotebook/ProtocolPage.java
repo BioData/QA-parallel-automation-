@@ -364,6 +364,51 @@ public class ProtocolPage extends ExperimentPage{
 			break;
 		}
 	}
+	
+	public String shareProtocol(boolean toShare) throws InterruptedException {
+		
+		WebElement shareRepositoryAction =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("share-to-repository")));
+		shareRepositoryAction.click();
+		TimeUnit.SECONDS.sleep(1);
+		WebElement checkRepo =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("repo-labguru_protocols")));
+		if((toShare && !checkRepo.isSelected()) || (!toShare && checkRepo.isSelected()))
+			checkRepo.click();
+	
+		TimeUnit.SECONDS.sleep(1);
+		
+		String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+		return msg;
+	}
+	
+	public boolean checkProtocolInProtocolsDirectory(String protocol) throws InterruptedException {
+		
+		showProtocols();
+		clickOnButton("add_from_protocols_directory");
+		TimeUnit.SECONDS.sleep(1);
+		invokeSearchItem(protocol);
+	
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("protocols")));
+		
+		List <WebElement> list = getWebDriver().findElements(By.xpath(".//*[@id='protocols']/div"));
+		if(list.size() <= 2){
+			try {
+				//check there are no results
+				getWebDriver().findElement(By.id("no_search_results"));
+				return false;
+			} catch (Exception e) {
+				//there are no matching results but there is also no message - "no search results"
+				getLogger().debug(e.getMessage());
+				return true;
+			}
+		}
+		for (int i=2 ; i<=list.size();) {
+			WebElement protocolName = getWebDriver().findElement(By.xpath(".//*[@id='protocols']/div[" +i  + "]/h4/a/strong"));
+			if(protocolName.getText().equals(protocol)){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public String updateContent() throws InterruptedException {
 		

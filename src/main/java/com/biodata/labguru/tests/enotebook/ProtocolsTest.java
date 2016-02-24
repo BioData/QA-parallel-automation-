@@ -1,6 +1,7 @@
 package com.biodata.labguru.tests.enotebook;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Locale;
@@ -16,6 +17,37 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class ProtocolsTest extends AbstractEnotebookTest{
 	
+	
+	@Test(groups = {"deep"})
+	public void shareProtocol(){
+		
+		try {
+			showTableIndex();			
+			String protocol = addNewItem();
+			
+			//share protocol
+			String msg = getPageManager().getProtocolPage().shareProtocol(true);
+			
+			AssertJUnit.assertEquals(getMessageSource().getMessage("protocol.share.success",null, Locale.US),msg);
+			boolean found = getPageManager().getProtocolPage().checkProtocolInProtocolsDirectory(protocol);
+			assertTrue("Protocol was not found in Directory and should be.", found);
+			
+			//unshare protocol
+			showTableIndex();	
+			getPageManager().getProtocolPage().invokeSearchItem(protocol);
+			getPageManager().getProtocolPage().selectProtocol();
+			msg = getPageManager().getProtocolPage().shareProtocol(false);
+			
+			AssertJUnit.assertEquals(getMessageSource().getMessage("protocol.unshare.success",null, Locale.US),msg);
+			
+			found = getPageManager().getProtocolPage().checkProtocolInProtocolsDirectory(protocol);
+			assertFalse("Protocol was found in Directory and should'nt be.", found);
+			
+		} catch (Exception e) {
+			setLog(e,"shareProtocol");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
 	
 	@Test(groups = {"deep"})
 	public void signAndLock(){
