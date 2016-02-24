@@ -320,22 +320,20 @@ public class ProjectPage extends AbstractNotebookPage {
 			if(folderNameElm.getText().equals(newFolderName)){
 				folderNameElm.click();
 				TimeUnit.SECONDS.sleep(2);
-				driverWait.until(ExpectedConditions.visibilityOfElementLocated(By
-						.id("index-header")));
+				waitForPageCompleteLoading();
 				return;
 			}
 		}
 	}
 	
 	public boolean addNoteFromNotesTab(String note) throws InterruptedException {
-		
-		WebElement notesTab = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tabs-notes-link")));
-		notesTab.click();
-		TimeUnit.SECONDS.sleep(1);
+
+		clickOnTab("tabs-notes-link");
 		
 		clickOnButton("add_note");
 		TimeUnit.SECONDS.sleep(1);
 		
+		//open note dialog and add data in it
 		getWebDriver().switchTo().activeElement();
 		
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("new_projects_note")));
@@ -345,11 +343,14 @@ public class ProjectPage extends AbstractNotebookPage {
 		
 		WebElement save = getWebDriver().findElement(By.id("Save"));
 		save.click();
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(2);
 		
 		getWebDriver().switchTo().activeElement();
 		
+		//wait until tab content appears again
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add_note")));
 		
+		//search for the added note
 		List<WebElement> notes = getWebDriver().findElements(By.xpath(".//*[@id='notes']/li"));
 		for (int i = 1; i <= notes.size(); i++) {
 		
@@ -361,25 +362,48 @@ public class ProjectPage extends AbstractNotebookPage {
 		return false;
 	}
 	
+	public boolean addDocumentFromDocumentsTab(String projectName) throws InterruptedException{
+		
+		//add document to project
+		clickOnTab("tabs-documents-link");
+		clickOnButton("add_document");
+		TimeUnit.SECONDS.sleep(3);
+		WebElement docNameElm = getWebDriver().findElement(By.xpath(".//*[@id='knowledgebase_document_title_input']/span"));
+		String addedDoc = docNameElm.getText();
+		//save description
+		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fa.fa-check")));
+		saveDescription.click();
+		
+		//go back to project and check if document added
+		goToRecentlyViewed(projectName);
+		
+		clickOnTab("tabs-documents-link");
+		
+		List<WebElement> docs = getWebDriver().findElements(By.xpath(".//*[@id='tabs-documents']/ul/div"));
+		for (int i = 1; i <= docs.size(); i++) {
+		
+			WebElement docElm = getWebDriver().findElement(By.xpath(".//*[@id='tabs-documents']/ul/div["+ i + "]/h4/a"));		
+			if(docElm.getText().equals(addedDoc)){
+				return true;
+			}
+		}
+		return false;		
+	}
+
 	
 	public boolean addPaperFromPapersTab() throws InterruptedException {
-		
-		WebElement tab = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tabs-key_papers-link")));
-		tab.click();
-		TimeUnit.SECONDS.sleep(1);
+
+		clickOnTab("tabs-key_papers-link");
 		
 		clickOnButton("add_paper");
 		TimeUnit.SECONDS.sleep(3);
 		
 		String paperToAdd = addPaperFromSearchPub();
 		TimeUnit.SECONDS.sleep(3);
-		
 		//back to project through breadscrumbs
 		getWebDriver().findElement(By.xpath(".//*[@id='breadcrumbs']/ul/li[2]/span/a")).click();
 		
-		tab = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tabs-key_papers-link")));
-		tab.click();
-		TimeUnit.SECONDS.sleep(1);
+		clickOnTab("tabs-key_papers-link");
 
 		List<WebElement> papers = getWebDriver().findElements(By.xpath(".//*[@id='tabs-key-papers']/div"));
 		for (int i = 2; i <= papers.size(); i++) {
@@ -409,6 +433,13 @@ public class ProjectPage extends AbstractNotebookPage {
 		}
 		
 		return "No papers found";
+	}
+	
+	protected void clickOnTab(String tabId) throws InterruptedException {
+		
+		WebElement tab = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id(tabId)));
+		tab.click();
+		TimeUnit.SECONDS.sleep(1);
 	}
 
 }

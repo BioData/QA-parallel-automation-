@@ -666,6 +666,23 @@ public class ProjectTest extends AbstractEnotebookTest{
 		}
 	}
 	
+	@Test (groups = {"deep"})
+	public void addDocumentFromDocumentsTab() {
+		try {
+			
+			showTableIndex();
+			String newProject = addNewItem();
+			
+			boolean added = getPageManager().getProjectPage().addDocumentFromDocumentsTab(newProject);
+			
+			assertTrue("Document was not added as should be.",added);
+			
+		} catch (Exception e) {
+			setLog(e,"addDocumentFromDocumentsTab");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
 	@Override
 	protected String showModule() {
 		return getPageManager().getAdminPage().selectProjects();
