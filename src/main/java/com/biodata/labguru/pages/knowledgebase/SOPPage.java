@@ -44,7 +44,7 @@ public class SOPPage extends DocumentPage{
 		
         TimeUnit.SECONDS.sleep(2);
      
-		executeJavascript("document.getElementsByClassName('grid load')[0].click();");
+		executeJavascript("document.getElementsByClassName('text load')[0].click();");
 	   	TimeUnit.SECONDS.sleep(3);
 	  
         saveAllItemsOnPage();
