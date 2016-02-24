@@ -268,7 +268,7 @@ public class RodentTreatmentPage extends AdminPage{
 
 
 	private String insertTreatmentDetails(String name, String date) throws InterruptedException {
-     
+	     
 		//write in the redactor editor
 		if(!name.isEmpty())
 			writeInRedactor("name", name);   
@@ -295,21 +295,21 @@ public class RodentTreatmentPage extends AdminPage{
         List<WebElement> cages = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
         		(By.xpath(".//*[@id='select2-drop']/ul/li")));
         for (int i =1; i<= cages.size() ;i++) {
-        	WebElement cageElem = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-             		(By.xpath(".//*[@id='select2-drop']/ul/li["+i+"]/div")));
+        	WebElement cageElem = getWebDriver().findElement(By.xpath(".//*[@id='select2-drop']/ul/li["+i+"]/div"));
              String cage = cageElem.getText();
              cageElem.click();
-             TimeUnit.SECONDS.sleep(1);
+             TimeUnit.SECONDS.sleep(2);
              List<WebElement> specimens = getWebDriver().findElements(By.xpath(".//*[@class='reservation_item']"));
-             if(specimens.size() > 0)
+             if(specimens.size() > 0){
             	 return cage;
-             else
+             }else{
             	 dropApplyTo.click(); 
+            	 TimeUnit.SECONDS.sleep(1);
+             }
 		}
         
 		return "";
 	}
-
 
 	private void manageProtocols(String protocolToSelect) throws InterruptedException{
 		

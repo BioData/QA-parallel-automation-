@@ -120,6 +120,9 @@ public class TreatmentsTest  extends BaseTest{
 		
 		try {
 			
+			getPageManager().getAdminPage().showRodentCages();
+			if(getPageManager().getCagesPage().hasList())
+				getPageManager().getCagesPage().deleteAllItemsFromTable();
 			addCageWithSpecimen();
 			
 			getPageManager().getAdminPage().showRodentTreatments();
