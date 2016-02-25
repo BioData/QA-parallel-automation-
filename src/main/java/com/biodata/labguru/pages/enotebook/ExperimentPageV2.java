@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -210,7 +211,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		TimeUnit.SECONDS.sleep(1);
 	}
 
-	public String assign() throws InterruptedException{
+	public String assign(String currentUser) throws InterruptedException{
 		
 		WebElement linkAssign = driverWait.until(ExpectedConditions.visibilityOfElementLocated(btnAssignLocator));
 		linkAssign.click();
@@ -219,10 +220,18 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 				(By.xpath(".//*[@id='s2id_projects_experiment_member_id']/a/span[2]/b")));
 		acountDrop.click();
 		TimeUnit.SECONDS.sleep(1);
-		WebElement selectedAcc = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-				(By.xpath(".//*[@id='select2-drop']/ul/li[last()]/div")));
-		selectedAcc.click();
-		TimeUnit.SECONDS.sleep(2);
+		
+		List<WebElement> users = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//*[@id='select2-drop']/ul/li")));
+		for (int i = 1; i <= users.size(); i++) {
+			WebElement selectedAcc = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+					(By.xpath(".//*[@id='select2-drop']/ul/li[" + i + "]/div")));
+			if(!currentUser.equals(selectedAcc.getText())){
+				selectedAcc.click();
+				TimeUnit.SECONDS.sleep(2);
+				break;
+			}
+		}
+		
 		
 		checkForNotyMessage(By.cssSelector(".noty_text"));
 		
@@ -1191,5 +1200,39 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 	}
 
+
+	public String addInlineCommentToSection(String sectionIndex,String comment,String platform) throws InterruptedException {
+		
+		selectSection(sectionIndex);
+		//select all text to add the comment on it
+		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" + sectionIndex + "']/div/div/text-element/div/div"));
+	
+		if(platform.equals(Platform.WINDOWS))
+			textArea.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+		else if(platform.equals(Platform.MAC))
+			textArea.sendKeys(Keys.chord(Keys.COMMAND, "a"));
+		
+		//add comment
+		return addComment(sectionIndex,comment);
+		
+	}
+
+	private String addComment(String sectionIndex,String comment) throws InterruptedException {
+		
+		WebElement action = getWebDriver().findElement(By.xpath(".//*[@id='section_toolbar_" + sectionIndex + "']/ul/li[@id='" + sectionCommentActionBarId + "']/i"));
+		action.click();
+		TimeUnit.SECONDS.sleep(1);
+		WebElement commentText = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("comment_text_")));
+		commentText.sendKeys(comment);
+		
+		WebElement saveComment = getWebDriver().findElement(By.cssSelector(".comment_block>div.lg_comment_buttons>a.inline_submit"));
+		saveComment.click();
+		TimeUnit.SECONDS.sleep(1);
+		refreshPage();
+		WebElement newComment = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.cssSelector(".inline_comments_container>div>comment>div>p")));
+		String txt = newComment.getText();
+		return txt;
+	}
 	
 }

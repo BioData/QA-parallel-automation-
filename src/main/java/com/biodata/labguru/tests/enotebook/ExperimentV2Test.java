@@ -411,7 +411,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"test"})
+	@Test (groups = {"v2"})
 	public void addLinkToSection(){
 		
 		try {
@@ -425,6 +425,24 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		
 		} catch (Exception e) {
 			setLog(e,"addLinkedResource");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"v2"})
+	public void addInlineCommentToSection(){
+		
+		try {
+			createNewExperimentAndChangeVersion("ExpWithCommentOnDescription");
+			
+			String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non rutrum odio.";
+			getPageManager().getExperimentPageV2().addTextToSection(DESCRIPTION_SECTION_INDEX,text);
+			String commentToAdd = "comment1";
+			String platform = getPageManager().getPlatform();
+			String addedComment = getPageManager().getExperimentPageV2().addInlineCommentToSection(DESCRIPTION_SECTION_INDEX,commentToAdd,platform);
+			assertEquals(addedComment, "comment1");
+		} catch (Exception e) {
+			setLog(e,"addInlineCommentToSection");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -617,7 +635,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"fail1"})
+	@Test (groups = {"v2"})
 	public void assignNewAccount() {
 		
 		try {
@@ -630,7 +648,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			
 			createNewExperimentAndChangeVersion(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
 			String currentAccout =getPageManager().getExperimentPageV2().getAccountName();
-			String newAccount = getPageManager().getExperimentPageV2().assign();
+			String newAccount = getPageManager().getExperimentPageV2().assign(currentAccout);
 			Assert.assertNotEquals(currentAccout,newAccount,"The assignment did not succeeded.");
 		} catch (Exception e) {
 			setLog(e,"assignNewAccount");
