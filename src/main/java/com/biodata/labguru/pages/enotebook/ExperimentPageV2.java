@@ -1228,7 +1228,14 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		WebElement saveComment = getWebDriver().findElement(By.cssSelector(".comment_block>div.lg_comment_buttons>a.inline_submit"));
 		saveComment.click();
 		TimeUnit.SECONDS.sleep(1);
+
+		return checkIfCommentCreated();
+	}
+
+	private String checkIfCommentCreated() throws InterruptedException {
+		
 		refreshPage();
+		
 		WebElement newComment = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.cssSelector(".inline_comments_container>div>comment>div>p")));
 		String txt = newComment.getText();
