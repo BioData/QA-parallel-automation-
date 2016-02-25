@@ -197,10 +197,8 @@ public abstract class BasePage {
 	
 	protected void openDeleteArchivePopup(boolean delete) throws InterruptedException {
 		
-		WebElement popupDialog = getWebDriver().switchTo().activeElement();
-        driverWait.until(ExpectedConditions.visibilityOf(popupDialog));
-        
-        getWebDriver().switchTo().activeElement();
+		getWebDriver().switchTo().activeElement();
+        driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".archive_or_delete")));
         
         TimeUnit.SECONDS.sleep(2);
         
@@ -220,7 +218,32 @@ public abstract class BasePage {
 		WebElement btnOk =  getWebDriver().findElement(By.xpath(".//*[@value='OK']"));
 		btnOk.click();
 		TimeUnit.SECONDS.sleep(2);
+		
+		getWebDriver().switchTo().activeElement();
 	}
+	
+	public void openDeleteItemPopupFromIndexTable(boolean delete) throws InterruptedException {
+		
+		getWebDriver().switchTo().activeElement();
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".archive_or_delete")));
+        TimeUnit.SECONDS.sleep(2);
+        
+        WebElement chkBox;
+		if(delete){
+			//select the delete checkbox
+			chkBox = getWebDriver().findElement(By.id("archive_or_delete_delete"));
+		}else{
+			//select the archive checkbox
+			chkBox = getWebDriver().findElement(By.id("archive_or_delete_archive"));
+		}
+		
+		if(!chkBox.isSelected())
+			chkBox.click();
+
+		WebElement btnOk =  getWebDriver().findElement(By.xpath(".//*[@value='OK']"));
+		btnOk.click();
+	}
+	
 	
 	public void invokeSearchItem(String itemToSearch) throws InterruptedException{
 		
