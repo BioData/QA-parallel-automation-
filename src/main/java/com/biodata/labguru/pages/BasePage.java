@@ -880,11 +880,11 @@ public abstract class BasePage {
 	protected void switchToNewTab() {
 		
 		Set<String> winSet = getWebDriver().getWindowHandles();
-		List<String> tabs2 = new ArrayList<String>(winSet);
-		getWebDriver().switchTo().window(tabs2.get(0)); // switch to first tab
+		List<String> winList = new ArrayList<String>(winSet);
+		String newTab = winList.get(winList.size() - 1);
 		getWebDriver().close(); // close the original tab
-		getWebDriver().switchTo().window(tabs2.get(1)); // switch to new tab
-		driverWait = new WebDriverWait(getWebDriver(), 20);
+		getWebDriver().switchTo().window(newTab); // switch to new tab
+		driverWait = new WebDriverWait(getWebDriver(), STANDART_PAGE_LOAD_WAIT_TIME);
 		getWebDriver().manage().window().setSize(new Dimension(1280,800));
 		
 	}
