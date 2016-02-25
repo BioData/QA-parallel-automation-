@@ -42,6 +42,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	private final String moveUpSectionActionId = "move_section_up";
 	private final String moveDownSectionActionId = "move_section_down";
 	private final String deleteSectionActionId = "delete_section";
+	private final String setDateRangeActionId = "set_section_daterange";
 
 	@Override
 	protected void initPage(WebDriver webDriver) {
@@ -1082,12 +1083,11 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		sections = getWebDriver().findElements(By.xpath(".//*[@id='side_nav_container']/ul[1]/li"));
 		return (numOfSections == sections.size()+1) ;
 	}
-
 	public String addInlineTag(String tagName) throws InterruptedException {
 		
 		addOneTag(tagName);
 		
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(2);
 		
 		return findInlineTag(tagName);	
 	}
@@ -1108,6 +1108,9 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 			if(lblTag.getText().equals(tagName)){
 				//click on the link to the tag
 				lblTag.click();
+				TimeUnit.SECONDS.sleep(3);
+				waitForPageCompleteLoading();
+				switchToNewTab();
 				TimeUnit.SECONDS.sleep(1);
 				//check that the tag page appears
 				WebElement tagTitle = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='page-title']/span")));
@@ -1124,6 +1127,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		inlineTagSpan.sendKeys(tagPrefix);
 		inlineTagSpan.sendKeys(Keys.ENTER);
 		TimeUnit.SECONDS.sleep(1);
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fa.fa-close")));
 
 	}
 
@@ -1131,10 +1135,24 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	 * delete inline tag by name
 	 * @param tagName
 	 * @return true if delete succeeded,false otherwise.
+	 * @throws InterruptedException 
 	 */
-	public boolean deleteTagFromInlineTags(String tagName) {
+	public boolean deleteTagFromInlineTags(String tagName) throws InterruptedException {
 		
-		List<WebElement> inlineTags = getWebDriver().findElements(By.xpath(".//*[@class='inline_tags']/inline-tag"));
+		WebElement title = getWebDriver().findElement(By.xpath(".//*[@id='page-title']/span"));
+		
+		if(title.getText().equals(tagName)){
+			//go back to the experiment page
+			WebElement expLink = getWebDriver().findElement(By.xpath(".//*[@id='main-content']/div[1]/ul/li[3]/span[1]/a"));
+			expLink.click();
+			TimeUnit.SECONDS.sleep(1);
+		}else{
+			getLogger().debug("not in correct page - Tagged Entities - " + tagName);
+			return false;
+		}
+		
+		List<WebElement> inlineTags = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@class='inline_tags']/inline-tag")));
 		for (int i = 1; i <= inlineTags.size(); i++) {
 			WebElement tag = getWebDriver().findElement(By.xpath(".//*[@class='inline_tags']/inline-tag[" + i  + "]/span"));
 			if(tag.getText().equals(tagName)){
@@ -1244,4 +1262,38 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		return txt;
 	}
 	
+	public void setDateRangeToProcedure(String sectionIndex) throws InterruptedException {
+		selectSection(sectionIndex);
+		
+		clickOnSectionMenuAction(sectionIndex, setDateRangeActionId);
+		
+		getWebDriver().switchTo().activeElement();
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[starts-with(@id,'edit_experiment_procedure_')]")));
+        TimeUnit.SECONDS.sleep(2);
+        
+        //select start date
+        WebElement startDate = getWebDriver().findElement(By.xpath("//*[@id='experiment_procedure_start_date_input']/input"));
+        selectToday(startDate);
+		TimeUnit.SECONDS.sleep(1);
+		
+        //select checkbox 'all day'
+		WebElement allDaychk = getWebDriver().findElement(By.xpath(".//*[@type='checkbox']"));
+		allDaychk.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+		//save
+		WebElement saveBtn = getWebDriver().findElement(By.xpath(".//*[@id='experiment_procedure_submit_action']/input"));
+		saveBtn.click();
+		TimeUnit.SECONDS.sleep(1);
+		getWebDriver().switchTo().activeElement();
+		
+		saveSection(sectionIndex);
+		
+		//check that the date appears in the section
+		WebElement dateRangeLabel = getWebDriver().findElement
+				(By.cssSelector(".section_date_range.ng-binding"));
+		
+		String date = dateRangeLabel.getText();
+	}
 }
