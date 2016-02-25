@@ -1106,8 +1106,10 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		for (int i = 1; i <= inlineTags.size(); i++) {
 			WebElement lblTag = getWebDriver().findElement(By.xpath(".//*[@class='inline_tags']/inline-tag[" + i  + "]/span"));
 			if(lblTag.getText().equals(tagName)){
+				//click on the link to the tag
 				lblTag.click();
 				TimeUnit.SECONDS.sleep(1);
+				//check that the tag page appears
 				WebElement tagTitle = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='page-title']/span")));
 				return tagTitle.getText();
 			}
