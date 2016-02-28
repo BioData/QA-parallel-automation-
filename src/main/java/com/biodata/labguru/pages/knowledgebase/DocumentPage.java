@@ -40,7 +40,7 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 	}
 
 	protected void saveAllItemsOnPage() {
-		List <WebElement> imgSaveList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".fa.fa-check")));
+		List <WebElement> imgSaveList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".re-save_button")));
         for (WebElement imgSave : imgSaveList) {
         	if(imgSave.isDisplayed())
         		imgSave.click();

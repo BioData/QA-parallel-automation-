@@ -20,6 +20,11 @@ public class ProjectPage extends AbstractNotebookPage {
 		PageFactory.initElements(webDriver, this);	
 	}
 	
+	@Override
+	public  By getDuplicateLocator() {
+		return By.cssSelector("#duplicate");
+	}
+	
 	public boolean hasList() {
 		selectProjects();
 		try{
@@ -368,10 +373,11 @@ public class ProjectPage extends AbstractNotebookPage {
 		clickOnTab("tabs-documents-link");
 		clickOnButton("add_document");
 		TimeUnit.SECONDS.sleep(3);
-		WebElement docNameElm = getWebDriver().findElement(By.xpath(".//*[@id='knowledgebase_document_title_input']/span"));
+		WebElement docNameElm = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='knowledgebase_document_title_input']/span")));
 		String addedDoc = docNameElm.getText();
 		//save description
-		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fa.fa-check")));
+		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".re-save_button")));
 		saveDescription.click();
 		
 		//go back to project and check if document added

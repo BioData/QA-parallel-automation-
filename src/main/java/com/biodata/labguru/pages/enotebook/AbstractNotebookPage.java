@@ -284,7 +284,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		TimeUnit.SECONDS.sleep(2);
 		
 		//a popup is open to select what to duplicate
-		if(!(this instanceof ProtocolPage)){
+		if(!((this instanceof ProtocolPage) || (this instanceof ProjectPage) )){
 			 WebElement btnDuplicateInPopup = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 					 (By.xpath(".//*[@id='do_print']")));
 			 btnDuplicateInPopup.click();
