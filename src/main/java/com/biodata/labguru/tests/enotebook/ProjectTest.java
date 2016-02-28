@@ -17,12 +17,6 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class ProjectTest extends AbstractEnotebookTest{
 
-	@Override
-	@Test (enabled = false)
-	public void duplicateItem(){
-		// not implemented
-		throw new UnsupportedOperationException("This action is not supported by this module");
-	}
 	
 	@Test(groups = {"deep"})
 	public void startNewExperimentFromProtocolFromDropdown(){
