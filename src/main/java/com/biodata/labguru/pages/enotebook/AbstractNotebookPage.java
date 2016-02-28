@@ -205,7 +205,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		
 		writeInRedactor("element_data", descToTest);
 
-		List<WebElement> saveImgList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".fa.fa-check")));
+		List<WebElement> saveImgList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".re-save_button")));
 		for (WebElement imgSave : saveImgList) {
 			imgSave.click();
 		}

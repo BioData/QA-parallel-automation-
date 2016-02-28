@@ -106,7 +106,7 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 
 	public void saveDocument() {
 	
-		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fa.fa-check")));
+		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".re-save_button")));
 		saveDescription.click();
 		
 	}

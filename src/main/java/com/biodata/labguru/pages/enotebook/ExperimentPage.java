@@ -227,12 +227,12 @@ public class ExperimentPage extends AbstractNotebookPage {
 
 			writeInRedactor("element_data", descToTest);   
 
-			WebElement imgSaveDesc = container.findElement(By.xpath(".//*[@class='redactor-toolbar']/li[last()]/a/i"));
+			WebElement imgSaveDesc = container.findElement(By.cssSelector(".re-save_button"));
 			TimeUnit.SECONDS.sleep(1);
 			imgSaveDesc.click();
 			TimeUnit.SECONDS.sleep(2);
 
-			WebElement text = container.findElement(By.xpath(".//*[@id='element_data_input']/span"));
+			WebElement text = container.findElement(By.xpath(".//*[@id='element_data_input']/span/p"));
 			description = text.getText();
 
 		} catch (InterruptedException e) {

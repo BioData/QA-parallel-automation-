@@ -1089,7 +1089,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		addOneTag(tagName);
 		
-		TimeUnit.SECONDS.sleep(2);
+		TimeUnit.SECONDS.sleep(5);
 		
 		return findInlineTag(tagName);	
 	}
@@ -1130,7 +1130,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		inlineTagSpan.sendKeys(Keys.ENTER);
 		TimeUnit.SECONDS.sleep(1);
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fa.fa-close")));
-
+		TimeUnit.SECONDS.sleep(1);
 	}
 
 	/**
