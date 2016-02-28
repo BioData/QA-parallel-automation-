@@ -367,9 +367,11 @@ public class ProtocolPage extends ExperimentPage{
 	
 	public String shareProtocol(boolean toShare) throws InterruptedException {
 		
-		WebElement shareRepositoryAction =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("share-to-repository")));
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("doctoolsbox"))).click();;
+		WebElement shareRepositoryAction =  getWebDriver().findElement(By.id("share-to-repository"));
 		shareRepositoryAction.click();
 		TimeUnit.SECONDS.sleep(1);
+		
 		WebElement checkRepo =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("repo-labguru_protocols")));
 		if((toShare && !checkRepo.isSelected()) || (!toShare && checkRepo.isSelected()))
 			checkRepo.click();
