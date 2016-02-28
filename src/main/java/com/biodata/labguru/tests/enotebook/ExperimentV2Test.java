@@ -24,6 +24,36 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	private static final String RESULTS_SECTION_INDEX = "2";
 	private static final String CONCLUSIONS_SECTION_INDEX = "3";
 
+	
+//	@Test (groups = {"v2"})
+//	public void setDateRangeToProcedure(){
+//		
+//		try {
+//			createNewExperimentAndChangeVersion("ExperimentWithSetDateRangeInProcedure");	
+//			getPageManager().getExperimentPageV2().setDateRangeToProcedure(PROCEDURE_SECTION_INDEX);
+//			
+//		}  catch (Exception e) {
+//			setLog(e,"setDateRangeToProcedure");
+//			AssertJUnit.fail(e.getMessage());
+//		}
+//	}
+	
+	@Test (groups = {"v2"})
+	public void addManipulateTextToSection(){
+		
+		try {
+			createNewExperimentAndChangeVersion("ExpWithTextWithManipulation");
+			
+			String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non rutrum odio.";
+			getPageManager().getExperimentPageV2().addTextToSection(DESCRIPTION_SECTION_INDEX,text);
+			String platform = getPageManager().getPlatform();
+			boolean succeeded = getPageManager().getExperimentPageV2().manipulateTextWithFontAction(DESCRIPTION_SECTION_INDEX,text,platform);
+			AssertJUnit.assertTrue(succeeded);
+		} catch (Exception e) {
+			setLog(e,"addManipulateTextToSection");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
 	@Test(groups = {"v2"})
 	public void signExperimentWithAttachmentNotEditable(){
 		

@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
@@ -30,6 +31,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	private final String moveItemActionId = "move_item";
 	private final String deleteExperimentActionId = "link_to_confirm_delete_experiment";
 	
+	private final String sectionFontActionBarId = "toggle_redactor_toolbar";
 	private final String sectionCommentActionBarId = "section_comments";
 	private final String sectionAttachmentsActionBarId = "section_attachments";
 	private final String sectionLinksActionBarId = "section_links";
@@ -271,7 +273,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		List<WebElement> stepsList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.cssSelector(getStepsListInSection(sectionIndex))));
 		for (int i = 1; i <= stepsList.size(); i++) {
-			executeJavascript("$('#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + i + ")>td>div.redactor-box>div')"
+			executeJavascript("$('#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + i + ")>td>div.redactor-in')"
 					+ ".redactor('code.set', '<p>test step editor: " + i + "</p>');");
 			steps++;
 		}
@@ -283,7 +285,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 			for (int i = 1; i <= createdStepsList.size(); i++) {
 				WebElement input = getWebDriver().findElement
 						(By.cssSelector("#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + i + ")>td>div"
-								+ ".redactor-box>div.redactor-editor>p"));
+								+ ".redactor-in>p"));
 				if(!input.getText().isEmpty()){
 					created ++;	
 				}
@@ -728,7 +730,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		writeInEditor(sectionIndex, descToTest);
 
 		saveSection(sectionIndex);
-		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/div"));
+		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/p"));
 		String text = textArea.getText();
 
 		return text;
@@ -769,7 +771,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		TimeUnit.SECONDS.sleep(1);
 	
-    	executeJavascript("$('#section_"+ sectionIndex +"').find('.redactor-editor').redactor('code.set', '<p>"+descToTest+"</p>');");
+    	executeJavascript("$('#section_"+ sectionIndex +"').find('#redactor-uuid-" + sectionIndex + "').redactor('code.set', '<p>"+descToTest+"</p>');");
     	TimeUnit.SECONDS.sleep(1);
 		
 	}
@@ -871,7 +873,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		TimeUnit.SECONDS.sleep(1);
 		
 		//write in step 4
-		executeJavascript("$('#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + 4 + ")>td>div.redactor-box>div')"
+		executeJavascript("$('#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + 4 + ")>td>div.redactor-in')"
 				+ ".redactor('code.set', '<p>test step editor: " + 4 + "</p>');");
 		saveSection(sectionIndex);
 		
@@ -1223,18 +1225,24 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 
 	public String addInlineCommentToSection(String sectionIndex,String comment,String platform) throws InterruptedException {
 		
-		selectSection(sectionIndex);
-		//select all text to add the comment on it
-		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" + sectionIndex + "']/div/div/text-element/div/div"));
-	
-		if(platform.equals(Platform.WINDOWS))
-			textArea.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-		else if(platform.equals(Platform.MAC))
-			textArea.sendKeys(Keys.chord(Keys.COMMAND, "a"));
+		selectTextAndSelectAll(sectionIndex, platform);
 		
 		//add comment
 		return addComment(sectionIndex,comment);
 		
+	}
+
+
+	protected void selectTextAndSelectAll(String sectionIndex, String platform) throws InterruptedException {
+		selectSection(sectionIndex);
+		//select all text to add the comment on it
+		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" + sectionIndex + "']/div/div/text-element/div/p"));
+	
+		//select All text
+		if(platform.equals(Platform.WINDOWS))
+			textArea.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+		else if(platform.equals(Platform.MAC))
+			textArea.sendKeys(Keys.chord(Keys.COMMAND, "a"));
 	}
 
 	private String addComment(String sectionIndex,String comment) throws InterruptedException {
@@ -1262,7 +1270,10 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		return txt;
 	}
 	
+
+	//TODO - not working
 	public void setDateRangeToProcedure(String sectionIndex) throws InterruptedException {
+		
 		selectSection(sectionIndex);
 		
 		clickOnSectionMenuAction(sectionIndex, setDateRangeActionId);
@@ -1274,9 +1285,30 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
         
         //select start date
         WebElement startDate = getWebDriver().findElement(By.xpath("//*[@id='experiment_procedure_start_date_input']/input"));
-        selectToday(startDate);
+        startDate.click();
+        TimeUnit.SECONDS.sleep(1);
+        getWebDriver().switchTo().activeElement();
+        
+        List <WebElement> datePickers = getWebDriver().findElements
+        		(By.cssSelector(".xdsoft_datetimepicker.xdsoft_.xdsoft_noselect"));
+		for (int i = 1; i <= 5; i++) {
+			 try{
+				 WebElement todaySelect = getWebDriver().findElement(
+						 By.xpath(".//*[@class='xdsoft_calendar']/table/tbody/tr[" + i + "]/td[contains(@class,'xdsoft_today')]"));
+				 todaySelect.click();
+				 TimeUnit.SECONDS.sleep(1);
+				 break;
+			 }catch(NoSuchElementException e){
+				 //do nothing - keep searching for today's date
+				 continue;
+			 }
+		}
+        
 		TimeUnit.SECONDS.sleep(1);
-		
+		getWebDriver().switchTo().activeElement();
+		startDate = getWebDriver().findElement(By.xpath("//*[@id='experiment_procedure_start_date_input']/input"));
+		startDate.click();
+		TimeUnit.SECONDS.sleep(1);
         //select checkbox 'all day'
 		WebElement allDaychk = getWebDriver().findElement(By.xpath(".//*[@type='checkbox']"));
 		allDaychk.click();
@@ -1295,5 +1327,60 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 				(By.cssSelector(".section_date_range.ng-binding"));
 		
 		String date = dateRangeLabel.getText();
+	}
+
+	/**
+	 * Check simple manipulation on the text in redactor: bold,underline,italic, delete,sub script and superscript
+	 * @param sectionIndex
+	 * @param text 
+	 * @return true if all manipulation succeeded
+	 * @throws InterruptedException
+	 */
+	public boolean manipulateTextWithFontAction(String sectionIndex,String text, String platform) throws InterruptedException {
+		
+		selectTextAndToggleFontAction(sectionIndex,platform);
+		
+		checkTextForAction(sectionIndex,"bold","strong",platform);//check bold
+		checkTextForAction(sectionIndex,"italic","em",platform);//check italic
+		checkTextForAction(sectionIndex,"underline","u",platform);//check underline
+		checkTextForAction(sectionIndex,"deleted","del",platform);//check deleted
+		checkTextForAction(sectionIndex,"superscript","sup",platform);//check super script
+		checkTextForAction(sectionIndex,"subscript","sub",platform);//check sub script
+		return true;
+	}
+
+	private void selectTextAndToggleFontAction(String sectionIndex,String platform) throws InterruptedException {
+		
+		selectTextAndSelectAll(sectionIndex, platform);
+		
+		WebElement action = getWebDriver().findElement(By.xpath(".//*[@id='section_toolbar_" + sectionIndex + "']/ul/li[@id='" + sectionFontActionBarId + "']/i"));
+		action.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+	}
+
+	protected void checkTextForAction(String sectionIndex,String rel,String tagToCheck,String platform) throws InterruptedException {
+
+		//make the text bold
+		getWebDriver().findElement(By.xpath(".//*[@rel='"+ rel + "']")).click();
+		
+		saveSection(sectionIndex);
+		
+		//check that the text is bold
+		try {
+			getWebDriver().findElement(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/p/" + tagToCheck+ ""));	
+			revertToolbarAction(sectionIndex,rel,platform);
+		} catch (Exception e) {
+			//element strong not foung - bold did not succeeded
+			getLogger().debug(e.getMessage());
+			Assert.fail(rel + " action did not succeeded");
+		}
+	}
+
+	private void revertToolbarAction(String sectionIndex, String rel, String platform) throws InterruptedException {
+		
+		selectTextAndToggleFontAction(sectionIndex,platform);
+		getWebDriver().findElement(By.xpath(".//*[@rel='"+ rel + "']")).click();
+		
 	}
 }
