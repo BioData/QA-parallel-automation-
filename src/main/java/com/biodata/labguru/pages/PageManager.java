@@ -2,7 +2,9 @@ package com.biodata.labguru.pages;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.stereotype.Component;
 
@@ -595,6 +597,11 @@ public class PageManager  {
 
 	public GenericCollectionPage getGenericCollectionPage() {
 		return genericCollectionPage;
+	}
+
+	public String getPlatform() {
+		Platform platform = ((RemoteWebDriver)wdriver).getCapabilities().getPlatform();
+		return platform.name();
 	}
 
 }
