@@ -643,7 +643,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		WebElement textArea = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='section_" + newSectionIndex +"']/h3/input")));
 		sendKeys(textArea, sectionName);
-		
+		TimeUnit.SECONDS.sleep(1);
 		saveSection(newSectionIndex);//the new section should be saved (index+1)		
 		
 		String text = getSavedSectionTitle(newSectionIndex);
@@ -762,8 +762,8 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	}
 	
 	private void clickOnSectionActionBar(String sectionIndex,String actionId) throws InterruptedException {
-		WebElement action = getWebDriver().findElement(By.xpath(".//*[@id='section_toolbar_" + sectionIndex + "']/ul/li[@id='" + actionId + "']/i"));
-		executeJavascript("arguments[0].click();",action);
+		String script = "$('#section_toolbar_" + sectionIndex + ">ul>li#" + actionId + ">i').click();";
+		executeJavascript(script);
 		TimeUnit.SECONDS.sleep(2);
 	}
 
@@ -1247,8 +1247,8 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 
 	private String addComment(String sectionIndex,String comment) throws InterruptedException {
 		
-		WebElement action = getWebDriver().findElement(By.xpath(".//*[@id='section_toolbar_" + sectionIndex + "']/ul/li[@id='" + sectionCommentActionBarId + "']/i"));
-		action.click();
+		String script = "$('#section_toolbar_" + sectionIndex + ">ul>li#" + sectionCommentActionBarId +"').mousedown();";
+		executeJavascript(script);
 		TimeUnit.SECONDS.sleep(1);
 		WebElement commentText = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("comment_text_")));
 		commentText.sendKeys(comment);
@@ -1353,8 +1353,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		selectTextAndSelectAll(sectionIndex, platform);
 		
-		WebElement action = getWebDriver().findElement(By.xpath(".//*[@id='section_toolbar_" + sectionIndex + "']/ul/li[@id='" + sectionFontActionBarId + "']/i"));
-		action.click();
+		clickOnSectionActionBar(sectionIndex, sectionFontActionBarId);
 		TimeUnit.SECONDS.sleep(1);
 		
 	}
@@ -1363,13 +1362,14 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 
 		//make the text bold
 		getWebDriver().findElement(By.xpath(".//*[@rel='"+ rel + "']")).click();
-		
+		TimeUnit.SECONDS.sleep(1);
 		saveSection(sectionIndex);
 		
 		//check that the text is bold
 		try {
 			getWebDriver().findElement(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/p/" + tagToCheck+ ""));	
 			revertToolbarAction(sectionIndex,rel,platform);
+			TimeUnit.SECONDS.sleep(1);
 		} catch (Exception e) {
 			//element strong not foung - bold did not succeeded
 			getLogger().debug(e.getMessage());
@@ -1381,6 +1381,6 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		selectTextAndToggleFontAction(sectionIndex,platform);
 		getWebDriver().findElement(By.xpath(".//*[@rel='"+ rel + "']")).click();
-		
+		TimeUnit.SECONDS.sleep(1);
 	}
 }
