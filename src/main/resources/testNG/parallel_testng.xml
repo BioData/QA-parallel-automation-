@@ -28,12 +28,7 @@
        <class name="com.biodata.labguru.tests.inventory.purchasables.TissuesTest" />
  	   <class name="com.biodata.labguru.tests.inventory.rodents.SpecimensTest" />
   		<class name="com.biodata.labguru.tests.inventory.rodents.StrainsTest" />	
-  		 <class name="com.biodata.labguru.tests.inventory.purchasables.botany.PlantsTest" />
-         <class name="com.biodata.labguru.tests.inventory.purchasables.botany.SeedsTest" />
-       <class name="com.biodata.labguru.tests.inventory.GenesTest" />
-       <class name="com.biodata.labguru.tests.inventory.VirusesTest" />
-	   <class name="com.biodata.labguru.tests.inventory.SequencesTest" />  
-	   <class name="com.biodata.labguru.tests.inventory.ZebrafishesTest" />
+
 
        <!-- 
        	  <class name="com.biodata.labguru.tests.LoginTest" />
