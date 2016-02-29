@@ -29,27 +29,6 @@ public class SOPPage extends DocumentPage{
 
 	}
 
-	public void addSOP(String name) throws InterruptedException {
-		
-		addEmptySOP(name);
-		
-	   	executeJavascript("document.getElementsByClassName('edit_me')[0].click();");
-	   	TimeUnit.SECONDS.sleep(2);
-		
-		WebElement txtName = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("knowledgebase_sop_title")));
-		sendKeys(txtName, name);
-		
-		WebElement btnSave = getWebDriver().findElement(By.xpath(".//*[@id='knowledgebase_sop_submit_action']/input"));
-        btnSave.click();
-		
-        TimeUnit.SECONDS.sleep(2);
-     
-		executeJavascript("document.getElementsByClassName('text load')[0].click();");
-	   	TimeUnit.SECONDS.sleep(3);
-	  
-	    saveAllItemsOnPage();
-       
-	}
 
 	public void addEmptySOP(String name) throws InterruptedException {
 		try{
@@ -80,14 +59,12 @@ public class SOPPage extends DocumentPage{
 
 			TimeUnit.SECONDS.sleep(2);
 			
-			 saveAllItemsOnPage();
-			 driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("doctoolsbox"))).click();
-			
 		}catch(NoSuchElementException ex){
 			//first document -  it automaticaly open in new document page - do nothing
 			
 		}
-		
+		 saveAllItemsOnPage();
+		 driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("doctoolsbox"))).click();
 	}
 	
 	public String addSOPWithProtocol(String name,String protocolName) throws InterruptedException {

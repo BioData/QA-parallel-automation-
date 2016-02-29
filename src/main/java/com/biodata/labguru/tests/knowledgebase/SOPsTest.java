@@ -53,7 +53,7 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 			showTableIndex();
 			
 			String name = buildUniqueName(LGConstants.SOP_PREFIX);
-			getPageManager().getSOPPage().addSOP(name);
+			getPageManager().getSOPPage().addEmptySOP(name);
 
 			showTableIndex();
 			assertTrue(getPage().searchForItem(name));
