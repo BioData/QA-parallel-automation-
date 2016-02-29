@@ -96,6 +96,15 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 
 	public String updateContent() throws InterruptedException {
 		
+		//click on edit description to update the content
+		executeJavascript("document.getElementsByClassName('edit_me')[1].click();");
+		TimeUnit.SECONDS.sleep(2);
+		
+		writeInRedactor("element_data", "update content to check version history");
+
+		TimeUnit.SECONDS.sleep(2);
+		
+		saveAllItemsOnPage();
 		return updateName("knowledgebase_document_title",".//*[@id='knowledgebase_document_submit_action']/input");
 		
 	}

@@ -287,11 +287,17 @@ public class ProjectPage extends AbstractNotebookPage {
 		return drawCompound();
 	}
 
-	public String updateContent() throws InterruptedException {
+
 	
+	public String updateContent() throws Exception {
+		
+		addTextProjectDescription("update content to check version history");
+		
+		
 		String msg = updateName("projects_project_title",".//*[@id='projects_project_submit_action']/input");
 		return msg;
 	}
+	
 	
 	@Override
 	public String getPageTitleXPath() {
