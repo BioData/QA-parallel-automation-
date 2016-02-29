@@ -37,6 +37,9 @@ public class WebDriverConfiguration {
         dc.setCapability( "idleTimeout",1000);
         dc.setCapability(CapabilityType.SUPPORTS_FINDING_BY_CSS, "true");
         dc.setCapability(CapabilityType.SUPPORTS_ALERTS, "true");
+        dc.setCapability("recordVideo","false");
+        dc.setCapability("recordScreenshots","false");
+        dc.setCapability("captureHtml","false");
 		return dc;
 	}
 
