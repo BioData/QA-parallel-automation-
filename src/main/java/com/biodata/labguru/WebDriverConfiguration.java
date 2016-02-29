@@ -40,6 +40,7 @@ public class WebDriverConfiguration {
         dc.setCapability("recordVideo","false");
         dc.setCapability("recordScreenshots","false");
         dc.setCapability("captureHtml","false");
+        dc.setCapability("recordLogs","false");
 		return dc;
 	}
 

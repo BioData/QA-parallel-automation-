@@ -22,16 +22,18 @@
 		</run>
 	</groups>	
     <classes> 
-        <class name="com.biodata.labguru.tests.inventory.purchasables.ConsumablesTest" />
-      <class name="com.biodata.labguru.tests.inventory.purchasables.AntibodiesTest" /> 
-	   <class name="com.biodata.labguru.tests.inventory.purchasables.PlasmidsTest" />  
-	   <class name="com.biodata.labguru.tests.inventory.purchasables.PrimersTest" />  
-       <class name="com.biodata.labguru.tests.inventory.purchasables.CellLinesTest" />
-       <class name="com.biodata.labguru.tests.inventory.purchasables.BacteriaTest" />
-        <class name="com.biodata.labguru.tests.inventory.purchasables.FungiTest" />
-	   <class name="com.biodata.labguru.tests.inventory.purchasables.FliesTest" />   
-	   <class name="com.biodata.labguru.tests.inventory.purchasables.LipidsTest" />  
-	   <class name="com.biodata.labguru.tests.inventory.purchasables.ProteinsTest" />
+
+ <class name="com.biodata.labguru.tests.inventory.purchasables.WormsTest" />  
+       <class name="com.biodata.labguru.tests.inventory.purchasables.YeastsTest" />
+       <class name="com.biodata.labguru.tests.inventory.purchasables.TissuesTest" />
+ 	   <class name="com.biodata.labguru.tests.inventory.rodents.SpecimensTest" />
+  		<class name="com.biodata.labguru.tests.inventory.rodents.StrainsTest" />	
+  		 <class name="com.biodata.labguru.tests.inventory.purchasables.botany.PlantsTest" />
+         <class name="com.biodata.labguru.tests.inventory.purchasables.botany.SeedsTest" />
+       <class name="com.biodata.labguru.tests.inventory.GenesTest" />
+       <class name="com.biodata.labguru.tests.inventory.VirusesTest" />
+	   <class name="com.biodata.labguru.tests.inventory.SequencesTest" />  
+	   <class name="com.biodata.labguru.tests.inventory.ZebrafishesTest" />
 
        <!-- 
        	  <class name="com.biodata.labguru.tests.LoginTest" />
