@@ -268,8 +268,7 @@ public class ProjectPage extends AbstractNotebookPage {
 		
 		TimeUnit.SECONDS.sleep(2);
 		
-		return openMarvinJSDialogAndImport
-				(workingDir + LGConstants.ASSETS_FILES_DIRECTORY + LGConstants.REACTION_FILES_DIRECTORY + LGConstants.REACTION_FILE_TO_IMPORT);
+		return openMarvinJSDialogAndImport(workingDir + LGConstants.ASSETS_FILES_DIRECTORY + LGConstants.REACTION_FILES_DIRECTORY + LGConstants.REACTION_FILE_TO_IMPORT);
 	}
 	
 	public String addTextProjectDescription(String descToTest) throws Exception {
@@ -355,19 +354,11 @@ public class ProjectPage extends AbstractNotebookPage {
 		//wait until tab content appears again
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add_note")));
 		
-		//search for the added note
-		List<WebElement> notes = getWebDriver().findElements(By.xpath(".//*[@id='notes']/li"));
-		for (int i = 1; i <= notes.size(); i++) {
-		
-			WebElement noteElm = getWebDriver().findElement(By.xpath(".//*[@id='notes']/li["+ i + "]/h3/a[2]"));		
-			if(noteElm.getText().equals(note)){
-				return true;
-			}
-		}
-		return false;
+		return checkNoteInList(note);
 	}
+
 	
-	public boolean addDocumentFromDocumentsTab(String projectName) throws InterruptedException{
+	public String addDocumentFromDocumentsTab(String projectName) throws InterruptedException{
 		
 		//add document to project
 		clickOnTab("tabs-documents-link");
@@ -383,22 +374,16 @@ public class ProjectPage extends AbstractNotebookPage {
 		//go back to project and check if document added
 		goToRecentlyViewed(projectName);
 		
-		clickOnTab("tabs-documents-link");
+		return checkDocumentInList(addedDoc);
 		
-		List<WebElement> docs = getWebDriver().findElements(By.xpath(".//*[@id='tabs-documents']/ul/div"));
-		for (int i = 1; i <= docs.size(); i++) {
-		
-			WebElement docElm = getWebDriver().findElement(By.xpath(".//*[@id='tabs-documents']/ul/div["+ i + "]/h4/a"));		
-			if(docElm.getText().equals(addedDoc)){
-				return true;
-			}
-		}
-		return false;		
 	}
+	
+
 
 	
-	public boolean addPaperFromPapersTab() throws InterruptedException {
+	public String addPaperFromPapersTab() throws InterruptedException {
 
+		
 		clickOnTab("tabs-key_papers-link");
 		
 		clickOnButton("add_paper");
@@ -409,18 +394,11 @@ public class ProjectPage extends AbstractNotebookPage {
 		//back to project through breadscrumbs
 		getWebDriver().findElement(By.xpath(".//*[@id='breadcrumbs']/ul/li[2]/span/a")).click();
 		
-		clickOnTab("tabs-key_papers-link");
-
-		List<WebElement> papers = getWebDriver().findElements(By.xpath(".//*[@id='tabs-key-papers']/div"));
-		for (int i = 2; i <= papers.size(); i++) {
-		
-			WebElement paperElm = getWebDriver().findElement(By.xpath(".//*[@id='tabs-key-papers']/div["+ i + "]/h4/a"));		
-			if(paperElm.getText().equals(paperToAdd)){
-				return true;
-			}
-		}
-		return false;
+		return checkPaperInList(paperToAdd);
 	}
+
+
+
 	private String addPaperFromSearchPub() throws InterruptedException {
 		
 		List<WebElement> papersList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
@@ -446,6 +424,81 @@ public class ProjectPage extends AbstractNotebookPage {
 		WebElement tab = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id(tabId)));
 		tab.click();
 		TimeUnit.SECONDS.sleep(1);
+	}
+
+
+	public String checkDuplicatedProject(String text,String paper, String note, String document) throws InterruptedException {
+		
+		clickOnTab("tabs-progress-link");
+		getLogger().debug("check Document In List");
+		String ok = checkDocumentInList(document);
+		getLogger().debug("check Paper In List");
+		ok += checkPaperInList(paper);
+		getLogger().debug("check Note In List");
+		ok += checkNoteInList(note);
+		getLogger().debug("check Text In description");
+		ok += checkTextInDescription(text);
+		return ok;
+	}
+	
+	
+	private String checkTextInDescription(String text) throws InterruptedException {
+		
+		clickOnTab("tabs-progress-link");
+
+		WebElement textInDesc = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='element_data_input']/span/p")));
+		if(textInDesc.getText().equals(text))
+				return text;
+		return "";
+	}
+	
+	private String checkPaperInList(String paperToAdd) throws InterruptedException {
+		
+		clickOnTab("tabs-key_papers-link");
+
+		List<WebElement> papers = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='tabs-key-papers']/div")));
+		for (int i = 2; i <= papers.size(); i++) {
+		
+			WebElement paperElm = getWebDriver().findElement(By.xpath(".//*[@id='tabs-key-papers']/div["+ i + "]/h4/a"));		
+			if(paperElm.getText().equals(paperToAdd)){
+				return paperToAdd;
+			}
+		}
+		return "";
+	}
+
+
+	private String checkDocumentInList(String addedDoc) throws InterruptedException {
+		clickOnTab("tabs-documents-link");
+		
+		List<WebElement> docs = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='tabs-documents']/ul/div")));
+		for (int i = 1; i <= docs.size(); i++) {
+		
+			WebElement docElm = getWebDriver().findElement(By.xpath(".//*[@id='tabs-documents']/ul/div["+ i + "]/h4/a"));		
+			if(docElm.getText().equals(addedDoc)){
+				return addedDoc;
+			}
+		}
+		return "";
+	}
+	
+	private boolean checkNoteInList(String note) throws InterruptedException {
+		
+		clickOnTab("tabs-notes-link");
+		
+		//search for the added note
+		List<WebElement> notes = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='notes']/li")));
+		for (int i = 1; i <= notes.size(); i++) {
+		
+			WebElement noteElm = getWebDriver().findElement(By.xpath(".//*[@id='notes']/li["+ i + "]/h3/a[2]"));		
+			if(noteElm.getText().equals(note)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

@@ -4,7 +4,9 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -17,6 +19,45 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class ProjectTest extends AbstractEnotebookTest{
 
+	@Test(groups = {"deep"})
+	public void duplicateFullProject(){
+		
+		try {
+			showTableIndex();
+			TimeUnit.SECONDS.sleep(2);
+			String project = addNewItem();
+			
+			//add to description:text
+			logger.debug("adding text");
+			String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non rutrum odio.";
+			getPageManager().getProjectPage().addTextProjectDescription(text);
+			getPageManager().getProjectPage().refreshPage();
+
+			//add paper
+			logger.debug("adding paper");
+			String paper = getPageManager().getProjectPage().addPaperFromPapersTab();
+			//add note
+			logger.debug("adding note");
+			String note = "Note1";
+			getPageManager().getProjectPage().addNoteFromNotesTab(note);
+			//add document
+			logger.debug("adding document");
+			String document = getPageManager().getProjectPage().addDocumentFromDocumentsTab(project);
+
+			//duplicate project
+			logger.debug("duplicate project");
+			getPageManager().getProjectPage().refreshPage();
+			getPageManager().getProjectPage().duplicateItem();	
+		
+			//check all project fetures appears
+			String allCreated = getPageManager().getProjectPage().checkDuplicatedProject(text,paper,note,document);
+			assertTrue(!allCreated.isEmpty());
+		
+		} catch (Exception e) {
+			setLog(e,"duplicateFullProject");
+			Assert.fail(e.getMessage());
+		}
+	}
 	
 	@Test(groups = {"deep"})
 	public void startNewExperimentFromProtocolFromDropdown(){
@@ -650,9 +691,9 @@ public class ProjectTest extends AbstractEnotebookTest{
 			showTableIndex();
 			addNewItem();
 			
-			boolean added = getPageManager().getProjectPage().addPaperFromPapersTab();
+			String addedPaper = getPageManager().getProjectPage().addPaperFromPapersTab();
 			
-			assertTrue("Paper was not added as should be.",added);
+			assertTrue("Paper was not added as should be.",!addedPaper.isEmpty());
 			
 		} catch (Exception e) {
 			setLog(e,"addNoteFromNotesTab");
@@ -667,9 +708,9 @@ public class ProjectTest extends AbstractEnotebookTest{
 			showTableIndex();
 			String newProject = addNewItem();
 			
-			boolean added = getPageManager().getProjectPage().addDocumentFromDocumentsTab(newProject);
+			String addedDoc = getPageManager().getProjectPage().addDocumentFromDocumentsTab(newProject);
 			
-			assertTrue("Document was not added as should be.",added);
+			assertTrue("Document was not added as should be.",!addedDoc.isEmpty());
 			
 		} catch (Exception e) {
 			setLog(e,"addDocumentFromDocumentsTab");
