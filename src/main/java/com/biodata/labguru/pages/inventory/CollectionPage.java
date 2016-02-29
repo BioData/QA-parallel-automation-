@@ -612,7 +612,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 			
 			String stock = stockNameCell.getText();
 			//find the name of the selected storage
-			WebElement storageNameCell = getWebDriver().findElement(By.xpath(".//*[@class='stocks_table']/tr["+ i +"]/td[6]/a"));
+			WebElement storageNameCell = getWebDriver().findElement(By.xpath(".//*[@class='stocks_table']/tr["+ i +"]/td[6]/div/a/span"));
 			
 			String storage = storageNameCell.getText();
 			
