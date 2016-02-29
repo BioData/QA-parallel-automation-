@@ -47,7 +47,7 @@ public class SOPPage extends DocumentPage{
 		executeJavascript("document.getElementsByClassName('text load')[0].click();");
 	   	TimeUnit.SECONDS.sleep(3);
 	  
-        saveAllItemsOnPage();
+	    saveAllItemsOnPage();
        
 	}
 
@@ -81,6 +81,7 @@ public class SOPPage extends DocumentPage{
 			TimeUnit.SECONDS.sleep(2);
 			
 			 saveAllItemsOnPage();
+			 driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("doctoolsbox"))).click();
 			
 		}catch(NoSuchElementException ex){
 			//first document -  it automaticaly open in new document page - do nothing

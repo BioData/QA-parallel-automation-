@@ -39,11 +39,13 @@ public class DocumentPage extends AbstractKnowledgebasePage {
        
 	}
 
-	protected void saveAllItemsOnPage() {
+	protected void saveAllItemsOnPage() throws InterruptedException {
 		List <WebElement> imgSaveList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".re-save_button")));
         for (WebElement imgSave : imgSaveList) {
-        	if(imgSave.isDisplayed())
+        	if(imgSave.isDisplayed()){
         		imgSave.click();
+        	 	TimeUnit.SECONDS.sleep(1);
+        	}
         }
 	}
 
