@@ -120,7 +120,9 @@ public class StocksTest extends AbstractStoragesTest{
 			
 			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
 			getPageManager().getBoxPage().addNewBox(newBox,"1");		
-			getPageManager().getBoxPage().addStock("stock", 1);
+			//add 3 stoks
+			int numOfStocks = 3;
+			getPageManager().getBoxPage().addStock("stock", numOfStocks);
 			
 			getPageManager().getAdminPage().showStocks();
 			boolean deleted = getPageManager().getStockPage().deleteStock("stock");
