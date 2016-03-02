@@ -284,7 +284,7 @@ public class RodentTreatmentPage extends AdminPage{
         }else
         	selectPast(txtScheduledAt);
         
-        getWebDriver().findElement(By.id("new_biocollections_specimen_treatment")).click();
+        getWebDriver().findElement(By.xpath(".//*[@id='new_treatment']/div/h3")).click();
        
         //we must add speciman to the selected cage
         WebElement dropApplyTo = driverWait.until(ExpectedConditions.visibilityOfElementLocated
@@ -303,6 +303,7 @@ public class RodentTreatmentPage extends AdminPage{
              if(specimens.size() > 0){
             	 return cage;
              }else{
+            	 dropApplyTo = getWebDriver().findElement(By.xpath(".//*[@id='s2id_reserved_from_']/a/span[2]/b"));
             	 dropApplyTo.click(); 
             	 TimeUnit.SECONDS.sleep(1);
              }
