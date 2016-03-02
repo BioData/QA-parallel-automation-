@@ -51,10 +51,10 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 	public boolean hasList() {
 		try{
 			//look for 'manually' link when this is the first time adding 
-			getWebDriver().findElement(By.xpath(".//*[@id='main-content']/div/div[1]/a"));
+			driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='main-content']/div/div[1]/a")));
 			return false;
 			
-		}catch(NoSuchElementException ex){
+		}catch(Exception ex){
 			//not first item - look for button 'New ...'
 			return true;
 		}
