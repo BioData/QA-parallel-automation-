@@ -227,7 +227,7 @@ public class RodentSpecimensPage extends RodentPage{
 		searchAndOpenItem(specimen);
 		
 		selectTissuesAndSamplesTab();
-		WebElement tissueLink = getWebDriver().findElement(By.xpath(".//*[@id='ui-id-1']/h3[1]/a"));
+		WebElement tissueLink = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='ui-id-1']/h3[1]/a")));
 		tissueLink.click();
 		TimeUnit.SECONDS.sleep(3);
 		
