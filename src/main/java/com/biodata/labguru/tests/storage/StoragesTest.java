@@ -114,7 +114,7 @@ public class StoragesTest extends BaseTest{
 			String name = buildUniqueName(LGConstants.STORAGE_PREFIX);
 			String createdStorage = getPageManager().getStoragePage().addNewStorage(name);
 			boolean updated = getPageManager().getStoragePage().changeStorageLocation(createdStorage);
-			AssertJUnit.assertTrue(updated);
+			AssertJUnit.assertTrue("Could not change storage location ",updated);
 			
 		}  catch (Exception e) {
 			setLog(e, "changeStorageLocation");
