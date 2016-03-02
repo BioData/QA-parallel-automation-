@@ -376,7 +376,7 @@ public class ProjectPage extends AbstractNotebookPage {
 		//save description
 		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".re-save_button")));
 		saveDescription.click();
-		
+		TimeUnit.SECONDS.sleep(1);
 		//go back to project and check if document added
 		goToRecentlyViewed(projectName);
 		
