@@ -800,7 +800,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			AssertJUnit.assertTrue("The file '" + attachmentToLoad + "' was not added to page.",pageAdded);
 			
 		} catch (Exception e) {
-			setLog(e,"uploadFile");
+			setLog(e,"uploadExcelAndAddToPage");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
