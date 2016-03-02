@@ -230,6 +230,9 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		WebElement btnSaveComp = getWebDriver().findElement(By.id("btn-getmol"));
 		btnSaveComp.click();
 		TimeUnit.SECONDS.sleep(15);
+		//wait until sketch dialog is closed
+		driverWait.until(ExpectedConditions.not(ExpectedConditions.visibilityOfElementLocated(By.id("sketch"))));
+		getWebDriver().switchTo().activeElement();
 		try {
 			WebElement compoundImg = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@class='compound']/img")));
 			created = (compoundImg != null);
