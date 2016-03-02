@@ -21,6 +21,13 @@ import com.biodata.labguru.model.Sample;
 
 public class ExperimentPageV2 extends AbstractNotebookPage {
 	
+	private static final String SUB_HTML_TAG = "sub";
+	private static final String SUPER_HTML_TAG = "sup";
+	private static final String DELETED_HTML_TAG = "del";
+	private static final String UNDERLINE_HTML_TAG = "u";
+	private static final String ITALIC_HTML_TAG = "em";
+	private static final String BOLD_HTML_TAG = "strong";
+	
 	private By btnSignLocator = By.id("sign_toggle");
 	private By btnPrintLocator = By.id("print");
 	private By btnAssignLocator = By.id("assign");
@@ -1340,12 +1347,12 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		selectTextAndToggleFontAction(sectionIndex,platform);
 		
-		checkTextForAction(sectionIndex,"bold","strong",platform);//check bold
-		checkTextForAction(sectionIndex,"italic","em",platform);//check italic
-		checkTextForAction(sectionIndex,"underline","u",platform);//check underline
-		checkTextForAction(sectionIndex,"deleted","del",platform);//check deleted
-		checkTextForAction(sectionIndex,"superscript","sup",platform);//check super script
-		checkTextForAction(sectionIndex,"subscript","sub",platform);//check sub script
+		checkTextForAction(sectionIndex,"bold",BOLD_HTML_TAG,platform);//check bold
+		checkTextForAction(sectionIndex,"italic",ITALIC_HTML_TAG,platform);//check italic
+		checkTextForAction(sectionIndex,"underline",UNDERLINE_HTML_TAG,platform);//check underline
+		checkTextForAction(sectionIndex,"deleted",DELETED_HTML_TAG,platform);//check deleted
+		checkTextForAction(sectionIndex,"superscript",SUPER_HTML_TAG,platform);//check super script
+		checkTextForAction(sectionIndex,"subscript",SUB_HTML_TAG,platform);//check sub script
 		return true;
 	}
 
