@@ -774,10 +774,15 @@ public abstract class BasePage {
 				 //search for today (the week it is on ) - if found ,take this week next day
 				 WebElement today = getWebDriver().findElement(By.cssSelector(".xdsoft_date.xdsoft_day_of_week" + i + ".xdsoft_date.xdsoft_today.xdsoft_weekend"));
 				 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue() + 1;
-				 WebElement tommorowSelect = getWebDriver().findElement(By.xpath(".//*[@data-date ='" + String.valueOf(dayNum) + "']"));	 
-				 tommorowSelect.click();
-				 TimeUnit.SECONDS.sleep(1);
-				 break;
+				 List <WebElement> tommorowSelectList = getWebDriver().findElements(By.xpath(".//*[@data-date ='" + String.valueOf(dayNum) + "']/div"));	 
+				 for (WebElement tommorowSelect : tommorowSelectList) {
+					 if(tommorowSelect.isDisplayed()){
+						 tommorowSelect.click();
+						 TimeUnit.SECONDS.sleep(1);
+						 break;
+					 }
+				}
+				
 			 }catch(NoSuchElementException e){
 				 //do nothing - keep searching for today's date
 				 continue;
@@ -792,10 +797,14 @@ public abstract class BasePage {
 				 //search for today (the week it is on ) - if found ,take this week next day
 				 WebElement today = getWebDriver().findElement(By.cssSelector(".xdsoft_date.xdsoft_day_of_week" + i + ".xdsoft_date.xdsoft_today.xdsoft_weekend"));
 				 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue() - 1;
-				 WebElement pastSelect = getWebDriver().findElement(By.xpath(".//*[@data-date ='" + String.valueOf(dayNum) + "']"));	 
-				 pastSelect.click();
-				 TimeUnit.SECONDS.sleep(1);
-				 break;
+				 List <WebElement> pastSelectList = getWebDriver().findElements(By.xpath(".//*[@data-date ='" + String.valueOf(dayNum) + "']/div"));	 
+				 for (WebElement pastSelect : pastSelectList) {
+					 if(pastSelect.isDisplayed()){
+						 pastSelect.click();
+						 TimeUnit.SECONDS.sleep(1);
+						 break;
+					 }
+				  }
 			 }catch(NoSuchElementException e){
 				 //do nothing - keep searching for today's date
 				 continue;
