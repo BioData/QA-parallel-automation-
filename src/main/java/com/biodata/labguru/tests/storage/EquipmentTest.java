@@ -7,6 +7,7 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 import com.biodata.labguru.LGConstants;
+import com.biodata.labguru.model.EquipmentItem;
 
 public class EquipmentTest extends AbstractStoragesTest{
 
@@ -118,6 +119,36 @@ public class EquipmentTest extends AbstractStoragesTest{
 			Assert.assertTrue(msg.equals(""),"Not all selected columns are shown: " + msg);
 		}  catch (Exception e) {
 			setLog(e,"customizeTableView");
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"basic sanity"})
+	public void addNewEquipmentAndCheckCreation(){
+		
+		try {
+			showTableIndex();
+			
+			String name = buildUniqueName(LGConstants.EQUIPMENT_PREFIX);
+			String owner = getPageManager().getAdminPage().getAccountName();		
+			EquipmentItem newItem = new EquipmentItem(name,owner);
+		
+			EquipmentItem createdItem = getPageManager().getEquipmentPage().checkCreatedItem(newItem);
+			Assert.assertEquals(newItem.name,createdItem.name,"The created item was not created correctly");
+			Assert.assertEquals(newItem.owner,createdItem.owner,"The created item was not created correctly");
+			Assert.assertEquals(newItem.manufacturer,createdItem.manufacturer,"The created item was not created correctly");
+			Assert.assertEquals(newItem.equipmentType,createdItem.equipmentType,"The created item was not created correctly");
+			Assert.assertEquals(newItem.serialNumber,createdItem.serialNumber,"The created item was not created correctly");
+			Assert.assertEquals(newItem.modelNumber,createdItem.modelNumber,"The created item was not created correctly");
+			Assert.assertEquals(newItem.purchaseDate,createdItem.purchaseDate,"The created item was not created correctly");
+			Assert.assertEquals(newItem.warrantyExpirationDate,createdItem.warrantyExpirationDate,"The created item was not created correctly");
+			Assert.assertEquals(newItem.maintenanceDate,createdItem.maintenanceDate,"The created item was not created correctly");
+			Assert.assertEquals(newItem.maintenanceInformation,createdItem.maintenanceInformation,"The created item was not created correctly");
+			Assert.assertEquals(newItem.description,createdItem.description,"The created item was not created correctly");
+			
+			
+		}  catch (Exception e) {
+			setLog(e, "addNewEquipmentAndCheckCreation");
 			Assert.fail(e.getMessage());
 		}
 	}
