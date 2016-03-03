@@ -64,7 +64,7 @@ public class SOPPage extends DocumentPage{
 			
 		}
 		 saveAllItemsOnPage();
-		 driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("doctoolsbox"))).click();
+		 driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("doctools"))).click();
 	}
 	
 	public String addSOPWithProtocol(String name,String protocolName) throws InterruptedException {
