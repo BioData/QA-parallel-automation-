@@ -7,6 +7,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -37,6 +38,9 @@ public class ExperimentTest extends AbstractEnotebookTest {
 			String note = getPage().signAndLock();
 			
 			AssertJUnit.assertTrue(note.startsWith(getMessageSource().getMessage("signed.by.note.prefix",null, Locale.US)));
+			
+			boolean exist = getPageManager().getRecentResultsPage().checkSignedExperimentInList(name);
+			Assert.assertTrue(exist, "Signed experiment is not shown in recent results page");
 		} catch (Exception e) {
 			setLog(e,"signAndLock");
 			AssertJUnit.fail(e.getMessage());

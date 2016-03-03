@@ -1,5 +1,6 @@
 package com.biodata.labguru.pages.home;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -28,5 +29,23 @@ public class RecentResultsPage extends AdminPage {
 		return btnEdit.isDisplayed();
 
 	}
+	
+	/**
+	 * Check that the given signed experiment is in the list of signed experiments to witness in recent results page.
+	 * @param name
+	 * @return true if found
+	 */
+	public boolean checkSignedExperimentInList(String name) {
+		showRecentResults();
+		
+		List<WebElement> signedExperiments = getWebDriver().findElements(By.xpath(".//*[@id='right-sidebar']/div[1]/ul/li"));
+		for (int i = 1; i <= signedExperiments.size(); i++) {
+			WebElement exp = getWebDriver().findElement(By.xpath(".//*[@id='right-sidebar']/div[1]/ul/li[" + i + "]/a"));
+			if(exp.getText().equals(name))
+				return true;
+		}
+		return false;
+	}
+
 
 }

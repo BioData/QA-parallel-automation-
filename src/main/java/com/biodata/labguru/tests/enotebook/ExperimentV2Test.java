@@ -690,7 +690,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	public void signExperiment() {
 		
 		try {
-			createNewExperimentAndChangeVersion("Signed Experiment");
+			String name = buildUniqueName("Signed Experiment");
+			createNewExperimentAndChangeVersion(name);
 			
 			boolean signSucceeded = getPageManager().getExperimentPageV2().sign();
 			assertTrue("The sign action did not succeeded.",signSucceeded);
@@ -698,6 +699,10 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			assertTrue("Some menu actions are not as they should be.",getPageManager().getExperimentPageV2().checkAllowedActionsOnSignedExp());
 			
 			assertTrue("Sign mark is missing from the list view for the signed experiment.",getPageManager().getExperimentPageV2().checkSignedImgInList());
+		
+			boolean exist = getPageManager().getRecentResultsPage().checkSignedExperimentInList(name);
+			Assert.assertTrue(exist, "Signed experiment is not shown in recent results page");
+		
 		} catch (Exception e) {
 			setLog(e,"signExperiment");
 			AssertJUnit.fail(e.getMessage());
