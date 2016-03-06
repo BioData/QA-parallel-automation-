@@ -184,7 +184,9 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		
 	}
 
-	
+	/**
+	 * Special test that tests that the text inside a document description is not changing/disappearing when editing (due to redactor bugs)
+	 */
 	@Test (groups = {"redactor"})
 	public void checkTextInEditorNotDissapear(){
 		
