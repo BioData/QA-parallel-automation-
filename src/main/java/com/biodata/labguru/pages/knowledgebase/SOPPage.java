@@ -36,7 +36,7 @@ public class SOPPage extends DocumentPage{
 			TimeUnit.SECONDS.sleep(3);
 			
 			//if not first sop - look for button 'New SOP'
-			WebElement btnNewSop = getWebDriver().findElement(By.id("new_sop"));
+			WebElement btnNewSop =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("new_sop")));
 			btnNewSop.click();
 			
 			TimeUnit.SECONDS.sleep(2);
@@ -201,5 +201,19 @@ public class SOPPage extends DocumentPage{
 			return true;
 		return false;
 		
+	}
+	
+	@Override
+	public String activateArchivedItemFromNotyMessage() throws InterruptedException{
+		
+		executeJavascript("$('.icon.icon-lock').click();");
+		
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
+		executeJavascript("$('.noty_text')[1].getElementsByTagName('a')[0].click();");
+
+		TimeUnit.SECONDS.sleep(2);
+		WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
+		
+		return title.getText();
 	}
 }
