@@ -1361,22 +1361,23 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		selectTextAndSelectAll(sectionIndex, platform);
 		
 		clickOnSectionActionBar(sectionIndex, sectionFontActionBarId);
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(2);
 		
 	}
 
 	protected void checkTextForAction(String sectionIndex,String rel,String tagToCheck,String platform) throws InterruptedException {
 
 		//make the text bold
-		getWebDriver().findElement(By.xpath(".//*[@rel='"+ rel + "']")).click();
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@rel='"+ rel + "']"))).click();
 		TimeUnit.SECONDS.sleep(1);
 		saveSection(sectionIndex);
 		
 		//check that the text is bold
 		try {
-			getWebDriver().findElement(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/p/" + tagToCheck+ ""));	
+			driverWait.until(ExpectedConditions.visibilityOfElementLocated
+					(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/p/" + tagToCheck+ "")));	
 			revertToolbarAction(sectionIndex,rel,platform);
-			TimeUnit.SECONDS.sleep(1);
+			TimeUnit.SECONDS.sleep(2);
 		} catch (Exception e) {
 			//element strong not foung - bold did not succeeded
 			getLogger().debug(e.getMessage());
@@ -1388,6 +1389,6 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		selectTextAndToggleFontAction(sectionIndex,platform);
 		getWebDriver().findElement(By.xpath(".//*[@rel='"+ rel + "']")).click();
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(2);
 	}
 }
