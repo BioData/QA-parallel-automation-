@@ -122,5 +122,45 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 		
 	}
 
+	public boolean checkAllTagsInEditorNotDissapear() throws InterruptedException {
+		
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".element-plain-text.user-content.redactor-editor")));
+		String script = "return $(\".element-plain-text.user-content.redactor-editor\").html();";
+		String htmlBefore = (String) executeJavascript(script);
+		
+		//click on edit
+		executeJavascript("document.getElementsByClassName('edit_me')[1].click();");
+		TimeUnit.SECONDS.sleep(2);
+		
+		saveAllItemsOnPage();
+		
+		String htmlAfter = (String) executeJavascript(script);
+		
+		if((htmlBefore!= null) && (htmlAfter != null) ){
+			//remove white spaces from html string
+			return (htmlBefore.replaceAll("\\s","")).equals((htmlAfter.replaceAll("\\s","")));
+		}
+		return false;
+	}
+
+
+	public String openDocument(String docName) throws InterruptedException {
+		
+		searchForItemInList(docName);
+		
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("documents")));
+		
+		List <WebElement> docsList = getWebDriver().findElements(By.xpath(".//*[@id='documents']/div"));
+		for (int i=2 ; i<=docsList.size();) {
+			WebElement docToOpen = getWebDriver().findElement(By.xpath(".//*[@id='documents']/div[" +i  + "]/h4/a"));
+			docToOpen.click();
+			TimeUnit.SECONDS.sleep(1);
+			break;
+		}
+
+		driverWait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath(".//*[@id='knowledgebase_document_title_input']/span")));
+		return getWebDriver().getTitle();
+	}
 
 }

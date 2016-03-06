@@ -16,12 +16,14 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 
 /**
  * Special test for Industrial account to test SOP's module.
+ * Also test different texts in document (name of document:'Test for Goni' ) to check that redactor works ok.
  * @author goni
  *
  */
 @Listeners(TestOrderRandomizer.class)
 public class SOPsTest extends AbstractKnowledgebaseTest{
 
+	public static final String TEST_DOCUMENT_FOR_REDACTOR = "Test for Goni";
 	
 	@Override
 	@Test(enabled = false)
@@ -182,6 +184,24 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		
 	}
 
+	
+	@Test (groups = {"redactor"})
+	public void checkTextInEditorNotDissapear(){
+		
+		try {
+			getPageManager().getAdminPage().showDocuments();
+			
+			getPageManager().getDocumentPage().openDocument(TEST_DOCUMENT_FOR_REDACTOR);
+
+			boolean succeeded = getPageManager().getDocumentPage().checkAllTagsInEditorNotDissapear();
+			AssertJUnit.assertTrue(succeeded);
+		} catch (Exception e) {
+			setLog(e,"checkTextInEditorNotDissapear");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+
+	
 	
 	@Override
 	protected String showModule() {
