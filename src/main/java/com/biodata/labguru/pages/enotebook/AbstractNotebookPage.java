@@ -291,7 +291,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 			 WebElement btnDuplicateInPopup = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 					 (By.xpath(".//*[@id='do_print']")));
 			 btnDuplicateInPopup.click();
-			 
+			 TimeUnit.SECONDS.sleep(2);
 			 switchToNewTab();
 		}
 

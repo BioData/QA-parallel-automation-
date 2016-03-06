@@ -726,7 +726,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 	@Override
 	protected String addNewItem() throws InterruptedException {
 		
-		return getPageManager().getProjectPage().addNewProjectUseDefault();
+		String projectName = buildUniqueName(LGConstants.PROJECT_PREFIX);
+		return getPageManager().getProjectPage().addNewProject(projectName);
 		
 	}
 

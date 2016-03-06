@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
 
 
@@ -328,8 +329,8 @@ public class ProjectPage extends AbstractNotebookPage {
 			
 			WebElement folderNameElm = getWebDriver().findElement(By.xpath(".//*[@id='history_items']/ul/li["+ i + "]/a"));		
 			if(folderNameElm.getText().equals(newFolderName)){
-				folderNameElm.click();
-				TimeUnit.SECONDS.sleep(2);
+				executeJavascript("arguments[0].click();", folderNameElm);
+				TimeUnit.SECONDS.sleep(3);
 				waitForPageCompleteLoading();
 				return;
 			}
@@ -370,9 +371,25 @@ public class ProjectPage extends AbstractNotebookPage {
 		clickOnTab("tabs-documents-link");
 		clickOnButton("add_document");
 		TimeUnit.SECONDS.sleep(3);
-		WebElement docNameElm = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-				(By.xpath(".//*[@id='knowledgebase_document_title_input']/span")));
-		String addedDoc = docNameElm.getText();
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("knowledgebase_document_title_input")));
+		
+		executeJavascript("document.getElementsByClassName('edit_me')[0].click();");
+		TimeUnit.SECONDS.sleep(2);
+		
+		String addedDoc = GenericHelper.buildUniqueName(LGConstants.DOCUMENT_PREFIX);
+		WebElement txtName = getWebDriver().findElement(By.id("knowledgebase_document_title"));
+		txtName.click();
+		txtName.clear();
+		txtName.sendKeys(addedDoc);
+		
+		List<WebElement> saveBtnList = getWebDriver().findElements(By.xpath(".//*[@id='knowledgebase_document_submit_action']/input"));
+		for (WebElement btnSave : saveBtnList) {
+			if(btnSave.isDisplayed()){
+				btnSave.click();
+				TimeUnit.SECONDS.sleep(1);
+			}
+		} 
+		
 		//save description
 		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".re-save_button")));
 		saveDescription.click();
