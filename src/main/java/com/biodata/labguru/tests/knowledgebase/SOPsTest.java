@@ -123,7 +123,7 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 			showTableIndex();			
 			String name = addNewItem();
 			
-			String notyMsg = getPage().activateArchivedItemFromNotyMessage();
+			String notyMsg = getPageManager().getSOPPage().activateArchivedItemFromNotyMessage();
 			
 			AssertJUnit.assertEquals(getMessageSource().getMessage("sops.activated.msg",null, Locale.US),notyMsg);
 			
