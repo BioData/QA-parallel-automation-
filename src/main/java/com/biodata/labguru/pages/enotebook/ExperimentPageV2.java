@@ -280,7 +280,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		List<WebElement> stepsList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.cssSelector(getStepsListInSection(sectionIndex))));
 		for (int i = 1; i <= stepsList.size(); i++) {
-			executeJavascript("$('#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + i + ")>td>div.redactor-in')"
+			executeJavascript("$('#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + i + ")>td>div.redactor-box>div')"
 					+ ".redactor('code.set', '<p>test step editor: " + i + "</p>');");
 			steps++;
 		}
@@ -292,7 +292,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 			for (int i = 1; i <= createdStepsList.size(); i++) {
 				WebElement input = getWebDriver().findElement
 						(By.cssSelector("#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + i + ")>td>div"
-								+ ".redactor-in>p"));
+								+ ".redactor-box>div.redactor-editor>p"));
 				if(!input.getText().isEmpty()){
 					created ++;	
 				}
@@ -737,7 +737,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		writeInEditor(sectionIndex, descToTest);
 
 		saveSection(sectionIndex);
-		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/p"));
+		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/div"));
 		String text = textArea.getText();
 
 		return text;
@@ -778,7 +778,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		TimeUnit.SECONDS.sleep(1);
 	
-    	executeJavascript("$('#section_"+ sectionIndex +"').find('#redactor-uuid-" + sectionIndex + "').redactor('code.set', '<p>"+descToTest+"</p>');");
+    	executeJavascript("$('#section_"+ sectionIndex +"').find('.redactor-editor').redactor('code.set', '<p>"+descToTest+"</p>');");
     	TimeUnit.SECONDS.sleep(1);
 		
 	}

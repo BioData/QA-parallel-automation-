@@ -227,7 +227,7 @@ public class ExperimentPage extends AbstractNotebookPage {
 
 			writeInRedactor("element_data", descToTest);   
 
-			WebElement imgSaveDesc = container.findElement(By.cssSelector(".re-save_button"));
+			WebElement imgSaveDesc = container.findElement(By.xpath(".//*[@class='redactor-toolbar']/li[last()]/a/i"));
 			TimeUnit.SECONDS.sleep(1);
 			imgSaveDesc.click();
 			TimeUnit.SECONDS.sleep(2);

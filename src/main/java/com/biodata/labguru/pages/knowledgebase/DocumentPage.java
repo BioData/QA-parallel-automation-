@@ -40,7 +40,7 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 	}
 
 	protected void saveAllItemsOnPage() throws InterruptedException {
-		List <WebElement> imgSaveList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".re-save_button")));
+		List <WebElement> imgSaveList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".fa.fa-check")));
         for (WebElement imgSave : imgSaveList) {
         	if(imgSave.isDisplayed()){
         		imgSave.click();
@@ -117,7 +117,7 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 
 	public void saveDocument() {
 	
-		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".re-save_button")));
+		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fa.fa-check")));
 		saveDescription.click();
 		
 	}
