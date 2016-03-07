@@ -301,7 +301,8 @@ public abstract class BasePage {
 	
 	public void uploadFile(String pathToFile) throws InterruptedException{
 		
-		TimeUnit.SECONDS.sleep(2);
+		TimeUnit.SECONDS.sleep(5);
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".right-side-block")));
 		
 		WebElement fileSelect = getWebDriver().findElement(By.xpath(".//*[@type='file']"));
 		fileSelect.sendKeys(pathToFile);
