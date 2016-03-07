@@ -203,17 +203,17 @@ public class SOPPage extends DocumentPage{
 		
 	}
 	
-	@Override
-	public String activateArchivedItemFromNotyMessage() throws InterruptedException{
-		
-		executeJavascript("$('.icon.icon-lock').click();");
-		
-		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
-		executeJavascript("$('.noty_text')[1].getElementsByTagName('a')[0].click();");
-
-		TimeUnit.SECONDS.sleep(2);
-		WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
-		
-		return title.getText();
-	}
+//	@Override
+//	public String activateArchivedItemFromNotyMessage() throws InterruptedException{
+//		
+//		executeJavascript("$('.icon.icon-lock').click();");
+//		
+//		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
+//		executeJavascript("$('.noty_text')[1].getElementsByTagName('a')[0].click();");
+//
+//		TimeUnit.SECONDS.sleep(2);
+//		WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
+//		
+//		return title.getText();
+//	}
 }
