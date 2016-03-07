@@ -138,7 +138,7 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 		
 		if((htmlBefore!= null) && (htmlAfter != null) ){
 			//remove white spaces from html string
-			return (htmlBefore.replaceAll("\\s","")).equals((htmlAfter.replaceAll("\\s","")));
+			return (htmlBefore.equals(htmlAfter));
 		}
 		return false;
 	}
