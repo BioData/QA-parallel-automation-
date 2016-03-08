@@ -38,8 +38,7 @@ public class ImageBankTest extends BaseTest{
 		
 		try {
 			//upload image in project and open its show page
-			//addImage();
-			getPageManager().getWebDriver().get("https://staging.labguru.com/system/attachments/541");
+			addImage();
 			//edit image
 			logger.debug("edit image");
 			Assert.assertTrue(getPageManager().getImagePage().editImageFromShowPage(),"editing image failed");
