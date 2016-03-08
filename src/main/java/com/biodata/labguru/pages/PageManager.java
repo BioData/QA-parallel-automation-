@@ -42,6 +42,7 @@ import com.biodata.labguru.pages.inventory.rodents.RodentSpecimensPage;
 import com.biodata.labguru.pages.inventory.rodents.RodentStrainsPage;
 import com.biodata.labguru.pages.inventory.rodents.RodentTreatmentPage;
 import com.biodata.labguru.pages.knowledgebase.DocumentPage;
+import com.biodata.labguru.pages.knowledgebase.ImagePage;
 import com.biodata.labguru.pages.knowledgebase.PaperPage;
 import com.biodata.labguru.pages.knowledgebase.RecipePage;
 import com.biodata.labguru.pages.knowledgebase.SOPPage;
@@ -95,7 +96,7 @@ public class PageManager  {
 		paperPage = new PaperPage();
 		documentPage = new DocumentPage();
 		recipePage = new RecipePage();
-
+		imagePage = new ImagePage();
 
 		shoppingListPage = new ShoppingListPage();
 		consumablesPage = new ConsumablesPage();
@@ -243,6 +244,8 @@ public class PageManager  {
 
 
 	private DocumentPage documentPage;
+	
+	private ImagePage imagePage;
 
 
 	private SOPPage sopPage;
@@ -385,6 +388,7 @@ public class PageManager  {
 		initPage(paperPage,remoteWebDriver,logger);
 		initPage(documentPage,remoteWebDriver,logger);
 		initPage(recipePage,remoteWebDriver,logger);
+		initPage(imagePage,remoteWebDriver,logger);
 
 		initPage(shoppingListPage,remoteWebDriver,logger);
 		initPage(consumablesPage,remoteWebDriver,logger);
@@ -487,6 +491,10 @@ public class PageManager  {
 
 	public RecipePage getRecipePage() {
 		return recipePage;
+	}
+	
+	public ImagePage getImagePage(){
+		return imagePage;
 	}
 
 	public SOPPage getSOPPage() {
