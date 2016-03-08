@@ -54,6 +54,7 @@
        <class name="com.biodata.labguru.tests.knowledgebase.RecipesTest" />
        <class name="com.biodata.labguru.tests.knowledgebase.DocumentsTest" />
        <class name="com.biodata.labguru.tests.knowledgebase.PapersTest" />
+       <class name="com.biodata.labguru.tests.knowledgebase.ImageBankTest" />
        
         <class name="com.biodata.labguru.tests.inventory.purchasables.ConsumablesTest" />
       <class name="com.biodata.labguru.tests.inventory.purchasables.AntibodiesTest" /> 
