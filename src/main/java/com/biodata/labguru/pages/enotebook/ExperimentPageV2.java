@@ -1243,7 +1243,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	protected void selectTextAndSelectAll(String sectionIndex, String platform) throws InterruptedException {
 		selectSection(sectionIndex);
 		//select all text to add the comment on it
-		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" + sectionIndex + "']/div/div/text-element/div/p"));
+		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" + sectionIndex + "']/div/div/text-element/div/div/p"));
 	
 		//select All text
 		if(platform.equals(Platform.WINDOWS))
