@@ -272,6 +272,10 @@ public abstract class BasePage {
 
 		TimeUnit.SECONDS.sleep(2);
 		String path = workingDir + LGConstants.ASSETS_FILES_DIRECTORY  + LGConstants.UPLOAD_TXT_TEST_FILENAME;
+		
+		TimeUnit.SECONDS.sleep(5);
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".right-side-block")));
+		
 		uploadFile(path);
 
 		WebElement file = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[@id='files']/ul/li[2]/span")));
@@ -301,9 +305,6 @@ public abstract class BasePage {
 	
 	public void uploadFile(String pathToFile) throws InterruptedException{
 		
-		TimeUnit.SECONDS.sleep(5);
-		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".right-side-block")));
-		
 		WebElement fileSelect = getWebDriver().findElement(By.xpath(".//*[@type='file']"));
 		fileSelect.sendKeys(pathToFile);
 		
@@ -313,6 +314,8 @@ public abstract class BasePage {
 	public String uploadImage(String resource) throws InterruptedException {
 
 		String path = workingDir + LGConstants.ASSETS_FILES_DIRECTORY +  LGConstants.UPLOAD_IMAGE_TEST_FILENAME;
+		TimeUnit.SECONDS.sleep(5);
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".right-side-block")));
 		uploadFile(path);
 
 		return checkIfImageUploaded(resource);
