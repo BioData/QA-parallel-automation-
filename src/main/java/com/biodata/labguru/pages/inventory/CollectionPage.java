@@ -514,7 +514,8 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		
 		invokeSearchInCollection(item);
 		TimeUnit.SECONDS.sleep(2);
-		WebElement nameElem = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[2]/td[3]/a"));
+		WebElement nameElem = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='index_table']/tbody/tr[2]/td[3]/a")));
 		nameElem.click();
 		TimeUnit.SECONDS.sleep(3);
 	}
