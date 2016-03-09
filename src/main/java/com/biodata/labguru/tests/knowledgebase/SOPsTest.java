@@ -54,8 +54,7 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		try {
 			showTableIndex();
 			
-			String name = buildUniqueName(LGConstants.SOP_PREFIX);
-			getPageManager().getSOPPage().addEmptySOP(name);
+			String name = addNewItem();
 
 			showTableIndex();
 			assertTrue(getPage().searchForItem(name));
@@ -138,7 +137,7 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		
 	}
 	
-	@Test(groups = {"deep"})
+	@Test(groups = {"basic sanity"})
 	public void signAndLock(){
 		
 		try {
