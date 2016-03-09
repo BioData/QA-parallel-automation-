@@ -23,12 +23,10 @@
 	</groups>	
     <classes> 
 
- 		<class name="com.biodata.labguru.tests.inventory.GenesTest" />
-       <class name="com.biodata.labguru.tests.inventory.VirusesTest" />
-	   <class name="com.biodata.labguru.tests.inventory.SequencesTest" />  
-	   <class name="com.biodata.labguru.tests.inventory.ZebrafishesTest" />
 	   <class name="com.biodata.labguru.tests.inventory.ShoppingListTest" />
 	   <class name="com.biodata.labguru.tests.inventory.purchasables.GenericCollectionTest" />
+	          <class name="com.biodata.labguru.tests.inventory.rodents.TreatmentsTest" />
+       <class name="com.biodata.labguru.tests.inventory.rodents.CagesTest" />
 
 
        <!-- 
