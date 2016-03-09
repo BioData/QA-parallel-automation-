@@ -215,6 +215,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		selectImportCollection();
 
 		String pathToImport = workingDir + LGConstants.ASSETS_FILES_DIRECTORY +  LGConstants.COLLECTIONS_IMPORT_DIRECTORY + "/"+ getFileNameToImport();
+		TimeUnit.SECONDS.sleep(5);
 		uploadFileToImport(pathToImport);
 		//wait maximum 5 minutes for the noty message that indicates that import finished
 		TimeUnit.MINUTES.sleep(5);

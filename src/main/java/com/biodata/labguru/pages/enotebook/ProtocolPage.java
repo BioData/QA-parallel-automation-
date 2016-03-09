@@ -126,14 +126,16 @@ public class ProtocolPage extends ExperimentPage{
 		dropType.click();
 		TimeUnit.SECONDS.sleep(2);
 
-		List <WebElement> typesList = getWebDriver().findElements(By.xpath(".//*[@id='select2-drop']/ul/li"));
+		List <WebElement> typesList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='select2-drop']/ul/li")));
 		int numOftypes = typesList.size();
 		dropType.click();
-		TimeUnit.SECONDS.sleep(2);
+		TimeUnit.SECONDS.sleep(3);
 		//create rows as the number of types (minus 1 because the first row is already exist)
 		for (int i = 1; i <= numOftypes; i++) {
 			
-			WebElement idElm = getWebDriver().findElement(By.id("sample_name"));
+			WebElement idElm = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+					(By.id("sample_name")));
 			String id = idElm.getAttribute("value");
 			String sampleId = "edit_sample_" + id;
 			Sample sample = addSamples(LGConstants.SAMPLE_PREFIX + id,i,sampleId);
@@ -178,18 +180,21 @@ public class ProtocolPage extends ExperimentPage{
 
 		Sample sample = new Sample();
 		
-		WebElement dropType =  getWebDriver().findElement(By.xpath(".//*[@id='"+ sampleRowId +"']/fieldset/ol/li[2]/div/a"));
+		WebElement dropType =  driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='"+ sampleRowId +"']/fieldset/ol/li[2]/div/a")));
 		dropType.click();
 		TimeUnit.SECONDS.sleep(2);
 		
 		
-		WebElement selectedType =  getWebDriver().findElement(By.xpath(".//*[@id='select2-drop']/ul/li["+ typeSelectionIndex + "]/div"));
+		WebElement selectedType = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='select2-drop']/ul/li["+ typeSelectionIndex + "]/div")));
 		String type = selectedType.getText();
 		sample.setType(type);
 		selectedType.click();
 		TimeUnit.SECONDS.sleep(4);
 
-		WebElement dropName =  getWebDriver().findElement(By.xpath(".//*[@id='"+ sampleRowId +"']/fieldset/ol/li[3]/div/a/span[1]"));
+		WebElement dropName =  driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='"+ sampleRowId +"']/fieldset/ol/li[3]/div/a/span[1]")));
 		dropName.click();
 		TimeUnit.SECONDS.sleep(4);
 
