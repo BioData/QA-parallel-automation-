@@ -20,7 +20,7 @@ import com.biodata.labguru.model.CollectionItem;
 import com.biodata.labguru.model.Stock;
 import com.biodata.labguru.pages.inventory.CollectionPage;
 import com.biodata.labguru.pages.inventory.purchasables.ConsumablesPage;
-import com.biodata.labguru.pages.inventory.purchasables.GenericCollectionPage;
+import com.biodata.labguru.pages.inventory.purchasables.sequenceable.GenericCollectionPage;
 import com.biodata.labguru.tests.AbstractLGTest;
 import com.biodata.labguru.tests.TestOrderRandomizer;
 
