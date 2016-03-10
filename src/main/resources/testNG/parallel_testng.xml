@@ -68,11 +68,11 @@
        <class name="com.biodata.labguru.tests.inventory.purchasables.VirusesTest" />
 	   <class name="com.biodata.labguru.tests.inventory.purchasables.ZebrafishesTest" />
 	   <class name="com.biodata.labguru.tests.inventory.ShoppingListTest" />
-	   	  <class name="com.biodata.labguru.pages.inventory.purchasables.sequenceable.PlasmidsTest" />  
-	   <class name="com.biodata.labguru.pages.inventory.purchasables.sequenceable.PrimersTest" />  
-	   <class name="com.biodata.labguru.pages.inventory.purchasables.sequenceable.ProteinsTest" />
-       <class name="com.biodata.labguru.pages.inventory.purchasables.sequenceable.GenesTest" />
-	   <class name="com.biodata.labguru.pages.inventory.purchasables.sequenceable.SequencesTest" />  
+	   	  <class name="com.biodata.labguru.tests.inventory.purchasables.sequenceable.PlasmidsTest" />  
+	   <class name="com.biodata.labguru.tests.inventory.purchasables.sequenceable.PrimersTest" />  
+	   <class name="com.biodata.labguru.tests.inventory.purchasables.sequenceable.ProteinsTest" />
+       <class name="com.biodata.labguru.tests.inventory.purchasables.sequenceable.GenesTest" />
+	   <class name="com.biodata.labguru.tests.inventory.purchasables.sequenceable.SequencesTest" />  
 	          <class name="com.biodata.labguru.tests.inventory.rodents.TreatmentsTest" />
        <class name="com.biodata.labguru.tests.inventory.rodents.CagesTest" /> 
        
