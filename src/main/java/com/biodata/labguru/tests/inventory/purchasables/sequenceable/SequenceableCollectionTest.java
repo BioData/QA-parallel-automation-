@@ -5,11 +5,14 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.util.Locale;
 
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.biodata.labguru.pages.inventory.purchasables.sequenceable.SequenceableCollectionPage;
+import com.biodata.labguru.tests.TestOrderRandomizer;
 import com.biodata.labguru.tests.inventory.purchasables.PurchasableCollectionTest;
 
+@Listeners(TestOrderRandomizer.class)
 public abstract class SequenceableCollectionTest extends PurchasableCollectionTest{
 
 	
