@@ -504,6 +504,9 @@ public class ProjectTest extends AbstractEnotebookTest{
 	public void archivedProject(){
 		
 		try {
+			//add 2 projects to get the right message for the projects list if this is the first test
+			showTableIndex();
+			addNewItem();
 			showTableIndex();
 			
 			String project = buildUniqueName(LGConstants.PROJECT_PREFIX);	
