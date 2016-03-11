@@ -36,7 +36,7 @@ public class VirusPage extends PurchasableCollectionPage{
 	}
 	
 	@Override
-	protected boolean isPurchasableEnabled() {
+	public boolean isPurchasableEnabled() {
 		
 		return false;
 	}

@@ -45,7 +45,7 @@ public abstract class PurchasableCollectionPage extends CollectionPage{
 	}
 	
 	//TODO
-	protected boolean isPurchasableEnabled() {
+	public boolean isPurchasableEnabled() {
 		
 		return true;
 	}

@@ -36,7 +36,7 @@ public class GenePage extends SequenceableCollectionPage{
 	}
 	
 	@Override
-	protected boolean isPurchasableEnabled() {
+	public boolean isPurchasableEnabled() {
 		
 		return false;
 	}

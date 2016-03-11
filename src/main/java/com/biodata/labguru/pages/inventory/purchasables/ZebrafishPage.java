@@ -30,7 +30,7 @@ public class ZebrafishPage extends PurchasableCollectionPage{
 	}
 	
 	@Override
-	protected boolean isPurchasableEnabled() {
+	public boolean isPurchasableEnabled() {
 		
 		return false;
 	}

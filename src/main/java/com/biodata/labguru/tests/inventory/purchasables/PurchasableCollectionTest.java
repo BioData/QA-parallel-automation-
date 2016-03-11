@@ -51,6 +51,10 @@ public abstract class PurchasableCollectionTest extends AbstractCollectionsTest{
 	public void searchItemInShoppingList(){
 		
 		try {
+			if(!((PurchasableCollectionPage )getPage()).isPurchasableEnabled()){
+				logger.info("Purchasable attributes are disabled - no test to run");
+				return;
+			}
 			showTableIndex();
 			
 			String newItem = addNewItem();
