@@ -36,6 +36,12 @@ public class VirusPage extends PurchasableCollectionPage{
 	}
 	
 	@Override
+	protected boolean isPurchasableEnabled() {
+		
+		return false;
+	}
+	
+	@Override
 	public List<String> getAvailableColumnsForCustomiseTableView() {
 		List<String> columns = super.getAvailableColumnsForCustomiseTableView();
 		columns.add("preferences_auto_name");//sysid

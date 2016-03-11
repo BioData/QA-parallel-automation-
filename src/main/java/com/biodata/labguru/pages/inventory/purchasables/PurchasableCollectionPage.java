@@ -33,13 +33,21 @@ public abstract class PurchasableCollectionPage extends CollectionPage{
 	public String addNewItem(String name){
 		
 		addItemWithGivenName(name);   
-		String catalogNum = GenericHelper.buildUniqueName("CAT");
-		addPurchasableFields("MANUFACT",catalogNum,"1","100","www.google.com");
+		if(isPurchasableEnabled()){
+			String catalogNum = GenericHelper.buildUniqueName("CAT");
+			addPurchasableFields("MANUFACT",catalogNum,"1","100","www.google.com");
+		}
 		addDescription(name);
         save();
         
         //wait for the noty message
         return waitForNotyMessage(".noty_text");
+	}
+	
+	//TODO
+	protected boolean isPurchasableEnabled() {
+		
+		return true;
 	}
 	
 	public String addItemSaveAndNew(String name) {

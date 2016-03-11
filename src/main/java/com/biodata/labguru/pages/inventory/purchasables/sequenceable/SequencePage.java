@@ -38,6 +38,12 @@ public class SequencePage extends SequenceableCollectionPage{
 	}
 	
 	@Override
+	protected boolean isPurchasableEnabled() {
+		
+		return false;
+	}
+	
+	@Override
 	public List<String> getAvailableColumnsForCustomiseTableView() {
 		List<String> columns = super.getAvailableColumnsForCustomiseTableView();
 		columns.add("preferences_sysid");//sysid
