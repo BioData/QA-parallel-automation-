@@ -277,9 +277,9 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 				btnAdd.click();
 				try {
 					TimeUnit.SECONDS.sleep(2);
-				} catch (InterruptedException e) {
+				}  catch (Exception e) {
 					
-					e.printStackTrace();
+					getLogger().debug(e.getMessage());
 				} 
 			}
 		}
