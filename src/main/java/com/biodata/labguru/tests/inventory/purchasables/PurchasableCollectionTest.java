@@ -36,22 +36,26 @@ public abstract class PurchasableCollectionTest extends AbstractCollectionsTest{
 	}
 	
 	protected void validateCommonFields(PurchasableCollectionItem newItem, PurchasableCollectionItem createdItem) {
+		boolean purchasableEnabled = ((PurchasableCollectionPage )getPage()).isPurchasableEnabled(getCollectionId());
+		
 		Assert.assertEquals(newItem.name,createdItem.name,"The created item was not created correctly");
 		Assert.assertEquals(newItem.owner,createdItem.owner,"The created item was not created correctly");
-		Assert.assertEquals(newItem.manufacturer,createdItem.manufacturer,"The created item was not created correctly");
-		Assert.assertEquals(newItem.catalogNum,createdItem.catalogNum,"The created item was not created correctly");
-		Assert.assertEquals(newItem.unit,createdItem.unit,"The created item was not created correctly");
-		Assert.assertEquals(newItem.price + " " + newItem.currency,createdItem.price  ,"The created item was not created correctly");
-		//Assert.assertEquals(newItem.webpage,createdItem.webpage,"The created item was not created correctly");
+		if(purchasableEnabled){
+		
+			Assert.assertEquals(newItem.manufacturer,createdItem.manufacturer,"The created item was not created correctly");
+			Assert.assertEquals(newItem.catalogNum,createdItem.catalogNum,"The created item was not created correctly");
+			Assert.assertEquals(newItem.unit,createdItem.unit,"The created item was not created correctly");
+			Assert.assertEquals(newItem.price + " " + newItem.currency,createdItem.price  ,"The created item was not created correctly");
+			//Assert.assertEquals(newItem.webpage,createdItem.webpage,"The created item was not created correctly");
+		}	
 		Assert.assertEquals(newItem.description,createdItem.description,"The created item was not created correctly");
 	}
-
 
 	@Test (groups = {"basic sanity"})
 	public void searchItemInShoppingList(){
 		
 		try {
-			if(!((PurchasableCollectionPage )getPage()).isPurchasableEnabled()){
+			if(!((PurchasableCollectionPage )getPage()).isPurchasableEnabled(getCollectionId())){
 				logger.info("Purchasable attributes are disabled - no test to run");
 				return;
 			}

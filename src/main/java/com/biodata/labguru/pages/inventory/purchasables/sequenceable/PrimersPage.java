@@ -31,7 +31,7 @@ public class PrimersPage extends SequenceableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.PRIMER_PREFIX;
+		return LGConstants.PRIMERS;
 	}
 	
 	@Override

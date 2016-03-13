@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -26,18 +25,24 @@ public class GenericCollectionPage extends SequenceableCollectionPage{
 		
 		try{
 			//first time to add item
-		    getWebDriver().findElement(By.xpath(".//*[@id='main-content']/div/div[1]/a[1]/b"));
+		    driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".empty_note")));
 			return false;
 			
-		}catch(NoSuchElementException ex){
+		}catch(Exception ex){
 			//not first item - look for button 'New ...'
 			return true;
 		}
 	}
 	
+	
 	@Override
 	protected String getCollectionName() {
-		return LGConstants.GENERIC_PREFIX;
+		return LGConstants.GENERIC_COLLECTION_NAME;
+	}
+	
+	@Override
+	protected String getCustomizeLinkXpath(String collectionName) {
+		return ".//*[starts-with(@id,'"+ LGConstants.GENERIC_PREFIX +"')]/a[2]";
 	}
 	
 	@Override

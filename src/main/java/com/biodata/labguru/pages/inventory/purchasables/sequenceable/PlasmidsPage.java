@@ -31,7 +31,7 @@ public class PlasmidsPage extends SequenceableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.PLASMID_PREFIX;
+		return LGConstants.PLASMIDS;
 	}
 	
 	@Override

@@ -32,12 +32,11 @@ public class GenePage extends SequenceableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.GENE_PREFIX;
+		return LGConstants.GENES;
 	}
 	
 	@Override
-	public boolean isPurchasableEnabled() {
-		
+	public boolean isPurchasableEnabled(String collectionName) {
 		return false;
 	}
 	

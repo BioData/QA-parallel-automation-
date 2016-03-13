@@ -34,7 +34,7 @@ public class WormPage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.WORM_PREFIX;
+		return LGConstants.WORMS;
 	}
 	
 	@Override

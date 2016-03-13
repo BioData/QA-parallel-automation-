@@ -27,7 +27,7 @@ public class FungiPage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.FUNGI_PREFIX;
+		return LGConstants.FUNGI;
 	}
 
 	@Override

@@ -63,7 +63,7 @@ public class LipidPage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.LIPID_PREFIX;
+		return LGConstants.LIPIDS;
 	}
 
 

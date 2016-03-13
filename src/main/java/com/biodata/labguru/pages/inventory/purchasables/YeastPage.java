@@ -33,7 +33,7 @@ public class YeastPage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.YEAST_PREFIX;
+		return LGConstants.YEASTS;
 	}
 	
 	@Override

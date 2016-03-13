@@ -32,6 +32,11 @@ public class ConsumablesPage extends PurchasableCollectionPage{
 	}
 	
 	@Override
+	public boolean isPurchasableEnabled(String collectionName) {
+		return true;
+	}
+	
+	@Override
 	public boolean hasList(){
 		
 		try{

@@ -34,7 +34,7 @@ public class ProteinPage extends SequenceableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.PROTEIN_PREFIX;
+		return LGConstants.PROTEINS;
 	}
 	
 	@Override

@@ -31,7 +31,7 @@ public class CellLinePage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.CELL_LINE_PREFIX;
+		return LGConstants.CELL_LINES;
 	}
 	
 	@Override

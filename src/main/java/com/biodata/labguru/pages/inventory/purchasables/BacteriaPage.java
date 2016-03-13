@@ -36,7 +36,7 @@ public class BacteriaPage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.BACTERIA_PREFIX;
+		return LGConstants.BACTERIA;
 	}
 	
 	@Override

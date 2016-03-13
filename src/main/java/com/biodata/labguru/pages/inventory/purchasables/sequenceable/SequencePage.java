@@ -38,8 +38,7 @@ public class SequencePage extends SequenceableCollectionPage{
 	}
 	
 	@Override
-	public boolean isPurchasableEnabled() {
-		
+	public boolean isPurchasableEnabled(String collectionName) {
 		return false;
 	}
 	
@@ -111,7 +110,7 @@ public class SequencePage extends SequenceableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.SEQUENCE_PREFIX;
+		return LGConstants.SEQUENCES;
 	}
 
 }

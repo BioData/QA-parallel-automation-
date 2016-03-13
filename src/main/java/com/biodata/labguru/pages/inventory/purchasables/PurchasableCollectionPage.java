@@ -32,11 +32,14 @@ public abstract class PurchasableCollectionPage extends CollectionPage{
 	@Override
 	public String addNewItem(String name){
 		
-		addItemWithGivenName(name);   
-		if(isPurchasableEnabled()){
-			String catalogNum = GenericHelper.buildUniqueName("CAT");
-			addPurchasableFields("MANUFACT",catalogNum,"1","100","www.google.com");
+		boolean isPurchasableEnabled = isPurchasableEnabled(getCollectionName());	
+		showCollection(getCollectionName());
+		
+		addItemWithGivenName(name);
+		if(isPurchasableEnabled){
+			addPurchasableFields("MANUFACT",GenericHelper.buildUniqueName("CAT"),"1","100","www.google.com");
 		}
+	
 		addDescription(name);
         save();
         
@@ -44,16 +47,47 @@ public abstract class PurchasableCollectionPage extends CollectionPage{
         return waitForNotyMessage(".noty_text");
 	}
 	
-	//TODO
-	public boolean isPurchasableEnabled() {
+
+
+	/**TODO -  check once per class
+	 *  check in customize fields of the collection if the purchasable field is enabled
+	 * @param collectionName
+	 * @return
+	 */
+	public boolean isPurchasableEnabled(String collectionName) {
 		
-		return true;
+		boolean enaabled = true;
+//		//go to collections settings
+//		showCollectionsAndSettings();
+//		//click on customize of current collection
+//		WebElement linkCustom = getWebDriver().findElement(By.xpath(getCustomizeLinkXpath(collectionName)));
+//		linkCustom.click();
+//		
+//		//look for purchasable attributes field to check if selected or not
+//		List <WebElement> defaultFields = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+//				(By.xpath(".//*[@class = 'default_fields config']/li")));
+//		for (int i = 1; i <= defaultFields.size(); i++) {
+//			WebElement fieldName = getWebDriver().findElement(By.xpath(".//*[@class = 'default_fields config']/li[" + i +"]/span"));
+//			if(fieldName.getText().equals(LGConstants.PURCHASABLE_ATTRIBUTES_FIELD)){
+//				WebElement checkbox = getWebDriver().findElement(By.xpath(".//*[@class = 'default_fields config']/li[" + i +"]/input"));
+//				enaabled = checkbox.isSelected();
+//				break;
+//			}
+//		}
+
+		return enaabled;
 	}
-	
+
 	public String addItemSaveAndNew(String name) {
-		addItemWithGivenName(name);   
-		String catalogNum = GenericHelper.buildUniqueName("CAT");
-		addPurchasableFields("MANUFACT",catalogNum,"1","100","www.google.com");
+	
+		boolean isPurchasableEnabled = isPurchasableEnabled(getCollectionName());				
+		showCollection(getCollectionName());
+		
+		addItemWithGivenName(name);
+		if(isPurchasableEnabled){
+
+			addPurchasableFields("MANUFACT",GenericHelper.buildUniqueName("CAT"),"1","100","www.google.com");
+		}
 		addDescription(name);
         saveAndNew();
         
@@ -70,44 +104,51 @@ public abstract class PurchasableCollectionPage extends CollectionPage{
 	
 	public PurchasableCollectionItem checkCreatedItem(PurchasableCollectionItem itemToCreate){
 
+		boolean isPurchasableEnabled = isPurchasableEnabled(getCollectionName());
+	
+		showCollection(getCollectionName());
+		
 		addItemWithGivenName(itemToCreate.name);  
-		addPurchasableFields(itemToCreate.manufacturer,itemToCreate.catalogNum,itemToCreate.unit,itemToCreate.price,itemToCreate.webpage);
+		if(isPurchasableEnabled){
+			addPurchasableFields(itemToCreate.manufacturer,itemToCreate.catalogNum,itemToCreate.unit,itemToCreate.price,itemToCreate.webpage);
+		}
+		
 		addDescription(itemToCreate.name);
         save();
         
         //load again show page to see that all data is saved well
-        PurchasableCollectionItem item = (PurchasableCollectionItem) loadData();
+        PurchasableCollectionItem item = (PurchasableCollectionItem) loadData(isPurchasableEnabled);
         
         return item;
 	}
 	
-	protected ICollectionItem loadData() {
+	protected ICollectionItem loadData(boolean isPurchasableEnabled) {
 		
 		PurchasableCollectionItem item = new PurchasableCollectionItem() ;
 		super.loadCollectionData(item);
-  
-        try {
-			WebElement txtManufacturer = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_manufacturer']/a"));
-			item.setManufacturer(txtManufacturer.getText());
-			
-			WebElement txtCatNum = getWebDriver().findElement(By.id("lg_info_tab_catalog_number"));
-			item.setCatalogNum(txtCatNum.getText());
-			
-			WebElement txtUnits = getWebDriver().findElement(By.id("lg_info_tab_units"));
-			item.setUnits(txtUnits.getText());
-			
-			WebElement txtPrice = getWebDriver().findElement(By.id("lg_info_tab_price"));
-			item.setPrice(txtPrice.getText());
-			
-			WebElement txtWebPage = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_web_page']/a"));
-			item.setWebpage(txtWebPage.getText());
-			
-		} catch (NoSuchElementException e) {
-			Assert.fail("One of the info fields is missing: " + e.getMessage(), e);
+		if(isPurchasableEnabled){
+	        try {
+				WebElement txtManufacturer = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_manufacturer']/a"));
+				item.setManufacturer(txtManufacturer.getText());
+				
+				WebElement txtCatNum = getWebDriver().findElement(By.id("lg_info_tab_catalog_number"));
+				item.setCatalogNum(txtCatNum.getText());
+				
+				WebElement txtUnits = getWebDriver().findElement(By.id("lg_info_tab_units"));
+				item.setUnits(txtUnits.getText());
+				
+				WebElement txtPrice = getWebDriver().findElement(By.id("lg_info_tab_price"));
+				item.setPrice(txtPrice.getText());
+				
+				WebElement txtWebPage = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_web_page']/a"));
+				item.setWebpage(txtWebPage.getText());
+				
+			} catch (NoSuchElementException e) {
+				Assert.fail("One of the info fields is missing: " + e.getMessage(), e);
+			}
 		}
         return item;
 	}
-
 
 	protected void addPurchasableFields(String manufacturer,String catalogNum, String unit, String price, String webpage ) {
 		

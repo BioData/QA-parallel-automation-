@@ -28,7 +28,7 @@ public class FlyPage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.FLIES_PREFIX;
+		return LGConstants.FLIES;
 	}
 
 	@Override

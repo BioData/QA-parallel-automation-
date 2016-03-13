@@ -27,7 +27,7 @@ public class VirusPage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.VIRUS_PREFIX;
+		return LGConstants.VIRUSES;
 	}
 
 	@Override
@@ -36,8 +36,7 @@ public class VirusPage extends PurchasableCollectionPage{
 	}
 	
 	@Override
-	public boolean isPurchasableEnabled() {
-		
+	public boolean isPurchasableEnabled(String collectionName) {
 		return false;
 	}
 	

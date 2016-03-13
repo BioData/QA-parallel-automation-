@@ -30,8 +30,7 @@ public class ZebrafishPage extends PurchasableCollectionPage{
 	}
 	
 	@Override
-	public boolean isPurchasableEnabled() {
-		
+	public boolean isPurchasableEnabled(String collectionName) {
 		return false;
 	}
 	
@@ -67,7 +66,7 @@ public class ZebrafishPage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.ZEBRAFISH_PREFIX;
+		return LGConstants.ZEBRAFISHES;
 	}
 
 }

@@ -35,7 +35,7 @@ public class TissuePage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.TISSUE_PREFIX;
+		return LGConstants.TISSUES;
 	}
 	
 	@Override

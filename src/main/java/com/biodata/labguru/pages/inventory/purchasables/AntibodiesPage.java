@@ -88,7 +88,7 @@ public class AntibodiesPage extends PurchasableCollectionPage{
 	@Override
 	protected String getCollectionName() {
 		
-		return LGConstants.ANTIBODY_PREFIX;
+		return LGConstants.ANTIBODIES;
 	}
 
 }
