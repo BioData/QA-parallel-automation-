@@ -40,7 +40,7 @@ public class LoginPage extends BasePage{
 	    //set the screen dimention to work well from jenkins (on ubuntu server using xvfb)
 	    //getWebDriver().manage().window().setSize(new Dimension(1440,755));
 	    //getWebDriver().manage().window().setSize(new Dimension(1280,800));
-	    checkForNotyMessage(By.cssSelector(".noty_text"));
+	    checkForNotyMessage();
 	    return title;
 	}
 	
@@ -60,7 +60,7 @@ public class LoginPage extends BasePage{
 	    btnSignIn.click();
 	    TimeUnit.SECONDS.sleep(1);
 
-	    String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+	    String msg = checkForNotyMessage();
 		return msg;
 	}
 
@@ -96,7 +96,7 @@ public class LoginPage extends BasePage{
 		 TimeUnit.SECONDS.sleep(3);
 		 
 		 //if joining to lab failed with a mssage - return false
-		 String failedMsg = checkForNotyMessage(By.cssSelector(".noty_message"));
+		 String failedMsg = checkForNotyMessage();
 		 if(!failedMsg.isEmpty())
 			 return false;
 		 
@@ -169,7 +169,7 @@ public class LoginPage extends BasePage{
 		WebElement btnReset = getWebDriver().findElement(By.id("submit-btn"));
 		btnReset.click();
 		TimeUnit.SECONDS.sleep(1);
-		checkForNotyMessage(By.cssSelector(".noty_text"));
+		checkForNotyMessage();
 		
 		return checkEmailResetPassRecieved(newPassword);
 	}
@@ -203,7 +203,7 @@ public class LoginPage extends BasePage{
 						WebElement btn = getWebDriver().findElement(By.id("login_btn"));
 						btn.click();
 						TimeUnit.SECONDS.sleep(1);
-						return checkForNotyMessage(By.cssSelector(".noty_text"));
+						return checkForNotyMessage();
 					}
 				}
 			} catch (Exception e) {

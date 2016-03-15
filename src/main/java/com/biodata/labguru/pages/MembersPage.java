@@ -35,7 +35,7 @@ public class MembersPage extends BasePage{
         btnSave.click();
         TimeUnit.SECONDS.sleep(1);
         
-		String msg = checkForNotyMessage(By.cssSelector(".noty_message"));
+		String msg = checkForNotyMessage();
 		return msg;
 	}
 

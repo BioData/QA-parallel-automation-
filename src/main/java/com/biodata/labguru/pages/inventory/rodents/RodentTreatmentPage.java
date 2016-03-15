@@ -165,7 +165,7 @@ public class RodentTreatmentPage extends AdminPage{
 		
 		applyTreatment() ;
 		
-		return checkForNotyMessage(By.cssSelector(".noty_text"));
+		return checkForNotyMessage();
 	}
 	
 	private void uncheckSelectedSpecimens() {

@@ -102,7 +102,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		saveAsProtocolBtn.click();
 		TimeUnit.SECONDS.sleep(2);
 		switchToNewTab();
-		String msg = checkForNotyMessage(By.cssSelector(".noty_message"));
+		String msg = checkForNotyMessage();
 		return msg;
 		
 	}
@@ -129,7 +129,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		TimeUnit.SECONDS.sleep(2);
 		
 		
-		checkForNotyMessage(By.cssSelector(".noty_text"));	
+		checkForNotyMessage();	
 		return !searchExperiment(expName,false/*no loading*/);
 		
 	}
@@ -201,7 +201,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		duplicateBtn.click();
 		TimeUnit.SECONDS.sleep(2);
 		switchToNewTab();
-		checkForNotyMessage(By.cssSelector(".noty_message"));
+		checkForNotyMessage();
 		
 		 WebElement pageTitle = getWebDriver().findElement(By.xpath(".//*[@id='projects_experiment_title_input']/span"));
 	     String newName = pageTitle.getText();
@@ -243,7 +243,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		}
 		
 		
-		checkForNotyMessage(By.cssSelector(".noty_text"));
+		checkForNotyMessage();
 		
 		WebElement newAssign = getWebDriver().findElement(By.xpath(".//*[@id='assign']/span/em"));
 		String account = newAssign.getText();
@@ -1388,7 +1388,8 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	private void revertToolbarAction(String sectionIndex, String rel, String platform) throws InterruptedException {
 		
 		selectTextAndToggleFontAction(sectionIndex,platform);
-		getWebDriver().findElement(By.xpath(".//*[@rel='"+ rel + "']")).click();
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@rel='"+ rel + "']"))).click();
 		TimeUnit.SECONDS.sleep(2);
 	}
 }

@@ -27,7 +27,7 @@ public class DashboardPage extends AdminPage{
 		btnSubmit.submit();
 
 		
-		String msg = checkForNotyMessage(By.cssSelector(".noty_message"));
+		String msg = checkForNotyMessage();
 		return msg;
 	
 	}

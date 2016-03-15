@@ -15,7 +15,7 @@ public class BaseStoragePage extends AdminPage{
 		
 		openDeleteArchivePopup(delete);
 		
-		String msg = waitForNotyMessage(".noty_text");		
+		String msg = checkForNotyMessage();
 		return msg;
 
 	}

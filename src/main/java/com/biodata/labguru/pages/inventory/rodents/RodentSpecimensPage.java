@@ -92,7 +92,7 @@ public class RodentSpecimensPage extends RodentPage{
 	    save();
 	    TimeUnit.SECONDS.sleep(1); 
 	    getWebDriver().switchTo().activeElement();
-	    checkForNotyMessage(By.cssSelector(".noty_text"));
+	    checkForNotyMessage();
 	    
 	    WebElement pageTitle =driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
 	    return pageTitle.getText();

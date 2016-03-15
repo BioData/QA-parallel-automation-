@@ -101,7 +101,7 @@ public class ConsumablesPage extends PurchasableCollectionPage{
 			break;
 		}
 		
-		String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+		String msg = checkForNotyMessage();
 		return msg;
 	}
 	
@@ -223,7 +223,7 @@ public class ConsumablesPage extends PurchasableCollectionPage{
         save();
         
         //wait for the noty message
-        String msg =  waitForNotyMessage(".noty_text");
+        String msg = checkForNotyMessage();
         
         WebElement producedByLabel = getWebDriver().findElement(By.id("lg_info_tab_produced_by"));
         if(producedByLabel.getText().equals("Automated"))
@@ -247,7 +247,7 @@ public class ConsumablesPage extends PurchasableCollectionPage{
 				break;
 			}
 		}
-		String msg = checkForNotyMessage(By.cssSelector(".noty_text")) ;
+		String msg = checkForNotyMessage() ;
 		return msg;
 	}
 }

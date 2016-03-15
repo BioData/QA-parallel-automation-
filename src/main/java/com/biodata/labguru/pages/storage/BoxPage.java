@@ -42,7 +42,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		setMandatoryFields(boxName, amount);
 
 		save();
-		checkForNotyMessage(By.cssSelector(".noty_text"));
+		checkForNotyMessage();
 		try {
 			WebElement pageTitle = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='page-title']")));
 			return pageTitle.getText();

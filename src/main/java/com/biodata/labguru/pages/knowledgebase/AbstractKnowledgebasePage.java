@@ -58,7 +58,7 @@ public abstract class AbstractKnowledgebasePage extends AdminPage implements ILi
 		
 		executeJavascript("$('.icon.icon-lock').click();");
 	   
-		String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+		String msg = checkForNotyMessage();
 
 		return msg.endsWith("Archived");
 	}

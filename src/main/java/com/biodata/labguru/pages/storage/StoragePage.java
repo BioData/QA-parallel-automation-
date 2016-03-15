@@ -149,7 +149,7 @@ public class StoragePage extends AdminPage{
 			TimeUnit.SECONDS.sleep(1);
 			checkForAlerts();
 			
-			return checkForNotyMessage(By.cssSelector(".noty_text"));
+			return checkForNotyMessage();
 		}
 		return "storage not found";
 	}

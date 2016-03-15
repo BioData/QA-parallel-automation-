@@ -68,7 +68,7 @@ public class PaperPage extends AbstractKnowledgebasePage{
 		sendKeys(txtPaperName, paperName);
 		saveAndNew();
 	     //wait for the noty message
-        String msg = waitForNotyMessage(".noty_text");
+        String msg = checkForNotyMessage();
         //check we are again in the new item page
         try {
 			getWebDriver().findElement(By.xpath(".//*[@value='Save & New']"));

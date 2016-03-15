@@ -44,7 +44,7 @@ public abstract class PurchasableCollectionPage extends CollectionPage{
         save();
         
         //wait for the noty message
-        return waitForNotyMessage(".noty_text");
+        return checkForNotyMessage();
 	}
 	
 
@@ -92,7 +92,7 @@ public abstract class PurchasableCollectionPage extends CollectionPage{
         saveAndNew();
         
         //wait for the noty message
-        String msg = waitForNotyMessage(".noty_text");
+        String msg = checkForNotyMessage();
         //check we are again in the new item page
         try {
 			getWebDriver().findElement(By.xpath(".//*[@value='Save & New']"));

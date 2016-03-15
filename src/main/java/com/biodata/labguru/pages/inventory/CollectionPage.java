@@ -197,7 +197,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
         save();
         
         //wait for the noty message
-        return waitForNotyMessage(".noty_text");
+        return checkForNotyMessage();
 	}
 	
 	protected void addDescription(String name){
@@ -219,7 +219,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		uploadFileToImport(pathToImport);
 		//wait maximum 5 minutes for the noty message that indicates that import finished
 		TimeUnit.MINUTES.sleep(5);
-        String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+        String msg = checkForNotyMessage();
 
 	    return msg;
 	}
@@ -379,7 +379,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		//load again the generated  template to see if all custom fields were crearted
 		String pathToImport = workingDir + LGConstants.ASSETS_FILES_DIRECTORY +  LGConstants.COLLECTIONS_TEMPLATES_DIRECTORY+ "/" + LGConstants.OUTPUT_EXCEL_FILE;
 		uploadFileToImport(pathToImport);	
-	    return waitForNotyMessage(".noty_text");
+	    return checkForNotyMessage();
 	}
 
 	private String downloadCollectionTemplate() throws InterruptedException {
@@ -464,7 +464,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		
 		checkForAlerts();
 		
-		String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+		String msg = checkForNotyMessage();
 		TimeUnit.SECONDS.sleep(3); 
 		return msg;
 		
@@ -753,7 +753,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
         saveAndNew();
         
         //wait for the noty message
-        String msg = waitForNotyMessage(".noty_text");
+        String msg = checkForNotyMessage();
         //check we are again in the new item page
         try {
 			getWebDriver().findElement(By.xpath(".//*[@value='Save & New']"));

@@ -189,7 +189,7 @@ public abstract class BasePage {
 		
 		save();
 		
-		String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+		String msg = checkForNotyMessage();
 		TimeUnit.SECONDS.sleep(3); 
 		return msg;
 		
@@ -263,7 +263,7 @@ public abstract class BasePage {
 		
 		checkForAlerts();
 		
-		String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+		String msg = checkForNotyMessage();
 		return msg;
 	}
 	
@@ -403,7 +403,7 @@ public abstract class BasePage {
 		
 	public String addTask(String taskTitle) throws InterruptedException{
 		
-		checkForNotyMessage(By.cssSelector(".noty_message"));
+		checkForNotyMessage();
 		
 		WebElement btnAddTask = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add-task-link"))); 
 		btnAddTask.click();
@@ -517,9 +517,9 @@ public abstract class BasePage {
 		}
 	}
 	
-    protected String checkForNotyMessage(By locator) {
+    protected String checkForNotyMessage() {
 		try {
-			WebElement upperMsg = driverWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+			WebElement upperMsg = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(LGConstants.NOTY_TEXT_CLASS_NAME)));
 			String msg = upperMsg.getText();				
 			upperMsg.click();
 			TimeUnit.SECONDS.sleep(2);
@@ -817,12 +817,6 @@ public abstract class BasePage {
 		
 	}
 	
-	protected String waitForNotyMessage(String cssSelector) {
-	       WebElement notyMsg = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
-	        String msg = notyMsg.getText();
-	        notyMsg.click();
-			return msg;
-	}
 	
 	protected void save() {	
 		try {

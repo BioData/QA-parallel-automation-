@@ -52,7 +52,7 @@ public class AccountSettingsPage extends AdminPage{
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("Save"))).click();	
 		checkForAlerts();
 		
-		checkForNotyMessage(By.cssSelector(".noty_text"));
+		checkForNotyMessage();
 	}
 	
 	public void setTimeZone() {
@@ -133,7 +133,7 @@ public class AccountSettingsPage extends AdminPage{
 		btnSave.click();
 		TimeUnit.SECONDS.sleep(1);
 		
-		String msg = checkForNotyMessage(By.cssSelector(".noty_message"));
+		String msg = checkForNotyMessage();
 		
 		return msg;
 	}
@@ -158,7 +158,7 @@ public class AccountSettingsPage extends AdminPage{
 		btnUpdate.click();
 		TimeUnit.SECONDS.sleep(1);
 		
-		String msg = checkForNotyMessage(By.cssSelector(".noty_message"));
+		String msg = checkForNotyMessage();
 		return msg;
 	}
 	
@@ -213,7 +213,7 @@ public class AccountSettingsPage extends AdminPage{
 		btnExport.click();
 		TimeUnit.SECONDS.sleep(1);
 		//if we click on export in the last 24 hours - noty msg is shown 
-		String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+		String msg = checkForNotyMessage();
 		TimeUnit.SECONDS.sleep(2);
 		if(msg.equals("")){//export can continue
 			WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='export_cont']/h3")));		

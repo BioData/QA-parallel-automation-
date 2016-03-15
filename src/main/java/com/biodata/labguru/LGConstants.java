@@ -9,6 +9,8 @@ public final class LGConstants {
 	
 	public static final String WOOOPS_MESSAGE = "Whooooops";
 	
+	public static final String NOTY_TEXT_CLASS_NAME = ".noty_text";
+	
 	public static final String GMAIL_SUFFIX_MAIL = "@gmail.com";
 	public static final String QA_PREFIX_MAIL = "labguru.qa+";
 	public static final String BIODATA_MEMBER_NAME = "automation";

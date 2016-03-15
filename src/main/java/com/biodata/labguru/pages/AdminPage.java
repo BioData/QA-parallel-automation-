@@ -564,7 +564,7 @@ public class AdminPage extends BasePage{
 	
 	public String inviteFriendToLabguru(String friend) throws InterruptedException {
 		
-		checkForNotyMessage(By.cssSelector(".noty_message"));
+		checkForNotyMessage();
 		
 		WebElement referralIcon = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("referral-icon")));
 		referralIcon.click();
@@ -579,7 +579,7 @@ public class AdminPage extends BasePage{
 		btnSend.click();
 		btnSend.click();
 		TimeUnit.SECONDS.sleep(2);
-		String msg = waitForNotyMessage(".noty_text");
+		String msg = checkForNotyMessage();
 	
 		return msg;
 	}
@@ -722,7 +722,7 @@ public class AdminPage extends BasePage{
 		save();
 		
 		//wait for the noty message
-        String msg = waitForNotyMessage(".noty_text");
+        String msg = checkForNotyMessage();
       
         return msg;
 	}
@@ -890,7 +890,7 @@ public class AdminPage extends BasePage{
 
 	public void discardNotyMessages() {
 		
-		checkForNotyMessage(By.cssSelector(".noty_message"));
+		checkForNotyMessage();
 
 	}
 

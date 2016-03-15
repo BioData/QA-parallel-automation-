@@ -82,7 +82,7 @@ public class SequencePage extends SequenceableCollectionPage{
         save();
         
         //wait for the noty message
-        String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+        String msg = checkForNotyMessage();
 		       
         selectSequenceTab();
         
@@ -94,7 +94,7 @@ public class SequencePage extends SequenceableCollectionPage{
 		//check that the feature was added
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='myCollection_body']/table/tbody/tr[2]/td[1]")));
 		
-		String msgFeature = checkForNotyMessage(By.cssSelector(".noty_text"));
+		String msgFeature = checkForNotyMessage();
 		if(msgFeature.isEmpty())
 			return msgFeature;//feature did not created successfully
 		return msg;

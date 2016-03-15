@@ -87,6 +87,15 @@ public class SequencesTest extends SequenceableCollectionTest{
 	@Override
 	@Test (enabled = false)//no import for sequence.
 	public void addCustomFieldAndGenerateCollectionTemplate(){
+		// not implemented - no import for sequence
+		throw new UnsupportedOperationException("This action is not supported by this collection.");	
+	}
+	
+	@Override
+	@Test (enabled = false)//no add sequence from tab in sequence.
+	public void addNewSequenceFromSequencesTab(){
+		// not implemented - no import for sequence
+		throw new UnsupportedOperationException("This action is not supported by this collection.");
 	}
 	
 	@Override

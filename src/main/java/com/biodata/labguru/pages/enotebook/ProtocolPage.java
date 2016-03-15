@@ -308,7 +308,7 @@ public class ProtocolPage extends ExperimentPage{
 					
 					return fullTitle.equals(selectedName);
 				} catch (Exception e) {
-					return !(checkForNotyMessage(By.cssSelector(".noty_text")).equals("Cannot load protocol data"));
+					return !(checkForNotyMessage().equals("Cannot load protocol data"));
 				}
 			}
 		}
@@ -383,7 +383,7 @@ public class ProtocolPage extends ExperimentPage{
 	
 		TimeUnit.SECONDS.sleep(1);
 		
-		String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+		String msg = checkForNotyMessage();
 		return msg;
 	}
 	
@@ -441,7 +441,7 @@ public class ProtocolPage extends ExperimentPage{
 			
 		}
 
-		String msg = checkForNotyMessage(By.cssSelector(".noty_text"));
+		String msg = checkForNotyMessage();
 		return msg;
 		
 	}
