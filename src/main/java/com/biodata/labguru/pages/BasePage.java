@@ -255,7 +255,7 @@ public abstract class BasePage {
         TimeUnit.SECONDS.sleep(3);
       
 	}
-	public String deleteFromShowPage(String createdEquipment) throws InterruptedException {
+	public String deleteFromShowPage() throws InterruptedException {
 		
 		WebElement editBtn = getWebDriver().findElement(By.id("delete-item"));
 		editBtn.click();

@@ -887,6 +887,14 @@ public class AdminPage extends BasePage{
 		selected.click();
 		TimeUnit.SECONDS.sleep(3);
 	}
+	
+	public void goToRecentlyViewed() throws InterruptedException {
+		
+		WebElement recentViewLink = getWebDriver().findElement(By.xpath(".//*[@id='history_items']/ul/li[1]/a"));
+		recentViewLink.click();
+		TimeUnit.SECONDS.sleep(2);
+		
+	}
 
 	public void discardNotyMessages() {
 		

@@ -715,14 +715,6 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		
 	}
 
-	public void goToRecentlyViewed() throws InterruptedException {
-		
-		WebElement recentViewLink = getWebDriver().findElement(By.xpath(".//*[@id='history_items']/ul/li[1]/a"));
-		recentViewLink.click();
-		TimeUnit.SECONDS.sleep(2);
-		
-	}
-
 	public String checkCustomizeTableView() throws InterruptedException {
 
         //select all available columns

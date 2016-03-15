@@ -228,6 +228,6 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		getPageManager().getProtocolPage().showProtocols();
 		getPage().searchForItemInList(protocol);
 		getPageManager().getProtocolPage().selectProtocol();
-		getPageManager().getProtocolPage().deleteFromShowPage(protocol);
+		getPageManager().getProtocolPage().deleteFromShowPage();
 	}
 }
