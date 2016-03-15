@@ -226,5 +226,35 @@ public class StoragePage extends AdminPage{
 		WebElement btnEdit = getWebDriver().findElement(By.xpath(".//*[@id='edit_link']/span"));
 		btnEdit.click();
 	}
+	
+	/**
+	 * Look for the given box name in the tree and check it
+	 * @param boxName
+	 * @throws InterruptedException 
+	 */
+	public void selectBoxNodeWithName(String boxName) throws InterruptedException {
+
+		List<WebElement> levelOneFolders = getWebDriver().findElements(By.xpath(".//*[@id='storages_tree']/ul/li"));
+		for (int i = 1; i <= levelOneFolders.size(); i++) {
+			WebElement level = getWebDriver().findElement(By.xpath(".//*[@id='storages_tree']/ul/li[" + i + "]/div/span/span"));
+			if(level.getAttribute("class").equals("unstored_boxes")){
+				WebElement toggler = getWebDriver().findElement(By.xpath(".//*[@id='storages_tree']/ul/li[" + i + "]/div/a"));
+				toggler.click();
+				TimeUnit.SECONDS.sleep(1);
+				break;
+			}
+		}
+		
+		//find the given box to check
+		List <WebElement> boxes= getWebDriver().findElements(By.xpath(".//*[starts-with(@id,'box_')]"));
+		for (WebElement box : boxes) {
+			if(box.getText().equals(boxName)){
+				box.click();
+				TimeUnit.SECONDS.sleep(2);
+				break;
+			}
+		}
+	
+	}
 
 }

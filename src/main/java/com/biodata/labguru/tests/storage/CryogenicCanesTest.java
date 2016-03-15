@@ -54,7 +54,7 @@ public class CryogenicCanesTest extends AbstractStoragesTest{
 		
 		try {
 			showTableIndex();
-			String created = addNewItem();
+			addNewItem();
 		
 			String msg = getPageManager().getCryogenicPage().deleteFromShowPage();
 			AssertJUnit.assertTrue(!msg.isEmpty());

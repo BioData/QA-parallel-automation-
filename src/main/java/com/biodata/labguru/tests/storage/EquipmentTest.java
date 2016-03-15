@@ -92,7 +92,7 @@ public class EquipmentTest extends AbstractStoragesTest{
 			addNewItem();
 			showTableIndex();
 			String name = buildUniqueName(LGConstants.EQUIPMENT_PREFIX);
-			String createdEquipment = getPageManager().getEquipmentPage().addNewEquipment(name);
+			getPageManager().getEquipmentPage().addNewEquipment(name);
 		
 			String msg = getPageManager().getEquipmentPage().deleteFromShowPage();
 			AssertJUnit.assertEquals(getMessageSource().getMessage("equipment.delete.msg", null,Locale.US), msg);

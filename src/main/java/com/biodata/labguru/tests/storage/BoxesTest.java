@@ -51,7 +51,7 @@ public class BoxesTest extends AbstractStoragesTest{
 		
 		try {
 			showTableIndex();
-			String createdBox = addNewItem();
+			addNewItem();
 		
 			String msg = getPageManager().getBoxPage().deleteFromShowPage();
 			AssertJUnit.assertTrue(!msg.isEmpty());

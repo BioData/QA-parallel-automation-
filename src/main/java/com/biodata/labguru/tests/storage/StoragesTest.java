@@ -1,5 +1,7 @@
 package com.biodata.labguru.tests.storage;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import java.util.Locale;
 
 import org.testng.AssertJUnit;
@@ -120,6 +122,34 @@ public class StoragesTest extends BaseTest{
 			setLog(e, "changeStorageLocation");
 			AssertJUnit.fail(e.getMessage());
 			
+		}
+	}
+	
+	@Test (groups = {"deep"})
+	public void selectBoxStorage(){
+		
+		try {
+			
+			//add new box to manipulate in the tree
+			String boxName = buildUniqueName(LGConstants.BOX_PREFIX);
+			getPageManager().getBoxPage().addNewBox(boxName, "1");
+			
+			//go to storage tree and select the box in the tree
+			getPageManager().getAdminPage().showStorages();
+			getPageManager().getStoragePage().selectBoxNodeWithName(boxName);
+			
+			//add stock to box from storage view
+			String stockToAdd = buildUniqueName(LGConstants.STOCK_PREFIX);
+			
+			String pageTitle = getPageManager().getBoxPage().addStockFromBox(stockToAdd);
+			assertEquals(pageTitle,stockToAdd);
+			
+			//delete after test is finished (go to box from the stock page
+			getPageManager().getAdminPage().goToRecentlyViewed();
+			getPageManager().getBoxPage().deleteFromShowPage();
+		}  catch (Exception e) {
+			setLog(e, "selectBoxStorage");
+			AssertJUnit.fail(e.getMessage());
 		}
 	}
 }

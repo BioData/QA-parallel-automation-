@@ -39,6 +39,7 @@ public class CryogenicCanePage extends BaseStoragePage implements ITableView{
 		return msg;
 	}
 
+	
 	public boolean hasList() {
 		//try to find the add cryogenic button which appears only when we already have canes defined.
 		try {
