@@ -13,7 +13,7 @@ import com.biodata.labguru.pages.inventory.purchasables.PurchasableCollectionPag
 public abstract class SequenceableCollectionPage extends PurchasableCollectionPage{
 
 	
-	protected void selectSequenceTab() throws InterruptedException {
+	protected void selectSequencesTab() throws InterruptedException {
 		
 		 WebElement tabSeq = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tabs-sequences-link")));
 	     tabSeq.click();
@@ -39,7 +39,7 @@ public abstract class SequenceableCollectionPage extends PurchasableCollectionPa
         //wait for the noty message
         String msg = checkForNotyMessage();
 		       
-        selectSequenceTab();
+        selectSequencesTab();
         
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tabs-sequences")));
 		
@@ -109,7 +109,7 @@ public abstract class SequenceableCollectionPage extends PurchasableCollectionPa
 	 */
 	public String addNewSequenceFromSequencesTab(String seqName) throws InterruptedException {
 		
-		selectSequenceTab();
+		selectSequencesTab();
 		
 		clickOnButton("add_new_sequence");
 		TimeUnit.SECONDS.sleep(2);
@@ -134,7 +134,7 @@ public abstract class SequenceableCollectionPage extends PurchasableCollectionPa
 			TimeUnit.SECONDS.sleep(2);
 		}	
 		
-		selectSequenceTab();
+		selectSequencesTab();
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tabs-sequences")));
 		
 		List<WebElement> seqList = getWebDriver().findElements(By.xpath(".//*[@id='myCollection_body']/table/tbody/tr"));
