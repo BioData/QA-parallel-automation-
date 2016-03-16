@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.biodata.labguru.LGConstants;
+import com.biodata.labguru.LGConstants.SeqTypes;
 
 
 public class GenericCollectionPage extends SequenceableCollectionPage{
@@ -160,5 +161,64 @@ public class GenericCollectionPage extends SequenceableCollectionPage{
 			TimeUnit.SECONDS.sleep(1);
 		}
 	}
+	
+	/**
+	 * Create new generic item with sequence according to given type
+	 * @param name - name of sequence
+	 * @param type - type of sequence (DNA,RNA,Protein)
+	 * @return the type of created seq
+	 * @throws InterruptedException
+	 */
+	public String addNewItemWithSequence(String name,SeqTypes type) throws InterruptedException {
+		
+		addItemWithGivenName(name);    
+
+		addSequenceByType(type);
+		
+        save();
+        
+        //wait for the noty message
+        checkForNotyMessage();
+		       
+        selectSequencesTab();
+        
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tabs-sequences")));
+		
+		List<WebElement> seqList = getWebDriver().findElements(By.xpath(".//*[@id='myCollection_body']/table/tbody/tr"));
+		for (int i = 2; i <= seqList.size(); i++) {
+			
+			WebElement typeElem = getWebDriver().findElement(By.xpath(".//*[@id='myCollection_body']/table/tbody/tr[" + i + "]/td[2]/p"));
+			if(typeElem.getText().equals(SeqTypes.getTypeName(type)))
+				return typeElem.getText();
+		}
+		return "wrong type set";
+  
+	}
+	
+	private void addSequenceByType(SeqTypes type) {
+		
+		switch (type) {
+			case DNA_TYPE:
+				addSequence("TGGCGAATGGGACGCGCCCTGTAGCGGCGCATTAAGCGCGGCGGGTGTGGTGGTTACGCGCAGCGTGACCGCTACA");
+				break;
+			case RNA_TYPE:
+				addSequence("GAGAUAUAGAGAGCACAUUUA");	
+						break;
+			case PROTEIN_TYPE:
+				addSequence("GAGAUAUAGAGAGCACAUUUALSSUSFEDTTSGBCDJD");
+				break;
+			default:
+				break;
+		}
+		
+	}
+	
+	private void addSequence(String sequence) {
+		
+		WebElement txtSeq = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[starts-with(@id,'seq')][starts-with(@class,'txt-field')]")));
+		txtSeq.sendKeys(sequence);
+	}
+
 
 }

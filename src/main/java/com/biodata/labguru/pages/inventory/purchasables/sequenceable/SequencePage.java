@@ -84,7 +84,7 @@ public class SequencePage extends SequenceableCollectionPage{
         //wait for the noty message
         String msg = checkForNotyMessage();
 		       
-        selectSequenceTab();
+        selectSequencesTab();
         
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("tabs-sequences")));
         

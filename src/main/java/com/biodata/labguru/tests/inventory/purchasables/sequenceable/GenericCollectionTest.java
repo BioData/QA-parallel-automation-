@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
+import com.biodata.labguru.LGConstants.SeqTypes;
 import com.biodata.labguru.pages.inventory.purchasables.PurchasableCollectionPage;
 import com.biodata.labguru.pages.inventory.purchasables.sequenceable.SequenceableCollectionPage;
 import com.biodata.labguru.tests.TestOrderRandomizer;
@@ -87,7 +88,26 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 			 assertEquals(addedSequence, seqToAdd);
 		
 		}catch (Exception e) {
-			setLog(e,"addNewItemWithSequence");
+			setLog(e,"addNewSequenceFromSequencesTab");
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"deep"})
+	public void addDifferentTypesOfSequence(){
+		
+		try {
+			String collectionName = LGConstants.GENERIC_COLLECTION_NAME;
+			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
+			
+			((SequenceableCollectionPage) getPage()).checkCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
+
+			addSequenceByType(collectionName,SeqTypes.DNA_TYPE);
+			addSequenceByType(collectionName,SeqTypes.RNA_TYPE);
+			addSequenceByType(collectionName,SeqTypes.PROTEIN_TYPE);
+			 
+		}catch (Exception e) {
+			setLog(e,"addDifferentTypesOfSequence");
 			Assert.fail(e.getMessage());
 		}
 	}
@@ -375,6 +395,21 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 		return "";
 	}
 
-
+	/**
+	 * Create new item and add sequnce from the given type.Check that the given type is shown in the sequence table
+	 * @param collectionName the generic collection name
+	 * @param type of sequence to create
+	 * @throws InterruptedException
+	 */
+	private void addSequenceByType(String collectionName,SeqTypes type) throws InterruptedException {
+		
+		getPageManager().getAdminPage().showCollection(collectionName);
+		
+		String name = buildUniqueName(getPrefix()) + " with " +SeqTypes.getTypeName(type) +  " sequence";
+		
+		//create sequence acording to givem type
+		String createdType = getPageManager().getGenericCollectionPage().addNewItemWithSequence(name,type);	
+		assertEquals(createdType,SeqTypes.getTypeName(type));
+	}
 
 }

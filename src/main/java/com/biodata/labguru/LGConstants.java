@@ -241,7 +241,25 @@ public final class LGConstants {
 	public static final String SEQUENCE_FIELD = "Sequence";
 
 
-
+	//sequences types enum
+	public static enum SeqTypes{
+		DNA_TYPE,RNA_TYPE,PROTEIN_TYPE;
+		
+		
+		public static String getTypeName(SeqTypes type) {
+			switch(type) {
+			   case DNA_TYPE:			
+		            return "DNA";			
+		        case RNA_TYPE:		
+		            return "RNA";			
+		        case PROTEIN_TYPE:			
+		            return "Protein";							
+		        default:			
+			        return "";
+			}
+ 
+		}
+	}
 
 
 	//calendar days
