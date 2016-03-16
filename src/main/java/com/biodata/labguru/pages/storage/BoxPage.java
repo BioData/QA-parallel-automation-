@@ -228,18 +228,18 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		addStock(stockName,1);
 
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("BoxViewTable")));
-		List<WebElement> tableCells =  getWebDriver().findElements(By.xpath(".//*[@id='BoxViewTable']/tbody/tr"));
-		for (int cellIndex = 2; cellIndex <= tableCells.size();)  {
-			WebElement linkName = getWebDriver().findElement(By.xpath(".//*[@id='BoxViewTable']/tbody/tr[2]/td["+cellIndex + "]/div/div[1]/a"));
-			String shortName = linkName.getText();
+		List<WebElement> existingStocks =  getWebDriver().findElements(By.cssSelector(".existing_stock"));
+		for (WebElement stockElm : existingStocks) {
+			String shortName = stockElm.getText();
 			if(shortName.contains("."))
 				shortName = shortName.substring(0, shortName.indexOf("."));
 			if(stockName.startsWith(shortName)){
-				linkName.click();
+				stockElm.click();
 				WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='page-title']")));
 				return title.getText();
 			}
 		}
+
 		return "Opps...Something went wrong";
 	}
 
@@ -272,17 +272,14 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 	public void addStock(String stockName,int numOfStocks) throws InterruptedException {
 		
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("BoxViewTable")));
-		List<WebElement> tableCells =  getWebDriver().findElements(By.xpath(".//*[@id='BoxViewTable']/tbody/tr"));
 		int i=0;
-		
-		for (int cellIndex = 2; cellIndex <= tableCells.size();) {
-			WebElement topElem = getWebDriver().findElement(By.xpath(".//*[@id='BoxViewTable']/tbody/tr[2]/td["+cellIndex + "]/div/div/a"));
+		List<WebElement> emptyCells =  getWebDriver().findElements(By.cssSelector(".open_fancy"));
+		for (WebElement cell : emptyCells) {
 			if(i < numOfStocks){
-				topElem.click();
+				cell.click();
 				TimeUnit.SECONDS.sleep(2);
 				openStockSelectionDialogFromBoxPage(stockName, LGConstants.TUBE);		
 				i++;
-				cellIndex++;
 			}else{
 				break;
 			}
@@ -681,5 +678,19 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		
 	}
 
+	@Override
+	public String deleteFromShowPage() throws InterruptedException {
+		String msg = super.deleteFromShowPage();
+		try{
+			//look if it has a second warning(when there are stocks in the box) for delete action - if has-click ok
+			WebElement ok = getWebDriver().findElement(By.xpath(".//*[@id='main-content']/div/fieldset/form/div/li/input"));
+			ok.click();
+			TimeUnit.SECONDS.sleep(2);
+			msg =  checkForNotyMessage();
+		}catch(NoSuchElementException e){
+			//if no second message (no stocks were in the box) - continue
+		}
+		return msg;
+	}
 
 }

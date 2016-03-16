@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.Locale;
 
+import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -126,7 +127,7 @@ public class StoragesTest extends BaseTest{
 	}
 	
 	@Test (groups = {"deep"})
-	public void selectBoxStorage(){
+	public void testBoxStorage(){
 		
 		try {
 			
@@ -135,9 +136,23 @@ public class StoragesTest extends BaseTest{
 			getPageManager().getBoxPage().addNewBox(boxName, "1");
 			
 			//go to storage tree and select the box in the tree
-			getPageManager().getAdminPage().showStorages();
-			getPageManager().getStoragePage().selectBoxNodeWithName(boxName);
+			showStorageAndSelectBox(boxName);
+
+			//delete stock from tableview
+			String stockToDelete = "stockToDelete";
+			String notyMsg = getPageManager().getBoxPage().deleteArchiveStockFromTableView(stockToDelete,true);
+			assertEquals(getMessageSource().getMessage("boxes.stock.deleted.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
+			//archive stock from boxview
+			String stockToArchive = "stockToArchive";
+			notyMsg = getPageManager().getBoxPage().deleteArchiveStockFromBoxView(stockToArchive,false);
+			assertEquals(getMessageSource().getMessage("boxes.stock.archived.msg",new Object[]{"1"}, Locale.US), notyMsg);
+			
+			//check the edit stock from tableview
+			String stockToEdit = "editStockFromBoxTableView";			
+			Assert.assertTrue(getPageManager().getBoxPage().editStockFromBoxTableView(stockToEdit), "The stock was not edited as expected.");
+
+			showStorageAndSelectBox(boxName);
 			//add stock to box from storage view
 			String stockToAdd = buildUniqueName(LGConstants.STOCK_PREFIX);
 			
@@ -148,8 +163,15 @@ public class StoragesTest extends BaseTest{
 			getPageManager().getAdminPage().goToRecentlyViewed();
 			getPageManager().getBoxPage().deleteFromShowPage();
 		}  catch (Exception e) {
-			setLog(e, "selectBoxStorage");
+			setLog(e, "testBoxStorage");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
+	
+	private void showStorageAndSelectBox(String boxName) throws InterruptedException {
+		
+		getPageManager().getAdminPage().showStorages();
+		getPageManager().getStoragePage().selectBoxNodeWithName(boxName);
+	}
+
 }
