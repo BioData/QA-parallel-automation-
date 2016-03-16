@@ -239,9 +239,11 @@ public class StoragePage extends AdminPage{
 			WebElement level = getWebDriver().findElement(By.xpath(".//*[@id='storages_tree']/ul/li[" + i + "]/div/span/span"));
 			if(level.getAttribute("class").equals("unstored_boxes")){
 				WebElement toggler = getWebDriver().findElement(By.xpath(".//*[@id='storages_tree']/ul/li[" + i + "]/div/a"));
-				toggler.click();
-				TimeUnit.SECONDS.sleep(1);
-				break;
+				if(toggler.getAttribute("class").contains("jqtree-closed")){
+					toggler.click();
+					TimeUnit.SECONDS.sleep(1);
+					break;
+				}
 			}
 		}
 		
@@ -249,12 +251,15 @@ public class StoragePage extends AdminPage{
 		List <WebElement> boxes= getWebDriver().findElements(By.xpath(".//*[starts-with(@id,'box_')]"));
 		for (WebElement box : boxes) {
 			if(box.getText().equals(boxName)){
-				box.click();
-				TimeUnit.SECONDS.sleep(2);
+				WebElement selected = getWebDriver().findElement(By.cssSelector(".jqtree-selected>div>span>span"));
+				if(!selected.getText().equals(boxName)){
+					box.click();
+					TimeUnit.SECONDS.sleep(2);
+					break;
+				}
 				break;
 			}
 		}
-	
 	}
 
 }
