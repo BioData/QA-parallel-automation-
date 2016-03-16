@@ -239,6 +239,8 @@ public final class LGConstants {
 	//Generic custom fields
 	public static final String PURCHASABLE_ATTRIBUTES_FIELD = "Purchasable Attributes";
 	public static final String SEQUENCE_FIELD = "Sequence";
+	
+	public static final String SEARCH_TEXT = "Lorem";
 
 
 	//sequences types enum

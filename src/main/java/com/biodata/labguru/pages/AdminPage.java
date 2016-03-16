@@ -874,6 +874,27 @@ public class AdminPage extends BasePage{
 			return " elastic search not working";
 		}
 	}
+	
+	public String searchTextFromAttachment(String strToSearch) throws InterruptedException {
+		
+		
+		searchFromElasticSearch(strToSearch);
+		
+		List<WebElement> blockHeaders = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@class='results-list']/li")));
+		for (int i = 1; i <= blockHeaders.size(); i++) {
+			WebElement header = getWebDriver().findElement(By.xpath(".//*[@class='results-list']/li[" + i + "]"));
+			String label = header.getText();
+			if(label.equals("Attachment")){
+				WebElement resourceName = getWebDriver().findElement(By.xpath(".//*[@class='results-list']/h4[" + i + "]/a"));
+				return resourceName.getText();
+			}		
+		}
+			
+		//no Attachment found - elastic search not working for attachments
+		return "Elastic search did not find the text in attachment";
+		
+	}
 
 	public void selectFromExperimentDropdown(String selectionId) throws InterruptedException {
 		

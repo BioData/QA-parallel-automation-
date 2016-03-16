@@ -204,4 +204,20 @@ public class DashboardTest extends AbstractHomeTest{
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
+	
+	@Test(groups = {"deep"})
+	public void checkElasticSearchInAttachment(){
+		
+		try {
+			getPageManager().getAdminPage().showDashboard();
+			getPageManager().getDashboardPage().addNewExperiment(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
+			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_CURRENT);
+			getPageManager().getDashboardPage().uploadFile();
+			String text = getPageManager().getAdminPage().searchTextFromAttachment(LGConstants.SEARCH_TEXT);
+			Assert.assertEquals(text, LGConstants.UPLOAD_TXT_TEST_FILENAME);
+		}catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
 }
