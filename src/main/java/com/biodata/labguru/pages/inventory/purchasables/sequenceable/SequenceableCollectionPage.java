@@ -147,6 +147,11 @@ public abstract class SequenceableCollectionPage extends PurchasableCollectionPa
 		return "seq not added";
 	}
 	
+	/**
+	 * select the given custom field checkbox in the customize fields settings
+	 * @param fieldName
+	 * @param collectionName
+	 */
 	public void checkCustomField(String fieldName,String collectionName){
 		
 		showCollectionsAndSettings();
