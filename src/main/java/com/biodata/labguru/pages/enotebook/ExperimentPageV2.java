@@ -158,7 +158,8 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		clickOnUpperMenuAction(moveItemActionId);
 		
 		openMoveDialog(newProject);
-		
+		refreshPage();
+
 		WebElement projectLink = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.xpath(".//*[@id='breadcrumb-briefcase']/span")));
 		String projectName = projectLink.getText();
