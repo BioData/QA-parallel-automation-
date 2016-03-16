@@ -146,4 +146,28 @@ public abstract class SequenceableCollectionPage extends PurchasableCollectionPa
 		
 		return "seq not added";
 	}
+	
+	public void checkCustomField(String fieldName,String collectionName){
+		
+		showCollectionsAndSettings();
+		//click on customize of current collection
+		WebElement linkCustom = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(getCustomizeLinkXpath(collectionName))));
+		linkCustom.click();
+		
+		//look for purchasable attributes field to check if selected or not
+		List <WebElement> defaultFields = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@class = 'default_fields config']/li")));
+		for (int i = 1; i <= defaultFields.size(); i++) {
+			WebElement fieldNameElm = getWebDriver().findElement(By.xpath(".//*[@class = 'default_fields config']/li[" + i +"]/span"));
+			if(fieldNameElm.getText().equals(fieldName)){
+				WebElement checkbox = getWebDriver().findElement(By.xpath(".//*[@class = 'default_fields config']/li[" + i +"]/input"));
+				if(!checkbox.isSelected()){
+					checkbox.click();
+					break;
+				}
+				
+			}
+		}
+	}
 }

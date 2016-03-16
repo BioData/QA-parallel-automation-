@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.pages.inventory.purchasables.PurchasableCollectionPage;
+import com.biodata.labguru.pages.inventory.purchasables.sequenceable.SequenceableCollectionPage;
 import com.biodata.labguru.tests.TestOrderRandomizer;
 
 @Listeners(TestOrderRandomizer.class)
@@ -41,6 +42,31 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 	@Override
 	protected String getPrefix() {
 		return LGConstants.GENERIC_COLLECTION_PREFIX;
+	}
+	
+	@Override
+	@Test (groups = {"deep"})
+	public void addNewItemWithSequence(){
+		
+		
+		try {
+			String collectionName = LGConstants.GENERIC_COLLECTION_NAME;
+			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
+			
+			((SequenceableCollectionPage) getPage()).checkCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
+
+			getPageManager().getAdminPage().showCollection(collectionName);
+			String name = buildUniqueName(getPrefix()) + " with sequence";
+			
+			String msg = ((SequenceableCollectionPage) getPage()).addNewItemWithSequence(name);
+			
+			// Check the title of the page
+			 assertEquals(getMessageSource().getMessage("collection.created.msg",new Object[]{collectionName}, Locale.US), msg.trim());
+			
+		} catch (Exception e) {
+			setLog(e,"addNewItemWithSequence");
+			Assert.fail(e.getMessage());
+		}	
 	}
 	
 	@Override

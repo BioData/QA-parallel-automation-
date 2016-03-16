@@ -236,7 +236,9 @@ public final class LGConstants {
 
 	public static final String PAGE_NOT_FOUND = "Page not found";
 
+	//Generic custom fields
 	public static final String PURCHASABLE_ATTRIBUTES_FIELD = "Purchasable Attributes";
+	public static final String SEQUENCE_FIELD = "Sequence";
 
 
 
