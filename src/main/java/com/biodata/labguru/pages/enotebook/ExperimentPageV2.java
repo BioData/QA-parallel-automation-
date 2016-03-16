@@ -1357,12 +1357,12 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		selectTextAndToggleFontAction(sectionIndex,platform);
 		
-		checkTextForAction(sectionIndex,"bold",BOLD_HTML_TAG,platform);//check bold
-		checkTextForAction(sectionIndex,"italic",ITALIC_HTML_TAG,platform);//check italic
-		checkTextForAction(sectionIndex,"underline",UNDERLINE_HTML_TAG,platform);//check underline
-		checkTextForAction(sectionIndex,"deleted",DELETED_HTML_TAG,platform);//check deleted
-		checkTextForAction(sectionIndex,"superscript",SUPER_HTML_TAG,platform);//check super script
-		checkTextForAction(sectionIndex,"subscript",SUB_HTML_TAG,platform);//check sub script
+		checkTextForAction(sectionIndex,"re-bold",BOLD_HTML_TAG,platform);//check bold
+		checkTextForAction(sectionIndex,"re-italic",ITALIC_HTML_TAG,platform);//check italic
+		checkTextForAction(sectionIndex,"re-underline",UNDERLINE_HTML_TAG,platform);//check underline
+		checkTextForAction(sectionIndex,"re-deleted",DELETED_HTML_TAG,platform);//check deleted
+		checkTextForAction(sectionIndex,"re-superscript",SUPER_HTML_TAG,platform);//check super script
+		checkTextForAction(sectionIndex,"re-subscript",SUB_HTML_TAG,platform);//check sub script
 		return true;
 	}
 
@@ -1375,31 +1375,26 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 	}
 
-	protected void checkTextForAction(String sectionIndex,String rel,String tagToCheck,String platform) throws InterruptedException {
+	protected void checkTextForAction(String sectionIndex,String relClass,String tagToCheck,String platform) throws InterruptedException {
 
-		//make the text bold
-		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@rel='"+ rel + "']"))).click();
+		//click on the action to activate (bold,italic ,etc)
+		String script = "$('#section_toolbar_" + sectionIndex + ">div>ul>li>.re-icon." + relClass + "').click();";
+		executeJavascript(script);
 		TimeUnit.SECONDS.sleep(1);
-		saveSection(sectionIndex);
-		
-		//check that the text is bold
+
+		//check that the text is as ment to be
 		try {
 			driverWait.until(ExpectedConditions.visibilityOfElementLocated
-					(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/p/" + tagToCheck+ "")));	
-			revertToolbarAction(sectionIndex,rel,platform);
+					(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/div/p/" + tagToCheck+ "")));	
+			TimeUnit.SECONDS.sleep(1);
+			//revert action
+			executeJavascript(script);
 			TimeUnit.SECONDS.sleep(2);
 		} catch (Exception e) {
-			//element strong not foung - bold did not succeeded
-			getLogger().debug(e.getMessage());
-			Assert.fail(rel + " action did not succeeded");
+			//element not found- toolbar action did not succeeded
+			getLogger().info(e.getMessage());
+			Assert.fail(relClass + " action did not succeeded");
 		}
 	}
 
-	private void revertToolbarAction(String sectionIndex, String rel, String platform) throws InterruptedException {
-		
-		selectTextAndToggleFontAction(sectionIndex,platform);
-		driverWait.until(ExpectedConditions.visibilityOfElementLocated
-				(By.xpath(".//*[@rel='"+ rel + "']"))).click();
-		TimeUnit.SECONDS.sleep(2);
-	}
 }
