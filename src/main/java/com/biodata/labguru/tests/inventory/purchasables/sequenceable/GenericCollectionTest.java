@@ -70,6 +70,29 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 	}
 	
 	@Override
+	@Test (groups = {"deep"})
+	public void addNewSequenceFromSequencesTab(){
+		
+		try {
+			String collectionName = LGConstants.GENERIC_COLLECTION_NAME;
+			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
+			
+			((SequenceableCollectionPage) getPage()).checkCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
+
+			addNewItem();
+			String seqToAdd = buildUniqueName(LGConstants.SEQUENCE_PREFIX);
+			String addedSequence = ((SequenceableCollectionPage) getPage()).addNewSequenceFromSequencesTab(seqToAdd);
+			
+			// Check the title of the page
+			 assertEquals(addedSequence, seqToAdd);
+		
+		}catch (Exception e) {
+			setLog(e,"addNewItemWithSequence");
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Override
 	public void showMenu(){
 
 		try {
