@@ -72,7 +72,7 @@ public class CryogenicCanesTest extends AbstractStoragesTest{
 			
 			showTableIndex();
 			if(getPageManager().getCryogenicPage().hasList()){
-				getPageManager().getCryogenicPage().deleteAllItemsFromTable();
+				getPageManager().getAdminPage().deleteAllItemsFromTable();
 				showTableIndex();
 			}
 
