@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.util.Locale;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -16,6 +17,12 @@ import com.biodata.labguru.tests.inventory.purchasables.PurchasableCollectionTes
 @Listeners(TestOrderRandomizer.class)
 public abstract class SequenceableCollectionTest extends PurchasableCollectionTest{
 
+	@BeforeClass( dependsOnMethods = "initialize")
+	public void checkSequenceCustomField(){
+		
+		((SequenceableCollectionPage) getPage()).enableCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
+	}
+	
 	
 	@Test (groups = {"deep"})
 	public void addNewItemWithSequence(){

@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 import com.biodata.labguru.GenericHelper;
+import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.model.ICollectionItem;
 import com.biodata.labguru.model.PurchasableCollectionItem;
 import com.biodata.labguru.pages.inventory.CollectionPage;
@@ -17,15 +18,18 @@ import com.biodata.labguru.pages.inventory.CollectionPage;
 
 public abstract class PurchasableCollectionPage extends CollectionPage{
 	
+	protected  Boolean purchasableEnabled = null;
 	
 	@Override
 	public List<String> getAvailableColumnsForCustomiseTableView() {
 		List<String> columns = super.getAvailableColumnsForCustomiseTableView();
-		columns.add("preferences_manufacturer");
-		columns.add("preferences_catalog_number");
-		columns.add("preferences_units");
-		columns.add("preferences_price");
-		columns.add("preferences_web_page");
+		if(isPurchasableEnabled(getCollectionName())){
+			columns.add("preferences_manufacturer");
+			columns.add("preferences_catalog_number");
+			columns.add("preferences_units");
+			columns.add("preferences_price");
+			columns.add("preferences_web_page");
+		}
 		return columns;
 	}
 	
@@ -49,33 +53,41 @@ public abstract class PurchasableCollectionPage extends CollectionPage{
 	
 
 
-	/**TODO -  check once per class
+	/** check once per class
 	 *  check in customize fields of the collection if the purchasable field is enabled
 	 * @param collectionName
 	 * @return
 	 */
 	public boolean isPurchasableEnabled(String collectionName) {
 		
-		boolean enaabled = true;
-//		//go to collections settings
-//		showCollectionsAndSettings();
-//		//click on customize of current collection
-//		WebElement linkCustom = getWebDriver().findElement(By.xpath(getCustomizeLinkXpath(collectionName)));
-//		linkCustom.click();
-//		
-//		//look for purchasable attributes field to check if selected or not
-//		List <WebElement> defaultFields = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-//				(By.xpath(".//*[@class = 'default_fields config']/li")));
-//		for (int i = 1; i <= defaultFields.size(); i++) {
-//			WebElement fieldName = getWebDriver().findElement(By.xpath(".//*[@class = 'default_fields config']/li[" + i +"]/span"));
-//			if(fieldName.getText().equals(LGConstants.PURCHASABLE_ATTRIBUTES_FIELD)){
-//				WebElement checkbox = getWebDriver().findElement(By.xpath(".//*[@class = 'default_fields config']/li[" + i +"]/input"));
-//				enaabled = checkbox.isSelected();
-//				break;
-//			}
-//		}
+		//if we already checked the purchasable attributes status - don't check again
+		if(purchasableEnabled != null)
+			return purchasableEnabled.booleanValue();
+		
+		String currentUrl = getWebDriver().getCurrentUrl();
+		//go to collections settings
+		showCollectionsAndSettings();
+		//click on customize of current collection
+		WebElement linkCustom = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(getCustomizeLinkXpath(collectionName))));
+		linkCustom.click();
+		
+		//look for purchasable attributes field to check if selected or not
+		List <WebElement> defaultFields = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@class = 'default_fields config']/li")));
+		for (int i = 1; i <= defaultFields.size(); i++) {
+			WebElement fieldName = getWebDriver().findElement(By.xpath(".//*[@class = 'default_fields config']/li[" + i +"]/span"));
+			if(fieldName.getText().equals(LGConstants.PURCHASABLE_ATTRIBUTES_FIELD)){
+				WebElement checkbox = getWebDriver().findElement(By.xpath(".//*[@class = 'default_fields config']/li[" + i +"]/input"));
+				purchasableEnabled = Boolean.valueOf(checkbox.isSelected());
+				break;
+			}
+		}
 
-		return enaabled;
+		getWebDriver().get(currentUrl);
+		waitForPageCompleteLoading();
+		
+		return purchasableEnabled.booleanValue();
 	}
 
 	public String addItemSaveAndNew(String name) {

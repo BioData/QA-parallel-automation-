@@ -54,7 +54,7 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 			String collectionName = LGConstants.GENERIC_COLLECTION_NAME;
 			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
 			
-			((SequenceableCollectionPage) getPage()).checkCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
+			((SequenceableCollectionPage) getPage()).enableCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
 
 			getPageManager().getAdminPage().showCollection(collectionName);
 			String name = buildUniqueName(getPrefix()) + " with sequence";
@@ -78,7 +78,7 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 			String collectionName = LGConstants.GENERIC_COLLECTION_NAME;
 			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
 			
-			((SequenceableCollectionPage) getPage()).checkCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
+			((SequenceableCollectionPage) getPage()).enableCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
 
 			addNewItem();
 			String seqToAdd = buildUniqueName(LGConstants.SEQUENCE_PREFIX);
@@ -100,7 +100,7 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 			String collectionName = LGConstants.GENERIC_COLLECTION_NAME;
 			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
 			
-			((SequenceableCollectionPage) getPage()).checkCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
+			((SequenceableCollectionPage) getPage()).enableCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
 
 			addSequenceByType(collectionName,SeqTypes.DNA_TYPE);
 			addSequenceByType(collectionName,SeqTypes.RNA_TYPE);

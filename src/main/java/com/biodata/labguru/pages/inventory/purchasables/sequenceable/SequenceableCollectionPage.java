@@ -12,6 +12,7 @@ import com.biodata.labguru.pages.inventory.purchasables.PurchasableCollectionPag
 
 public abstract class SequenceableCollectionPage extends PurchasableCollectionPage{
 
+	protected static Boolean sequenceEnabled = null;
 	
 	protected void selectSequencesTab() throws InterruptedException {
 		
@@ -23,10 +24,47 @@ public abstract class SequenceableCollectionPage extends PurchasableCollectionPa
 	@Override
 	public List<String> getAvailableColumnsForCustomiseTableView() {
 		List<String> columns = super.getAvailableColumnsForCustomiseTableView();
-		columns.add("preferences_sequence");
+		if(isSequenceEnabled(getCollectionName())){
+			columns.add("preferences_sequence");
+		}
 		return columns;
 	}
 	
+	/** check once per class
+	 *  check in customize fields of the collection if the sequence field is enabled
+	 * @param collectionName
+	 * @return
+	 */
+	public boolean isSequenceEnabled(String collectionName) {
+		
+		//if we already checked the sequence status - don't check again
+		if(sequenceEnabled != null)
+			return sequenceEnabled.booleanValue();
+		
+		String currentUrl = getWebDriver().getCurrentUrl();
+		//go to collections settings
+		showCollectionsAndSettings();
+		//click on customize of current collection
+		WebElement linkCustom = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(getCustomizeLinkXpath(collectionName))));
+		linkCustom.click();
+		
+		//look for purchasable attributes field to check if selected or not
+		List <WebElement> defaultFields = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@class = 'default_fields config']/li")));
+		for (int i = 1; i <= defaultFields.size(); i++) {
+			WebElement fieldName = getWebDriver().findElement(By.xpath(".//*[@class = 'default_fields config']/li[" + i +"]/span"));
+			if(fieldName.getText().equals(LGConstants.SEQUENCE_FIELD)){
+				WebElement checkbox = getWebDriver().findElement(By.xpath(".//*[@class = 'default_fields config']/li[" + i +"]/input"));
+				sequenceEnabled = Boolean.valueOf(checkbox.isSelected());
+				break;
+			}
+		}
+		getWebDriver().get(currentUrl);
+		waitForPageCompleteLoading();
+		
+		return sequenceEnabled.booleanValue();
+	}
 	
 	public String addNewItemWithSequence(String plasmidName) throws InterruptedException {
 		
@@ -148,11 +186,11 @@ public abstract class SequenceableCollectionPage extends PurchasableCollectionPa
 	}
 	
 	/**
-	 * select the given custom field checkbox in the customize fields settings
+	 * select the given custom field checkbox in the customize fields settings to enable it
 	 * @param fieldName
 	 * @param collectionName
 	 */
-	public void checkCustomField(String fieldName,String collectionName){
+	public void enableCustomField(String fieldName,String collectionName){
 		
 		showCollectionsAndSettings();
 		//click on customize of current collection
