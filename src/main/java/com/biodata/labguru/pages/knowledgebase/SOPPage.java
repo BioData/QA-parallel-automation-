@@ -203,17 +203,22 @@ public class SOPPage extends DocumentPage{
 		
 	}
 	
-//	@Override
-//	public String activateArchivedItemFromNotyMessage() throws InterruptedException{
-//		
-//		executeJavascript("$('.icon.icon-lock').click();");
-//		
-//		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
-//		executeJavascript("$('.noty_text')[1].getElementsByTagName('a')[0].click();");
-//
-//		TimeUnit.SECONDS.sleep(2);
-//		WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
-//		
-//		return title.getText();
-//	}
+	@Override
+	public String activateArchivedItemFromNotyMessage() throws InterruptedException{
+		
+		//first archive sop
+		WebElement btnArchive = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='doctools']/ul/li[2]/a")));
+		btnArchive.click();
+	
+		//remove first message
+		checkForNotyMessage();
+		
+		//click on 'activate' link
+		getWebDriver().findElement(By.xpath(".//*[@class='noty_text']/a")).click();
+
+		TimeUnit.SECONDS.sleep(2);
+
+		String msg = checkForNotyMessage();
+		return msg;
+	}
 }
