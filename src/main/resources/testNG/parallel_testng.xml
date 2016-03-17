@@ -15,7 +15,7 @@
 		<run>
 			<include name="basic sanity"></include>
 			<exclude name="v2"></exclude>
-			<exclude name="deep"></exclude>
+			<include name="deep"></include>
 			<exclude name="scarlet"></exclude>
 			<exclude name="special"></exclude>
 			
