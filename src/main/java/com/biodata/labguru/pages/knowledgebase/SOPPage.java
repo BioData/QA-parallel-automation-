@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -59,7 +58,7 @@ public class SOPPage extends DocumentPage{
 
 			TimeUnit.SECONDS.sleep(2);
 			
-		}catch(NoSuchElementException ex){
+		}catch(Exception ex){
 			//first document -  it automaticaly open in new document page - do nothing
 			
 		}
