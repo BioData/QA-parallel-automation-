@@ -140,5 +140,19 @@ public class ShoppingListTest extends BaseTest{
 			Assert.fail(e.getMessage());
 		}
 	}
+	
+	@Test(groups = {"basic sanity"})
+	public void markOrderAsCancelled(){
+		
+		try {
+
+			getPageManager().getAdminPage().showShoppingList();		
+
+			assertTrue(getPageManager().getShoppingListPage().markOrderAsCancelled("None"/*without box*/));
+		}  catch (Exception e) {
+			setLog(e,"markOrderAsCancelled");
+			Assert.fail(e.getMessage());
+		}
+	}
 
 }

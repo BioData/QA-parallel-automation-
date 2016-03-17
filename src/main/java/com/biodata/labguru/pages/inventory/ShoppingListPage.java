@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -22,7 +21,7 @@ public class ShoppingListPage extends AdminPage{
 	
 	
 	public String addNewServiceRequest(){
-	
+		
 		WebElement btnAddRequest = getWebDriver().findElement(By.xpath(".//*[@id='service_requests_data']/a"));
 		btnAddRequest.click();
 	        
@@ -45,51 +44,36 @@ public class ShoppingListPage extends AdminPage{
         getWebDriver().switchTo().activeElement();
        
         //get the noty message
-        WebElement notyMsg = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_message")));
+        String notyMsg = checkForNotyMessage();
 
-		return notyMsg.getText();
+		return notyMsg;
 	}
 
 	public String approveOrder() {
 		
 		//go over the list and find the first 'Approve' button
-		List<WebElement> items = getWebDriver().findElements(By.xpath(".//*[@id='shopping_list_data']/div/div[2]/div/table/tbody/tr"));
-		for (int j = 3; j <= items.size(); j++) {
-			try {
-				//take the id and concat it to the id of the button
-				WebElement idElm = getWebDriver().findElement(By.xpath(".//*[@id='shopping_list_data']/div/div[2]/div/table/tbody/tr["+j+"]/td[2]"));
-				String id = idElm.getText();			
-				WebElement btnApprove = getWebDriver().findElement(By.id("approve_" + id));
-				btnApprove.click();
-				btnApprove = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("submit_" + id)));
-				return btnApprove.getAttribute("value");
-			} catch (NoSuchElementException e) {
-				continue;
-			}
-			
+		List<WebElement> approveButtons = getWebDriver().findElements(By.cssSelector(".btn.approve_order[value='Approve Order']"));
+		for (WebElement btnApprove : approveButtons) {
+			String id = getId(btnApprove);
+			btnApprove.click();
+			btnApprove = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn.approve_order[value='Submit Order'][id^='submit_" + id + "']")));
+			return btnApprove.getAttribute("value");
 		}
+		
 		return "Could not approve - no button found";
 	}
 
 	public String approveAndSubmitOrder() {
 		
 		//go over the list and find the first 'Approve &Submit' button
-		List<WebElement> items = getWebDriver().findElements(By.xpath(".//*[@id='shopping_list_data']/div/div[2]/div/table/tbody/tr"));
-		for (int j = 3; j <= items.size(); j++) {
-			//take the id and concat it to the id of the button
-			WebElement idElm = getWebDriver().findElement(By.xpath(".//*[@id='shopping_list_data']/div/div[2]/div/table/tbody/tr["+j+"]/td[2]"));
-			
-			String id = idElm.getText();
-			try {
-				WebElement btnApprove = getWebDriver().findElement(By.id("approve_and_submit_" + id));
-				btnApprove.click();
-				//after approve&submit - we look for the 'mark as arrived' button
-				btnApprove = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='lineitem_"+ id + "']/td[8]/center/a")));
-				return btnApprove.getText();
-			} catch (NoSuchElementException e) {
-				continue;
-			}
-			
+		List<WebElement> appSubBtns = getWebDriver().findElements(By.cssSelector(".btn.approve_order[value='Approve & Submit Order']"));
+		for (WebElement btnApprove : appSubBtns) {		
+			String id = getId(btnApprove);
+			btnApprove.click();
+			//after approve&submit - we look for the 'mark as arrived' button
+			btnApprove = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".order_arrived.mark_as_arrived[id^='mark_as_arrived_" + id + "']")));
+			return btnApprove.getText();
+
 		}	
 		return "Could not approve&submit - no button found";
 	}
@@ -97,34 +81,38 @@ public class ShoppingListPage extends AdminPage{
 
 	public boolean markOrderAsArrived(String boxName) throws InterruptedException {
 		
-		//go over the list and find the first 'Marked as Arrived' button
-		List<WebElement> items = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//*[@id='shopping_list_data']/div/div[2]/div/table/tbody/tr")));
-		for (int j = 3; j <= items.size(); j++) {
-			try {
-				
-				WebElement idElm = getWebDriver().findElement(By.xpath(".//*[@id='shopping_list_data']/div/div[2]/div/table/tbody/tr["+j+"]/td[2]"));
-				String id = idElm.getText();
-			
-				WebElement btnMarkedArrive =  getWebDriver().findElement(By.xpath(".//*[@id='lineitem_"+ id + "']/td[8]/center/a"));
-				
-				WebElement txtNameOfArrived = getWebDriver().findElement(By.xpath(".//*[@name='lineitem_" + id + "']"));
-				String nameToSearch = txtNameOfArrived.getText();
-				btnMarkedArrive.click();
-				 
-				if(btnMarkedArrive.getAttribute("class").equals("open_fancy fancybox.ajax order_arrived mark_as_arrived")){
-					//open the storage selection dialog to select location for item
-					openStockSelectionDialogFromShoppingList("stock1",boxName) ;	
-					
-				}
+		
+		//go over the list and find the first 'Mark as arrived' button
+		List<WebElement> btns = getWebDriver().findElements(By.cssSelector(".order_arrived.mark_as_arrived"));
+		for (WebElement btnMarkedArrive : btns) {	
+			String id = getId(btnMarkedArrive);
+			String nameToSearch = getWebDriver().findElement(By.cssSelector(".item_details>tbody>tr>td>b>a[name^='lineitem_" + id + "']")).getText();
+			btnMarkedArrive.click();
+			TimeUnit.SECONDS.sleep(2);
+			//open the storage selection dialog to select location for item
+			openStockSelectionDialogFromShoppingList("stock1",boxName) ;	
+			TimeUnit.SECONDS.sleep(5);
+			return searchInOrderList(nameToSearch);
+		}
+		
+		return false;
+	}
 	
-				TimeUnit.SECONDS.sleep(5);
-				return searchInOrderList(nameToSearch);
-	
-			} catch (NoSuchElementException e) {	
-				continue;
-			}
-			
-		}	
+	public boolean markOrderAsCancelled(String string) throws InterruptedException {
+		//go over the list and find the first 'Cancel' button
+		List<WebElement> cancelledBtns = getWebDriver().findElements(By.cssSelector(".link_btn[id^='cancel_']"));
+		for (WebElement btnCancel : cancelledBtns) {	
+			String id = getId(btnCancel);
+			String cancelled = getWebDriver().findElement(By.cssSelector(".item_details>tbody>tr>td>b>a[name^='lineitem_" + id + "']")).getText();
+			btnCancel.click();
+			TimeUnit.SECONDS.sleep(2);
+			//after cancel - check that item is no longer in the list
+			invokeSearchItem(cancelled);
+			waitForPageCompleteLoading();
+			List<WebElement> searchResults = getWebDriver().findElements(By.xpath(".//*[@id='shopping_list_data']/div/*[@id='data']/div/table/tbody/tr"));
+			if(searchResults.size() > 1)
+				return true;
+		}		
 		return false;
 	}
 
@@ -161,6 +149,7 @@ public class ShoppingListPage extends AdminPage{
 		 invokeSearchItem(nameToSearch);
 		 TimeUnit.SECONDS.sleep(2);
 		 
+		
 		 try {
 			 //look if there is at least one result match
 			driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='table_data']/tbody/tr[3]")));
@@ -191,5 +180,12 @@ public class ShoppingListPage extends AdminPage{
 	    btnSave.click();
 		   			
 	}
+
+	private String getId(WebElement element) {
+		String FullId = element.getAttribute("id");
+		String id = FullId.substring(FullId.lastIndexOf('_') +1);
+		return id;
+	}
+
 
 }
