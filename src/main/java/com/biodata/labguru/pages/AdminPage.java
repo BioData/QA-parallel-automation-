@@ -750,7 +750,7 @@ public class AdminPage extends BasePage{
 	
 	protected void openCustomiseTableViewDialog() throws InterruptedException {
 		
-		WebElement customTableLink = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='customize']/span")));
+		WebElement customTableLink = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".open_fancy.customize")));
 		customTableLink.click();
 		TimeUnit.SECONDS.sleep(2);
 	}
