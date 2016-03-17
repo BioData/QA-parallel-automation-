@@ -649,30 +649,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		return savedLocation.equals(storageName);
 	}
 	
-	/**
-	 * Go over all boxes list and find the one to search.click on it,see that it is open ok.
-	 * @param stockName
-	 * @return the box show page title where the added stock is in
-	 */
-	private String findStockInBox(String boxName,String stockName) {
-		
-		List <WebElement> lblBoxes = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-				(By.xpath(".//*[@id='stocks_and_boxes']/li")));
-		for (WebElement elem : lblBoxes) {
-			WebElement lblBox = elem.findElement(By.xpath("a"));
-			String box = lblBox.getText();
-			if(box.equals(boxName.substring(0,boxName.indexOf(" (")))){
-				//take the craeted position
-				WebElement stockPosition = elem.findElement(By.xpath("./ul/li"));
-				//check if it was created as expected in the default loaction 'A1'	
-				if(stockPosition.getText().equals(LGConstants.TUBE_DEFAULT_LOCATION)){								
-					return stockName;
-				}
-			}
-		}
 
-		return "no match";
-	}
 
 	public boolean deleteOrArchiveStockInTable(String stockName, boolean delete) throws InterruptedException {
 		
@@ -722,21 +699,6 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 
         return checkTableHeaders(selectedColumns);
         
-	}
-
-	
-	private void uncheckAllPreference() throws InterruptedException {
-		
-		List<WebElement> checkboxes = getWebDriver().findElements(By.id(".//*[@id='sortable']/li"));
-		for (int i = 1; i <= checkboxes.size(); i++) {
-			WebElement checkbox = getWebDriver().findElement(By.id(".//*[@id='sortable']/li[" + i + "]/div/input[2]"));
-			if(checkbox.isSelected()){
-				checkbox.click();
-				TimeUnit.SECONDS.sleep(1);
-				
-			}
-		}
-		
 	}
 
 	public String addItemSaveAndNew(String name) {
