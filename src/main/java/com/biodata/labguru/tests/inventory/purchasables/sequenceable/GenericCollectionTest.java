@@ -289,12 +289,14 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 	}
 	
 	@Override
-	@Test (groups="import")
+	@Test (groups="deep")
 	public void importCollection() {
 		
 		try {
 			
 			String collectionName = showTableIndex();
+			((SequenceableCollectionPage) getPage()).enableCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
+			getPageManager().getAdminPage().showCollection(collectionName);
 			String msg = importBioCollection();
 			String formatedName = collectionName.replace('_', ' ') + "s";
 			Assert.assertEquals(msg,getMessageSource().getMessage("biocollections.import.msg",
@@ -306,8 +308,6 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 			Assert.fail(e.getMessage());
 		}
 		
-//		throw new UnsupportedOperationException("This test is not supported by this collection."
-//				+ "Import is tested after generating the correct template.");
 	}
 	
 	@Override

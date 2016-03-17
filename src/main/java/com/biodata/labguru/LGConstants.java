@@ -190,7 +190,7 @@ public final class LGConstants {
 	public static final String BOTANY_PLANTS_TEMPLATE = "Plant_Template.xls";
 	public static final String BOTANY_SEEDS_TEMPLATE = "Seed_Template.xls";
 	public static final String GENERIC_COLLECTION_TEMPLATE1 = "Generic_Template1.xls";
-	public static final String GENERIC_COLLECTION_TEMPLATE2 = "Generic_Template2.xls";
+	public static final String GENERIC_COLLECTION_TEMPLATE2_WITH_SEQUENCE = "Generic_Template2.xls";
 
 	//browsers
 	public static final String FIREFOX = "firefox";

@@ -49,7 +49,7 @@ public class GenericCollectionPage extends SequenceableCollectionPage{
 	@Override
 	protected String getFileNameToImport() {
 		
-		return LGConstants.GENERIC_COLLECTION_TEMPLATE2;
+		return LGConstants.GENERIC_COLLECTION_TEMPLATE2_WITH_SEQUENCE;
 	}
 	
 	@Override
