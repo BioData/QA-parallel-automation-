@@ -234,9 +234,6 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 				
 				getPage().showCollectionsAndSettings();
 				getPage().deleteCustomFieldsFromCollection(collectionName);
-				
-				Assert.assertEquals(msg,getMessageSource().getMessage("biocollections.import.msg",
-						new Object[]{getTemplateImportDetails() },Locale.US));
 			
 		} catch (Exception e) {
 			setLog(e,"addCustomFieldAndGenerateCollectionTemplate");
