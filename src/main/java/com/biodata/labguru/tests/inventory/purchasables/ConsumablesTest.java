@@ -2,6 +2,7 @@ package com.biodata.labguru.tests.inventory.purchasables;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.testng.Assert;
@@ -9,6 +10,7 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.pages.inventory.purchasables.PurchasableCollectionPage;
 import com.biodata.labguru.tests.TestOrderRandomizer;
@@ -39,9 +41,28 @@ public class ConsumablesTest extends PurchasableCollectionTest{
 	}
 	
 	@Override
-	@Test (enabled = false)
 	public void addCustomFieldAndGenerateCollectionTemplate(){
-		throw new UnsupportedOperationException("This action is not supported by this collection.");
+		try {
+			showTableIndex();
+			List<String> fields = getPageManager().getConsumablesPage().addCustomFieldToConsumables();
+			
+			showTableIndex();
+			String msg = getPage().generateTemplateAndImport(fields);
+			Assert.assertEquals(msg,getMessageSource().getMessage("biocollections.import.msg",new Object[]{getTemplateImportDetails()},Locale.US));
+			
+			//delete the items of the specific collection
+			getPage().deleteItemFromIndexTable(LGConstants.IMPORTED_NAME);
+			//delete the generated files
+			GenericHelper.deleteGeneratedFiles();
+			
+			showTableIndex();
+			getPageManager().getConsumablesPage().deleteCustomFieldsFromCollection();
+		
+		
+		} catch (Exception e) {
+			setLog(e,"addCustomFieldAndGenerateCollectionTemplate");
+			Assert.fail(e.getMessage());
+		}
 	}
 	
 	@Override
@@ -202,6 +223,6 @@ public class ConsumablesTest extends PurchasableCollectionTest{
 
 	@Override
 	public String getTemplateImportDetails() {
-		throw new UnsupportedOperationException("This action is not supported by this collection.");
+		return "1 " + LGConstants.MATERIALS.toLowerCase();
 	}
 }

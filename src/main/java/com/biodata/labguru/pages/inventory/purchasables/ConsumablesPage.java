@@ -250,4 +250,27 @@ public class ConsumablesPage extends PurchasableCollectionPage{
 		String msg = checkForNotyMessage() ;
 		return msg;
 	}
+	
+	public List<String> addCustomFieldToConsumables() throws InterruptedException {
+		
+		//first we delete all custom fields if there are any
+		deleteCustomFieldsFromCollection();
+		
+		return addCustomFields();
+
+	}
+
+	public void deleteCustomFieldsFromCollection() throws InterruptedException {
+		WebElement wheel = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("index_cog")));	
+		wheel.click();
+		TimeUnit.SECONDS.sleep(2);
+		
+		WebElement customize = getWebDriver().findElements(By.cssSelector(".icon.icon-spanner")).get(1);	
+		customize.click();
+		TimeUnit.SECONDS.sleep(2);
+
+		//delete all custom fields if there are any	
+		deleteCustomFields();
+	
+	}
 }
