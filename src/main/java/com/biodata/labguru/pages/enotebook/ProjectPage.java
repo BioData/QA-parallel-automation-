@@ -523,5 +523,36 @@ public class ProjectPage extends AbstractNotebookPage {
 		}
 		return false;
 	}
+	
+	/**
+	 * Share a project with spreadsheet data and then check if it is seen in the shared url as read-only.
+	 * @param insertedData
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public boolean shareProjectCheckPermissions(String insertedData) throws InterruptedException {
+		
+		WebElement btnShare = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.cssSelector(".share")));
+		btnShare.click();
+		TimeUnit.SECONDS.sleep(2);
+		WebElement shareUrl = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#project_share_url")));
+		String urlToOpen = shareUrl.getText();
+		
+		logout();
+		
+		waitForPageCompleteLoading();
+		//go into the shared url and check that the project is read-only
+		getWebDriver().get(urlToOpen);
+		
+		String value = readFromTable();
+
+		WebElement tableArea = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.cssSelector(".inline_form_container_read_only>.excel_container>.excel>table")));
+
+		boolean created = ((tableArea != null) && (insertedData.equals(value)));
+		return created;
+
+	}
 
 }

@@ -19,6 +19,28 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class ProjectTest extends AbstractEnotebookTest{
 
+	
+	@Test(groups = {"deep"})
+	public void shareProjectCheckPermissions(){
+		
+		try {
+
+			showTableIndex();
+			
+			String project = buildUniqueName(LGConstants.PROJECT_PREFIX);	
+			getPageManager().getProjectPage().addNewProject(project);
+			String dataToInsert = "test sharedata";
+			getPageManager().getProjectPage().addTableToProjectDescription(dataToInsert);
+			boolean succeeded = getPageManager().getProjectPage().shareProjectCheckPermissions(dataToInsert);
+			
+			AssertJUnit.assertTrue(succeeded);
+			
+		} catch (InterruptedException e) {
+			setLog(e,"shareProjectCheckPermissions");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
 	@Test(groups = {"deep"})
 	public void duplicateFullProject(){
 		
