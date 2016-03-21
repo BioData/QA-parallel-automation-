@@ -281,7 +281,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		List<WebElement> stepsList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.cssSelector(getStepsListInSection(sectionIndex))));
 		for (int i = 1; i <= stepsList.size(); i++) {
-			executeJavascript("$('#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + i + ")>td>div.redactor-box>div')"
+			executeJavascript("$('#section_"+ sectionIndex + ">.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(" + i + ")>td>div.redactor-box>div')"
 					+ ".redactor('code.set', '<p>test step editor: " + i + "</p>');");
 			steps++;
 		}
@@ -292,8 +292,8 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 					(By.cssSelector(getStepsListInSection(sectionIndex))));
 			for (int i = 1; i <= createdStepsList.size(); i++) {
 				WebElement input = getWebDriver().findElement
-						(By.cssSelector("#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + i + ")>td>div"
-								+ ".redactor-box>div.redactor-editor>p"));
+						(By.cssSelector("#section_"+ sectionIndex + ">.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(" + i + ")>"
+								+ "td>div.redactor-box>div.redactor-editor>p"));
 				if(!input.getText().isEmpty()){
 					created ++;	
 				}
@@ -379,6 +379,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 
 		List <WebElement> typesList = getWebDriver().findElements(By.xpath(".//*[@id='select2-drop']/ul/li"));
 		int numOftypes = typesList.size();
+		dropDown = getWebDriver().findElement(By.id("select2-drop-mask"));
 		dropDown.click();
 		//create rows as the number of types (minus 1 because the first row is already exist)
 		for (int i = 1; i <= numOftypes; i++) {
@@ -738,7 +739,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		writeInEditor(sectionIndex, descToTest);
 
 		saveSection(sectionIndex);
-		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/div"));
+		WebElement textArea = getWebDriver().findElement(By.cssSelector("#section_" +sectionIndex+ ">div>div>.text-element>.redactor-box>.redactor-editor>p"));
 		String text = textArea.getText();
 
 		return text;
@@ -854,13 +855,13 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	}
 
 	protected String getStepsListInSection(String sectionIndex) {
-		return "#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr";
+		return "#section_"+ sectionIndex + ">.steps_element>div>.steps-element>div>table>tbody>tr";
 	}
 
 	private void deleteElementFromTrashIcon(String sectionIndex)
 			throws InterruptedException {
 		
-		WebElement trashIcon = getWebDriver().findElement(By.xpath(".//*[@id='section_"+ sectionIndex + "']/div[2]/div/steps-element/p/span[1]/i"));
+		WebElement trashIcon = getWebDriver().findElement(By.xpath(".//*[@id='section_"+ sectionIndex + "']/div[2]/div/element/p/span[1]/i"));
 		trashIcon.click();
 		TimeUnit.SECONDS.sleep(1);
 
@@ -881,8 +882,8 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		TimeUnit.SECONDS.sleep(1);
 		
 		//write in step 4
-		executeJavascript("$('#section_"+ sectionIndex + ">.element_container.steps_element>div>steps-element>div>.steps.styled_table>tbody>tr:nth-of-type(" + 4 + ")>td>div.redactor-in')"
-				+ ".redactor('code.set', '<p>test step editor: " + 4 + "</p>');");
+		executeJavascript("$('#section_"+ sectionIndex + ">.elements_container>div.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(" + 4 + ")>td>div.redactor-box>div')"
+				+ ".redactor('code.set', '<p>test step editor: 4 </p>');");
 		saveSection(sectionIndex);
 		
 		List <WebElement> createdStepsList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
@@ -1176,7 +1177,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 
 	public boolean deleteAttachmentContainer(String sectionIndex) throws InterruptedException {
 		
-		WebElement deleteAttachmentAction = getWebDriver().findElement(By.xpath(".//*[@id='section_" + sectionIndex + "']/div[2]/div/attachments-element/p/span[1]/i"));
+		WebElement deleteAttachmentAction = getWebDriver().findElement(By.xpath(".//*[@id='section_" + sectionIndex + "']/div[2]/div/element/p/span[1]/i"));
 		executeJavascript("arguments[0].click();",deleteAttachmentAction);
 		
 		//after delete attachment - the 'Attachments' area is missing
@@ -1255,7 +1256,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	 */
 	private void selectAllText(String platform, String sectionIndex ) {
 		
-		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" + sectionIndex + "']/div/div/text-element/div/div/p"));
+		WebElement textArea = getWebDriver().findElement(By.xpath(".//*[@id='section_" + sectionIndex + "']/div/div/element/div/div/p"));
 		if(platform.equals(Platform.WINDOWS))
 			textArea.sendKeys(Keys.chord(Keys.CONTROL, "a"));
 		else if(platform.equals(Platform.MAC))
@@ -1385,7 +1386,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		//check that the text is as ment to be
 		try {
 			driverWait.until(ExpectedConditions.visibilityOfElementLocated
-					(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/text-element/div/div/p/" + tagToCheck+ "")));	
+					(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/element/div/div/p/" + tagToCheck+ "")));	
 			TimeUnit.SECONDS.sleep(1);
 			//revert action
 			executeJavascript(script);
