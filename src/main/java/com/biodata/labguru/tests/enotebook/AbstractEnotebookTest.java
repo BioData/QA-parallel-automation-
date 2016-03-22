@@ -77,7 +77,12 @@ public abstract class AbstractEnotebookTest extends AbstractLGTest{
 		assertTrue(title.startsWith("My protocol"));
 	}
 	
-	
+	protected void deleteProtocolAfterTest(String protocol) throws InterruptedException {
+		//delete the created protocol
+		getPageManager().getAdminPage().showProtocols();
+		getPageManager().getProtocolPage().openProtocol(protocol);
+		getPageManager().getProtocolPage().deleteFromShowPage();
+	}
 
 
 }

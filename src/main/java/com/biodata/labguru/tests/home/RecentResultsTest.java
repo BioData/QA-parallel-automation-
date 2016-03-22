@@ -30,6 +30,9 @@ public class RecentResultsTest extends AbstractHomeTest{
 			// Check that the protocol is linked to this experiment
 			boolean linked = getPageManager().getExperimentPage().checkLinkedResources(protocol);
 			assertTrue(linked);
+			
+			deleteProtocolAfterTest(protocol);
+			
 		} catch (InterruptedException e) {
 			setLog(e);
 			AssertJUnit.fail(e.getMessage());

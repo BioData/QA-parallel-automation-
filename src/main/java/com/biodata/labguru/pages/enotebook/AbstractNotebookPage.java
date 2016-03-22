@@ -316,7 +316,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 			
 			WebElement selectedProtocol = getWebDriver().findElement(By.xpath(".//*[@id='select2-drop']/ul/li["+ i + "]/div"));
 			if(selectedProtocol.getText().equals(protocol)){
-				dropbox.click();
+				selectedProtocol.click();	
 				TimeUnit.SECONDS.sleep(1);
 				break;
 			}

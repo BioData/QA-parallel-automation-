@@ -92,6 +92,9 @@ public class ProjectTest extends AbstractEnotebookTest{
 			showTableIndex();
 			checkCreateExpFromProtocolFromDropdown(protocol);
 			
+			//delete protocol after test
+			deleteProtocolAfterTest(protocol);
+			
 		} catch (InterruptedException e) {
 			setLog(e);
 			AssertJUnit.fail(e.getMessage());
@@ -156,6 +159,9 @@ public class ProjectTest extends AbstractEnotebookTest{
 			addNewItem();
 	
 			checkCreateExpFromProtocolFromDropdown(protocol);
+			
+			//delete protocol after test
+			deleteProtocolAfterTest(protocol);
 			
 		} catch (InterruptedException e) {
 			setLog(e);

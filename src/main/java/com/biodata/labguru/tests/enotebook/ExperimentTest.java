@@ -79,6 +79,9 @@ public class ExperimentTest extends AbstractEnotebookTest {
 			showTableIndex();
 			checkCreateExpFromProtocolFromDropdown(protocol);
 			
+			//delete protocol after test
+			deleteProtocolAfterTest(protocol);
+			
 		} catch (InterruptedException e) {
 			setLog(e);
 			AssertJUnit.fail(e.getMessage());
