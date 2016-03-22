@@ -19,12 +19,6 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 public class ConsumablesTest extends PurchasableCollectionTest{
 	
 	@Override
-	@Test (enabled = false)
-	public void addStockFromMetaDataSection(){
-		throw new UnsupportedOperationException("This action is not supported by this collection.");
-	}
-	
-	@Override
 	protected String getPrefix() {
 		return LGConstants.CONSUMABLE_PREFIX;
 	}
