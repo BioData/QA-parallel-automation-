@@ -1,5 +1,6 @@
 package com.biodata.labguru.tests.storage;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.testng.Assert;
@@ -11,6 +12,30 @@ import com.biodata.labguru.model.EquipmentItem;
 
 public class EquipmentTest extends AbstractStoragesTest{
 
+	
+	@Test (groups = {"deep"})
+	public void addCustomFieldAndCreateNewEquipment(){
+		try {
+			showTableIndex();
+			addNewItem();
+			showTableIndex();
+			List<String> fields = getPageManager().getEquipmentPage().addCustomFieldsToEquipment();
+			
+			showTableIndex();
+	
+			boolean allFieldsShown = getPageManager().getEquipmentPage().checkCreatedEquipmentWithCustomFields(fields);
+			Assert.assertTrue(allFieldsShown, "Some of the added custom fields are missing.");
+			showTableIndex();
+			getPageManager().getEquipmentPage().deleteCustomFieldsFromCollection();
+		
+		
+		} catch (Exception e) {
+			setLog(e,"addCustomFieldAndCreateNewEquipment");
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	
 	@Override
 	public void showMenu(){
 		

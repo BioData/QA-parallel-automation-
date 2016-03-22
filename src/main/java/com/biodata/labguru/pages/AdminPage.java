@@ -997,4 +997,84 @@ public class AdminPage extends BasePage{
 
 	}
 
+	public List<String> addCustomFields() throws InterruptedException{
+		
+		List<String> fields = new ArrayList<String>();
+		for (int i = 0; i < LGConstants.CUSTOM_FIELD_TYPES_ARRAY.length; i++) {
+			String type = LGConstants.CUSTOM_FIELD_TYPES_ARRAY[i];
+			String fieldName = LGConstants.CUSTOM_FIELD_PREFIX + "_" + type;
+			fields.add(fieldName);
+			addCustomField(fieldName,type);
+		}
+		return fields;
+	}
+	
+	public void addCustomField(String fieldName,String typeToSelect) throws InterruptedException {
+		
+		TimeUnit.SECONDS.sleep(2); 
+		
+		WebElement btnAddField = getWebDriver().findElement(By.xpath(".//*[@class='addto open_fancy fancybox.ajax']"));
+		btnAddField.click();
+		
+	
+		TimeUnit.SECONDS.sleep(3); 
+		
+		WebElement txtName = getWebDriver().findElement(By.id("custom_field_field_name"));
+		txtName.sendKeys(fieldName);
+		
+		WebElement drpType = getWebDriver().findElement(By.xpath(".//*[@id='s2id_custom_field_field_type']/a/span[2]/b"));
+		drpType.click();
+		
+		List<WebElement> typesList = getWebDriver().findElements(By.xpath(".//*[@id='select2-drop']/ul/li"));
+		for (int i = 1; i <= typesList.size(); i++) {
+			WebElement type = getWebDriver().findElement(By.xpath(".//*[@id='select2-drop']/ul/li["+ i +"]/div"));
+			
+			if(type.getText().equals(typeToSelect)){
+				type.click();
+				TimeUnit.SECONDS.sleep(2); 
+				if(typeToSelect.equals(LGConstants.CUSTOM_FIELD_PREDEFIND_LIST) 
+						|| typeToSelect.equals(LGConstants.CUSTOM_FIELD_PREDEFIND_LIST_MULTI)){
+					addValuesToPreDefinedList();
+					
+					break;
+				}
+				TimeUnit.SECONDS.sleep(1); 
+				
+				WebElement btnSave = getWebDriver().findElement(By.id("custom_field_submit"));
+				btnSave.click();
+				break;
+			}
+			
+		}
+
+		
+	}
+
+	private void addValuesToPreDefinedList() throws InterruptedException {
+		TimeUnit.SECONDS.sleep(1); 
+		executeJavascript("$('#s2id_addoptionsarea_new').select2('val',['a','b','c']);");
+		TimeUnit.SECONDS.sleep(1); 
+		executeJavascript("$('#custom_field_model_type').select2('close');");
+		TimeUnit.SECONDS.sleep(1); 
+		executeJavascript("$('#custom_field_submit').click();");
+		TimeUnit.SECONDS.sleep(1); 
+		executeJavascript("$('#main-content>div>h1').focusin();");
+		TimeUnit.SECONDS.sleep(1); 
+		
+	}
+
+	public void deleteCustomFields() throws InterruptedException {
+		
+		for (int i = 0; i < LGConstants.CUSTOM_FIELD_TYPES_ARRAY.length; i++) {
+			TimeUnit.SECONDS.sleep(2); 
+			
+			List <WebElement> list = getWebDriver().findElements(By.xpath(".//*[@class='IconDelete']"));
+			for (WebElement btnDelete : list) {
+				btnDelete.click();
+				checkForAlerts();
+				TimeUnit.SECONDS.sleep(1); 
+			}
+			
+		}
+	}
 }

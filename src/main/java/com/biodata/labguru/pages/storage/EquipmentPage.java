@@ -209,6 +209,62 @@ public class EquipmentPage extends AdminPage implements ITableView{
 			getLogger().debug("@@Error while writing in redactor");
 		}
 	}
+	
+	/**
+	 * Check that all added custom fields appear in the new equipment form
+	 * @param fields
+	 * @return true if all fields appear,false otherwise.
+	 */
+	public boolean checkCreatedEquipmentWithCustomFields(List<String> fields ){
+		
+		addEmptyEquipment("test");
+		
+		for (int i = 0; i < fields.size(); i++) {
+		
+			String fieldId = fields.get(i);
+			try {
+				getLogger().info("checking custom field : " + fieldId);
+				//custom field from type DATE gets a special id in the code : 'customX_date_picker' (X=some number)
+				if(fieldId.contains(LGConstants.CUSTOM_FIELD_DATE))
+					getWebDriver().findElement(By.cssSelector("input[id$=_date_picker][id^=custom]"));
+				else if(fieldId.contains(LGConstants.CUSTOM_FIELD_PREDEFIND_LIST)){
+					//custom field from type Pre-defined list gets a special id in the code : 'system_instrument_customX' (X=some number)
+					getWebDriver().findElement(By.cssSelector("[id^=system_instrument_custom]"));
+				}
+				else
+					getWebDriver().findElement(By.id(fieldId));
+			} catch (NoSuchElementException e) {
+				// custom field input not found - return failed create all custom fields
+				getLogger().debug(e.getMessage());
+				
+				return false;
+			}
+		}
+		//all fields found
+		return true;
+	}
 
+	public List<String> addCustomFieldsToEquipment() throws InterruptedException {
+		openCustomFieldsPage();
+		
+		return addCustomFields();
+	}
 
+	public void deleteCustomFieldsFromCollection() throws InterruptedException {
+		openCustomFieldsPage();
+
+		//delete all custom fields if there are any	
+		deleteCustomFields();
+		
+	}
+
+	private void openCustomFieldsPage() throws InterruptedException {
+		WebElement wheel = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("index_cog")));	
+		wheel.click();
+		TimeUnit.SECONDS.sleep(2);
+		
+		WebElement customize = getWebDriver().findElement(By.cssSelector(".icon.icon-spanner"));	
+		customize.click();
+		TimeUnit.SECONDS.sleep(2);
+	}
 }
