@@ -34,6 +34,7 @@ public class ProjectTest extends AbstractEnotebookTest{
 			boolean succeeded = getPageManager().getProjectPage().shareProjectCheckPermissions(dataToInsert);
 			
 			AssertJUnit.assertTrue(succeeded);
+			getPageManager().getLoginPage().signIn(urlToTest,userToTest,passwordToTest);
 			
 		} catch (InterruptedException e) {
 			setLog(e,"shareProjectCheckPermissions");
