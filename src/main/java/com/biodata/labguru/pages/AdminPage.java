@@ -56,6 +56,12 @@ public class AdminPage extends BasePage{
 		return true;
 	}
 	
+	public void selectAccountMembersMenu() {
+
+		selectDropDownMenu(By.id("account_dropdown"));
+		selectMenu(By.xpath(".//*[@id='header']/div/div[3]/span/ul/li[1]/a"));
+	}
+	
 	public void selectAccountSettingMenu() {
 
 		selectDropDownMenu(By.id("account_dropdown"));
@@ -63,16 +69,16 @@ public class AdminPage extends BasePage{
 		selectMenu(By.xpath(".//*[@id='header']/div/div[3]/span/ul/li[2]/a"));	
 	}
 	
-	public void selectAccountMembersMenu() {
-
-		selectDropDownMenu(By.id("account_dropdown"));
-		selectMenu(By.xpath(".//*[@id='header']/div/div[3]/span/ul/li[1]/a"));
-	}
-	
 	public void selectAccountBillingMenu() {
 
 		selectDropDownMenu(By.id("account_dropdown"));
 		selectMenu(By.xpath(".//*[@id='header']/div/div[3]/span/ul/li[3]/a"));	
+	}
+	
+	public void selectAccountTagsMenu() {
+
+		selectDropDownMenuById("account_dropdown");
+		selectMenu(By.xpath(".//*[@id='header']/div/div[3]/span/ul/li[4]/a"));
 	}
 	
 	private void selectUserDropDown() {
@@ -848,7 +854,7 @@ public class AdminPage extends BasePage{
 		return createExperiment(expName);
 	}
 
-	public String createExperiment(String expName) throws InterruptedException{
+	protected String createExperiment(String expName) throws InterruptedException{
 
 		openNewExperimentDialog(expName);
 
@@ -1076,5 +1082,29 @@ public class AdminPage extends BasePage{
 			}
 			
 		}
+	}
+	
+	public boolean searchTagAndSearchByIt(String tagName,String resource) throws InterruptedException {
+		
+		selectAccountTagsMenu();
+		
+		List<WebElement> tags = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".css1")));
+		for (WebElement tag : tags) {
+			if(tag.getText().equals(tagName)){
+				tag.click();
+				TimeUnit.SECONDS.sleep(2);
+				
+				List<WebElement> results = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+						(By.cssSelector(".results-list>li>span>a")));
+				for (WebElement resourceElm : results) {
+					if(resourceElm.getText().equals(resource))
+						return true;
+				}
+				break;
+			}
+		}
+		
+		return false;
+	
 	}
 }
