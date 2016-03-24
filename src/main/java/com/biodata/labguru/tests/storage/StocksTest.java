@@ -21,10 +21,11 @@ public class StocksTest extends AbstractStoragesTest{
 		String pageTitle = showTableIndex();
 		
 		if(getPageManager().getStockPage().hasList()){				
-			// Check the title of the page
+			// Check the title of the page - if has stocks it will show 'Stocks'
 			AssertJUnit.assertEquals(getMessageSource().getMessage("stocks.title.has.stocks",null,Locale.US), pageTitle);
 		}else{
-			AssertJUnit.assertTrue(pageTitle.startsWith(getMessageSource().getMessage("stocks.title.no.stocks",null,Locale.US)));
+			// if has no stocks it will show 'Boxes - .....'(add new box or the name of exist box)
+			AssertJUnit.assertTrue(pageTitle.startsWith("Boxes"));
 		}
 	}
 	
