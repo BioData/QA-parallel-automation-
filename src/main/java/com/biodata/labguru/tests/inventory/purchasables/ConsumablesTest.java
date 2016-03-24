@@ -38,6 +38,9 @@ public class ConsumablesTest extends PurchasableCollectionTest{
 	public void addCustomFieldAndGenerateCollectionTemplate(){
 		try {
 			showTableIndex();
+			//add at least one material to be in the list
+			addNewItem();
+			showTableIndex();
 			List<String> fields = getPageManager().getConsumablesPage().addCustomFieldToConsumables();
 			
 			showTableIndex();
