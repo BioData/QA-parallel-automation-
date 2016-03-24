@@ -3,7 +3,10 @@ package com.biodata.labguru.tests.storage;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
@@ -26,6 +29,32 @@ public class BoxesTest extends AbstractStoragesTest{
 			getPageManager().getBoxPage().deleteAllItemsFromTable();
 		} catch (InterruptedException e) {
 			setLog(e,"deleteAllStocks");
+		}
+	}
+	
+	@Test (groups = {"deep"})
+	public void addTagToBoxesFromIndexTable(){
+		
+		try {
+			showTableIndex();
+			TimeUnit.SECONDS.sleep(2);
+			String box1 = addNewItem();
+			showTableIndex();
+			String box2 = addNewItem();
+			List<String> boxesToTag = new ArrayList<String>();
+			boxesToTag.add(box1);
+			boxesToTag.add(box2);
+			
+			showTableIndex();
+			String tagName = buildUniqueName("BoxTag");
+			boolean succeeded = getPageManager().getAdminPage().addTagFromIndexTable(tagName,boxesToTag);
+			
+			AssertJUnit.assertTrue("Tag was not craeted as should be.",succeeded);
+	
+		
+		} catch (Exception e) {
+			setLog(e,"addTagToBoxesFromIndexTable");
+			AssertJUnit.fail(e.getMessage());
 		}
 	}
 	

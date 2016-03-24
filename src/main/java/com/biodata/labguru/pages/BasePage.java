@@ -355,10 +355,15 @@ public abstract class BasePage {
 	private void addSingleTag(String tagPrefix) throws InterruptedException {
 		
 		WebElement btnAddTag = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add_tag_click"))); 
-		btnAddTag.click();;
+		btnAddTag.click();
 		
 		TimeUnit.SECONDS.sleep(2);
 
+		addTagWithName(tagPrefix);
+	}
+	
+	protected void addTagWithName(String tagPrefix) throws InterruptedException {
+		
 		WebElement inputTxt = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.xpath(".//*[@id='new_tag_select_box']/ul/li/input")));
 		inputTxt.clear();

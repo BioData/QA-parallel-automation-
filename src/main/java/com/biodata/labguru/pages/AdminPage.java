@@ -1107,4 +1107,59 @@ public class AdminPage extends BasePage{
 		return false;
 	
 	}
+	
+	/**
+	 * Should invoke after the index table is shown.select the given items from the list and tag them with the given tag.
+	 * @param tagName
+	 * @param itemsToTag
+	 * @return
+	 * @throws InterruptedException 
+	 */
+	public boolean addTagFromIndexTable(String tagName, List<String> itemsToTag) throws InterruptedException {
+		
+		List<String> items = new ArrayList<String>(itemsToTag);
+		//select the given items
+		List<WebElement> rows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='index_table']/tbody/tr")));
+		int allItemsChecked = itemsToTag.size();
+		for (int i = 2; i <= rows.size(); i++) {
+			if(allItemsChecked == 0)
+				break;
+			WebElement name = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[2]/p[2]/a"));
+			
+			if(itemsToTag.contains(name.getText())){
+				WebElement chekbox = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[1]/input"));
+				chekbox.click();
+				TimeUnit.SECONDS.sleep(1);
+				items.remove(name.getText());
+				allItemsChecked--;
+			}
+		}
+		
+		//tag the selected items
+		WebElement tagAction = getWebDriver().findElement(By.cssSelector(".tag-action"));
+		tagAction.click();
+		TimeUnit.SECONDS.sleep(1);
+		addTagWithName(tagName);
+		
+		//click on the new tag
+		WebElement tag = getWebDriver().findElement(By.cssSelector(".filter-by-tag.ng-binding.ng-scope"));
+		tag.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#class_count")));
+		rows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='index_table']/tbody/tr")));
+		items = new ArrayList<String>(itemsToTag);
+		for (int i = 2; i <= rows.size(); i++) {
+
+			WebElement name = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[2]/p[2]/a"));
+			if(items.contains(name.getText())){
+				allItemsChecked++;
+				items.remove(name.getText());
+			}
+		}
+		
+		return items.size() == 0;
+	}
 }
