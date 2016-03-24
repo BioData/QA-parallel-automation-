@@ -250,7 +250,7 @@ public abstract class BasePage {
 		 WebElement txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".searchtextbox")));
         sendKeys(txtSearch, itemToSearch);
        
-        WebElement btnSearch = getWebDriver().findElement(By.xpath(".//*[@value='Search']"));
+        WebElement btnSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@value='Search']")));
         btnSearch.click();
         TimeUnit.SECONDS.sleep(3);
       
