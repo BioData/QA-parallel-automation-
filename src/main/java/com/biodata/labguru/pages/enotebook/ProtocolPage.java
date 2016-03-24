@@ -129,6 +129,7 @@ public class ProtocolPage extends ExperimentPage{
 		List <WebElement> typesList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.xpath(".//*[@id='select2-drop']/ul/li")));
 		int numOftypes = typesList.size();
+		dropType = getWebDriver().findElement(By.id("select2-drop-mask"));
 		dropType.click();
 		TimeUnit.SECONDS.sleep(3);
 		//create rows as the number of types (minus 1 because the first row is already exist)

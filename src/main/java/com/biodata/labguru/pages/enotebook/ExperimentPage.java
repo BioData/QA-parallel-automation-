@@ -61,6 +61,7 @@ public class ExperimentPage extends AbstractNotebookPage {
 
 		List <WebElement> typesList = getWebDriver().findElements(By.xpath(".//*[@id='select2-drop']/ul/li"));
 		int numOftypes = typesList.size();
+		dropType = getWebDriver().findElement(By.id("select2-drop-mask"));
 		dropType.click();
 		TimeUnit.SECONDS.sleep(2);
 		//create rows as the number of types (minus 1 because the first row is already exist)
