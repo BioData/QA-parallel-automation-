@@ -33,6 +33,7 @@
        <class name="com.biodata.labguru.tests.home.CalendarTest"/> 
        <class name="com.biodata.labguru.tests.home.RecentResultsTest"/>
 	   <class name="com.biodata.labguru.tests.home.LabActivitiesTest"/>
+	    <class name="com.biodata.labguru.tests.SpecialScenariosTest" />
 	   
 	      	 	 <class name="com.biodata.labguru.tests.enotebook.ProjectTest"/>
               <class name="com.biodata.labguru.tests.enotebook.ProtocolsTest" /> 
