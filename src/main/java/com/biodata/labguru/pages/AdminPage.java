@@ -869,7 +869,7 @@ public class AdminPage extends BasePage{
 					(By.cssSelector(".ui-state-hover.filter_all_groups")));
 			String txt = bestMatchesLbl.getText();
 			return txt;
-		}catch(NoSuchElementException e){
+		}catch(Exception e){
 			//no best matches label - elastic search not working
 			return " elastic search not working";
 		}
