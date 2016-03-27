@@ -110,7 +110,7 @@ public class SpecialScenariosTest extends BaseTest{
 			String newName = buildUniqueName("test_");
 			boolean succeeded = getPageManager().getAdminPage().editItemsOnSpecificPage(1,newName);
 			
-			
+			AssertJUnit.assertTrue("Edit selected items on page not working as should be.", succeeded);
 			
 		} catch (Exception e) {
 			setLog(e,"editItemsOnSpecificPage");
