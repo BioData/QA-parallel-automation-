@@ -33,6 +33,8 @@ public class RecipePage extends AbstractKnowledgebasePage{
 
 	public String addRecipeFromDirectory() throws InterruptedException {
 		
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#add_from_labguru_recipes")));
+		
 		clickOnButton("add_from_labguru_recipes");
 		
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".logo")));
