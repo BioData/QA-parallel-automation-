@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -23,9 +22,10 @@ public class RecipePage extends AbstractKnowledgebasePage{
 	public boolean hasList() {
 		
 		try{
-			List<WebElement> list = getWebDriver().findElements(By.xpath(".//*[@id='recipes_list']/div"));
+			List<WebElement> list = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+					(By.xpath(".//*[@id='recipes_list']/div")));
 			return list.size() > 2;
-		}catch(TimeoutException e){
+		}catch(Exception e){
 			return false;
 		}
 		
