@@ -877,13 +877,13 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		selectSection(sectionIndex);
 		
-		WebElement addStepBtn = getWebDriver().findElement(By.xpath(".//*[@id='section_"+ sectionIndex + "']/div[2]/div/steps-element/div/a"));
+		WebElement addStepBtn = getWebDriver().findElement(By.xpath(".//*[@id='section_"+ sectionIndex + "']/div[2]/div/element/div/a"));
 		addStepBtn.click();
 		TimeUnit.SECONDS.sleep(1);
 		
 		//write in step 4
-		executeJavascript("$('#section_"+ sectionIndex + ">.elements_container>div.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(" + 4 + ")>td>div.redactor-box>div')"
-				+ ".redactor('code.set', '<p>test step editor: 4 </p>');");
+		executeJavascript("$('#section_"+ sectionIndex + ">.element_container>div>element.steps-element>div>table>tbody>tr:nth-of-type(" + 4 + ")>td>div.redactor-box>div')"
+					+ ".redactor('code.set', '<p>test step editor: 4 </p>');");
 		saveSection(sectionIndex);
 		
 		List <WebElement> createdStepsList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
