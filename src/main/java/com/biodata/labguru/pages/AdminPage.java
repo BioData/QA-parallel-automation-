@@ -14,6 +14,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
 
 public class AdminPage extends BasePage{
@@ -822,18 +823,7 @@ public class AdminPage extends BasePage{
 	
 	public void deleteAllItemsFromTable() throws InterruptedException {
 		
-		WebElement chkCheckAll = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("check_all")));
-		chkCheckAll.click();
-		TimeUnit.SECONDS.sleep(2);
-		
-		try{
-			//check if there is a link to select all items(there are more then 20 items in list)
-			WebElement linkSelectAll  = getWebDriver().findElement(By.xpath(".//*[@id='selected_some']/a"));
-			linkSelectAll.click();
-			TimeUnit.SECONDS.sleep(1);
-		}catch(NoSuchElementException e){
-			//do nothing - les then 20 items in the list
-		}
+		checkAllTableItemsAllPages();
 		
 		WebElement btnDelete = getWebDriver().findElement(By.cssSelector(".delete"));
 		btnDelete.click();
@@ -1143,7 +1133,7 @@ public class AdminPage extends BasePage{
 		addTagWithName(tagName);
 		
 		//click on the new tag
-		WebElement tag = getWebDriver().findElement(By.cssSelector(".filter-by-tag.ng-binding.ng-scope"));
+		WebElement tag = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".filter-by-tag.ng-binding.ng-scope")));
 		tag.click();
 		TimeUnit.SECONDS.sleep(1);
 		
@@ -1161,5 +1151,88 @@ public class AdminPage extends BasePage{
 		}
 		
 		return items.size() == 0;
+	}
+	
+
+	private void checkAllTableItemsAllPages() throws InterruptedException {
+		
+		clickOnButton("check_all");
+		TimeUnit.SECONDS.sleep(2);
+		
+		try{
+			//check if there is a link to select all items(there are more then 20 items in list)
+			WebElement linkSelectAll  = getWebDriver().findElement(By.xpath(".//*[@id='selected_some']/a"));
+			linkSelectAll.click();
+			TimeUnit.SECONDS.sleep(1);
+		}catch(NoSuchElementException e){
+			//do nothing - les then 20 items in the list
+		}
+
+	}
+	
+	public boolean tagItemsAllPages() throws InterruptedException {
+		
+		checkAllTableItemsAllPages();
+		String label = getWebDriver().findElement(By.id("class_count")).getText();
+		String selectedCount =  label.substring(label.indexOf('(') + 1, label.indexOf(' '));
+		try{
+			//when there is pagination - label to select all pages
+			selectedCount = getWebDriver().findElement(By.id("all_selected_checkboxes")).getText();
+		}catch(NoSuchElementException e){
+			//do nothing if no pagination label
+		}
+		
+		
+		String tagName = GenericHelper.buildUniqueName("AllSpecTag");
+		//tag the selected items
+		WebElement tagAction = getWebDriver().findElement(By.cssSelector(".tag-action"));
+		tagAction.click();
+		TimeUnit.SECONDS.sleep(1);
+		addTagWithName(tagName);
+		
+		//click on the new tag
+		WebElement tag = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".filter-by-tag.ng-binding.ng-scope")));
+		tag.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+		WebElement resultLbl = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("class_count")));
+		String expectedMsg = "(" + selectedCount + " tagged results)";
+		if(resultLbl.getText().equals(expectedMsg))
+			return true;
+		return false;
+		
+	}
+
+	public boolean editItemsOnSpecificPage(int pageIndex,String newName) throws InterruptedException {
+		
+		//click on the given page 
+		WebElement selectPage = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@class='pagination']/a[" + pageIndex + "]")));
+		selectPage.click();
+		TimeUnit.SECONDS.sleep(2);
+		
+		//select all items in this page
+		clickOnButton("check_all");
+		TimeUnit.SECONDS.sleep(2);
+		
+		clickOnButton("edit_selected");
+		
+		WebElement editPencil = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='alternative_name_input']/span")));
+		editPencil.click();
+		
+		WebElement txt = getWebDriver().findElement(By.id("alternative_name"));
+		txt.sendKeys(newName);
+		
+		save();
+	    WebElement txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".searchtextbox")));
+        sendKeys(txtSearch, newName);
+    
+	    WebElement btnSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='simple_search']//input[@type='submit']")));
+	    btnSearch.click();
+	    TimeUnit.SECONDS.sleep(3);
+		
+		String label = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("class_count"))).getText();
+		String selectedCount =  label.substring(label.indexOf('(') + 1, label.indexOf(' '));
+		
+		return selectedCount.equals("20");//check that all 20 items (the numbers of items that one page holds) found
 	}
 }

@@ -65,8 +65,7 @@ public class RodentCagesPage extends RodentPage{
 	}
 	public String addSpecimenFromCage(String cage) throws InterruptedException{
 		
-		WebElement btnAdd = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add_specimen")));
-		btnAdd.click();
+		clickNewButton("add_specimen");
 		TimeUnit.SECONDS.sleep(5);
 		try {
 			String specName = createNewSpecimenIfNotExist(cage);

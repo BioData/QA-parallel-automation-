@@ -54,4 +54,68 @@ public class SpecialScenariosTest extends BaseTest{
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
+	
+	@Test (groups = {"deep"})
+	public void tagAllItemsWithPagination(){
+		
+		try {
+			//first delete all previous specimens
+			getPageManager().getAdminPage().showRodentSpecimens();
+			if(getPageManager().getRodentSpecimensPage().hasList())
+				getPageManager().getRodentSpecimensPage().deleteAllItemsFromTable();
+			
+			//create strain with 41 specimen in order to have index table with pagination
+			getPageManager().getAdminPage().showRodentStrains();
+			
+			String strainName = buildUniqueName(LGConstants.RODENT_STRAIN_PREFIX);
+			getPageManager().getRodentStrainsPage().addNewItem(strainName);
+			
+			String specimenName = buildUniqueName(LGConstants.RODENT_SPECIMEN_PREFIX);
+			getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,41);
+			
+			//go to specimens index table
+			getPageManager().getAdminPage().showRodentSpecimens();
+			//tag all specimens (in all pages)
+			boolean succeeded = getPageManager().getAdminPage().tagItemsAllPages();
+			AssertJUnit.assertTrue("Search by tag not working as should be.", succeeded);
+			
+			
+		} catch (Exception e) {
+			setLog(e,"tagAllItemsWithPagination");
+			AssertJUnit.fail(e.getMessage());
+		
+		}
+	}
+	@Test (groups = {"deep"})
+	public void editItemsOnSpecificPage(){
+		
+		try {
+			//first delete all previous specimens
+			getPageManager().getAdminPage().showRodentSpecimens();
+			if(getPageManager().getRodentSpecimensPage().hasList())
+				getPageManager().getRodentSpecimensPage().deleteAllItemsFromTable();
+			
+			//create strain with 41 specimen in order to have index table with pagination
+			getPageManager().getAdminPage().showRodentStrains();
+			
+			String strainName = buildUniqueName(LGConstants.RODENT_STRAIN_PREFIX);
+			getPageManager().getRodentStrainsPage().addNewItem(strainName);
+			
+			String specimenName = buildUniqueName(LGConstants.RODENT_SPECIMEN_PREFIX);
+			getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,41);
+			
+			//go to specimens index table
+			getPageManager().getAdminPage().showRodentSpecimens();
+			//edit items in specific page
+			String newName = buildUniqueName("test_");
+			boolean succeeded = getPageManager().getAdminPage().editItemsOnSpecificPage(1,newName);
+			
+			
+			
+		} catch (Exception e) {
+			setLog(e,"editItemsOnSpecificPage");
+			AssertJUnit.fail(e.getMessage());
+		}
+		
+	}
 }
