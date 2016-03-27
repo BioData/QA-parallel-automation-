@@ -1133,9 +1133,15 @@ public class AdminPage extends BasePage{
 		addTagWithName(tagName);
 		
 		//click on the new tag
-		WebElement tag = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".filter-by-tag.ng-binding.ng-scope")));
-		tag.click();
-		TimeUnit.SECONDS.sleep(1);
+		List<WebElement> tags = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.cssSelector(".filter-by-tag.ng-binding.ng-scope")));
+		for (WebElement tag : tags) {
+			if(tag.getText().equals(tagName)){
+				tag.click();
+				TimeUnit.SECONDS.sleep(1);
+				break;
+			}
+		}
 		
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#class_count")));
 		rows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy

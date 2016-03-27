@@ -51,7 +51,10 @@ public class BoxesTest extends AbstractStoragesTest{
 			
 			AssertJUnit.assertTrue("Tag was not craeted as should be.",succeeded);
 	
-		
+			succeeded = getPageManager().getAdminPage().searchTagAndSearchByIt(tagName, box2);
+			AssertJUnit.assertTrue("Search by tag not working as should be.", succeeded);
+			getPageManager().getAdminPage().deleteTagFromTaggedEntitiesList();
+			
 		} catch (Exception e) {
 			setLog(e,"addTagToBoxesFromIndexTable");
 			AssertJUnit.fail(e.getMessage());
