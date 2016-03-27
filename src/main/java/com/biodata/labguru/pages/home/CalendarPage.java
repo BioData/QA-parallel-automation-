@@ -23,10 +23,9 @@ public class CalendarPage extends AdminPage {
 	
 	public boolean addNewEvent(String name) throws InterruptedException{
 		
-		WebElement btnAddEvent = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("new_event")));
-		btnAddEvent.click();
+		clickOnButton("new_event");
 		 
-		return addAndFindEvent(name);
+		return addAndFindEvent(name,true);//need to select start date
 	}
 
 
@@ -40,14 +39,14 @@ public class CalendarPage extends AdminPage {
 		WebElement linkCreateEvent = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("create_event_from_tooltip")));
 		linkCreateEvent.click();
 		 
-		return addAndFindEvent(name);
+		return addAndFindEvent(name,false);
 	}
 	
-	private boolean addAndFindEvent(String name) throws InterruptedException {
+	private boolean addAndFindEvent(String name,boolean needStartDate) throws InterruptedException {
 		
 		TimeUnit.SECONDS.sleep(2);
 		 	
-		String date = openNewEventDialog(name,true);//May 18, 2015 09:00
+		String date = openNewEventDialog(name,needStartDate);//May 18, 2015 09:00
 		String time = date.substring(date.lastIndexOf(" ")+1);
 
 		openMoreList();
