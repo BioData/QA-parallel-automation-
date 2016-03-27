@@ -22,8 +22,8 @@ public class RecipePage extends AbstractKnowledgebasePage{
 	public boolean hasList() {
 		
 		try{
-			List<WebElement> list = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-					(By.xpath(".//*[@id='recipes_list']/div")));
+			TimeUnit.SECONDS.sleep(2);
+			List<WebElement> list = getWebDriver().findElements(By.xpath(".//*[@id='recipes_list']/div"));
 			return list.size() > 2;
 		}catch(Exception e){
 			return false;
