@@ -22,6 +22,8 @@ public abstract class AbstractKnowledgebasePage extends AdminPage implements ILi
 	
 	public boolean searchForItem(String itemToSerch) throws InterruptedException {
 		
+		waitForPageCompleteLoading();
+		
 		invokeSearchItem(itemToSerch);
         
         return hasList();
@@ -87,6 +89,8 @@ public abstract class AbstractKnowledgebasePage extends AdminPage implements ILi
 	}
 
 	public boolean searchForItemInList(String itemToSerch) throws InterruptedException {
+		
+		waitForPageCompleteLoading();
 		
 		invokeSearchItem(itemToSerch);
 		
