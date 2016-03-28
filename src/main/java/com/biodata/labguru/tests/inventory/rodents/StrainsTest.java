@@ -36,7 +36,7 @@ public class StrainsTest extends AbstractRodentsTest{
 			addNewItem();
 			
 			String specimenName = buildUniqueName(LGConstants.RODENT_SPECIMEN_PREFIX);
-			String created = getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,1);
+			String created = getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,1,true);
 			
 			AssertJUnit.assertTrue(created.startsWith(specimenName));
 			
@@ -54,7 +54,7 @@ public class StrainsTest extends AbstractRodentsTest{
 			addNewItem();
 			
 			String specimenName = buildUniqueName(LGConstants.RODENT_SPECIMEN_PREFIX);
-			String msg = getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,0);
+			String msg = getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,0,true);
 			
 			AssertJUnit.assertEquals(getMessageSource().getMessage("rodents.strains.add.specimen.no.gender.alert", null,Locale.US),msg);
 			
@@ -72,7 +72,7 @@ public class StrainsTest extends AbstractRodentsTest{
 			addNewItem();
 			
 			String specimenName = buildUniqueName(LGConstants.RODENT_SPECIMEN_PREFIX);
-			String msg = getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,101);
+			String msg = getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,101,true);
 			
 			AssertJUnit.assertEquals(getMessageSource().getMessage("rodents.strains.add.specimen.no.gender.alert", null,Locale.US),msg);
 			

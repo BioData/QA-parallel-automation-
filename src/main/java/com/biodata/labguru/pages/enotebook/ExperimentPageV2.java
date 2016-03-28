@@ -155,6 +155,8 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	
 	public String moveExperimentToProject(String newProject) throws InterruptedException{
 		
+		waitForPageCompleteLoading();
+		
 		clickOnUpperMenuAction(moveItemActionId);
 		
 		openMoveDialog(newProject);
@@ -539,7 +541,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	public boolean addPlate2X3ToSection(String sectionIndex) throws InterruptedException {
 
 		boolean created = false;
-		
+		waitForPageCompleteLoading();
 		selectSection(sectionIndex);
 		//add plate size 6(3*2)
 		WebElement action = getWebDriver().findElement(By.xpath

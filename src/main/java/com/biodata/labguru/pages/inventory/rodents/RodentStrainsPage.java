@@ -71,7 +71,7 @@ public class RodentStrainsPage extends RodentPage{
 	}
 
 
-	public String addSpecimenFromStrain(String specimenName,int numOfSpecimensToCreate) throws InterruptedException {
+	public String addSpecimenFromStrain(String specimenName,int numOfSpecimensToCreate,boolean checkCreation) throws InterruptedException {
 		selectSpecimensTab();
 		
 		WebElement btnCreateSpec = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("specimens")));
@@ -113,7 +113,10 @@ public class RodentStrainsPage extends RodentPage{
 	    TimeUnit.SECONDS.sleep(2);
 	    getWebDriver().switchTo().activeElement();
 	    specimenName = specimenName + ".1";
-	    return checkSpecimenCreation(specimenName, cage);
+	    if(checkCreation)
+	    	return checkSpecimenCreation(specimenName, cage); 
+	    else
+	    	return specimenName;
 	}
 	
 	@Override

@@ -71,7 +71,7 @@ public class SpecialScenariosTest extends BaseTest{
 			getPageManager().getRodentStrainsPage().addNewItem(strainName);
 			
 			String specimenName = buildUniqueName(LGConstants.RODENT_SPECIMEN_PREFIX);
-			getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,41);
+			getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,41,false);
 			
 			//go to specimens index table
 			getPageManager().getAdminPage().showRodentSpecimens();
@@ -102,7 +102,7 @@ public class SpecialScenariosTest extends BaseTest{
 			getPageManager().getRodentStrainsPage().addNewItem(strainName);
 			
 			String specimenName = buildUniqueName(LGConstants.RODENT_SPECIMEN_PREFIX);
-			getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,41);
+			getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,41,false);
 			
 			//go to specimens index table
 			getPageManager().getAdminPage().showRodentSpecimens();
