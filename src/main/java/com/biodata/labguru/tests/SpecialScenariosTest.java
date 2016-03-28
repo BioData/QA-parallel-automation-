@@ -58,7 +58,11 @@ public class SpecialScenariosTest extends BaseTest{
 	@Test (groups = {"deep"})
 	public void tagAllItemsWithPagination(){
 		
-		try {
+		try {		
+			//check the 'Rodent' collection
+			getPageManager().getAdminPage().showCollectionsAndSettings();
+			getPageManager().getAccountSettingPage().checkCollection(LGConstants.RODENTS);
+			
 			//first delete all previous specimens
 			getPageManager().getAdminPage().showRodentSpecimens();
 			if(getPageManager().getRodentSpecimensPage().hasList())
@@ -90,6 +94,11 @@ public class SpecialScenariosTest extends BaseTest{
 	public void editItemsOnSpecificPage(){
 		
 		try {
+			
+			//check the 'Rodent' collection
+			getPageManager().getAdminPage().showCollectionsAndSettings();
+			getPageManager().getAccountSettingPage().checkCollection(LGConstants.RODENTS);
+			
 			//first delete all previous specimens
 			getPageManager().getAdminPage().showRodentSpecimens();
 			if(getPageManager().getRodentSpecimensPage().hasList())
