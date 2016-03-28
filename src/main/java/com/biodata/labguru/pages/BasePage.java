@@ -128,17 +128,17 @@ public abstract class BasePage {
 	public void openNewExperimentDialog(String expName) throws InterruptedException{
 
 
-        WebElement newExpDialog = getWebDriver().switchTo().activeElement();
-        driverWait.until(ExpectedConditions.visibilityOf(newExpDialog));
+        getWebDriver().switchTo().activeElement();
+        driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".txt-field.experiment_name")));
         
         if(expName != null){
-	        WebElement txtExpName = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".experiment_name")));
+	        WebElement txtExpName = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".txt-field.experiment_name")));
 	        sendKeys(txtExpName, expName);
         }
  
         WebElement btnAdd = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@value='Add Experiment']")));
         btnAdd.click();
-        
+        TimeUnit.SECONDS.sleep(2);
         getWebDriver().switchTo().activeElement();
        			
 		TimeUnit.SECONDS.sleep(2);
@@ -763,63 +763,43 @@ public abstract class BasePage {
 	}
 	
 	protected void selectToday(WebElement txtStartDate) throws InterruptedException {
-		for (int i = 0; i <= 6; i++) {
-			 try{
-				 WebElement todaySelect = getWebDriver().findElement(By.cssSelector(".xdsoft_date.xdsoft_day_of_week" + i + ".xdsoft_date.xdsoft_today.xdsoft_weekend>div"));
-				 todaySelect.click();
-				 TimeUnit.SECONDS.sleep(1);
-				 break;
-			 }catch(NoSuchElementException e){
-				 //do nothing - keep searching for today's date
-				 continue;
-			 }
-		}
+		
+		 WebElement todaySelect = getWebDriver().findElement(By.cssSelector(".xdsoft_current.xdsoft_today>div"));
+		 todaySelect.click();
+		 TimeUnit.SECONDS.sleep(1);		
+			
 	}
 	
 	protected void selectTomorrow(WebElement txtStartDate) throws InterruptedException {
-		
-		for (int i = 0; i <= 6; i++) {
-			 try{
-				 //search for today (the week it is on ) - if found ,take this week next day
-				 WebElement today = getWebDriver().findElement(By.cssSelector(".xdsoft_date.xdsoft_day_of_week" + i + ".xdsoft_date.xdsoft_today.xdsoft_weekend"));
-				 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue() + 1;
-				 List <WebElement> tommorowSelectList = getWebDriver().findElements(By.xpath(".//*[@data-date ='" + String.valueOf(dayNum) + "']/div"));	 
-				 for (WebElement tommorowSelect : tommorowSelectList) {
-					 if(tommorowSelect.isDisplayed()){
-						 tommorowSelect.click();
-						 TimeUnit.SECONDS.sleep(1);
-						 break;
-					 }
-				}
-				
-			 }catch(NoSuchElementException e){
-				 //do nothing - keep searching for today's date
-				 continue;
+			 
+		 //search for today (the week it is on ) - if found ,take this week next day
+		 WebElement today = getWebDriver().findElement(By.cssSelector(".xdsoft_current.xdsoft_today"));
+		 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue() + 1;
+		 List <WebElement> tommorowSelectList = getWebDriver().findElements(By.xpath("//*[not(contains(@class, 'xdsoft_other_month'))][@data-date  ='" + String.valueOf(dayNum) + "']/div"));	 
+		 for (WebElement tommorowSelect : tommorowSelectList) {
+			 if(tommorowSelect.isDisplayed()){
+				 tommorowSelect.click();
+				 TimeUnit.SECONDS.sleep(1);
+				 break;
 			 }
-		}
+		  }
 	}
 	
 	protected void selectPast(WebElement txtStartDate) throws InterruptedException {
 		
-		for (int i = 0; i <= 6; i++) {
-			 try{
-				 //search for today (the week it is on ) - if found ,take this week next day
-				 WebElement today = getWebDriver().findElement(By.cssSelector(".xdsoft_date.xdsoft_day_of_week" + i + ".xdsoft_date.xdsoft_today.xdsoft_weekend"));
-				 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue() - 1;
-				 List <WebElement> pastSelectList = getWebDriver().findElements(By.xpath(".//*[@data-date ='" + String.valueOf(dayNum) + "']/div"));	 
-				 for (WebElement pastSelect : pastSelectList) {
-					 if(pastSelect.isDisplayed()){
-						 pastSelect.click();
-						 TimeUnit.SECONDS.sleep(1);
-						 break;
-					 }
-				  }
-			 }catch(NoSuchElementException e){
-				 //do nothing - keep searching for today's date
-				 continue;
-			 }
-		}
 		
+		 //search for today (the week it is on ) - if found ,take this week next day
+		 WebElement today = getWebDriver().findElement(By.cssSelector(".xdsoft_current.xdsoft_today"));
+		 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue() - 1;
+		 List <WebElement> pastSelectList = getWebDriver().findElements(By.xpath("//*[not(contains(@class, 'xdsoft_other_month'))][@data-date  ='" + String.valueOf(dayNum) + "']/div"));	 
+		 for (WebElement pastSelect : pastSelectList) {
+			 if(pastSelect.isDisplayed()){
+				 pastSelect.click();
+				 TimeUnit.SECONDS.sleep(1);
+				 break;
+			 }
+		  }
+
 	}
 	
 	
@@ -830,7 +810,7 @@ public abstract class BasePage {
 			btnSave.click();
 			TimeUnit.SECONDS.sleep(3);
 		} catch (Exception e) {
-			//getLogger().debug("@@Error during saving..");
+			getLogger().debug("@@Error during saving..");
 		}
 	}
 	
@@ -841,7 +821,7 @@ public abstract class BasePage {
 			btnSaveAndNew.click();
 			TimeUnit.SECONDS.sleep(3);
 		} catch (Exception e) {
-			//getLogger().debug("@@Error during 'save and new'..");
+			getLogger().debug("@@Error during 'save and new'..");
 		}
 	}
 	

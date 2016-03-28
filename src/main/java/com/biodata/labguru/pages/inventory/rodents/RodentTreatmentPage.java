@@ -69,6 +69,8 @@ public class RodentTreatmentPage extends AdminPage{
 		//wait until page loaded
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("index-header")));
 		String tabId = selectCorrectTabAndGetId(date);
+		
+		waitForPageCompleteLoading();
         
         String cage = map.keySet().iterator().next();
         List<String> specimens = map.get(cage);
@@ -120,13 +122,19 @@ public class RodentTreatmentPage extends AdminPage{
         for (int i=2; i<= rows.size() ; i++) {
         	WebElement nameEle = getWebDriver().findElement(By.xpath(".//*[@id='past_treatments']/table/tbody/tr[" + i + "]/td[3]"));
         	if(nameEle.getText().equals(name)){
-        		WebElement cageElem = getWebDriver().findElement(By.xpath(".//*[@id='past_treatments']/table/tbody/tr[" + i + "]/td[7]/a"));
+        		WebElement cageElem;
+        		if(cage.equals("not in cage")){
+        			cageElem = getWebDriver().findElement(By.xpath(".//*[@id='past_treatments']/table/tbody/tr[" + i + "]/td[7]"));
+        		}else{
+        			cageElem = getWebDriver().findElement(By.xpath(".//*[@id='past_treatments']/table/tbody/tr[" + i + "]/td[7]/a"));
+        		}
+	 
         		List<WebElement> specList = getWebDriver().findElements(By.xpath(".//*[@id='past_treatments']/table/tbody/tr[" + i + "]/td[6]/a"));
         		 List<String> names = new ArrayList<String>();
         		for (WebElement specElem : specList) {
         			names.add(specElem.getText());
 				}
-        		if(specimens.equals(names) && cageElem.getText().equals(cage))
+        		if(specimens.equals(names) && ((cageElem.getText().equals(cage) || (cageElem.getText().isEmpty() && cage.equals("not in cage")))))
         			return name;
         	}
         	
