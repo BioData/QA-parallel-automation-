@@ -1133,15 +1133,7 @@ public class AdminPage extends BasePage{
 		addTagWithName(tagName);
 		
 		//click on the new tag
-		List<WebElement> tags = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-				(By.cssSelector(".filter-by-tag.ng-binding.ng-scope")));
-		for (WebElement tag : tags) {
-			if(tag.getText().equals(tagName)){
-				tag.click();
-				TimeUnit.SECONDS.sleep(1);
-				break;
-			}
-		}
+		clickOnGivenTag(tagName);
 		
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#class_count")));
 		rows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
@@ -1176,7 +1168,7 @@ public class AdminPage extends BasePage{
 
 	}
 	
-	public boolean tagItemsAllPages() throws InterruptedException {
+	public String tagItemsAllPages() throws InterruptedException {
 		
 		checkAllTableItemsAllPages();
 		String label = getWebDriver().findElement(By.id("class_count")).getText();
@@ -1197,15 +1189,13 @@ public class AdminPage extends BasePage{
 		addTagWithName(tagName);
 		
 		//click on the new tag
-		WebElement tag = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".filter-by-tag.ng-binding.ng-scope")));
-		tag.click();
-		TimeUnit.SECONDS.sleep(1);
+		clickOnGivenTag(tagName);
 		
 		WebElement resultLbl = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("class_count")));
 		String expectedMsg = "(" + selectedCount + " tagged results)";
 		if(resultLbl.getText().equals(expectedMsg))
-			return true;
-		return false;
+			return expectedMsg;
+		return "Failed tagging: " +  resultLbl.getText();
 		
 	}
 
@@ -1224,6 +1214,7 @@ public class AdminPage extends BasePage{
 		
 		WebElement editPencil = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='alternative_name_input']/span")));
 		editPencil.click();
+		TimeUnit.SECONDS.sleep(1);
 		
 		WebElement txt = getWebDriver().findElement(By.id("alternative_name"));
 		txt.sendKeys(newName);
@@ -1240,5 +1231,22 @@ public class AdminPage extends BasePage{
 		String selectedCount =  label.substring(label.indexOf('(') + 1, label.indexOf(' '));
 		
 		return selectedCount.equals("20");//check that all 20 items (the numbers of items that one page holds) found
+	}
+	
+	/**
+	 * Click on the given tag to see if it filter all relevant items
+	 * @param tagName
+	 * @throws InterruptedException
+	 */
+	private void clickOnGivenTag(String tagName) throws InterruptedException {
+		List<WebElement> tags = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.cssSelector(".filter-by-tag.ng-binding.ng-scope")));
+		for (WebElement tag : tags) {
+			if(tag.getText().equals(tagName)){
+				tag.click();
+				TimeUnit.SECONDS.sleep(1);
+				break;
+			}
+		}
 	}
 }

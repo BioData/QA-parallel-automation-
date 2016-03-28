@@ -101,6 +101,8 @@ public class RodentStrainsPage extends RodentPage{
         btnCreate.click();
         TimeUnit.SECONDS.sleep(2);
         String msg = checkForAlerts();
+        
+        while(getWebDriver().findElement(By.xpath(".//*[@id='create_specimens_form']/div[2]/a")).getText().equals("Cancel"));
 
         if(!msg.equals("")){
         	WebElement btnCancel = driverWait.until(ExpectedConditions.visibilityOfElementLocated

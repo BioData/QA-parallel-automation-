@@ -80,8 +80,8 @@ public class SpecialScenariosTest extends BaseTest{
 			//go to specimens index table
 			getPageManager().getAdminPage().showRodentSpecimens();
 			//tag all specimens (in all pages)
-			boolean succeeded = getPageManager().getAdminPage().tagItemsAllPages();
-			AssertJUnit.assertTrue("Search by tag not working as should be.", succeeded);
+			String succeeded = getPageManager().getAdminPage().tagItemsAllPages();
+			AssertJUnit.assertTrue(succeeded, !succeeded.startsWith("Failed"));
 			
 			
 		} catch (Exception e) {
