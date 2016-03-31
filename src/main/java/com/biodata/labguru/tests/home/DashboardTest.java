@@ -208,7 +208,7 @@ public class DashboardTest extends AbstractHomeTest{
 		}
 	}
 	
-	@Test(groups = {"deep"})
+	@Test(groups = {"deep"} ,priority = 10)
 	public void checkElasticSearchInAttachment(){
 		
 		try {
