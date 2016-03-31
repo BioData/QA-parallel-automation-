@@ -737,11 +737,20 @@ public abstract class BasePage {
 	}
 	
 	protected void selectTomorrow(WebElement txtStartDate) throws InterruptedException {
-			 
+		 
 		 //search for today (the week it is on ) - if found ,take this week next day
 		 WebElement today = getWebDriver().findElement(By.cssSelector(".xdsoft_current.xdsoft_today"));
-		 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue() + 1;
-		 List <WebElement> tommorowSelectList = getWebDriver().findElements(By.xpath("//*[not(contains(@class, 'xdsoft_other_month'))][@data-date  ='" + String.valueOf(dayNum) + "']/div"));	 
+		 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue() ;
+		 String xpath = "";
+		 //if this is the last days of the month - make it the 1st of the new month,else add 1
+		 if(dayNum >= 28){
+			 dayNum = 1;
+			 xpath = "//*[(contains(@class, 'xdsoft_other_month'))][@data-date  ='" + String.valueOf(dayNum) + "']/div";
+		 }else{
+			 dayNum += dayNum;
+			 xpath = "//*[not(contains(@class, 'xdsoft_other_month'))][@data-date  ='" + String.valueOf(dayNum) + "']/div";
+		 }
+		 List <WebElement> tommorowSelectList = getWebDriver().findElements(By.xpath(xpath));	 
 		 for (WebElement tommorowSelect : tommorowSelectList) {
 			 if(tommorowSelect.isDisplayed()){
 				 tommorowSelect.click();
@@ -756,8 +765,18 @@ public abstract class BasePage {
 		
 		 //search for today (the week it is on ) - if found ,take this week next day
 		 WebElement today = getWebDriver().findElement(By.cssSelector(".xdsoft_current.xdsoft_today"));
-		 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue() - 1;
-		 List <WebElement> pastSelectList = getWebDriver().findElements(By.xpath("//*[not(contains(@class, 'xdsoft_other_month'))][@data-date  ='" + String.valueOf(dayNum) + "']/div"));	 
+		 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue();
+		 //if this is the first day of the month - make it the 28 of the previous month,else remove 1
+		 String xpath = "";
+		 if(dayNum == 1){
+			 dayNum = 28;
+			 xpath = "//*[(contains(@class, 'xdsoft_other_month'))][@data-date  ='" + String.valueOf(dayNum) + "']/div";
+			
+		 }else{	 
+			 dayNum -= 1;
+			 xpath = "//*[not(contains(@class, 'xdsoft_other_month'))][@data-date  ='" + String.valueOf(dayNum) + "']/div";
+		 }
+		 List <WebElement> pastSelectList = getWebDriver().findElements(By.xpath(xpath));	 
 		 for (WebElement pastSelect : pastSelectList) {
 			 if(pastSelect.isDisplayed()){
 				 pastSelect.click();
@@ -767,6 +786,7 @@ public abstract class BasePage {
 		  }
 
 	}
+	
 	
 	
 	protected void save() {	

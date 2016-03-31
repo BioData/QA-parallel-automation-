@@ -65,7 +65,9 @@ public class RodentCagesPage extends RodentPage{
 	}
 	public String addSpecimenFromCage(String cage) throws InterruptedException{
 		
-		clickNewButton("add_specimen");
+		WebElement btnAdd = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add_specimen")));
+		btnAdd.click();
+		
 		TimeUnit.SECONDS.sleep(5);
 		try {
 			String specName = createNewSpecimenIfNotExist(cage);
@@ -224,16 +226,16 @@ public class RodentCagesPage extends RodentPage{
 		//add specimen,select one,add to cage
 		String specimenName = "";
 		List<WebElement> rows = getWebDriver().findElements
-				(By.xpath(".//*[@id='index_table']/tbody/tr"));
+				(By.xpath(".//*[@id='table_specimen_id']/tbody/tr"));
 		
 		TimeUnit.SECONDS.sleep(2);
 		
 		for (int i=2; i<= rows.size() ;i++) {	 
-			 WebElement lblName = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[3]/a"));
+			 WebElement lblName = getWebDriver().findElement(By.xpath(".//*[@id='table_specimen_id']/tbody/tr[" + i + "]/td[3]/a"));
 			 specimenName = lblName.getText();
 			 
 			 //select first specimen
-			 WebElement chkElem = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[1]/input[@type='checkbox']"));
+			 WebElement chkElem = getWebDriver().findElement(By.xpath(".//*[@id='table_specimen_id']/tbody/tr[" + i + "]/td[1]/input[@type='checkbox']"));
 			 if(!chkElem.isSelected())
 				 chkElem.click();
 
