@@ -18,7 +18,7 @@
 			<include name="deep"></include>
 			<exclude name="scarlet"></exclude>
 			<exclude name="special"></exclude>
-			
+			<exclude name="knownBugs"></exclude>
 		</run>
 	</groups>	
     <classes> 

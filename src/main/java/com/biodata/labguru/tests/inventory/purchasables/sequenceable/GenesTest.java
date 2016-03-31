@@ -13,6 +13,11 @@ import com.biodata.labguru.pages.inventory.CollectionPage;
 
 public class GenesTest extends SequenceableCollectionTest{
 	
+	@Override
+	@Test (groups = {"knownBugs"})
+	public void addNewItemWithSequence(){
+		super.addNewItemWithSequence();
+	}
 	
 	@Override
 	@Test (enabled = false)

@@ -19,6 +19,12 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 public class ConsumablesTest extends PurchasableCollectionTest{
 	
 	@Override
+	@Test (groups = {"knownBugs"})
+	public void checkShowPageOfCreatedItem(){
+		super.checkShowPageOfCreatedItem();
+	}
+	
+	@Override
 	protected String getPrefix() {
 		return LGConstants.CONSUMABLE_PREFIX;
 	}

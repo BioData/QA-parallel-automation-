@@ -6,11 +6,27 @@ import java.util.Locale;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
+import org.testng.annotations.Test;
 
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.pages.inventory.purchasables.PurchasableCollectionPage;
 
 public class ProteinsTest extends SequenceableCollectionTest{
+	
+	
+	@Override
+	@Test (groups = {"knownBugs"})
+	public void checkCustomizeTableView() {
+		
+		super.checkCustomizeTableView();
+	}
+	
+	@Override
+	@Test (groups = {"knownBugs"})
+	public void addNewItemWithSequence(){
+		super.addNewItemWithSequence();
+	}
+	
 	@Override
 	protected PurchasableCollectionPage getPage() {
 		return getPageManager().getProteinPage();
