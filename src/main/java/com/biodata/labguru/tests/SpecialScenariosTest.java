@@ -39,7 +39,7 @@ public class SpecialScenariosTest extends BaseTest{
 			TimeUnit.SECONDS.sleep(2);
 			String expName = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
 			getPageManager().getExperimentPageV2().addNewExperiment(expName);
-			
+			getPageManager().getExperimentPageV2().changeVersion(LGConstants.EXPERIMENT_CURRENT);
 			String tagName = buildUniqueName(LGConstants.TAG_PREFIX);
 			getPageManager().getAdminPage().addTag(tagName);
 			
