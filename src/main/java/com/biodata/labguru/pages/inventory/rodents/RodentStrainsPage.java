@@ -102,8 +102,6 @@ public class RodentStrainsPage extends RodentPage{
         TimeUnit.SECONDS.sleep(2);
         String msg = checkForAlerts();
         
-        while(getWebDriver().findElement(By.xpath(".//*[@id='create_specimens_form']/div[2]/a")).getText().equals("Cancel"));
-
         if(!msg.equals("")){
         	WebElement btnCancel = driverWait.until(ExpectedConditions.visibilityOfElementLocated
         			(By.xpath(".//*[@id='create_specimens_form']/div[2]/a")));
@@ -112,6 +110,9 @@ public class RodentStrainsPage extends RodentPage{
     	    getWebDriver().switchTo().activeElement();
         	return msg;
         }
+        
+        while(getWebDriver().findElement(By.xpath(".//*[@id='create_specimens_form']/div[2]/a")).getText().equals("Cancel"));
+        
 	    TimeUnit.SECONDS.sleep(2);
 	    getWebDriver().switchTo().activeElement();
 	    specimenName = specimenName + ".1";
