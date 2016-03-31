@@ -83,7 +83,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	    <dependency>
 		    <groupId>org.testng</groupId>
 		    <artifactId>testng</artifactId>
-		    <version>6.8.21</version>
+		     <version>6.9.10</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
