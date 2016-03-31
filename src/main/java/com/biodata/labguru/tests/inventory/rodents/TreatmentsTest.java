@@ -241,7 +241,7 @@ public class TreatmentsTest  extends BaseTest{
 		String cageName = buildUniqueName(LGConstants.CAGE_PREFIX);
 		getPageManager().getCagesPage().addNewItem(cageName);
 		
-		String created = getPageManager().getCagesPage().addSpecimenFromCage(cageName);
+		String created = getPageManager().getCagesPage().addSpecimenFromCage(cageName,false);
 		return created;
 	}
 

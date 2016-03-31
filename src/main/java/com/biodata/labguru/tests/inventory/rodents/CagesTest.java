@@ -60,7 +60,7 @@ public class CagesTest extends AbstractRodentsTest{
 			String cageName = buildUniqueName(LGConstants.CAGE_PREFIX);
 			getPageManager().getCagesPage().addNewItem(cageName);
 			
-			String created = getPageManager().getCagesPage().addSpecimenFromCage(cageName);
+			String created = getPageManager().getCagesPage().addSpecimenFromCage(cageName,true);
 			
 			AssertJUnit.assertTrue(!created.isEmpty());
 			

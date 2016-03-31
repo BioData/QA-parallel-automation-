@@ -63,23 +63,27 @@ public class RodentCagesPage extends RodentPage{
 			return false;
 		}
 	}
-	public String addSpecimenFromCage(String cage) throws InterruptedException{
+	
+	public String addSpecimenFromCage(String cage, boolean checkCreation) throws InterruptedException{
 		
 		WebElement btnAdd = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add_specimen")));
 		btnAdd.click();
-		
+	
 		TimeUnit.SECONDS.sleep(5);
+		String specName = "";
 		try {
-			String specName = createNewSpecimenIfNotExist(cage);
+			specName = createNewSpecimenIfNotExist(cage);
 			showCreatedCage(cage);
-			return checkSpecimenCreation(specName,cage);
+			
 		} catch (NoSuchElementException e) {
 			//regular dialog to add specimen was open
 			TimeUnit.SECONDS.sleep(2);
-			String specName = addSingleSpecimen();
-			return checkSpecimenCreation(specName,cage);
+			specName = addSingleSpecimen();
+						
 		}
-		
+		if(checkCreation)
+			return checkSpecimenCreation(specName,cage);
+		return specName;
 	}
 
 	private void createNewSpecimen(String specName) {

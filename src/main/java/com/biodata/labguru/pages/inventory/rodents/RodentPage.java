@@ -124,8 +124,8 @@ public abstract class RodentPage extends CollectionPage{
 	  List<WebElement> rows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 	  		(By.xpath(".//*[@id='index_table']/tbody/tr")));
 	  
-	  int nameColumIndex = serchForColumnIndex("Name",rows);
-	  int cageColumIndex = serchForColumnIndex("Cage",rows);
+	  int nameColumIndex = serchForColumnIndex("Name");
+	  int cageColumIndex = serchForColumnIndex("Cage");
 	  
 	  for (int i=2; i<= rows.size() ; i++) {
 		  	WebElement nameElm = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[" + nameColumIndex + "]/a"));
@@ -139,7 +139,7 @@ public abstract class RodentPage extends CollectionPage{
 	  return "";
 	}
 	
-	protected int serchForColumnIndex(String columnName, List<WebElement> rows) {
+	protected int serchForColumnIndex(String columnName) {
 		
 		List<WebElement> cols = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 		  		(By.xpath(".//*[@id='index_table']/tbody/tr[1]/th")));
