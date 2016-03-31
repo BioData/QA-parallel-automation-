@@ -51,7 +51,8 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 	public boolean hasList() {
 		try{
 			//look for 'manually' link when this is the first time adding 
-			driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='main-content']/div/div[1]/a")));
+			driverWait.until(ExpectedConditions.visibilityOfElementLocated
+					(By.xpath(".//*[@id='main-content']/div/div[1]/a")));
 			return false;
 			
 		}catch(Exception ex){
@@ -208,7 +209,6 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		}
 	}
 	
-
 
 	public String importCollection() throws InterruptedException{
 		
@@ -569,10 +569,8 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		String savedLocation = findStockInTable(storageName,stockName);
 		return savedLocation.equals(storageName);
 	}
-	
 
-
-	public boolean deleteOrArchiveStockInTable(String stockName, boolean delete) throws InterruptedException {
+	public boolean markAsUsedStockInTable(String stockName) throws InterruptedException {
 		
 		List <WebElement> tableRows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.xpath(".//*[@class='stocks_table']/tr")));
@@ -582,11 +580,11 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 			
 			String stock = stockNameCell.getText();
 			if(stock.equals(stockName)){
-				WebElement deleteIcon = getWebDriver().findElement(By.xpath(".//*[starts-with(@id,'delete_stock_')]/i"));
+				WebElement deleteIcon = getWebDriver().findElement(By.xpath(".//*[starts-with(@id,'archive_stock_')]/i"));
 				deleteIcon.click();
 				TimeUnit.SECONDS.sleep(2);
 				
-				openDeleteArchivePopup(delete);
+				openMarkedAsUsedPopup();
 				return true;
 			}
 		}
@@ -621,6 +619,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
         return checkTableHeaders(selectedColumns);
         
 	}
+
 
 	public String addItemSaveAndNew(String name) {
 		addItemWithGivenName(name);    

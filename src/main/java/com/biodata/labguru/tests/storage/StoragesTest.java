@@ -31,7 +31,6 @@ public class StoragesTest extends BaseTest{
 		}
 	}
 	
-	
 	@Test (groups = {"deep"})
 	public void addNewStorageByType(){
 		
@@ -138,15 +137,12 @@ public class StoragesTest extends BaseTest{
 			//go to storage tree and select the box in the tree
 			showStorageAndSelectBox(boxName);
 
-			//delete stock from tableview
-			String stockToDelete = "stockToDelete";
-			String notyMsg = getPageManager().getBoxPage().deleteArchiveStockFromTableView(stockToDelete,true);
-			assertEquals(getMessageSource().getMessage("boxes.stock.deleted.msg",new Object[]{"1"}, Locale.US), notyMsg);
+		
 			
-			//archive stock from boxview
-			String stockToArchive = "stockToArchive";
-			notyMsg = getPageManager().getBoxPage().deleteArchiveStockFromBoxView(stockToArchive,false);
-			assertEquals(getMessageSource().getMessage("boxes.stock.archived.msg",new Object[]{"1"}, Locale.US), notyMsg);
+			//mark as used stock from boxview
+			String stockToMarkedAsUsed = "stockToMarkedAsUsed";
+			String notyMsg = getPageManager().getBoxPage().markedAsUsedStockFromBoxView(stockToMarkedAsUsed);
+			assertEquals(getMessageSource().getMessage("boxes.stock.marked.used.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
 			//check the edit stock from tableview
 			String stockToEdit = "editStockFromBoxTableView";			
@@ -167,11 +163,10 @@ public class StoragesTest extends BaseTest{
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
-	
+
 	private void showStorageAndSelectBox(String boxName) throws InterruptedException {
 		
 		getPageManager().getAdminPage().showStorages();
 		getPageManager().getStoragePage().selectBoxNodeWithName(boxName);
 	}
-
 }

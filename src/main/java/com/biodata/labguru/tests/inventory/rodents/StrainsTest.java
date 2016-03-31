@@ -24,7 +24,7 @@ public class StrainsTest extends AbstractRodentsTest{
 	}
 	
 	@Test (enabled = false)
-	public void archiveStockFromStocksTab(){
+	public void markAsUsedStockFromStocksTab(){
 		//this test is not relevant for this module
 	}
 	

@@ -22,15 +22,17 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 public class BoxesTest extends AbstractStoragesTest{
 	
 	@AfterMethod
-	public void deleteAllStocks(){
+	public void markAsUsedAllStocks(){
 		//delete stocks
 		try {
-			deleteStocks();
+			markAsUsedStocks();
 			getPageManager().getBoxPage().deleteAllItemsFromTable();
+			
 		} catch (InterruptedException e) {
-			setLog(e,"deleteAllStocks");
+			setLog(e,"markAsUsedAllStocks");
 		}
 	}
+	
 	
 	@Test (groups = {"deep"})
 	public void addTagToBoxesFromIndexTable(){
@@ -50,7 +52,7 @@ public class BoxesTest extends AbstractStoragesTest{
 			boolean succeeded = getPageManager().getAdminPage().addTagFromIndexTable(tagName,boxesToTag);
 			
 			AssertJUnit.assertTrue("Tag was not craeted as should be.",succeeded);
-	
+			
 			succeeded = getPageManager().getAdminPage().searchTagAndSearchByIt(tagName, box2);
 			AssertJUnit.assertTrue("Search by tag not working as should be.", succeeded);
 			getPageManager().getAdminPage().deleteTagFromTaggedEntitiesList();
@@ -139,8 +141,9 @@ public class BoxesTest extends AbstractStoragesTest{
 		}
 	}
 	
-	@Test (groups = {"deep"})
-	public void deleteStockFromBoxCheckUpdateInTableIndex(){
+	
+	@Test (groups = {"basic sanity"})
+	public void markAsUsedStockFromBoxCheckUpdateInTableIndex(){
 		
 		try {
 			showTableIndex();
@@ -153,60 +156,23 @@ public class BoxesTest extends AbstractStoragesTest{
 			assertEquals(0,stocks);//check no stocks in the box
 	
 			
-			String stockToDelete = "test";
+			String stockToMarkAsUsed = "test";
 	
-			getPageManager().getBoxPage().searchBoxAndAddStockToBox(newBox,stockToDelete,1);
+			getPageManager().getBoxPage().searchBoxAndAddStockToBox(newBox,stockToMarkAsUsed,1);
 			showTableIndex();
 			stocks = getPageManager().getBoxPage().checkStocksNumber(newBox);
 			assertEquals(1,stocks);//check 1 stock added to the box
 			
-			//true - represent to delete stock
+			//true - represent to mark as used stock
 			getPageManager().getBoxPage().viewBoxShowPage(newBox);
-			getPageManager().getBoxPage().deleteArchiveSelectedStock(stockToDelete,true);
-			
-			showTableIndex();
-			stocks = getPageManager().getBoxPage().checkStocksNumber(newBox);
-			assertEquals(0,stocks);//check 1 stock deleted from box - again no stocks
-			
-
-			
-		}  catch (Exception e) {
-			setLog(e,"deleteStockFromBoxCheckUpdateInTableIndex");
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-	@Test (groups = {"deep"})
-	public void archieveStockFromBoxCheckUpdateInTableIndex(){
-		
-		try {
-			showTableIndex();
-			
-			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
-			getPageManager().getBoxPage().addNewBox(newBox,"1");
-			
-			showTableIndex();
-			int stocks = getPageManager().getBoxPage().checkStocksNumber(newBox);
-			assertEquals(0,stocks);//check no stocks in the box
-	
-			
-			String stockToArchive = "test";
-	
-			getPageManager().getBoxPage().searchBoxAndAddStockToBox(newBox,stockToArchive,1);
-			showTableIndex();
-			stocks = getPageManager().getBoxPage().checkStocksNumber(newBox);
-			assertEquals(1,stocks);//check 1 stock added to the box
-			
-			//true - represent to delete stock
-			getPageManager().getBoxPage().viewBoxShowPage(newBox);
-			getPageManager().getBoxPage().deleteArchiveSelectedStock(stockToArchive,false);
+			getPageManager().getBoxPage().markedAsUsedSelectedStock(stockToMarkAsUsed);
 			
 			showTableIndex();
 			stocks = getPageManager().getBoxPage().checkStocksNumber(newBox);
 			assertEquals(0,stocks);//check 1 stock deleted from box - again no stocks
 			
 		}  catch (Exception e) {
-			setLog(e,"archieveStockFromBoxCheckUpdateInTableIndex");
+			setLog(e,"markAsUsedStockFromBoxCheckUpdateInTableIndex");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -235,8 +201,8 @@ public class BoxesTest extends AbstractStoragesTest{
 			
 			
 			getPageManager().getBoxPage().viewBoxShowPage(newBox);
-			//archive
-			getPageManager().getBoxPage().deleteArchiveSelectedStock(stockToArchive,false);
+			//mark as used
+			getPageManager().getBoxPage().markedAsUsedSelectedStock(stockToArchive);
 	
 			showTableIndex();
 			stocks = getPageManager().getBoxPage().checkStocksNumber(newBox);
@@ -409,32 +375,9 @@ public class BoxesTest extends AbstractStoragesTest{
 		}
 	}
 	
-	@Test (groups = {"basic sanity"})
-	public void deleteStockFromStockPageView(){
-		
-		try {
-			showTableIndex();
-			
-			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
-			getPageManager().getBoxPage().addNewBox(newBox,"1");
-			
-			String stockToDelete = "deleteStockFromStockPageView";
-			String pageTitle = getPageManager().getBoxPage().createStockToDeleteArchiveFromPageView(stockToDelete);
-			assertEquals("Stocks - " + stockToDelete , pageTitle);
-			
-			//true - represent to delete stock
-			String notyMsg = getPageManager().getStockPage().deleteArchiveStock(true);
-			assertEquals(getMessageSource().getMessage("boxes.stock.deleted.msg",new Object[]{"1"}, Locale.US), notyMsg);
-
-			
-		}  catch (Exception e) {
-			setLog(e,"deleteStockFromStockPageView");
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
 	
 	@Test (groups = {"basic sanity"})
-	public void archiveStockFromStockPageView(){
+	public void markAsUsedStockFromStockPageView(){
 		
 		try {
 			showTableIndex();
@@ -442,18 +385,17 @@ public class BoxesTest extends AbstractStoragesTest{
 			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
 			getPageManager().getBoxPage().addNewBox(newBox,"1");
 			
-			String stockToArchive= "archiveStockFromStockPageView";
+			String stockName= buildUniqueName(LGConstants.STOCK_PREFIX);
+	
+			String pageTitle = getPageManager().getBoxPage().createStock(stockName);
+			assertEquals("Stocks - " + stockName, pageTitle);
 			
-			//false - represent to archive stock
-			String pageTitle = getPageManager().getBoxPage().createStockToDeleteArchiveFromPageView(stockToArchive);
-			assertEquals("Stocks - " + stockToArchive, pageTitle);
-			
-			String notyMsg = getPageManager().getStockPage().deleteArchiveStock(false);
-			assertEquals(getMessageSource().getMessage("boxes.stock.archived.msg",new Object[]{"1"}, Locale.US), notyMsg);
+			String notyMsg = getPageManager().getStockPage().markAsUsedStock();
+			assertEquals(getMessageSource().getMessage("boxes.stock.marked.used.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().showArchiveView(stockToArchive));
+			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockName));
 			
 		}  catch (Exception e) {
 			setLog(e,"archiveStockFromStockPageView");
@@ -461,26 +403,6 @@ public class BoxesTest extends AbstractStoragesTest{
 		}
 	}
 	
-	
-	@Test (groups = {"basic sanity"})
-	public void deleteStockFromTableView(){
-		
-		try {
-			showTableIndex();
-			
-			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
-			getPageManager().getBoxPage().addNewBox(newBox,"1");
-			
-			String stockToDelete = "deleteStockFromTableView";
-			
-			//true - represent to delete stock
-			String notyMsg = getPageManager().getBoxPage().deleteArchiveStockFromTableView(stockToDelete,true);
-			assertEquals(getMessageSource().getMessage("boxes.stock.deleted.msg",new Object[]{"1"}, Locale.US), notyMsg);
-		} catch (Exception e) {
-			setLog(e,"deleteStockFromTableView");
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
 	
 	@Test (groups = {"basic sanity"})
 	public void editStockFromBoxView(){
@@ -502,29 +424,9 @@ public class BoxesTest extends AbstractStoragesTest{
 		}
 	}
 	
-	@Test (groups = {"basic sanity"})
-	public void deleteStockFromBoxView(){
-		
-		try {
-			showTableIndex();
-			
-			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
-			getPageManager().getBoxPage().addNewBox(newBox,"1");
-			
-			String stockToDelete = "deleteStockFromBoxView";
-			
-			//true - represent to delete stock
-			String notyMsg = getPageManager().getBoxPage().deleteArchiveStockFromBoxView(stockToDelete,true);
-			assertEquals(getMessageSource().getMessage("boxes.stock.deleted.msg",new Object[]{"1"}, Locale.US), notyMsg);
-			
-		} catch (Exception e) {
-			setLog(e,"deleteStockFromBoxView");
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
 	
 	@Test (groups = {"basic sanity"})
-	public void archiveStockFromBoxView(){
+	public void markedAsUsedStockFromBoxView(){
 		
 		try {
 			showTableIndex();
@@ -532,18 +434,17 @@ public class BoxesTest extends AbstractStoragesTest{
 			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
 			getPageManager().getBoxPage().addNewBox(newBox,"1");
 			
-			String stockToArchive = "archiveStockFromBoxView";
-			
-			//false - represent to archive stock
-			String notyMsg = getPageManager().getBoxPage().deleteArchiveStockFromBoxView(stockToArchive,false);
-			assertEquals(getMessageSource().getMessage("boxes.stock.archived.msg",new Object[]{"1"}, Locale.US), notyMsg);
+			String stockToMarkAsUsed = "markedAsUsedStockFromBoxView";
+	
+			String notyMsg = getPageManager().getBoxPage().markedAsUsedStockFromBoxView(stockToMarkAsUsed);
+			assertEquals(getMessageSource().getMessage("boxes.stock.marked.used.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().showArchiveView(stockToArchive));
+			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockToMarkAsUsed));
 			
 		} catch (Exception e) {
-			setLog(e,"archiveStockFromBoxView");
+			setLog(e,"markedAsUsedStockFromBoxView");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -572,15 +473,15 @@ public class BoxesTest extends AbstractStoragesTest{
 	
 
 	
-	private void deleteStocks() throws InterruptedException {
+	private void markAsUsedStocks() throws InterruptedException {
 		//delete stocks	
 		getPageManager().getAdminPage().showStocks();
 		getPageManager().getStockPage().deleteAllItemsFromTable();
-
+		getPageManager().getStockPage().deleteUsedStocksFromView();
 	}
 
 	@Test (groups = {"basic sanity"})
-	public void archiveStockFromTableView(){
+	public void markedAsUsedStockFromTableView(){
 		
 		try {
 			showTableIndex();
@@ -588,17 +489,16 @@ public class BoxesTest extends AbstractStoragesTest{
 			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
 			getPageManager().getBoxPage().addNewBox(newBox,"1");
 			
-			String stockToArchive = "archiveStockFromTableView";
-			
-			//false - represent to archive stock
-			String notyMsg = getPageManager().getBoxPage().deleteArchiveStockFromTableView(stockToArchive,false);
-			assertEquals(getMessageSource().getMessage("boxes.stock.archived.msg",new Object[]{"1"}, Locale.US), notyMsg);
+			String stockName = "markAsUsedStockFromTableView";
+
+			String notyMsg = getPageManager().getBoxPage().markedAsUsedStockFromTableView(stockName);
+			assertEquals(getMessageSource().getMessage("boxes.stock.marked.used.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().showArchiveView(stockToArchive));
+			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockName));
 		} catch (Exception e) {
-			setLog(e,"archiveStockFromTableView");
+			setLog(e,"markedAsUsedStockFromTableView");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -685,8 +585,8 @@ public class BoxesTest extends AbstractStoragesTest{
 		}
 	}
 	
-	@Test (groups = {"deep"})
-	public void deleteAllStocksFromTableView(){
+	@Test (groups = {"basic sanity"})
+	public void markAsUsedAllStocksFromTableView(){
 		
 		try {
 			showTableIndex();
@@ -694,18 +594,18 @@ public class BoxesTest extends AbstractStoragesTest{
 			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
 			getPageManager().getBoxPage().addNewBox(newBox,"1");
 			
-			String stockToDelete = "deleteStockFromTableView";
+			String stockName = "StockToMarkFromTableView";
 			int numOfStocks = 3;
-			getPageManager().getBoxPage().addStock(stockToDelete, numOfStocks);
+			getPageManager().getBoxPage().addStock(stockName, numOfStocks);
 			
-			String notyMsg = getPageManager().getBoxPage().deleteStocksFromTableView();
+			String notyMsg = getPageManager().getBoxPage().markAsUsedStocksFromTableView();
 			if(numOfStocks == 1)
-				assertEquals(getMessageSource().getMessage("boxes.stock.deleted.msg",new Object[]{String.valueOf(numOfStocks)}, Locale.US), notyMsg);
+				assertEquals(getMessageSource().getMessage("boxes.stock.marked.used.msg",new Object[]{String.valueOf(numOfStocks)}, Locale.US), notyMsg);
 			else
-				assertEquals(getMessageSource().getMessage("boxes.stocks.deleted.msg",new Object[]{String.valueOf(numOfStocks)}, Locale.US), notyMsg);
+				assertEquals(getMessageSource().getMessage("boxes.stocks.marked.used.msg",new Object[]{String.valueOf(numOfStocks)}, Locale.US), notyMsg);
 				
 		} catch (Exception e) {
-			setLog(e,"deleteAllStocksFromTableView");
+			setLog(e,"markAsUsedAllStocksFromTableView");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}

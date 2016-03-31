@@ -118,7 +118,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 	
 	
 	
-	@Test (groups = {"test"})
+	@Test (groups = {"basic sanity"})
 	public void deleteCollectionItemFromIndexTable(){
 		
 		try {
@@ -312,7 +312,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 		}
 	}
 
-	@Test (groups = {"test"})
+	@Test (groups = {"basic sanity"})
 	public void addStockLocatedInBox(){
 		
 		try {
@@ -336,7 +336,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 		}
 	}
 	
-	@Test (groups = {"test"})
+	@Test (groups = {"deep"})
 	public void deleteAllItemsFromIndexTable(){
 		
 		try {
@@ -357,33 +357,9 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 		}
 	}
 	
-	@Test (groups = {"deep"})
-	public void deleteStockFromStocksTab(){
-		
-		try {
-			
-			showTableIndex();
-			addNewItem();
-			
-			String stockName = buildUniqueName(LGConstants.STOCK_PREFIX);
-			getPage().addStockLocatedInBox(stockName,null);
-			
-			getPage().selectStocksTab();
-			boolean deleteSucceeded = getPage().deleteOrArchiveStockInTable(stockName,true/*delete*/);
-			AssertJUnit.assertTrue("The stock was not deleted as expected",deleteSucceeded);
-			
-			getPageManager().getAdminPage().showStocks();
-			boolean found = getPage().invokeSearchStock(stockName);
-			AssertJUnit.assertFalse(found);//check that the deleted stock is no longer exist in the stocks table
-		
-		} catch (Exception e) {
-			setLog(e,"deleteStockFromStocksTab");
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
 	
-	@Test (groups = {"deep"})
-	public void archiveStockFromStocksTab(){
+	@Test (groups = {"basic sanity"})
+	public void markAsUsedStockFromStocksTab(){
 		
 		try {
 			
@@ -394,15 +370,15 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 			getPage().addStockLocatedInBox(stockName,null);
 			
 			getPage().selectStocksTab();
-			boolean archiveSucceeded = getPage().deleteOrArchiveStockInTable(stockName,false/*archive*/);
-			AssertJUnit.assertTrue("The stock was not archived as expected",archiveSucceeded);
+			boolean archiveSucceeded = getPage().markAsUsedStockInTable(stockName);
+			AssertJUnit.assertTrue("The stock was not marked as expected",archiveSucceeded);
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().showArchiveView(stockName));
+			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockName));
 		
 		} catch (Exception e) {
-			setLog(e,"archiveStockFromStocksTab");
+			setLog(e,"markAsUsedStockFromStocksTab");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}

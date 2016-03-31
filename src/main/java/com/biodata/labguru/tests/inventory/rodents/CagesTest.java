@@ -18,14 +18,10 @@ public class CagesTest extends AbstractRodentsTest{
 	protected String getCreationPrefix(){
 		return LGConstants.RODENTS_CAGE_CREATION_TITLE;
 	}
+
 	
 	@Test (enabled = false)
-	public void deleteStockFromStocksTab(){
-		//this test is not relevant for this module
-	}
-	
-	@Test (enabled = false)
-	public void archiveStockFromStocksTab(){
+	public void markAsUsedStockFromStocksTab(){
 		//this test is not relevant for this module
 	}
 	

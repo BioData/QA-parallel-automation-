@@ -1152,7 +1152,7 @@ public class AdminPage extends BasePage{
 	}
 	
 
-	private void checkAllTableItemsAllPages() throws InterruptedException {
+	protected void checkAllTableItemsAllPages() throws InterruptedException {
 		
 		clickOnButton("check_all");
 		TimeUnit.SECONDS.sleep(2);
@@ -1171,12 +1171,12 @@ public class AdminPage extends BasePage{
 	public String tagItemsAllPages() throws InterruptedException {
 		
 		checkAllTableItemsAllPages();
-		String label = getWebDriver().findElement(By.id("class_count")).getText();
+		String label = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("class_count"))).getText();
 		String selectedCount =  label.substring(label.indexOf('(') + 1, label.indexOf(' '));
 		try{
 			//when there is pagination - label to select all pages
-			selectedCount = getWebDriver().findElement(By.id("all_selected_checkboxes")).getText();
-		}catch(NoSuchElementException e){
+			selectedCount = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("all_selected_checkboxes"))).getText();
+		}catch(Exception e){
 			//do nothing if no pagination label
 		}
 		
@@ -1185,11 +1185,13 @@ public class AdminPage extends BasePage{
 		//tag the selected items
 		WebElement tagAction = getWebDriver().findElement(By.cssSelector(".tag-action"));
 		tagAction.click();
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(2);
 		addTagWithName(tagName);
+		TimeUnit.SECONDS.sleep(5);
 		
 		//click on the new tag
 		clickOnGivenTag(tagName);
+		TimeUnit.SECONDS.sleep(5);
 		
 		WebElement resultLbl = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("class_count")));
 		String expectedMsg = "(" + selectedCount + " tagged results)";

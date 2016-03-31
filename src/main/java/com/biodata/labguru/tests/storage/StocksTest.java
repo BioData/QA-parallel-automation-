@@ -47,7 +47,7 @@ public class StocksTest extends AbstractStoragesTest{
 			
 			String newName = buildUniqueName(LGConstants.STOCK_PREFIX);
 			String stockType = LGConstants.STOCK_TYPES_ARRAY[3];//Vial
-			Stock stock = getPageManager().getStockPage().editStock(newName,stockType);
+			Stock stock = getPageManager().getStockPage().editStock("stock",newName,stockType);
 			Assert.assertEquals(stock.name, newName);
 			Assert.assertEquals(stock.type, stockType);
 		} catch (Exception e) {
@@ -86,7 +86,7 @@ public class StocksTest extends AbstractStoragesTest{
 	
 	
 	@Test(groups = {"deep"})
-	public void deleteAllStocksFromIndexTable(){
+	public void markAsUsedAllStocksFromIndexTable(){
 		
 		try {
 			showTableIndex();
@@ -102,17 +102,44 @@ public class StocksTest extends AbstractStoragesTest{
 				
 			}
 			getPageManager().getAdminPage().showStocks();
-			boolean hasStocks = getPageManager().getStockPage().deleteAllStocks();
+			boolean hasStocks = getPageManager().getStockPage().markAsUsedAllStocks();
 			Assert.assertFalse(hasStocks);
 			
 		} catch (Exception e) {
-			setLog(e,"deleteAllStocks");
+			setLog(e,"markAsUsedAllStocksFromIndexTable");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
 	
 	@Test(groups = {"deep"})
-	public void deleteStockFromIndexTable(){
+	public void deleteAllStocksFromUsedStocksIndexTable(){
+		
+		try {
+			showTableIndex();
+			
+			//if has no stocks - create 3 stocks
+			if(!getPageManager().getStockPage().hasList()){
+				getPageManager().getAdminPage().showBoxes();
+				
+				String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
+				getPageManager().getBoxPage().addNewBox(newBox,"1");
+				int numOfStocks = 3;
+				getPageManager().getBoxPage().addStock("stock", numOfStocks);
+				
+			}
+			getPageManager().getAdminPage().showStocks();
+			getPageManager().getStockPage().markAsUsedAllStocks();
+			getPageManager().getStockPage().deleteUsedStocksFromView();
+			getPageManager().getAdminPage().showStocks();
+			Assert.assertFalse(getPageManager().getStockPage().hasList(), "Not all stocks were deleted");
+		} catch (Exception e) {
+			setLog(e,"deleteAllStocksFromUsedStocksIndexTable");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Test(groups = {"basic sanity"})
+	public void markAsUsedStockFromIndexTable(){
 		
 		try {
 
@@ -120,17 +147,18 @@ public class StocksTest extends AbstractStoragesTest{
 			getPageManager().getAdminPage().showBoxes();
 			
 			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
-			getPageManager().getBoxPage().addNewBox(newBox,"1");		
+			getPageManager().getBoxPage().addNewBox(newBox,"1");
 			//add 3 stoks
 			int numOfStocks = 3;
 			getPageManager().getBoxPage().addStock("stock", numOfStocks);
 			
 			getPageManager().getAdminPage().showStocks();
-			boolean deleted = getPageManager().getStockPage().deleteStock("stock");
-			Assert.assertTrue(deleted);
+			getPageManager().getStockPage().markAsUsedSelectedStock("stock");
+			boolean markAsUsed = getPageManager().getStockPage().searchInUsedStocks("stock");
+			Assert.assertTrue(markAsUsed);
 			
 		} catch (Exception e) {
-			setLog(e,"deleteStockFromIndexTable");
+			setLog(e,"markAsUsedStockFromIndexTable");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}

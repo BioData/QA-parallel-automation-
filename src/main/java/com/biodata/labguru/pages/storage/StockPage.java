@@ -32,22 +32,13 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		}
 	}
 	/**
-	 * showArchiveView
-	 * @param stockName -the stock to search in the archive view
+	 * searchInUsedStocks
+	 * @param stockName -the stock to search in the used stocks view
 	 * @return
 	 */
-	public boolean showArchiveView(String stockName) {
+	public boolean searchInUsedStocks(String stockName) {
 		
-		WebElement linkShowArchive;
-		if(hasList()){
-			linkShowArchive = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-				(By.xpath(".//*[@id='index-header']/h1/a[@href='/storage/stocks/archived']")));
-		}else{
-			linkShowArchive = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-					(By.xpath(".//*[@id='main-content']/div[1]/div[1]/a")));
-		}
-		
-		linkShowArchive.click();
+		showUsedStocks();
 		
 		WebElement txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.cssSelector(".searchtextbox")));
@@ -59,22 +50,34 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		WebElement label = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#class_count")));
 		return !label.getText().equals("(no search results)");
 	}
-	
-	/**
-	 * deleteArchiveStock
-	 * @param delete -true for delete action,false for archive
-	 * @return
-	 * @throws InterruptedException 
-	 */
-	public String deleteArchiveStock(boolean delete) throws InterruptedException{
-		WebElement btnDelete = getWebDriver().findElement(By.id("delete-item"));
-		btnDelete.click();
-		return openDeleteItemPopup(delete);
+	private void showUsedStocks() {
+		WebElement linkShowArchive;
+		if(hasList()){
+			linkShowArchive = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='index-header']/h1/a[@href='/storage/stocks/archived']")));
+		}else{
+			linkShowArchive = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+					(By.xpath(".//*[@id='main-content']/div[1]/div[1]/a")));
+		}
+		
+		linkShowArchive.click();
 	}
 	
-	public Stock editStock(String newName,String newType) throws InterruptedException{
+	/**
+	 * markAsUsedStock - click on the action on the stock show page.
+	 * @return noty message
+	 * @throws InterruptedException 
+	 */
+	public String markAsUsedStock() throws InterruptedException{
+		WebElement btnMarkAsUsed = getWebDriver().findElement(By.cssSelector(".icon-mark-as-used"));
+		btnMarkAsUsed.click();
+		return openMarkedAsUsedPopup();
+	}
+	
+	public Stock editStock(String oldName,String newName,String newType) throws InterruptedException{
 		
-		selectLastStockFromList();
+		openStockFromList(oldName) ;
+		
 		TimeUnit.SECONDS.sleep(2);
 
 		WebElement btnEdit = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".edit")));
@@ -106,7 +109,7 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
 		Stock newStock = new Stock();
 		newStock.setName(getWebDriver().findElement(By.id("page-title")).getText());
-		newStock.setType(getWebDriver().findElement(By.xpath(".//*[@id='main-content']/div[1]/div[4]/table/tbody/tr[2]/td")).getText());
+		newStock.setType(getWebDriver().findElement(By.id("lg_info_tab_type")).getText());
 		newStock.setContent(getWebDriver().findElement(By.xpath(".//*[@id='main-content']/div[1]/div[4]/table/tbody/tr[3]/td/a")).getText());
 		return newStock;
 	}
@@ -136,10 +139,10 @@ public class StockPage extends BaseStoragePage implements ITableView{
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean deleteAllStocks() throws InterruptedException {
+	public boolean markAsUsedAllStocks() throws InterruptedException {
 		
-		deleteAllItemsFromTable();
-		openDeleteItemPopupFromIndexTable(true);
+		checkAllTableItemsAllPages();
+		markAsUsedStock();
 		TimeUnit.SECONDS.sleep(2);
 		showStocks();
 		return hasList();
@@ -148,17 +151,14 @@ public class StockPage extends BaseStoragePage implements ITableView{
 	/**
 	 * Select specific stock in the list and delete it.
 	 * @param name
-	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean deleteStock(String name) throws InterruptedException {
+	public void markAsUsedSelectedStock(String name) throws InterruptedException {
 		
 		selectStockFromList(name);
 		
-		deleteArchiveStock(true);//delete action
+		markAsUsedStock();
 		TimeUnit.SECONDS.sleep(2);
-
-		return hasList();
 	}
 	
 	
@@ -190,20 +190,29 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		
 		selectLastStockFromList();
 
+		editStockLocation(newLocation);
+
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
+		Stock newStock = new Stock();//the xpath direct to 'Box' input text (when the box is without content - tr[3])
+		newStock.setLocation(getWebDriver().findElement(By.xpath(".//*[@id='main-content']/div[1]/div[4]/table/tbody/tr[3]/td/a")).getText());
+		return newStock;
+	}
+	
+	
+	public String editStockLocation(String newLocation) throws InterruptedException {
+		
 		WebElement btnEdit = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".edit")));
 		btnEdit.click();
-
+		TimeUnit.SECONDS.sleep(2);
 		//change location
 		selectBox(newLocation,true/*edit mode*/);
 		//save
 		WebElement btnSave = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("save")));
 		btnSave.click();
 		TimeUnit.SECONDS.sleep(3);
-
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
-		Stock newStock = new Stock();//the xpath direct to 'Box' input text (when the box is without content - tr[3])
-		newStock.setLocation(getWebDriver().findElement(By.xpath(".//*[@id='main-content']/div[1]/div[4]/table/tbody/tr[3]/td/a")).getText());
-		return newStock;
+		String location = getWebDriver().findElement(By.id("lg_info_tab_storage")).getText();
+		return location;
 	}
 	
 	@Override
@@ -237,6 +246,28 @@ public class StockPage extends BaseStoragePage implements ITableView{
         return checkTableHeaders(selectedColumns);
         
 	}
-
+	public void deleteUsedStocksFromView() throws InterruptedException {
+		
+		showUsedStocks();	
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".searchtextbox")));
+		deleteAllItemsFromTable();
+		
+	}
+	public void openStockFromList(String name) throws InterruptedException {
+		
+		//find the specific stock and click its checkbox
+		List<WebElement> stocks = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='index_table']/tbody/tr")));
+		for (int i = 2; i <= stocks.size(); i++) {
+			WebElement selectedStock = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr["+i+"]/td[3]/span[2]/a"));
+			String stockName = selectedStock.getText();
+			if(stockName.equals(name)){
+				//click on stock to go to its show page
+				selectedStock.click();
+				TimeUnit.SECONDS.sleep(1);
+				break;
+			}
+		}	
+	}
 
 }

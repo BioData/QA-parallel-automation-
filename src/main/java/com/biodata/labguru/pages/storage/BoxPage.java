@@ -215,12 +215,9 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 
 	private void setBoxSize() {
 		WebElement rows = getWebDriver().findElement(By.id("box_rows"));
-		rows.clear();
-		rows.sendKeys("3");
 		sendKeys(rows, "3");
 		WebElement cols = getWebDriver().findElement(By.id("box_cols"));
-		cols.clear();
-		cols.sendKeys("8");
+		sendKeys(cols, "8");
 	}
 
 	public String addStockFromBox(String stockName) throws InterruptedException {
@@ -245,7 +242,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 
 	
 
-	public String createStockToDeleteArchiveFromPageView(String stockName) throws InterruptedException{
+	public String createStock(String stockName) throws InterruptedException{
 		
 		addStock(stockName,2);
 		
@@ -340,26 +337,26 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 	}
 
 
-	public String deleteArchiveStockFromBoxView(String stockName,boolean delete) throws InterruptedException {
+	public String markedAsUsedStockFromBoxView(String stockName) throws InterruptedException {
 		
 		addStock(stockName,1);
 		TimeUnit.SECONDS.sleep(2);
-		return deleteArchiveSelectedStock(stockName, delete);
+		return markedAsUsedSelectedStock(stockName);
 
 	}
 
-	public String deleteArchiveSelectedStock(String stockName, boolean delete) throws InterruptedException {
+	public String markedAsUsedSelectedStock(String stockName) throws InterruptedException {
 		
 		selectStockInBoxView(stockName);
 		
-		WebElement btnDelete = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("delete-from-box-view")));
+		WebElement btnDelete = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("archive-from-box-view")));
 		btnDelete.click();
 		TimeUnit.SECONDS.sleep(2);
 		
-		return openDeleteItemPopup(delete);
+		return openMarkedAsUsedPopup();
 	}
 	
-	public String deleteArchiveStockFromTableView(String stockName,boolean delete) throws InterruptedException {
+	public String markedAsUsedStockFromTableView(String stockName) throws InterruptedException {
 		
 		addStock(stockName,1);
 		
@@ -368,7 +365,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		WebElement btnDelete = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='doctoolsbox']/div/ul/li[3]/a[@id='delete_selected']")));
 		btnDelete.click();
 		TimeUnit.SECONDS.sleep(3);
-		return openDeleteItemPopup(delete);
+		return openMarkedAsUsedPopup();
 
 	}
 
@@ -610,7 +607,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		TimeUnit.SECONDS.sleep(1);
 	}
 
-	public String deleteStocksFromTableView() throws InterruptedException {
+	public String markAsUsedStocksFromTableView() throws InterruptedException {
 		
 		WebElement tabTableView =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("table_view")));
 		tabTableView.click();
@@ -618,10 +615,10 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		WebElement chkSelectAll =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("check_all")));
 		chkSelectAll.click();
 		TimeUnit.SECONDS.sleep(1);
-		WebElement btnDelete = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//a[@href='/storage/stocks/archive_or_delete']/span[@id='delete-item']")));
+		WebElement btnDelete = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//a[@href='/storage/stocks/mark_as_used']/span[@id='delete-item']")));
 		btnDelete.click();
 		TimeUnit.SECONDS.sleep(1);
-		return openDeleteItemPopup(true);
+		return openMarkedAsUsedPopup();
 	}
 
 	public int checkStocksNumber(String boxToSearch) throws InterruptedException {

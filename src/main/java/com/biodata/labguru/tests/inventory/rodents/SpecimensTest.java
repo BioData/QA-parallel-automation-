@@ -19,45 +19,11 @@ public class SpecimensTest extends AbstractRodentsTest{
 	protected String getCreationPrefix(){
 		return LGConstants.RODENTS_SPECIMEN_CREATION_TITLE;
 	}
-	
-	@Override
-	@Test (groups = {"deep"})
-	public void deleteStockFromStocksTab(){
-		
-		try {
-			
-			getPageManager().getAdminPage().showRodentSpecimens();
-			String specimen = buildUniqueName(getPrefix());
-			getPage().addNewItem(specimen);
-			String tissueName = "tissue1";
-			getPageManager().getRodentSpecimensPage().addTissueToSpecimen(tissueName);
 
-			//add stock to the tissue	
-			String type = LGConstants.STOCK_TYPES_ARRAY[0];
-			String stockName = type + "_" + buildUniqueName(LGConstants.STOCK_PREFIX);		
-			getPageManager().getTissuePage().addStockFromStocksTab(stockName,type);
-			
-			//go to recently viewed specimen
-			getPage().goToRecentlyViewed();
-			
-			getPageManager().getRodentSpecimensPage().selectTissuesAndSamplesTab();
-	
-			boolean deleteSucceeded = getPage().deleteOrArchiveStockInTable(stockName,true/*delete*/);
-			AssertJUnit.assertTrue("The stock was not deleted as expected",deleteSucceeded);
-			
-			getPageManager().getAdminPage().showStocks();
-			boolean found = getPage().invokeSearchStock(stockName);
-			AssertJUnit.assertFalse(found);//check that the deleted stock is no longer exist in the stocks table
-		
-		} catch (Exception e) {
-			setLog(e,"deleteStockFromStocksTab");
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
 	
 	@Override
 	@Test (groups = {"deep"})
-	public void archiveStockFromStocksTab(){
+	public void markAsUsedStockFromStocksTab(){
 		
 		try {
 			
@@ -77,12 +43,12 @@ public class SpecimensTest extends AbstractRodentsTest{
 			
 			getPageManager().getRodentSpecimensPage().selectTissuesAndSamplesTab();
 	
-			boolean archiveSucceeded = getPage().deleteOrArchiveStockInTable(stockName,false/*archive*/);
+			boolean archiveSucceeded = getPage().markAsUsedStockInTable(stockName);
 			AssertJUnit.assertTrue("The stock was not archived as expected",archiveSucceeded);
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().showArchiveView(stockName));
+			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockName));
 		
 		} catch (Exception e) {
 			setLog(e,"archiveStockFromStocksTab");
@@ -225,13 +191,13 @@ public class SpecimensTest extends AbstractRodentsTest{
 		
 		try {		
 			getPageManager().getAdminPage().showRodentSpecimens();
-			
 			if(!getPage().hasList()){
 				addNewItem();
 				showTableIndex();
 			}
+
+			boolean valid = getPageManager().getRodentSpecimensPage().addTreatmentFromSpecimensTable();
 			
-			boolean valid = getPageManager().getRodentSpecimensPage().addTreatmentFromSpecimensTable();	
 			AssertJUnit.assertTrue(valid);
 			
 		} catch (Exception e) {

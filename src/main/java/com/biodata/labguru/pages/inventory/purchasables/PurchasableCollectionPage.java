@@ -242,11 +242,8 @@ public abstract class PurchasableCollectionPage extends CollectionPage{
 		
        openAddToShoppingListDialog();
        //get the noty message
-       WebElement notyMsg = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_message")));
-
-       String msg = notyMsg.getText();
-       notyMsg.click();
-		return msg;
+       String msg = checkForNotyMessage();
+	   return msg;
 	}
 	
 	protected String openAddToShoppingListDialog() throws InterruptedException {
