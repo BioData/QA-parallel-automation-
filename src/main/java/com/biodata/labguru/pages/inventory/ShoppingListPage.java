@@ -31,14 +31,14 @@ public class ShoppingListPage extends AdminPage{
 		WebElement select2Arrow = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.xpath(".//*[@id='s2id_material_quick_add_select']/a/span[2]/b")));
 		select2Arrow.click();
-		
+		TimeUnit.SECONDS.sleep(1);
 		WebElement inputText = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='select2-drop']/div/input")));
 		inputText.sendKeys(itemToSearch);
+		TimeUnit.SECONDS.sleep(1);
 		inputText.sendKeys(Keys.ENTER);
 		
 		 String title = openAddToShoppingListDialog();
-		 return title;
-		
+		 return title;	
 	}
 	
 	private String openAddToShoppingListDialog() throws InterruptedException {
