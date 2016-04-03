@@ -50,15 +50,46 @@ public class ShoppingListTest extends BaseTest{
 
 	}
 	
+	@Test (groups = {"deep"})
+	public void selectConsumableAndAddToCart(){
+		
+		try {
+			
+			//add 2 materials and try to add them one after another from the search material in shopping list
+			getPageManager().getAdminPage().showConsumables();	
+			String material1 = buildUniqueName(LGConstants.CONSUMABLE_PREFIX);
+			getPageManager().getConsumablesPage().addNewItem(material1);		
+			getPageManager().getAdminPage().showConsumables();	
+			String material2 = buildUniqueName(LGConstants.CONSUMABLE_PREFIX);
+			getPageManager().getConsumablesPage().addNewItem(material2);		
+			
+			getPageManager().getAdminPage().showShoppingList();
+			String title1 = getPageManager().getShoppingListPage().selectConsumableToAddCart(material1);
+			
+			assertTrue(title1.toLowerCase().contains(material1));
+			
+			title1 = getPageManager().getShoppingListPage().selectConsumableToAddCart(material2);
+			Assert.assertTrue(title1.toLowerCase().contains(material2),"add to cart failed to load second material");
+		} catch (Exception e) {
+			setLog(e,"selectConsumableAndAddToCart");
+			Assert.fail(e.getMessage());
+		}
+	}
+	
 	@Test (groups = {"basic sanity"})
 	public void addNewServiceRequest(){
-		
-		getPageManager().getAdminPage().showShoppingList();
-
-		String notiMsg = getPageManager().getShoppingListPage().addNewServiceRequest();
-		
-        // Check the title noti message
-		assertEquals(getMessageSource().getMessage("shopping.service.request.add",null, Locale.US), notiMsg.trim());
+	
+		try {
+			getPageManager().getAdminPage().showShoppingList();
+	
+			String notiMsg = getPageManager().getShoppingListPage().addNewServiceRequest();
+			
+	        // Check the title noti message
+			assertEquals(getMessageSource().getMessage("shopping.service.request.add",null, Locale.US), notiMsg.trim());
+		} catch (Exception e) {
+			setLog(e,"addNewServiceRequest");
+			Assert.fail(e.getMessage());
+		}
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -17,6 +18,37 @@ public class ShoppingListPage extends AdminPage{
 	@Override
 	protected void initPage(WebDriver webDriver) {
 		PageFactory.initElements(webDriver, this);	
+	}
+	
+	/**
+	 * Add 2 materials and try to add them one after another from the search material in shopping list.
+	 * @param itemToSearch
+	 * @return the title of th dialog add to cart
+	 * @throws InterruptedException
+	 */
+	public String selectConsumableToAddCart(String itemToSearch) throws InterruptedException{
+		
+		WebElement select2Arrow = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='s2id_material_quick_add_select']/a/span[2]/b")));
+		select2Arrow.click();
+		
+		WebElement inputText = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='select2-drop']/div/input")));
+		inputText.sendKeys(itemToSearch);
+		inputText.sendKeys(Keys.ENTER);
+		
+		 String title = openAddToShoppingListDialog();
+		 return title;
+		
+	}
+	
+	private String openAddToShoppingListDialog() throws InterruptedException {
+		
+		getWebDriver().switchTo().activeElement();
+       WebElement name =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='add_to_cart']/div/div[1]/h3")));
+       String title =name.getText();
+       getWebDriver().findElement(By.xpath(".//*[@id='add_stock_save_button']/a")).click();
+       TimeUnit.SECONDS.sleep(2);
+       return title;
 	}
 	
 	
