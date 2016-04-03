@@ -29,6 +29,32 @@ public class StrainsTest extends AbstractRodentsTest{
 	}
 	
 	@Test (groups = {"deep"})
+	public void editSelectedSpecimensInSpecimensTab(){
+		
+		try {
+					
+			//create strain with 3 specimen 
+			getPageManager().getAdminPage().showRodentStrains();
+			
+			String strainName = buildUniqueName(LGConstants.RODENT_STRAIN_PREFIX);
+			getPageManager().getRodentStrainsPage().addNewItem(strainName);
+			
+			String specimenName = buildUniqueName(LGConstants.RODENT_SPECIMEN_PREFIX);
+			getPageManager().getRodentStrainsPage().addSpecimenFromStrain(specimenName,3,false);
+			
+			//edit items in specific page
+			String newName = buildUniqueName("test_");
+			boolean succeeded = getPageManager().getRodentStrainsPage().editSelectedSpecimensInSpecimensTab(newName);
+			
+			AssertJUnit.assertTrue("Edit selected items on starin not working as should be.", succeeded);
+			
+		} catch (Exception e) {
+			setLog(e,"editSelectedSpecimensInSpecimensTab");
+			AssertJUnit.fail(e.getMessage());
+		}	
+	}
+	
+	@Test (groups = {"deep"})
 	public void addSpecimenFromStrain(){
 		
 		try {		

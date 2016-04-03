@@ -1214,14 +1214,8 @@ public class AdminPage extends BasePage{
 		
 		clickOnButton("edit_selected");
 		
-		WebElement editPencil = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='alternative_name_input']/span")));
-		editPencil.click();
-		TimeUnit.SECONDS.sleep(1);
+		editAlternativeName(newName);
 		
-		WebElement txt = getWebDriver().findElement(By.id("alternative_name"));
-		txt.sendKeys(newName);
-		
-		save();
 	    WebElement txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".searchtextbox")));
         sendKeys(txtSearch, newName);
     
@@ -1233,6 +1227,18 @@ public class AdminPage extends BasePage{
 		String selectedCount =  label.substring(label.indexOf('(') + 1, label.indexOf(' '));
 		
 		return selectedCount.equals("20");//check that all 20 items (the numbers of items that one page holds) found
+	}
+
+	protected void editAlternativeName(String newName) throws InterruptedException {
+		
+		WebElement editPencil = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='alternative_name_input']/span")));
+		editPencil.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+		WebElement txt = getWebDriver().findElement(By.id("alternative_name"));
+		txt.sendKeys(newName);
+		
+		save();
 	}
 	
 	/**

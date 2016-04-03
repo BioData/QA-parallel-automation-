@@ -176,6 +176,45 @@ public abstract class RodentPage extends CollectionPage{
 		}
 	}
 	
+	public boolean editSelectedSpecimensInSpecimensTab(String newName) throws InterruptedException {
+		
+		selectSpecimensTab();
+		//select all items in this page
+		clickOnButton("check_all");
+		TimeUnit.SECONDS.sleep(2);
+		
+		clickOnButton("edit_selected");
+		
+		editAlternativeName(newName);
+		
+		selectSpecimensTab();
+		
+		return checkSpecimenAlternativeNameUpdated(newName);
+
+	}
+	
+	/**
+	 * Check the specimen alternative name updated in the specimen table in the specimens tab in cage/strain
+	 */
+	protected boolean checkSpecimenAlternativeNameUpdated(String specName) {
+		
+	  //go over all rows and check that the right name and specimens are written
+	  List<WebElement> rows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+	  		(By.xpath(".//*[@id='index_table']/tbody/tr")));
+	  
+	  int nameColumIndex = serchForColumnIndex("Alternative name");
+	  
+	  for (int i=2; i<= rows.size() ; i++) {
+		  	WebElement nameElm = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[" + nameColumIndex + "]/span"));
+		  
+		  	if(!nameElm.getText().equals(specName)){
+		  		return false;
+		  	}
+			  	
+	  }
+	  return true;
+	}
+	
 	@Override
 	public void deleteCustomFieldsFromCollection(String collectionName) throws InterruptedException {
 		

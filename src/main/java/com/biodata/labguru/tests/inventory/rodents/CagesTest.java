@@ -31,6 +31,32 @@ public class CagesTest extends AbstractRodentsTest{
 	}
 	
 	@Test (groups = {"deep"})
+	public void editSelectedSpecimensInSpecimensTab(){
+		
+		try {
+					
+			//create cage with 2 specimen 
+			getPageManager().getAdminPage().showRodentCages();
+			
+			String cageName = buildUniqueName(LGConstants.CAGE_PREFIX);
+			getPageManager().getCagesPage().addNewItem(cageName);
+			
+			getPageManager().getCagesPage().addSpecimenFromCage(cageName, false);
+			getPageManager().getCagesPage().addSpecimenFromCage(cageName, false);
+			
+			//edit items in specific page
+			String newName = buildUniqueName("test_");
+			boolean succeeded = getPageManager().getCagesPage().editSelectedSpecimensInSpecimensTab(newName);
+			
+			AssertJUnit.assertTrue("Edit selected items on cage not working as should be.", succeeded);
+			
+		} catch (Exception e) {
+			setLog(e,"editSelectedSpecimensInSpecimensTab");
+			AssertJUnit.fail(e.getMessage());
+		}	
+	}
+	
+	@Test (groups = {"deep"})
 	public void addTreatmentFromCage(){
 		
 		try {		
