@@ -31,7 +31,8 @@ public class StoragesTest extends BaseTest{
 		}
 	}
 	
-	@Test (groups = {"deep"})
+//	@Test (groups = {"deep"})
+	@Test (groups = {"knownBugs"})
 	public void addNewStorageByType(){
 		
 		try {
