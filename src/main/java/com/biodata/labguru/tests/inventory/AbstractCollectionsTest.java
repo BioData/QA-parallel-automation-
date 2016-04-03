@@ -375,7 +375,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockName));
+			assertTrue(getPageManager().getStockPage().searchInConsumedStocks(stockName));
 		
 		} catch (Exception e) {
 			setLog(e,"markAsConsumedStockFromStocksTab");
