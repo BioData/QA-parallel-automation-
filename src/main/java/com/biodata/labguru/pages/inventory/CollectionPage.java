@@ -570,7 +570,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		return savedLocation.equals(storageName);
 	}
 
-	public boolean markAsUsedStockInTable(String stockName) throws InterruptedException {
+	public boolean markAsConsumedStockInTable(String stockName) throws InterruptedException {
 		
 		List <WebElement> tableRows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.xpath(".//*[@class='stocks_table']/tr")));

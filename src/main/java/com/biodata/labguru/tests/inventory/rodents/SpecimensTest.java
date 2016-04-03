@@ -23,7 +23,7 @@ public class SpecimensTest extends AbstractRodentsTest{
 	
 	@Override
 	@Test (groups = {"deep"})
-	public void markAsUsedStockFromStocksTab(){
+	public void markAsConsumedStockFromStocksTab(){
 		
 		try {
 			
@@ -43,7 +43,7 @@ public class SpecimensTest extends AbstractRodentsTest{
 			
 			getPageManager().getRodentSpecimensPage().selectTissuesAndSamplesTab();
 	
-			boolean archiveSucceeded = getPage().markAsUsedStockInTable(stockName);
+			boolean archiveSucceeded = getPage().markAsConsumedStockInTable(stockName);
 			AssertJUnit.assertTrue("The stock was not archived as expected",archiveSucceeded);
 			
 			getPageManager().getAdminPage().showStocks();

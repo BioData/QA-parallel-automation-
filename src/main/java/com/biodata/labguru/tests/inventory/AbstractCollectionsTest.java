@@ -359,7 +359,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 	
 	
 	@Test (groups = {"basic sanity"})
-	public void markAsUsedStockFromStocksTab(){
+	public void markAsConsumedStockFromStocksTab(){
 		
 		try {
 			
@@ -370,7 +370,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 			getPage().addStockLocatedInBox(stockName,null);
 			
 			getPage().selectStocksTab();
-			boolean archiveSucceeded = getPage().markAsUsedStockInTable(stockName);
+			boolean archiveSucceeded = getPage().markAsConsumedStockInTable(stockName);
 			AssertJUnit.assertTrue("The stock was not marked as expected",archiveSucceeded);
 			
 			getPageManager().getAdminPage().showStocks();
@@ -378,7 +378,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockName));
 		
 		} catch (Exception e) {
-			setLog(e,"markAsUsedStockFromStocksTab");
+			setLog(e,"markAsConsumedStockFromStocksTab");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}

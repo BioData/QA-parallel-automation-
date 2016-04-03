@@ -337,15 +337,15 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 	}
 
 
-	public String markedAsUsedStockFromBoxView(String stockName) throws InterruptedException {
+	public String markAsConsumedStockFromBoxView(String stockName) throws InterruptedException {
 		
 		addStock(stockName,1);
 		TimeUnit.SECONDS.sleep(2);
-		return markedAsUsedSelectedStock(stockName);
+		return markAsConsumedSelectedStock(stockName);
 
 	}
 
-	public String markedAsUsedSelectedStock(String stockName) throws InterruptedException {
+	public String markAsConsumedSelectedStock(String stockName) throws InterruptedException {
 		
 		selectStockInBoxView(stockName);
 		
@@ -356,7 +356,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		return openMarkedAsUsedPopup();
 	}
 	
-	public String markedAsUsedStockFromTableView(String stockName) throws InterruptedException {
+	public String markAsConsumedStockFromTableView(String stockName) throws InterruptedException {
 		
 		addStock(stockName,1);
 		
@@ -607,7 +607,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		TimeUnit.SECONDS.sleep(1);
 	}
 
-	public String markAsUsedStocksFromTableView() throws InterruptedException {
+	public String markAsConsumedStocksFromTableView() throws InterruptedException {
 		
 		WebElement tabTableView =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("table_view")));
 		tabTableView.click();

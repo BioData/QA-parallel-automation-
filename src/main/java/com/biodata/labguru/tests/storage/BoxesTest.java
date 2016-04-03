@@ -22,14 +22,14 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 public class BoxesTest extends AbstractStoragesTest{
 	
 	@AfterMethod
-	public void markAsUsedAllStocks(){
+	public void markAsConsumedAllStocks(){
 		//delete stocks
 		try {
-			markAsUsedStocks();
+			markAsConsumedStocks();
 			getPageManager().getBoxPage().deleteAllItemsFromTable();
 			
 		} catch (InterruptedException e) {
-			setLog(e,"markAsUsedAllStocks");
+			setLog(e,"markAsConsumedAllStocks");
 		}
 	}
 	
@@ -143,7 +143,7 @@ public class BoxesTest extends AbstractStoragesTest{
 	
 	
 	@Test (groups = {"basic sanity"})
-	public void markAsUsedStockFromBoxCheckUpdateInTableIndex(){
+	public void markAsConsumedStockFromBoxCheckUpdateInTableIndex(){
 		
 		try {
 			showTableIndex();
@@ -165,14 +165,14 @@ public class BoxesTest extends AbstractStoragesTest{
 			
 			//true - represent to mark as used stock
 			getPageManager().getBoxPage().viewBoxShowPage(newBox);
-			getPageManager().getBoxPage().markedAsUsedSelectedStock(stockToMarkAsUsed);
+			getPageManager().getBoxPage().markAsConsumedSelectedStock(stockToMarkAsUsed);
 			
 			showTableIndex();
 			stocks = getPageManager().getBoxPage().checkStocksNumber(newBox);
 			assertEquals(0,stocks);//check 1 stock deleted from box - again no stocks
 			
 		}  catch (Exception e) {
-			setLog(e,"markAsUsedStockFromBoxCheckUpdateInTableIndex");
+			setLog(e,"markAsConsumedStockFromBoxCheckUpdateInTableIndex");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -202,7 +202,7 @@ public class BoxesTest extends AbstractStoragesTest{
 			
 			getPageManager().getBoxPage().viewBoxShowPage(newBox);
 			//mark as used
-			getPageManager().getBoxPage().markedAsUsedSelectedStock(stockToArchive);
+			getPageManager().getBoxPage().markAsConsumedSelectedStock(stockToArchive);
 	
 			showTableIndex();
 			stocks = getPageManager().getBoxPage().checkStocksNumber(newBox);
@@ -377,7 +377,7 @@ public class BoxesTest extends AbstractStoragesTest{
 	
 	
 	@Test (groups = {"basic sanity"})
-	public void markAsUsedStockFromStockPageView(){
+	public void markAsConsumedStockFromStockPageView(){
 		
 		try {
 			showTableIndex();
@@ -390,8 +390,8 @@ public class BoxesTest extends AbstractStoragesTest{
 			String pageTitle = getPageManager().getBoxPage().createStock(stockName);
 			assertEquals("Stocks - " + stockName, pageTitle);
 			
-			String notyMsg = getPageManager().getStockPage().markAsUsedStock();
-			assertEquals(getMessageSource().getMessage("boxes.stock.marked.used.msg",new Object[]{"1"}, Locale.US), notyMsg);
+			String notyMsg = getPageManager().getStockPage().markAsConsumedStock();
+			assertEquals(getMessageSource().getMessage("boxes.stock.marked.consumed.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
 			getPageManager().getAdminPage().showStocks();
 			
@@ -426,7 +426,7 @@ public class BoxesTest extends AbstractStoragesTest{
 	
 	
 	@Test (groups = {"basic sanity"})
-	public void markedAsUsedStockFromBoxView(){
+	public void markAsConsumedStockFromBoxView(){
 		
 		try {
 			showTableIndex();
@@ -434,17 +434,17 @@ public class BoxesTest extends AbstractStoragesTest{
 			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
 			getPageManager().getBoxPage().addNewBox(newBox,"1");
 			
-			String stockToMarkAsUsed = "markedAsUsedStockFromBoxView";
+			String stockToMarkAsUsed = "markAsConsumedStockFromBoxView";
 	
-			String notyMsg = getPageManager().getBoxPage().markedAsUsedStockFromBoxView(stockToMarkAsUsed);
-			assertEquals(getMessageSource().getMessage("boxes.stock.marked.used.msg",new Object[]{"1"}, Locale.US), notyMsg);
+			String notyMsg = getPageManager().getBoxPage().markAsConsumedStockFromBoxView(stockToMarkAsUsed);
+			assertEquals(getMessageSource().getMessage("boxes.stock.marked.consumed.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
 			getPageManager().getAdminPage().showStocks();
 			
 			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockToMarkAsUsed));
 			
 		} catch (Exception e) {
-			setLog(e,"markedAsUsedStockFromBoxView");
+			setLog(e,"markAsConsumedStockFromBoxView");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -473,7 +473,7 @@ public class BoxesTest extends AbstractStoragesTest{
 	
 
 	
-	private void markAsUsedStocks() throws InterruptedException {
+	private void markAsConsumedStocks() throws InterruptedException {
 		//delete stocks	
 		getPageManager().getAdminPage().showStocks();
 		getPageManager().getStockPage().deleteAllItemsFromTable();
@@ -481,7 +481,7 @@ public class BoxesTest extends AbstractStoragesTest{
 	}
 
 	@Test (groups = {"basic sanity"})
-	public void markedAsUsedStockFromTableView(){
+	public void markAsConsumedStockFromTableView(){
 		
 		try {
 			showTableIndex();
@@ -489,16 +489,16 @@ public class BoxesTest extends AbstractStoragesTest{
 			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
 			getPageManager().getBoxPage().addNewBox(newBox,"1");
 			
-			String stockName = "markAsUsedStockFromTableView";
+			String stockName = "markAsConsumedStockFromTableView";
 
-			String notyMsg = getPageManager().getBoxPage().markedAsUsedStockFromTableView(stockName);
-			assertEquals(getMessageSource().getMessage("boxes.stock.marked.used.msg",new Object[]{"1"}, Locale.US), notyMsg);
+			String notyMsg = getPageManager().getBoxPage().markAsConsumedStockFromTableView(stockName);
+			assertEquals(getMessageSource().getMessage("boxes.stock.marked.consumed.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
 			getPageManager().getAdminPage().showStocks();
 			
 			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockName));
 		} catch (Exception e) {
-			setLog(e,"markedAsUsedStockFromTableView");
+			setLog(e,"markAsConsumedStockFromTableView");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -586,7 +586,7 @@ public class BoxesTest extends AbstractStoragesTest{
 	}
 	
 	@Test (groups = {"basic sanity"})
-	public void markAsUsedAllStocksFromTableView(){
+	public void markAsConsumedAllStocksFromTableView(){
 		
 		try {
 			showTableIndex();
@@ -598,14 +598,14 @@ public class BoxesTest extends AbstractStoragesTest{
 			int numOfStocks = 3;
 			getPageManager().getBoxPage().addStock(stockName, numOfStocks);
 			
-			String notyMsg = getPageManager().getBoxPage().markAsUsedStocksFromTableView();
+			String notyMsg = getPageManager().getBoxPage().markAsConsumedStocksFromTableView();
 			if(numOfStocks == 1)
-				assertEquals(getMessageSource().getMessage("boxes.stock.marked.used.msg",new Object[]{String.valueOf(numOfStocks)}, Locale.US), notyMsg);
+				assertEquals(getMessageSource().getMessage("boxes.stock.marked.consumed.msg",new Object[]{String.valueOf(numOfStocks)}, Locale.US), notyMsg);
 			else
-				assertEquals(getMessageSource().getMessage("boxes.stocks.marked.used.msg",new Object[]{String.valueOf(numOfStocks)}, Locale.US), notyMsg);
+				assertEquals(getMessageSource().getMessage("boxes.stocks.marked.consumed.msg",new Object[]{String.valueOf(numOfStocks)}, Locale.US), notyMsg);
 				
 		} catch (Exception e) {
-			setLog(e,"markAsUsedAllStocksFromTableView");
+			setLog(e,"markAsConsumedAllStocksFromTableView");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}

@@ -64,11 +64,11 @@ public class StockPage extends BaseStoragePage implements ITableView{
 	}
 	
 	/**
-	 * markAsUsedStock - click on the action on the stock show page.
+	 * markAsConsumedStock - click on the action on the stock show page.
 	 * @return noty message
 	 * @throws InterruptedException 
 	 */
-	public String markAsUsedStock() throws InterruptedException{
+	public String markAsConsumedStock() throws InterruptedException{
 		WebElement btnMarkAsUsed = getWebDriver().findElement(By.cssSelector(".icon-mark-as-used"));
 		btnMarkAsUsed.click();
 		return openMarkedAsUsedPopup();
@@ -139,10 +139,10 @@ public class StockPage extends BaseStoragePage implements ITableView{
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public boolean markAsUsedAllStocks() throws InterruptedException {
+	public boolean markAsConsumedAllStocks() throws InterruptedException {
 		
 		checkAllTableItemsAllPages();
-		markAsUsedStock();
+		markAsConsumedStock();
 		TimeUnit.SECONDS.sleep(2);
 		showStocks();
 		return hasList();
@@ -153,11 +153,11 @@ public class StockPage extends BaseStoragePage implements ITableView{
 	 * @param name
 	 * @throws InterruptedException
 	 */
-	public void markAsUsedSelectedStock(String name) throws InterruptedException {
+	public void markAsConsumedSelectedStock(String name) throws InterruptedException {
 		
 		selectStockFromList(name);
 		
-		markAsUsedStock();
+		markAsConsumedStock();
 		TimeUnit.SECONDS.sleep(2);
 	}
 	

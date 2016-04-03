@@ -137,13 +137,11 @@ public class StoragesTest extends BaseTest{
 			
 			//go to storage tree and select the box in the tree
 			showStorageAndSelectBox(boxName);
-
-		
-			
-			//mark as used stock from boxview
-			String stockToMarkedAsUsed = "stockToMarkedAsUsed";
-			String notyMsg = getPageManager().getBoxPage().markedAsUsedStockFromBoxView(stockToMarkedAsUsed);
-			assertEquals(getMessageSource().getMessage("boxes.stock.marked.used.msg",new Object[]{"1"}, Locale.US), notyMsg);
+	
+			//mark as consumed stock from boxview
+			String stockToMarkedAsConsumed = "stockToMarkedAsConsumed";
+			String notyMsg = getPageManager().getBoxPage().markAsConsumedStockFromBoxView(stockToMarkedAsConsumed);
+			assertEquals(getMessageSource().getMessage("boxes.stock.marked.consumed.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
 			//check the edit stock from tableview
 			String stockToEdit = "editStockFromBoxTableView";			

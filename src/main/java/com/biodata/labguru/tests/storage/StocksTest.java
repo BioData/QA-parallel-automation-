@@ -86,7 +86,7 @@ public class StocksTest extends AbstractStoragesTest{
 	
 	
 	@Test(groups = {"deep"})
-	public void markAsUsedAllStocksFromIndexTable(){
+	public void markAsConsumedAllStocksFromIndexTable(){
 		
 		try {
 			showTableIndex();
@@ -102,11 +102,11 @@ public class StocksTest extends AbstractStoragesTest{
 				
 			}
 			getPageManager().getAdminPage().showStocks();
-			boolean hasStocks = getPageManager().getStockPage().markAsUsedAllStocks();
+			boolean hasStocks = getPageManager().getStockPage().markAsConsumedAllStocks();
 			Assert.assertFalse(hasStocks);
 			
 		} catch (Exception e) {
-			setLog(e,"markAsUsedAllStocksFromIndexTable");
+			setLog(e,"markAsConsumedAllStocksFromIndexTable");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -128,7 +128,7 @@ public class StocksTest extends AbstractStoragesTest{
 				
 			}
 			getPageManager().getAdminPage().showStocks();
-			getPageManager().getStockPage().markAsUsedAllStocks();
+			getPageManager().getStockPage().markAsConsumedAllStocks();
 			getPageManager().getStockPage().deleteUsedStocksFromView();
 			getPageManager().getAdminPage().showStocks();
 			Assert.assertFalse(getPageManager().getStockPage().hasList(), "Not all stocks were deleted");
@@ -139,7 +139,7 @@ public class StocksTest extends AbstractStoragesTest{
 	}
 	
 	@Test(groups = {"basic sanity"})
-	public void markAsUsedStockFromIndexTable(){
+	public void markAsConsumedStockFromIndexTable(){
 		
 		try {
 
@@ -153,12 +153,12 @@ public class StocksTest extends AbstractStoragesTest{
 			getPageManager().getBoxPage().addStock("stock", numOfStocks);
 			
 			getPageManager().getAdminPage().showStocks();
-			getPageManager().getStockPage().markAsUsedSelectedStock("stock");
-			boolean markAsUsed = getPageManager().getStockPage().searchInUsedStocks("stock");
-			Assert.assertTrue(markAsUsed);
+			getPageManager().getStockPage().markAsConsumedSelectedStock("stock");
+			boolean markAsConsumed = getPageManager().getStockPage().searchInUsedStocks("stock");
+			Assert.assertTrue(markAsConsumed);
 			
 		} catch (Exception e) {
-			setLog(e,"markAsUsedStockFromIndexTable");
+			setLog(e,"markAsConsumedStockFromIndexTable");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
