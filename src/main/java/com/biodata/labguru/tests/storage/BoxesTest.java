@@ -395,7 +395,7 @@ public class BoxesTest extends AbstractStoragesTest{
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockName));
+			assertTrue(getPageManager().getStockPage().searchInConsumedStocks(stockName));
 			
 		}  catch (Exception e) {
 			setLog(e,"archiveStockFromStockPageView");
@@ -441,7 +441,7 @@ public class BoxesTest extends AbstractStoragesTest{
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockToMarkAsUsed));
+			assertTrue(getPageManager().getStockPage().searchInConsumedStocks(stockToMarkAsUsed));
 			
 		} catch (Exception e) {
 			setLog(e,"markAsConsumedStockFromBoxView");
@@ -496,7 +496,7 @@ public class BoxesTest extends AbstractStoragesTest{
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockName));
+			assertTrue(getPageManager().getStockPage().searchInConsumedStocks(stockName));
 		} catch (Exception e) {
 			setLog(e,"markAsConsumedStockFromTableView");
 			AssertJUnit.fail(e.getMessage());

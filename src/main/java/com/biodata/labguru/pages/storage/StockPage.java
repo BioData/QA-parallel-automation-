@@ -32,13 +32,13 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		}
 	}
 	/**
-	 * searchInUsedStocks
-	 * @param stockName -the stock to search in the used stocks view
+	 * searchInConsumedStocks
+	 * @param stockName -the stock to search in the consumed stocks view
 	 * @return
 	 */
-	public boolean searchInUsedStocks(String stockName) {
+	public boolean searchInConsumedStocks(String stockName) {
 		
-		showUsedStocks();
+		showConsumedStocks();
 		
 		WebElement txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.cssSelector(".searchtextbox")));
@@ -50,7 +50,7 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		WebElement label = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#class_count")));
 		return !label.getText().equals("(no search results)");
 	}
-	private void showUsedStocks() {
+	private void showConsumedStocks() {
 		WebElement linkShowArchive;
 		if(hasList()){
 			linkShowArchive = driverWait.until(ExpectedConditions.visibilityOfElementLocated
@@ -71,7 +71,7 @@ public class StockPage extends BaseStoragePage implements ITableView{
 	public String markAsConsumedStock() throws InterruptedException{
 		WebElement btnMarkAsUsed = getWebDriver().findElement(By.cssSelector(".icon-mark-as-used"));
 		btnMarkAsUsed.click();
-		return openMarkedAsUsedPopup();
+		return openMarkAsConsumedPopup();
 	}
 	
 	public Stock editStock(String oldName,String newName,String newType) throws InterruptedException{
@@ -248,7 +248,7 @@ public class StockPage extends BaseStoragePage implements ITableView{
 	}
 	public void deleteUsedStocksFromView() throws InterruptedException {
 		
-		showUsedStocks();	
+		showConsumedStocks();	
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".searchtextbox")));
 		deleteAllItemsFromTable();
 		

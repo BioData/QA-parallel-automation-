@@ -353,7 +353,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		btnDelete.click();
 		TimeUnit.SECONDS.sleep(2);
 		
-		return openMarkedAsUsedPopup();
+		return openMarkAsConsumedPopup();
 	}
 	
 	public String markAsConsumedStockFromTableView(String stockName) throws InterruptedException {
@@ -365,7 +365,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		WebElement btnDelete = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='doctoolsbox']/div/ul/li[3]/a[@id='delete_selected']")));
 		btnDelete.click();
 		TimeUnit.SECONDS.sleep(3);
-		return openMarkedAsUsedPopup();
+		return openMarkAsConsumedPopup();
 
 	}
 
@@ -618,7 +618,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		WebElement btnDelete = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//a[@href='/storage/stocks/mark_as_used']/span[@id='delete-item']")));
 		btnDelete.click();
 		TimeUnit.SECONDS.sleep(1);
-		return openMarkedAsUsedPopup();
+		return openMarkAsConsumedPopup();
 	}
 
 	public int checkStocksNumber(String boxToSearch) throws InterruptedException {

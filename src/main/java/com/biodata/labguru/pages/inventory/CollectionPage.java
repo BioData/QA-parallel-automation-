@@ -584,7 +584,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 				deleteIcon.click();
 				TimeUnit.SECONDS.sleep(2);
 				
-				openMarkedAsUsedPopup();
+				openMarkAsConsumedPopup();
 				return true;
 			}
 		}

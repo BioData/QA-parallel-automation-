@@ -195,7 +195,7 @@ public abstract class BasePage {
 		
 	}
 	
-	public String openMarkedAsUsedPopup() throws InterruptedException {
+	public String openMarkAsConsumedPopup() throws InterruptedException {
 		
 		getWebDriver().switchTo().activeElement();
 		

@@ -154,7 +154,7 @@ public class StocksTest extends AbstractStoragesTest{
 			
 			getPageManager().getAdminPage().showStocks();
 			getPageManager().getStockPage().markAsConsumedSelectedStock("stock");
-			boolean markAsConsumed = getPageManager().getStockPage().searchInUsedStocks("stock");
+			boolean markAsConsumed = getPageManager().getStockPage().searchInConsumedStocks("stock");
 			Assert.assertTrue(markAsConsumed);
 			
 		} catch (Exception e) {
