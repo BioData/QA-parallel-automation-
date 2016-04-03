@@ -48,7 +48,7 @@ public class SpecimensTest extends AbstractRodentsTest{
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().searchInUsedStocks(stockName));
+			assertTrue(getPageManager().getStockPage().searchInConsumedStocks(stockName));
 		
 		} catch (Exception e) {
 			setLog(e,"archiveStockFromStocksTab");
