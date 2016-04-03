@@ -225,14 +225,14 @@ public class EquipmentPage extends AdminPage implements ITableView{
 			try {
 				getLogger().info("checking custom field : " + fieldId);
 				//custom field from type DATE gets a special id in the code : 'customX_date_picker' (X=some number)
-				if(fieldId.contains(LGConstants.CUSTOM_FIELD_DATE))
+				if(fieldId.contains(LGConstants.CUSTOM_FIELD_DATE)){
 					getWebDriver().findElement(By.cssSelector("input[id$=_date_picker][id^=custom]"));
-				else if(fieldId.contains(LGConstants.CUSTOM_FIELD_PREDEFIND_LIST)){
+				}else if(fieldId.contains(LGConstants.CUSTOM_FIELD_PREDEFIND_LIST)){
 					//custom field from type Pre-defined list gets a special id in the code : 'system_instrument_customX' (X=some number)
 					getWebDriver().findElement(By.cssSelector("[id^=system_instrument_custom]"));
 				}
 				else
-					getWebDriver().findElement(By.id(fieldId));
+					getWebDriver().findElement(By.id(fieldId.replace(' ', '_')));
 			} catch (NoSuchElementException e) {
 				// custom field input not found - return failed create all custom fields
 				getLogger().debug(e.getMessage());
