@@ -213,14 +213,17 @@ public abstract class BasePage {
 	
 	public void invokeSearchItem(String itemToSearch) throws InterruptedException{
 		
+		closeIridizePopups();
+		
 		 WebElement txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".searchtextbox")));
-        sendKeys(txtSearch, itemToSearch);
+         sendKeys(txtSearch, itemToSearch);
+        
+         WebElement btnSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='frm_search_box']/*[@value='Search']")));
+         btnSearch.click();
+         TimeUnit.SECONDS.sleep(3);
        
-        WebElement btnSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@value='Search']")));
-        btnSearch.click();
-        TimeUnit.SECONDS.sleep(3);
-      
 	}
+	
 	public String deleteFromShowPage() throws InterruptedException {
 		
 		WebElement editBtn = getWebDriver().findElement(By.id("delete-item"));
