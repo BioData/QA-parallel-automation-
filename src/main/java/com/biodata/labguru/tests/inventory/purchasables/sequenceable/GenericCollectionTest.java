@@ -137,6 +137,7 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 	}
 	
 	@Override
+	@Test (groups = {"knownBugs"})
 	public void checkCustomizeTableView(){
 		
 		try {
