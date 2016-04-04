@@ -17,7 +17,46 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class DashboardTest extends AbstractHomeTest{
 
+	@Test(groups = {"deep"})
+	public void checkAllTasks(){
+		
+		try {
+			getPageManager().getAdminPage().showDashboard();
+			
+			
+			getPageManager().getDashboardPage().addTask(buildUniqueName(LGConstants.TASK_PREFIX));
+			getPageManager().getDashboardPage().addTask(buildUniqueName(LGConstants.TASK_PREFIX));
+			Assert.assertTrue(getPageManager().getDashboardPage().goToAllTasks(),"All Tasks page not as should be");
+			
+			getPageManager().getDashboardPage().deleteAllItemsFromTable();
+		
+		} catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
 	
+	
+	@Test(groups = {"deep"})
+	public void simpleSearchAllTasks(){
+		
+		try {
+			getPageManager().getAdminPage().showDashboard();
+			
+			//add 2 tasks with different names and search for one of them
+			String task = getPageManager().getDashboardPage().addTask(buildUniqueName(LGConstants.TASK_PREFIX));
+			getPageManager().getDashboardPage().addTask(buildUniqueName(LGConstants.TASK_PREFIX));
+			getPageManager().getDashboardPage().goToAllTasks();
+			
+			boolean found = getPageManager().getDashboardPage().invokeSearchTask(task);
+			Assert.assertTrue(found, "Simple search for task not working as expected");
+
+			
+		} catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
 	
 	@Test(groups = {"deep"})
 	public void startNewExperimentFromProtocolFromDropdown(){
