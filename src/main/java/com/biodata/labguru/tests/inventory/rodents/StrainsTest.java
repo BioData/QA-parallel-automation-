@@ -23,8 +23,9 @@ public class StrainsTest extends AbstractRodentsTest{
 		//this test is not relevant for this module
 	}
 	
+	@Override
 	@Test (enabled = false)
-	public void markAsUsedStockFromStocksTab(){
+	public void markAsConsumedStockFromStocksTab() {
 		//this test is not relevant for this module
 	}
 	

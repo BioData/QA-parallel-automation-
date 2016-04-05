@@ -20,8 +20,9 @@ public class CagesTest extends AbstractRodentsTest{
 	}
 
 	
+	@Override
 	@Test (enabled = false)
-	public void markAsUsedStockFromStocksTab(){
+	public void markAsConsumedStockFromStocksTab() {
 		//this test is not relevant for this module
 	}
 	
