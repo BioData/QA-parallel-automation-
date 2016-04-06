@@ -875,7 +875,7 @@ public class AdminPage extends BasePage{
 		
 		
 		searchFromElasticSearch(strToSearch);
-		
+		TimeUnit.SECONDS.sleep(10);
 		List<WebElement> blockHeaders = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.xpath(".//*[@class='results-list']/li")));
 		for (int i = 1; i <= blockHeaders.size(); i++) {
