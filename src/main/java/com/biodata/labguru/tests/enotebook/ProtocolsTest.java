@@ -238,7 +238,7 @@ public class ProtocolsTest extends AbstractEnotebookTest{
 	}
 	
 	
-	@Test (groups = {"basic sanity"})
+	@Test (groups = {"knownBugs"})
 	public void addSamplesToProcedure() {
 		
 		try {
@@ -254,12 +254,13 @@ public class ProtocolsTest extends AbstractEnotebookTest{
 
 	}
 	
-	@Test (groups = {"deep"})
+	@Test (groups = {"knownBugs"})
 	public void addSampleWithGenericCollection() {
 		
 		try {
 			String collectionName = buildUniqueName(LGConstants.GENERIC_COLLECTION_PREFIX);
 			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
+			showTableIndex();
 			getPageManager().getProtocolPage().addProtocol("ProtocolWithSampleWithGenericCollection");
 			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
 			assertTrue(sampleName +" was not shown as expected after refresh.",getPageManager().getProtocolPage().addSampleWithGenericCollection(collectionName,sampleName));
