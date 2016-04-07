@@ -15,7 +15,9 @@ import org.testng.annotations.Test;
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.pages.enotebook.AbstractNotebookPage;
 import com.biodata.labguru.tests.TestOrderRandomizer;
-
+/**
+**This class will not be in use after moving forward to beta version of experiment***
+*/
 @Listeners(TestOrderRandomizer.class)
 public class ExperimentTest extends AbstractEnotebookTest {
 	
@@ -28,7 +30,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 		return name;
 	}
 	
-	@Test(groups = {"deep"})
+	//@Test(groups = {"deep"})
 	public void signAndLock(){
 		
 		try {
@@ -37,7 +39,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 			
 			String note = getPage().signAndLock();
 			
-			AssertJUnit.assertTrue(note.startsWith(getMessageSource().getMessage("signed.by.note.prefix",null, Locale.US)));
+			Assert.assertTrue(note.startsWith(getMessageSource().getMessage("signed.by.note.prefix",null, Locale.US)));
 			
 			boolean exist = getPageManager().getRecentResultsPage().checkSignedExperimentInList(name);
 			Assert.assertTrue(exist, "Signed experiment is not shown in recent results page");
@@ -47,7 +49,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test(groups = {"deep"})
+	//@Test(groups = {"deep"})
 	public void signExperimentWithAttachmentNotEditable(){
 		
 		try {
@@ -68,67 +70,9 @@ public class ExperimentTest extends AbstractEnotebookTest {
 		}
 	}
 	
+
 	
-	@Test(groups = {"deep"})
-	public void startNewExperimentFromProtocolFromDropdown(){
-		
-		try {
-			//create protocol
-			String protocol = createNewProtocol();
-			
-			showTableIndex();
-			checkCreateExpFromProtocolFromDropdown(protocol);
-			
-			//delete protocol after test
-			deleteProtocolAfterTest(protocol);
-			
-		} catch (InterruptedException e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-	
-	@Test(groups = {"deep"})
-	public void startNewDocumentFromDropdown(){
-		
-		try {
-			showTableIndex();			
-			checkCreateDocumentFromDropdown();
-			
-		} catch (InterruptedException e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-	@Test(groups = {"deep"})
-	public void startNewProjectFromDropdown(){
-		
-		try {
-			showTableIndex();	
-			checkCreateProjectFromDropdown();
-			
-		} catch (InterruptedException e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-	
-	@Test(groups = {"deep"})
-	public void startNewProtocolFromDropdown(){
-		
-		try {
-			showTableIndex();
-			checkCreateProtocolFromDropDown();
-		} catch (InterruptedException e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-	@Test (groups = {"deep"})
+	//@Test (groups = {"deep"})
 	public void createAndUpdateExperiment() {
 		try {
 			
@@ -152,7 +96,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"deep"})
+	//@Test (groups = {"deep"})
 	public void addSampleWithGenericCollection() {
 		
 		try {
@@ -170,7 +114,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	}
 	
 	
-	@Test (groups = {"deep"})
+	//@Test (groups = {"deep"})
 	public void addSampleWithTube() {
 		
 		try {
@@ -196,42 +140,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	}
 	
 	
-	@Test (groups = {"basic sanity"})
-	public void addNewExperimentGivenName(){
-		
-		try {
-			showTableIndex();
-			
-			String name = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
-			String expTitle = getPageManager().getExperimentPage().addNewExperiment(name);
-			
-			// Check the title of the page
-			assertEquals(name, expTitle);
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-	@Test (groups = {"basic sanity"})
-	public void addNewExperiment(){
-		
-		try {
-			showTableIndex();
-			
-			String expTitle = getPageManager().getExperimentPage().addNewExperiment(null);
-			
-			// Check the title of the page
-			assertTrue(expTitle.contains(LGConstants.EXPERIMENT));
-			//- later we will add the date and sequence number as args and check that the right date is concatenate to it
-			//assertEquals(getMessageSource().getMessage("experiments.default.exp.name",new Object[]{date,seqNum}, Locale.US), expTitle); 
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}	
-	
-	@Test (groups = {"basic sanity"})
+	//@Test (groups = {"basic sanity"})
 	public void addTextDescriptionToExperiment() {
 		
 		try {
@@ -247,7 +156,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	}
 	
 	
-	@Test (groups = {"basic sanity"})
+	//@Test (groups = {"basic sanity"})
 	public void addSamplesToProcedure() {
 		
 		try {
@@ -262,25 +171,8 @@ public class ExperimentTest extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"deep"})
-	public void addSampleWithoutTubeAndEdit() {
-		
-		try {
-		
-			String name = "sampleWithoutTube";
-			createNewExperimentAndChangeToCurrentVersion(name);
-			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
-			getPageManager().getExperimentPage().addSample(sampleName,false);
-			assertTrue("Tube in sample could not be edited.",getPageManager().getExperimentPage().editSample());
-			
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-
-	}
 	
-	@Test (groups = {"basic sanity"})
+	//@Test (groups = {"basic sanity"})
 	public void addPlateToProcedure() {
 		
 		try {
@@ -298,7 +190,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"basic sanity"})
+	//@Test (groups = {"basic sanity"})
 	public void addStepsToProcedure() {
 		try {
 			String name = "ExpWithStep";
@@ -312,7 +204,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"basic sanity"})
+	//@Test (groups = {"basic sanity"})
 	public void deleteStepsOfProcedure() {
 		try {
 			String name = "ExpWithStepToDelete";
@@ -329,7 +221,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 
 	}
 
-	@Test (groups = {"basic sanity"})
+	//@Test (groups = {"basic sanity"})
 	public void addTextDescriptionToExpProcedure() {
 		
 		try {
@@ -363,7 +255,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	}
 	
 
-	@Test (groups = {"basic sanity"})
+	//@Test (groups = {"basic sanity"})
 	public void addTableToExpProcedure() {
 		
 		try {
@@ -383,7 +275,7 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	
 
 	
-	@Test (groups = {"basic sanity"})
+	//@Test (groups = {"basic sanity"})
 	public void addNewProcedure() {
 		try {
 	

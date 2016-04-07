@@ -25,7 +25,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	private static final String CONCLUSIONS_SECTION_INDEX = "3";
 
 	
-//	@Test (groups = {"v2"})
+	
+//	@Test (groups = {"test"})
 //	public void setDateRangeToProcedure(){
 //		
 //		try {
@@ -38,7 +39,43 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 //		}
 //	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
+	public void addNewExperimentGivenName(){
+		
+		try {
+			showTableIndex();
+			
+			String name = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
+			String expTitle = getPageManager().getExperimentPageV2().addNewExperiment(name);
+			
+			// Check the title of the page
+			assertEquals(name, expTitle);
+		} catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"basic sanity"})
+	public void addNewExperiment(){
+		
+		try {
+			showTableIndex();
+			
+			String expTitle = getPageManager().getExperimentPage().addNewExperiment(null);
+			
+			// Check the title of the page
+			assertTrue(expTitle.contains(LGConstants.EXPERIMENT));
+			//- later we will add the date and sequence number as args and check that the right date is concatenate to it
+			//assertEquals(getMessageSource().getMessage("experiments.default.exp.name",new Object[]{date,seqNum}, Locale.US), expTitle); 
+		} catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}	
+	
+	
+	@Test (groups = {"basic sanity"})
 	public void addManipulateTextToSection(){
 		
 		try {
@@ -54,7 +91,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
-	@Test(groups = {"v2"})
+	
+	@Test(groups = {"basic sanity"})
 	public void signExperimentWithAttachmentNotEditable(){
 		
 		try {
@@ -78,7 +116,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 	
 	@Override
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addTag() {
 		try {
 
@@ -89,7 +127,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String tag = getPageManager().getExperimentPageV2().addInlineTag(tagName);
 			
 			assertEquals("Tag with name '" + tagName + "' was not craeted as should be.",tagName, tag);
-			
+
 			assertTrue(getPageManager().getExperimentPageV2().deleteTagFromInlineTags(tagName));
 			
 		} catch (Exception e) {
@@ -98,7 +136,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void createAndUpdateExperiment() {
 		try {
 
@@ -123,7 +161,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addSingleStepToStepsInDescription() {
 		
 		try {
@@ -138,7 +176,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void loadSectionFromProtocol() {
 		try {
 			//add protocol with steps 
@@ -158,7 +196,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 
 
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void undoDeletedElementInSection() {
 		
 		try {
@@ -174,7 +212,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void deleteElementInSection() {
 		
 		try {
@@ -190,7 +228,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void deleteSection() {
 		
 		try {
@@ -266,7 +304,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 	
 	@Override
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void duplicateItem(){
 		
 		try {
@@ -284,7 +322,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"}) 
+	@Test (groups = {"basic sanity"}) 
 	public void saveAsProtocol() {
 		try {
 			String expName = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
@@ -303,7 +341,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 	
 	
-	@Test (groups = {"v2"}) 
+	@Test (groups = {"basic sanity"}) 
 	public void goToProjectFromExperiment() {
 		try {
 			createNewExperimentAndChangeVersion(null);
@@ -316,7 +354,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 
-	@Test (groups = {"v2"}) 
+	@Test (groups = {"basic sanity"}) 
 	public void goToFolderFromExperiment() {
 		try {
 			createNewExperimentAndChangeVersion(null);
@@ -331,7 +369,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	
 
 	@Override
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addTask(){
 		
 		try {
@@ -350,7 +388,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 	
 	@Override
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void uploadFile() {
 		try {
 			String attachmentToLoad = LGConstants.UPLOAD_TXT_TEST_FILENAME;
@@ -366,7 +404,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 	
 	@Override
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void uploadImage() {
 		try {
 			String attachmentToLoad = LGConstants.UPLOAD_IMAGE_TEST_FILENAME;
@@ -382,7 +420,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void deleteSingleAttachmentFromSection() {
 		try {
 			
@@ -400,7 +438,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 	
 	@Override
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void deleteAttachment() {
 		try {
 			
@@ -418,7 +456,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 	
 	@Override
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addLinkedResource(){
 		
 		try {
@@ -441,7 +479,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addLinkToSection(){
 		
 		try {
@@ -459,7 +497,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	//@Test (groups = {"v2"})//TODO - not working with redactor
+	//@Test (groups = {"basic sanity"})//TODO - not working with redactor
 	public void addInlineCommentToSection(){
 		
 		try {
@@ -477,7 +515,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addStepsToDescription() {
 		
 		try {
@@ -493,7 +531,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 
 
-	@Test (groups = {"v2"}) 
+	@Test (groups = {"basic sanity"}) 
 	public void addNewSectionToDescription() {
 		try {
 			createNewExperimentAndChangeVersion("ExpWith2SectionsInDescription");
@@ -508,7 +546,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addTextToDescription() {
 		try {
 			createNewExperimentAndChangeVersion("ExpWithTextInDescription");
@@ -522,7 +560,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addTableToDescription() {
 		
 		try {
@@ -543,7 +581,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	
 	
 	
-	@Test (groups = {"v2"}) 
+	@Test (groups = {"basic sanity"}) 
 	public void addNewSectionToProcedure() {
 		try {
 			createNewExperimentAndChangeVersion("ExpWith2SectionsInProcedure");
@@ -557,7 +595,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addStepsToProcedure() {
 		
 		try {
@@ -572,7 +610,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
-		@Test (groups = {"v2"})
+		@Test (groups = {"basic sanity"})
 	public void deleteStepsOfProcedure() {
 		try {
 			createNewExperimentAndChangeVersion("DeleteStepsInProcedure");	
@@ -589,7 +627,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	
 	
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addTableToProcedure() {
 		
 		try {
@@ -609,7 +647,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	
 
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addTextToProcedure(){
 		try {
 			createNewExperimentAndChangeVersion("ExpWithTextInProcedure");
@@ -623,7 +661,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addDataToConclusion(){
 		try {
 			createNewExperimentAndChangeVersion("ExpWithDataInConclusion");
@@ -631,12 +669,12 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String descName = "Description in conclusion";
 			getPageManager().getExperimentPageV2().addConclusionSection();
 			String newDesc = getPageManager().getExperimentPageV2().addTextToSection(CONCLUSIONS_SECTION_INDEX,descName);
-			assertEquals(descName, newDesc);
+			assertEquals("failed to add text.",descName, newDesc);
 			TimeUnit.SECONDS.sleep(1);
-			assertTrue(getPageManager().getExperimentPageV2().addStepToSection(CONCLUSIONS_SECTION_INDEX));
+			assertTrue("failed to add steps.",getPageManager().getExperimentPageV2().addStepToSection(CONCLUSIONS_SECTION_INDEX));
 			TimeUnit.SECONDS.sleep(1);
 			String dataToWrite = "test";
-			assertTrue(getPageManager().getExperimentPageV2().addTableToSection(dataToWrite,CONCLUSIONS_SECTION_INDEX));
+			assertTrue("failed to add table with data.",getPageManager().getExperimentPageV2().addTableToSection(dataToWrite,CONCLUSIONS_SECTION_INDEX));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -645,19 +683,19 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 		
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addDataToResults(){
 		try {
 			createNewExperimentAndChangeVersion("ExpWithDataInResults");
 			
 			String descName = "Description in results";
 			String newDesc = getPageManager().getExperimentPageV2().addTextToSection(RESULTS_SECTION_INDEX,descName);
-			assertEquals(descName, newDesc);
+			assertEquals("failed to add text.",descName, newDesc);
 			TimeUnit.SECONDS.sleep(1);
-			assertTrue(getPageManager().getExperimentPageV2().addStepToSection(RESULTS_SECTION_INDEX));
+			assertTrue("failed to add steps.",getPageManager().getExperimentPageV2().addStepToSection(RESULTS_SECTION_INDEX));
 			TimeUnit.SECONDS.sleep(1);
 			String dataToWrite = "test";
-			assertTrue(getPageManager().getExperimentPageV2().addTableToSection(dataToWrite,RESULTS_SECTION_INDEX));
+			assertTrue("failed to add table with data.",getPageManager().getExperimentPageV2().addTableToSection(dataToWrite,RESULTS_SECTION_INDEX));
 			
 		} catch (Exception e) {
 			setLog(e,"addDataToResults");
@@ -665,7 +703,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void assignNewAccount() {
 		
 		try {
@@ -686,7 +724,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void signExperiment() {
 		
 		try {
@@ -702,7 +740,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		
 			boolean exist = getPageManager().getRecentResultsPage().checkSignedExperimentInList(name);
 			Assert.assertTrue(exist, "Signed experiment is not shown in recent results page");
-		
+			
 		} catch (Exception e) {
 			setLog(e,"signExperiment");
 			AssertJUnit.fail(e.getMessage());
@@ -710,7 +748,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void revertSignature() {
 		//Users that are not admin or signed the exp can't revert the signature.
 		try {
@@ -728,7 +766,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void deleteExperiment() {
 		
 		try {
@@ -743,7 +781,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void moveExperiment() {
 		
 		try {
@@ -766,7 +804,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 
-	@Test (groups = {"v2"})
+	@Test (groups = {"basic sanity"})
 	public void addPlateToProcedure(){
 		
 		try {
@@ -779,13 +817,12 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"v2"})
+	@Test (groups = {"test"})//TODO - - not working due to auto save
 	public void addSamplesToProcedure() {
 		
 		try {
 			createNewExperimentAndChangeVersion("ExpWithSample");
-			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
-			String notCreated = getPageManager().getExperimentPageV2().addSamplesToSection(PROCEDURE_SECTION_INDEX,sampleName);
+			String notCreated = getPageManager().getExperimentPageV2().addSamplesToSection(PROCEDURE_SECTION_INDEX);
 			assertTrue("The following sample types were not created as should be: " + notCreated , notCreated.isEmpty());
 		} catch (Exception e) {
 			setLog(e);
@@ -794,7 +831,23 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"v2"} ,timeOut = 300000)
+	@Test (groups = {"test"})//TODO - - not working due to auto save
+	public void addSampleWithoutStockAndEdit() {
+		
+		try {
+		
+			String name = "sampleWithoutStock";
+			createNewExperimentAndChangeVersion(name);
+			assertTrue("Stock in sample could not be edited.",getPageManager().getExperimentPageV2().editSample(PROCEDURE_SECTION_INDEX));
+			
+		} catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+
+	}
+	
+	@Test (groups = {"basic sanity"} ,timeOut = 300000)
 	public void uploadExcelAndAddToPage() {
 		try {
 			String attachmentToLoad = LGConstants.UPLOAD_XLS_TEST_FILENAME;
@@ -810,9 +863,68 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
+	
+	@Test(groups = {"basic sanity"})
+	public void startNewExperimentFromProtocolFromDropdown(){
+		
+		try {
+			//create protocol
+			String protocol = createNewProtocol();
+			
+			showTableIndex();
+			checkCreateExpFromProtocolFromDropdown(protocol);
+			
+			//delete protocol after test
+			deleteProtocolAfterTest(protocol);
+		} catch (InterruptedException e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	
+	@Test(groups = {"basic sanity"})
+	public void startNewDocumentFromDropdown(){
+		
+		try {
+			showTableIndex();			
+			checkCreateDocumentFromDropdown();
+			
+		} catch (InterruptedException e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Test(groups = {"basic sanity"})
+	public void startNewProjectFromDropdown(){
+		
+		try {
+			showTableIndex();	
+			checkCreateProjectFromDropdown();
+			
+		} catch (InterruptedException e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	
+	@Test(groups = {"basic sanity"})
+	public void startNewProtocolFromDropdown(){
+		
+		try {
+			showTableIndex();
+			checkCreateProtocolFromDropDown();
+		} catch (InterruptedException e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
 	/*
 
-	//@Test (groups = {"v2"})
+	//@Test (groups = {"basic sanity"})
 	public void addReactionToResults() {
 		
 		try {
@@ -829,7 +941,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	//@Test (groups = {"v2"})
+	//@Test (groups = {"basic sanity"})
 	public void addReactionToProcedure() {
 		
 		try {
@@ -847,7 +959,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	
 
 	
-	//@Test (groups = {"v2"})
+	//@Test (groups = {"basic sanity"})
 	public void addCompoundToProcedure() {
 		
 		try {

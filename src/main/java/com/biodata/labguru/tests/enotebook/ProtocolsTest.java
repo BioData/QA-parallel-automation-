@@ -17,7 +17,6 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class ProtocolsTest extends AbstractEnotebookTest{
 	
-	
 	@Test(groups = {"basic sanity"})
 	public void copyProtocolFromProtocolDirectory(){
 		
@@ -34,7 +33,6 @@ public class ProtocolsTest extends AbstractEnotebookTest{
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
-	
 	
 	@Test(groups = {"deep"})
 	public void shareProtocol(){
@@ -249,6 +247,23 @@ public class ProtocolsTest extends AbstractEnotebookTest{
 			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
 			String notCreated = getPageManager().getProtocolPage().addSamplesToProcedureInProtocol(sampleName);
 			assertTrue("The following sample types were not created as should be: " + notCreated , notCreated.isEmpty());
+		} catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+
+	}
+	
+	@Test (groups = {"deep"})
+	public void addSampleWithGenericCollection() {
+		
+		try {
+			String collectionName = buildUniqueName(LGConstants.GENERIC_COLLECTION_PREFIX);
+			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
+			getPageManager().getProtocolPage().addProtocol("ProtocolWithSampleWithGenericCollection");
+			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
+			assertTrue(sampleName +" was not shown as expected after refresh.",getPageManager().getProtocolPage().addSampleWithGenericCollection(collectionName,sampleName));
+			
 		} catch (Exception e) {
 			setLog(e);
 			AssertJUnit.fail(e.getMessage());
