@@ -179,7 +179,7 @@ public class BoxesTest extends AbstractStoragesTest{
 	
 	
 	@Test (groups = {"deep"})
-	public void archieveStockFromBoxTwice(){
+	public void markAsConsumedStockFromBoxTwice(){
 		
 		try {
 			showTableIndex();
@@ -210,7 +210,7 @@ public class BoxesTest extends AbstractStoragesTest{
 			
 			
 		}  catch (Exception e) {
-			setLog(e,"archieveStockFromBoxCheckUpdateInTableIndex");
+			setLog(e,"markAsConsumedStockFromBoxTwice");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
