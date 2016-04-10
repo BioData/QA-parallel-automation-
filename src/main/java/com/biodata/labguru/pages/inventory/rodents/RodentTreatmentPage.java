@@ -11,10 +11,8 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.biodata.labguru.LGConstants;
@@ -23,25 +21,16 @@ import com.biodata.labguru.pages.AdminPage;
 
 public class RodentTreatmentPage extends AdminPage{
 
-	private By tabTodayTreatmentsLocator = By.id("present_treatments_tab");
-	private By tabFutureTreatmentsLocator = By.id("future_treatments_tab");
-	private By tabHistoryTreatmentsLocator = By.id("past_treatments_tab");
-	
-	@Override
-	protected void initPage(WebDriver webDriver) {
-		PageFactory.initElements(webDriver, this);	
-	}
-	
 	private void selectTodayTreatmentsTab() throws InterruptedException{
-		selectTabByLocator(tabTodayTreatmentsLocator);
+		selectTabByLocator(By.id("present_treatments_tab"));
 	}
 	
 	private void selectFutureTreatmentsTab() throws InterruptedException{
-		selectTabByLocator(tabFutureTreatmentsLocator);
+		selectTabByLocator(By.id("future_treatments_tab"));
 	}
 	
 	private void selectHistoryTreatmentsTab() throws InterruptedException{
-		selectTabByLocator(tabHistoryTreatmentsLocator);
+		selectTabByLocator(By.id("past_treatments_tab"));
 	}
 	
 
