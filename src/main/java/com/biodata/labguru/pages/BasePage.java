@@ -627,36 +627,8 @@ public abstract class BasePage {
 	    return locationPath + "/" + boxName;
 		
 	}
-	
-	/** 
-	 * This dialog opens when selecting a stock in the box view and clicking 'edit selected'
-	 * There is no location tree in this dialog.
-	 * @throws InterruptedException 
-	 */
-	protected void openStockSelectionDialogFromBoxPage(String tubeName,String type) throws InterruptedException {
-		      
-        TimeUnit.SECONDS.sleep(2); 
-        WebElement newDialog = getWebDriver().switchTo().activeElement();
-        driverWait.until(ExpectedConditions.visibilityOf(newDialog));
-        
- 
-        WebElement txtName = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
-        if(tubeName != null)
-        	sendKeys(txtName, tubeName);
-        
-        TimeUnit.SECONDS.sleep(2); 
-        selectType(type);
-        TimeUnit.SECONDS.sleep(2); 
-	    
-	    WebElement btnSave = getWebDriver().findElement(By.id("save"));
-	    btnSave.click();
-	    TimeUnit.SECONDS.sleep(2); 
-	    
-	    getWebDriver().switchTo().activeElement();
 
-	}
-	
-	private void selectType(String type) throws InterruptedException {
+	protected void selectType(String type) throws InterruptedException {
 		
 		WebElement dropdown = getWebDriver().findElement(By.xpath(".//*[@id='s2id_select_stock_type']/a/span[2]/b"));
 		dropdown.click();
@@ -670,7 +642,6 @@ public abstract class BasePage {
 		selectedType.click();
 		TimeUnit.SECONDS.sleep(1); 
 	}
-	
 	
 	public String selectBox(String boxName,boolean editMode) throws InterruptedException {
 		
@@ -740,7 +711,7 @@ public abstract class BasePage {
 	}
 	
 	protected void selectTomorrow(WebElement txtStartDate) throws InterruptedException {
-		 
+			 
 		 //search for today (the week it is on ) - if found ,take this week next day
 		 WebElement today = getWebDriver().findElement(By.cssSelector(".xdsoft_current.xdsoft_today"));
 		 int dayNum = Integer.valueOf(today.getAttribute("data-date")).intValue() ;
@@ -789,7 +760,6 @@ public abstract class BasePage {
 		  }
 
 	}
-	
 	
 	
 	protected void save() {	

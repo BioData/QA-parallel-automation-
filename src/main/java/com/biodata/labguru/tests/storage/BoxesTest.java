@@ -15,6 +15,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.biodata.labguru.LGConstants;
+import com.biodata.labguru.model.Stock;
 import com.biodata.labguru.pages.storage.BoxPage;
 import com.biodata.labguru.tests.TestOrderRandomizer;
 
@@ -30,6 +31,59 @@ public class BoxesTest extends AbstractStoragesTest{
 			
 		} catch (InterruptedException e) {
 			setLog(e,"markAsConsumedAllStocks");
+		}
+	}
+	
+	
+	@Test(groups = {"knownBugs"})
+	public void changeStockContentInGridlessBoxAndCheckDetails(){
+		
+		try {
+			
+			//create gridless box
+			getPageManager().getBoxPage().showBoxes();
+			String boxName = buildUniqueName("gridlessBox");
+			getPageManager().getBoxPage().addNewGridlessBox(boxName);
+			String stockName = buildUniqueName(LGConstants.STOCK_PREFIX);
+			getPageManager().getBoxPage().addStockToGridlessBox(stockName,null);
+			
+			String celline = buildUniqueName(LGConstants.CELL_LINE_PREFIX);
+			getPageManager().getCellLinesPage().addNewItem(celline);
+			
+			getPageManager().getAdminPage().showBoxes();
+			getPageManager().getBoxPage().viewBoxShowPage(boxName);
+			Stock stock = getPageManager().getBoxPage().editStockContent(stockName,celline);
+			Assert.assertEquals(stock.content, celline);
+		
+			
+		}  catch (Exception e) {
+			setLog(e,"changeStockContentInGridlessBoxAndCheckDetails");
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test(groups = {"knownBugs"})
+	public void checkStockContentInGridlessBox(){
+		
+		try {
+			//create collection item
+			String celline = buildUniqueName(LGConstants.CELL_LINE_PREFIX);
+			getPageManager().getCellLinesPage().addNewItem(celline);
+			
+			//create gridless box
+			getPageManager().getBoxPage().showBoxes();
+			String boxName = buildUniqueName("gridlessBox");
+			getPageManager().getBoxPage().addNewGridlessBox(boxName);
+			String stockName = buildUniqueName(LGConstants.STOCK_PREFIX);
+			getPageManager().getBoxPage().addStockToGridlessBox(stockName,celline);
+			
+			Stock stock = getPageManager().getBoxPage().checkStockFromListInBox(stockName);
+			Assert.assertEquals(stock.content, celline);
+		
+			
+		}  catch (Exception e) {
+			setLog(e,"checkStockContentInGridlessBox");
+			Assert.fail(e.getMessage());
 		}
 	}
 	

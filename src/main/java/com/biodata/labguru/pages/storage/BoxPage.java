@@ -15,6 +15,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.biodata.labguru.LGConstants;
+import com.biodata.labguru.model.Stock;
 import com.biodata.labguru.pages.ITableView;
 
 
@@ -275,7 +276,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 			if(i < numOfStocks){
 				cell.click();
 				TimeUnit.SECONDS.sleep(2);
-				openStockSelectionDialogFromBoxPage(stockName, LGConstants.TUBE);		
+				openStockSelectionDialogFromBoxPage(stockName, LGConstants.TUBE, null);		
 				i++;
 			}else{
 				break;
@@ -689,5 +690,122 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		}
 		return msg;
 	}
+	
+	public Stock editStockContent(String stockName,String content) throws InterruptedException {
+		
+		List<WebElement> stocks = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='unlimited_box_table']/tbody/tr")));
+		for (int i = 2; i <= stocks.size(); i++) {
+			WebElement selectedStock = getWebDriver().findElement(By.xpath(".//*[@id='unlimited_box_table']/tbody/tr["+i+"]/td[2]/strong"));
+			String selectedStockName = selectedStock.getText();
+			if(selectedStockName.equals(stockName)){
+				WebElement btnEdit = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='unlimited_box_table']/tbody/tr["+i+"]/td[last()]/a/i")));
+				btnEdit.click();
+				TimeUnit.SECONDS.sleep(1);
+				break;
+			}
+		}
+		
+		//change type	
+		selectContentForStock(content);
+		
+		//save
+		WebElement btnSave = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("save")));
+		btnSave.click();
+		TimeUnit.SECONDS.sleep(3);
+
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
+		
+		Stock stock = checkStockFromListInBox(stockName);
+		return stock;
+	}
+
+
+	
+	public Stock checkStockFromListInBox(String name) throws InterruptedException {
+		
+		Stock stock = new Stock();
+		//find the specific stock and click its checkbox
+		List<WebElement> stocks = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='unlimited_box_table']/tbody/tr")));
+		for (int i = 2; i <= stocks.size(); i++) {
+			WebElement selectedStock = getWebDriver().findElement(By.xpath(".//*[@id='unlimited_box_table']/tbody/tr["+i+"]/td[2]/strong"));
+			String stockName = selectedStock.getText();
+			if(stockName.equals(name)){
+				stock.setName(name);
+				stock.setContent(getWebDriver().findElement(By.xpath(".//*[@id='unlimited_box_table']/tbody/tr["+i+"]/td[2]/small/a")).getText());
+			}
+		}
+		return stock;
+	}
+	
+	public void addStockToGridlessBox(String stockName,String content) throws InterruptedException {
+		
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("unlimited_box_table")));
+		
+		WebElement addStock =  getWebDriver().findElement(By.id("add_stock"));
+		
+		addStock.click();
+		TimeUnit.SECONDS.sleep(2);
+		openStockSelectionDialogFromBoxPage(stockName, LGConstants.TUBE, content);				
+		TimeUnit.SECONDS.sleep(2);
+		
+	}
+	
+	
+	/** 
+	 * This dialog opens when selecting a stock in the box view and clicking 'edit selected'
+	 * There is no location tree in this dialog.
+	 * @param content TODO
+	 * @throws InterruptedException 
+	 */
+	protected void openStockSelectionDialogFromBoxPage(String tubeName,String type, String content) throws InterruptedException {
+		      
+        TimeUnit.SECONDS.sleep(2); 
+        WebElement newDialog = getWebDriver().switchTo().activeElement();
+        driverWait.until(ExpectedConditions.visibilityOf(newDialog));
+        
+ 
+        WebElement txtName = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("name")));
+        if(tubeName != null)
+        	sendKeys(txtName, tubeName);
+        
+        TimeUnit.SECONDS.sleep(2); 
+        selectType(type);
+        TimeUnit.SECONDS.sleep(2); 
+        
+        if(content != null){
+        	selectContentForStock(content);
+        }
+	    
+	    WebElement btnSave = getWebDriver().findElement(By.id("save"));
+	    btnSave.click();
+	    TimeUnit.SECONDS.sleep(2); 
+	    
+	    getWebDriver().switchTo().activeElement();
+
+	}
+	
+	private void selectContentForStock(String content) throws InterruptedException {
+		
+		WebElement dropdownContent = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='s2id_system_storage_stock_stockable_id']/a/span[2]/b")));
+		dropdownContent.click();
+		
+		WebElement contentInput = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='select2-drop']/div/input")));
+		contentInput.sendKeys(content);
+		
+		List<WebElement> contents = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//*[@id='select2-drop']/ul/li")));
+		for (int i = 1; i <= contents.size(); i++) {	
+			WebElement selectedContent = getWebDriver().findElement(By.xpath(".//*[@id='select2-drop']/ul/li["+ i + "]/ul/li/div/span"));
+			if(selectedContent.getText().equals(content)){
+				selectedContent.click();
+				TimeUnit.SECONDS.sleep(1);
+				break;
+			}
+		}
+	}
+	
+
 
 }
