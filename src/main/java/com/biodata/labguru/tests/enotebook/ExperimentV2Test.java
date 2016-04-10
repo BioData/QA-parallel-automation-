@@ -847,7 +847,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"basic sanity"} ,timeOut = 300000)
+	@Test (groups = {"basic sanity"} ,timeOut = 600000)
 	public void uploadExcelAndAddToPage() {
 		try {
 			String attachmentToLoad = LGConstants.UPLOAD_XLS_TEST_FILENAME;
