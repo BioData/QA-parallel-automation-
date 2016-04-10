@@ -1229,6 +1229,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 				finishLoadingElement= true;
 			}	
 		}
+		TimeUnit.SECONDS.sleep(2);
 		List <WebElement> elements = getWebDriver().findElements(By.cssSelector(".element_container.excel_element"));
 		return elements.size() > 0;
 		
@@ -1384,12 +1385,12 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		//click on the action to activate (bold,italic ,etc)
 		String script = "$('#section_toolbar_" + sectionIndex + ">div>ul>li>.re-icon." + relClass + "').click();";
 		executeJavascript(script);
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(2);
 
 		//check that the text is as ment to be
 		try {
 			driverWait.until(ExpectedConditions.visibilityOfElementLocated
-					(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/element/div/div/p/" + tagToCheck+ "")));	
+					(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/element/div/div/p/*[@data-redactor-tag='" +tagToCheck+ "']")));	
 			TimeUnit.SECONDS.sleep(1);
 			//revert action
 			executeJavascript(script);
