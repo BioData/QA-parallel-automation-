@@ -163,8 +163,8 @@ public abstract class SequenceableCollectionPage extends PurchasableCollectionPa
 		save();	
 		checkForNotyMessage();
 
-		//look for the 'Sequences' tab - 
 		WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
+		//in primer when we add sequence it stays in the sequence page and we need to go back to the primer
 		if(title.getText().startsWith(LGConstants.SEQUENCE_PREFIX)){
 			//we are in the created seq page and need to go back to recently viewed item
 			//go back to the collection item which we added the seq from it
