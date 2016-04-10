@@ -347,7 +347,6 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 				TimeUnit.SECONDS.sleep(8);
 			}
 
-			showTableIndex();
 			boolean hasList = getPage().hasList();
 			AssertJUnit.assertFalse("Not all items were deleted from index table.",hasList);//check that there are no items in the list
 		
