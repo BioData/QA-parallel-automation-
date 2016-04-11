@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -22,15 +21,14 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class BoxesTest extends AbstractStoragesTest{
 	
-	@AfterMethod
-	public void markAsConsumedAllStocks(){
+	public void deleteAllBoxesAndStocks(){
 		//delete stocks
 		try {
 			markAsConsumedStocks();
 			getPageManager().getBoxPage().deleteAllItemsFromTable();
 			
 		} catch (InterruptedException e) {
-			setLog(e,"markAsConsumedAllStocks");
+			setLog(e,"deleteAllBoxesAndStocks");
 		}
 	}
 	
