@@ -415,14 +415,8 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 			TimeUnit.SECONDS.sleep(2); 
 			checkForAlerts();
 			
-			waitForPageCompleteLoading();
 			//wait until the index table will be fully loaded
-			List<WebElement> breadcrumbs = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-					(By.xpath(".//*[@id='breadcrumbs']/ul/li")));
-			if(breadcrumbs.size() == 2){
-				return true;
-			}
-			//wait for page load 
+			waitForPageCompleteLoading();
 			TimeUnit.SECONDS.sleep(3); 
 			
 		} catch (InterruptedException e) {
