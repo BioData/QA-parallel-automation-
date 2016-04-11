@@ -597,6 +597,40 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		return drawCompound(sectionIndex);
 	}
 	
+	public boolean editCompound(String sectionIndex,String newName)  throws InterruptedException{
+		
+		boolean edited = false;
+		selectSection(sectionIndex);
+		TimeUnit.SECONDS.sleep(1);
+		
+		WebElement compoundElm = getWebDriver().findElement(By.cssSelector(".skip_edit"));
+		compoundElm.click();
+		TimeUnit.SECONDS.sleep(2);
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("btn-getmol")));
+		
+		WebElement txtName = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("compound_name")));
+		txtName.clear();
+		txtName.sendKeys(newName);
+		
+		WebElement btnSaveComp = getWebDriver().findElement(By.id("btn-getmol"));
+		btnSaveComp.click();
+
+		TimeUnit.SECONDS.sleep(5);
+		getWebDriver().switchTo().activeElement();
+		
+		saveSection(sectionIndex);
+		try {
+			WebElement compoundName = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+					(By.xpath(".//*[@id='section_" + sectionIndex + "']/div[@class='element_container compound_element']/div/element/p/b")));
+			edited = (compoundName.getText().equals(newName));
+
+		} catch (Exception e) {
+			edited = false;
+		}
+
+		return edited;
+	}
+	
 	public boolean addReactionToSection(String sectionIndex) throws InterruptedException{
 		selectSection(sectionIndex);
 

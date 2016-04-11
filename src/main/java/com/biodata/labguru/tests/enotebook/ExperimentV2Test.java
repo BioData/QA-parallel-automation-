@@ -818,7 +818,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 	
 	@Test (groups = {"basic sanity"})
-	public void addCompoundToProcedure() {
+	public void addCompoundToSection() {
 		
 		try {
 			String expName = "ExpWithCompoundInProcedure";
@@ -831,7 +831,26 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 			
 		} catch (Exception e) {
-			setLog(e,"addCompoundToProcedure");
+			setLog(e,"addCompoundToSection");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"basic sanity"})
+	public void editCompoundInSection() {
+		
+		try {
+			String expName = "ExpWithCompoundToEdit";
+			createNewExperimentAndChangeVersion(expName);
+	
+			getPageManager().getExperimentPageV2().addCompoundToSection(DESCRIPTION_SECTION_INDEX);
+			boolean edited = getPageManager().getExperimentPageV2().editCompound(DESCRIPTION_SECTION_INDEX,"editedCompound");
+			assertTrue("The compound was not edited as should be",edited);
+
+
+			
+		} catch (Exception e) {
+			setLog(e,"editCompoundInSection");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
