@@ -122,6 +122,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 	public void deleteCollectionItemFromIndexTable(){
 		
 		try {
+			//create 2 items so after delete we will still have one in the list
 			showTableIndex();
 			addNewItem();
 			showTableIndex();
