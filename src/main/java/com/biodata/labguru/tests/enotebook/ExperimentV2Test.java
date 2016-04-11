@@ -817,6 +817,46 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
+	@Test (groups = {"basic sanity"})
+	public void addCompoundToProcedure() {
+		
+		try {
+			String expName = "ExpWithCompoundInProcedure";
+			createNewExperimentAndChangeVersion(expName);
+	
+			boolean created = getPageManager().getExperimentPageV2().addCompoundToSection(PROCEDURE_SECTION_INDEX);
+			assertTrue("The compound was not created as should be",created);
+			
+			assertEquals(expName,getPageManager().getExperimentPage().openExperiment(expName));
+
+			
+		} catch (Exception e) {
+			setLog(e,"addCompoundToProcedure");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"basic sanity"})
+	public void addReactionToResultsSection() {
+		
+		try {
+			String expName = "ExpWithReactionInResults";
+			createNewExperimentAndChangeVersion(expName);
+	
+			boolean created = getPageManager().getExperimentPageV2().addReactionToSection(RESULTS_SECTION_INDEX);
+			assertTrue("Adding reaction to experiment results failed",created);
+			
+			//TODO - add the check inn recent results
+			//getPageManager().getAdminPage().showRecentResults();
+			//assertFalse("Reaction in recent results page should not be editable ",getPageManager().getRecentResultsPage().isReactionEditable());
+			
+			
+		} catch (Exception e) {
+			setLog(e,"addReactionToResultsSection");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
 	@Test (groups = {"test"})//TODO - - not working due to auto save
 	public void addSamplesToProcedure() {
 		
@@ -921,62 +961,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
-	
-	/*
 
-	//@Test (groups = {"basic sanity"})
-	public void addReactionToResults() {
-		
-		try {
-			
-			createNewExperimentAndChangeVersion("ExpWithReactionInResults");
-			assertTrue("Adding reaction to experiment results ",getPageManager().getExperimentPageV2().addReactionToResults());
-			
-			getPageManager().getAdminPage().showRecentResults();
-			assertFalse("Reaction in recent results page should not be editable ",getPageManager().getRecentResultsPage().isReactionEditable());
-			
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-	//@Test (groups = {"basic sanity"})
-	public void addReactionToProcedure() {
-		
-		try {
-			
-			createNewExperimentAndChangeVersion("ExpWithReactionInResults");
-			assertTrue("Adding reaction to experiment results ",getPageManager().getExperimentPageV2().addReactionToProcedure());
-			
-		
-			
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-
-	
-	//@Test (groups = {"basic sanity"})
-	public void addCompoundToProcedure() {
-		
-		try {
-			String expName = "ExpWithCompoundInProcedure";
-			createNewExperimentAndChangeVersion(expName);
-	
-			assertTrue(getPageManager().getExperimentPageV2().addCompoundToProcedure());
-			
-			assertEquals(expName,getPageManager().getExperimentPage().openExperiment(expName));
-
-			
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-*/
 
 	@Override
 	protected String showModule() {

@@ -586,18 +586,115 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		String  text = (String) executeJavascript(script);
 		return text;
 	}
-	// only when compound option is enabled
-	public boolean addCompoundToProcedure() throws InterruptedException {
+
+	
+	public boolean addCompoundToSection(String sectionIndex) throws InterruptedException {
 		
-		String sectionIndex = "1";
 		selectSection(sectionIndex);
 
-		//TODO - add compound
 		clickOnSectionMenuAction(sectionIndex, addCompoundActionId);
 		TimeUnit.SECONDS.sleep(2);
-		return drawCompound();
+		return drawCompound(sectionIndex);
 	}
 	
+	public boolean addReactionToSection(String sectionIndex) throws InterruptedException{
+		selectSection(sectionIndex);
+
+		clickOnSectionMenuAction(sectionIndex, addReactionActionId);
+		TimeUnit.SECONDS.sleep(2);
+		String pathToImportFile = workingDir + LGConstants.ASSETS_FILES_DIRECTORY + LGConstants.REACTION_FILES_DIRECTORY + LGConstants.REACTION_FILE_TO_IMPORT;
+		return openMarvinJSDialogAndImport(pathToImportFile,sectionIndex);
+		
+	}
+	
+	private boolean openMarvinJSDialogAndImport(String pathToFile,String sectionIndex) throws InterruptedException {
+
+
+		boolean created = false;
+		TimeUnit.SECONDS.sleep(1);
+
+		// open the canvas for drawing
+		WebElement sketch = driverWait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.id("sketch")));
+		
+		TimeUnit.SECONDS.sleep(5);
+		
+		WebDriver iframe = getWebDriver().switchTo().frame(sketch);
+
+		WebElement imgImport = iframe.findElement(By.xpath(".//div[starts-with(@title,'Import')]"));
+		imgImport.click();
+		TimeUnit.SECONDS.sleep(2);
+
+		WebElement fileSelect = getWebDriver().findElement(By.cssSelector(".gwt-FileUpload"));
+		fileSelect.sendKeys(pathToFile);
+
+		TimeUnit.SECONDS.sleep(2);
+		
+		iframe.switchTo().parentFrame();
+		
+
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By
+				.id("btn-getmol")));
+		
+		WebElement txtName = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("compound_name")));
+		txtName.clear();
+		txtName.sendKeys(GenericHelper.buildUniqueName("reaction_"));
+		
+		WebElement btnSaveComp = getWebDriver().findElement(By.id("btn-getmol"));
+		btnSaveComp.click();
+
+		TimeUnit.SECONDS.sleep(5);
+		getWebDriver().switchTo().activeElement();
+		
+		saveSection(sectionIndex);
+		try {
+			WebElement compoundImg = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+					(By.xpath(".//*[@id='section_" + sectionIndex + "']/div[@class='element_container reaction_element']")));
+			created = (compoundImg != null);
+
+		} catch (Exception e) {
+			created = false;
+		}
+
+//		try {
+//			WebElement reactionImg = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By
+//							.xpath(".//*[@class='reaction ng-scope']/stoichiometric-table/img")));
+//			created = (reactionImg != null);
+//
+//		} catch (NoSuchElementException e) {
+//			created = false;
+//		}
+		return created;
+	}
+	
+
+	private boolean drawCompound(String sectionIndex) throws InterruptedException {
+		
+		boolean created;
+		// draw something
+		drawBenzene();
+		WebElement txtName = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("compound_name")));
+		txtName.clear();
+		txtName.sendKeys(GenericHelper.buildUniqueName("compound_"));
+
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("btn-getmol")));
+		WebElement btnSaveComp = getWebDriver().findElement(By.id("btn-getmol"));
+		btnSaveComp.click();
+		TimeUnit.SECONDS.sleep(3);
+
+		getWebDriver().switchTo().activeElement();
+		
+		saveSection(sectionIndex);
+		try {
+			WebElement compoundImg = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+					(By.xpath(".//*[@id='section_" + sectionIndex + "']/div[@class='element_container compound_element']")));
+			created = (compoundImg != null);
+
+		} catch (Exception e) {
+			created = false;
+		}
+		return created;
+	}
 
 	public boolean addTableToSection(String data,String sectionIndex) throws InterruptedException {
 
@@ -620,29 +717,6 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 
 		created = ((tableArea != null) && (data.equals(value)));
 		return created;
-	}
-
-	
-
-	public boolean addReactionToProcedure() throws InterruptedException {
-
-		String sectionIndex = "1";
-		selectSection(sectionIndex);
-		//TODO - add reaction
-		clickOnSectionMenuAction(sectionIndex, addReactionActionId);
-		return openMarvinJSDialogAndImport(workingDir + LGConstants.ASSETS_FILES_DIRECTORY + "chemaxon_reaction_library/Benzoxazole formation from 2-aminophenol and carbonyls.mrv");
-	
-	}
-	
-	public boolean addReactionToResults() throws InterruptedException {
-
-		String sectionIndex = "2";
-		selectSection(sectionIndex); //results
-		//TODO - add reaction
-		clickOnSectionMenuAction(sectionIndex, addReactionActionId);
-		
-		return openMarvinJSDialogAndImport(workingDir + LGConstants.ASSETS_FILES_DIRECTORY + "chemaxon_reaction_library/Benzoxazole formation from 2-aminophenol and carbonyls.mrv");
-		
 	}
 
 
