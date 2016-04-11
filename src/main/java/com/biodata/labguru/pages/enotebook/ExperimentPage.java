@@ -500,27 +500,6 @@ public class ExperimentPage extends AbstractNotebookPage {
 		txtInput.sendKeys(Keys.ENTER);
 	}
 	
-	public String openExperiment(String expName) throws InterruptedException {
-		
-		selectExperiments();
-		
-		List<WebElement> expList = driverWait.until(ExpectedConditions
-				.visibilityOfAllElementsLocatedBy(By.xpath(".//*[@id='data']/table/tbody/tr")));
-		for (int i = 1; i <= expList.size(); i++) {
-			WebElement expToOpen = getWebDriver().findElement(By.xpath(".//*[@id='data']/table/tbody/tr[" + i + "]/td[2]/b/a"));
-			if(expToOpen.getText().equals(expName)){
-				expToOpen.click();
-				TimeUnit.SECONDS.sleep(1);
-				break;
-			}
-		}
-		
-		
-		driverWait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath(".//*[@id='projects_experiment_title_input']/span")));
-		return getWebDriver().getTitle();
-	}
-	
 	
 	public boolean hasList() {
 		selectExperiments();
