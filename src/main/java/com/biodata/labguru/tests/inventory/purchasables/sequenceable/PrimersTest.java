@@ -3,9 +3,11 @@ package com.biodata.labguru.tests.inventory.purchasables.sequenceable;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
+import org.testng.annotations.Test;
 
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.pages.inventory.purchasables.PurchasableCollectionPage;
@@ -70,6 +72,73 @@ public class PrimersTest extends SequenceableCollectionTest{
 			Assert.fail(e.getMessage());
 		}
 	}
+	
+	@Test (groups = {"deep"})
+	public void setThresholdFromStocksTab(){
+		
+		try {
+			
+			showTableIndex();
+			addNewItem();
+			
+			TimeUnit.SECONDS.sleep(3);
+			
+			String stockName = buildUniqueName(LGConstants.STOCK_PREFIX);
+			//add one stock and set the threshold to '2' - we expect a status message that alert for the low stocks
+			getPage().addStockFromStocksTab(stockName, LGConstants.STOCK_TYPES_ARRAY[1]);
+			String stockCountForThreshold = "2";
+			String statusMsg = getPage().setThreshold(stockCountForThreshold);
+
+			Assert.assertEquals("Threshold of a " +  stockCountForThreshold + " stocks minimum is set. Currently there is only 1 available stock",statusMsg);
+		
+			statusMsg = getPage().setThreshold("1");
+			Assert.assertEquals(statusMsg,"Threshold of a 1 stocks minimum is set.");
+			
+			//TODO - check update status in dashboard
+		
+			
+		} catch (Exception e) {
+			setLog(e,"setThresholdFromStocksTab");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"deep"})
+	public void checkThresholdStatusInStocksTab(){
+		
+		try {
+			
+			showTableIndex();
+			addNewItem();
+			
+			TimeUnit.SECONDS.sleep(3);
+			
+			String stockName = buildUniqueName(LGConstants.STOCK_PREFIX);
+			//add one stock and set the threshold to '2' - we expect a status message that alert for the low stocks
+			getPage().addStockFromStocksTab(stockName, LGConstants.STOCK_TYPES_ARRAY[1]);
+			String stockCountForThreshold = "2";
+			String statusMsg = getPage().setThreshold(stockCountForThreshold);
+
+			Assert.assertEquals("Threshold of a " +  stockCountForThreshold + " stocks minimum is set. Currently there is only 1 available stock",statusMsg);
+		
+			//add one stock and set the threshold to '2' - we expect a status message that alert for the low stocks
+			getPage().addStockFromStocksTab(stockName, LGConstants.STOCK_TYPES_ARRAY[1]);
+			statusMsg = getPage().setThreshold(null);
+			Assert.assertEquals(statusMsg,"Threshold of a 2 stocks minimum is set.");
+			
+			
+			//remove one stock when threshold set to '2' - we expect a status message that alert for the low stocks
+			getPage().markAsConsumedStockInTable(stockName);
+			statusMsg = getPage().setThreshold(null);
+			Assert.assertEquals("Threshold of a " +  stockCountForThreshold + " stocks minimum is set. Currently there is only 1 available stock",statusMsg);
+
+		} catch (Exception e) {
+			setLog(e,"checkThresholdStatusInStocksTab");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+
 	
 	@Override
 	protected String getCollectionNameForMessage() {

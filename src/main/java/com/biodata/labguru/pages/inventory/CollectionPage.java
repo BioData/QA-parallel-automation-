@@ -629,7 +629,22 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
         return msg;
 	}
 
+	/**
+	 * Set the threshold in the stocks tab and return the status message that shown.
+	 * @param stockCount - the number of stocks to set or 'null' if we only want the status message.
+	 * @return status message of the threshold
+	 * @throws InterruptedException
+	 */
 	public String setThreshold(String stockCount) throws InterruptedException {
+		
+		//in this case we want to see what the status message is(in case we updated the stocks count by adding/removing stocks)
+		if(stockCount == null){
+			
+			WebElement thresholdStatus = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("threshold_status")));
+			String thresholdStatusMsg = thresholdStatus.getText();
+			
+			return thresholdStatusMsg;	
+		}
 		
 		WebElement btnThreshold = getWebDriver().findElement(By.id("add_threshold"));
 		btnThreshold.click();
