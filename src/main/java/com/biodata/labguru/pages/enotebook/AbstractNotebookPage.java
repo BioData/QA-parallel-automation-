@@ -73,7 +73,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		WebElement versionBtn;
 		try {
 			//new account - will open experiment on beta version by default
-			versionBtn = getWebDriver().findElement(By.id("link_to_v1"));
+			versionBtn = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("link_to_v1")));
 			
 			if(version.equals(LGConstants.EXPERIMENT_CURRENT)){
 				
@@ -88,7 +88,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 				//if we need current version - do nothing
 				return;
 			}
-			versionBtn = getWebDriver().findElement(By.id("link_to_beta"));
+			versionBtn = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("link_to_beta")));
 			versionBtn.click();
 			TimeUnit.SECONDS.sleep(3);
 		}
