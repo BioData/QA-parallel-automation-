@@ -497,7 +497,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	//@Test (groups = {"basic sanity"})//TODO - not working with redactor
+	@Test (groups = {"TODO"})//TODO - not working with redactor
 	public void addInlineCommentToSection(){
 		
 		try {
@@ -817,6 +817,20 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
+	@Test (groups = {"TODO"})//TODO - not working due to auto save
+	public void addSamplesToSection() {
+		
+		try {
+			createNewExperimentAndChangeVersion("ExpWithSample");
+			String notCreated = getPageManager().getExperimentPageV2().addSamplesToSection(PROCEDURE_SECTION_INDEX);
+			assertTrue("The following sample types were not created as should be: " + notCreated , notCreated.isEmpty());
+		} catch (Exception e) {
+			setLog(e,"addSamplesToSection");
+			AssertJUnit.fail(e.getMessage());
+		}
+
+	}
+	
 	@Test (groups = {"basic sanity"})
 	public void addCompoundToSection() {
 		
@@ -876,21 +890,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		}
 	}
 	
-	@Test (groups = {"test"})//TODO - - not working due to auto save
-	public void addSamplesToProcedure() {
-		
-		try {
-			createNewExperimentAndChangeVersion("ExpWithSample");
-			String notCreated = getPageManager().getExperimentPageV2().addSamplesToSection(PROCEDURE_SECTION_INDEX);
-			assertTrue("The following sample types were not created as should be: " + notCreated , notCreated.isEmpty());
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-
-	}
-	
-	@Test (groups = {"test"})//TODO - - not working due to auto save
+	@Test (groups = {"TODO"})//TODO - not working due to auto save
 	public void addSampleWithoutStockAndEdit() {
 		
 		try {
@@ -898,6 +898,23 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String name = "sampleWithoutStock";
 			createNewExperimentAndChangeVersion(name);
 			assertTrue("Stock in sample could not be edited.",getPageManager().getExperimentPageV2().editSample(PROCEDURE_SECTION_INDEX));
+			
+		} catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+
+	}
+	
+	@Test (groups = {"TODO"})
+	public void addSampleWithGenericCollection() {
+		
+		try {
+			String collectionName = buildUniqueName(LGConstants.GENERIC_COLLECTION_PREFIX);
+			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
+			createNewExperimentAndChangeVersion("sampleWithGenericCollection");
+			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
+			assertTrue(sampleName +" was not shown as expected after refresh.",getPageManager().getExperimentPageV2().addSampleWithGenericCollection(PROCEDURE_SECTION_INDEX,collectionName,sampleName));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -980,8 +997,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
-
-
+	
+	
 	@Override
 	protected String showModule() {
 		return getPageManager().getAdminPage().selectExperiments();

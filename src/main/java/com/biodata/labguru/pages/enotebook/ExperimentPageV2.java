@@ -156,12 +156,10 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	public String moveExperimentToProject(String newProject) throws InterruptedException{
 		
 		waitForPageCompleteLoading();
-		
 		clickOnUpperMenuAction(moveItemActionId);
 		
 		openMoveDialog(newProject);
 		refreshPage();
-
 		WebElement projectLink = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.xpath(".//*[@id='breadcrumb-briefcase']/span")));
 		String projectName = projectLink.getText();
@@ -413,10 +411,10 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		return created;
 	}
 	private WebElement openDropDown(String inputId) throws InterruptedException {
-		//String dropdownPrefix = ".samples.styled_table>tbody>tr:nth-child(1)>";
-		WebElement dropDown = getWebDriver().findElement(By.cssSelector(/*dropdownPrefix + */inputId +">div>a>span.select2-arrow>b"));
+
+		WebElement dropDown = getWebDriver().findElement(By.cssSelector(inputId +">div>a>span.select2-arrow>b"));
 		dropDown.click();
-		TimeUnit.SECONDS.sleep(2);
+		TimeUnit.SECONDS.sleep(1);
 		return dropDown;
 	}
 	
@@ -453,31 +451,22 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		WebElement selectedType =  getWebDriver().findElement(By.cssSelector("li:nth-child(" + typeSelectionIndex + ")>.select2-result-label"));		
 		sample.setType(selectedType.getText());
 		selectedType.click();
-		TimeUnit.SECONDS.sleep(2);
+		TimeUnit.SECONDS.sleep(1);
 		
 		//add name
 		String sampleName = GenericHelper.buildUniqueName(sample.type);
-	
-		//workaround due to auto save that causes the dropdown to close before selection is made
-		boolean addToFound = false;
-		while (!addToFound) {
-			openDropDown(idInput);
-			String scriptSetSearchInput = "$('.select2-search>input').keydown().val('"+ sampleName +"').keyup();";
-			executeJavascript(scriptSetSearchInput);
-			TimeUnit.SECONDS.sleep(5);
-			try{
-				WebElement addTo = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@class='select2-no-results']/a")));
-				TimeUnit.SECONDS.sleep(2);
-				String addToText = addTo.getText();
-				if(addToText.contains(sampleName.toLowerCase())){
-					executeJavascript("arguments[0].click();", addTo);
-					TimeUnit.SECONDS.sleep(2);
-				}
-				addToFound = true;
-			}catch(Exception e){
-				//continue - try again open dropdown
-			}
+
+		openDropDown(idInput);
+		String scriptSetSearchInput = "$('.select2-search>input').keydown().val('"+ sampleName +"').keyup();";
+		executeJavascript(scriptSetSearchInput);
+		TimeUnit.SECONDS.sleep(2);
+		WebElement addTo = getWebDriver().findElement(By.xpath(".//*[@class='select2-no-results']/a"));
+		String addToText = addTo.getText();
+		if(addToText.contains(sampleName.toLowerCase())){
+			executeJavascript("arguments[0].click();", addTo);
+			TimeUnit.SECONDS.sleep(2);
 		}
+			
 
 		WebElement selectedName =  driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.cssSelector("li:last-child>.select2-result-label:last-child")));
@@ -513,28 +502,18 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 			sample.setStock("");
 			return;
 		}
-		//workaround due to auto save that causes the dropdown to close before selection is made
-		boolean stockAdded = false;
-		while (!stockAdded) {
-			openDropDown(stockIdInput);
-			TimeUnit.SECONDS.sleep(1);
-			try {
-				WebElement stockName =  getWebDriver().findElement(By.cssSelector("li:last-child>.select2-result-label:last-child"));			
-				stockName.click();
-				TimeUnit.SECONDS.sleep(8);
-				
-				WebElement inputTxt = getWebDriver().findElement(By.cssSelector(".lg-stock-name"));
-				String stock = inputTxt.getText();
-				sample.setStock(stock);
-				stockAdded = true;
-			} catch (Exception e) {
-				//continue
-			}
-			
-		}
+
+		openDropDown(stockIdInput);
+		TimeUnit.SECONDS.sleep(1);
+
+		WebElement stockName =  getWebDriver().findElement(By.cssSelector("li:last-child>.select2-result-label:last-child"));			
+		stockName.click();
+		TimeUnit.SECONDS.sleep(4);
 		
-		
-		
+		WebElement inputTxt = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".lg-stock-name")));
+		String stock = inputTxt.getText();
+		sample.setStock(stock);
+
 	}
 
 
@@ -729,6 +708,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		}
 		return created;
 	}
+	
 
 	public boolean addTableToSection(String data,String sectionIndex) throws InterruptedException {
 
@@ -752,7 +732,6 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		created = ((tableArea != null) && (data.equals(value)));
 		return created;
 	}
-
 
 	public String addNewSection(String sectionIndex,String sectionName) throws InterruptedException {
 
@@ -1572,5 +1551,79 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		}
 		return created;
 	}
+	
+	public boolean addSampleWithGenericCollection(String sectionIndex,String collectionName,String sampleName) throws InterruptedException {
+		
+		boolean created = false;
+		selectSection(sectionIndex);
+		String typeInput = "#sample_item_type_input";
+
+
+		clickOnSectionMenuAction(sectionIndex, addSamplesActionId);
+	
+		//open the dropdown for type list to count the number of types
+		openDropDown(typeInput);
+
+		List <WebElement> typesList = getWebDriver().findElements(By.xpath(".//*[@id='select2-drop']/ul/li"));
+		int numOftypes = typesList.size();
+
+		for (int j = 1; j <= numOftypes; j++) {
+				
+			WebElement selectedType =  getWebDriver().findElement(By.cssSelector("li:nth-child(" + j + ")>.select2-result-label"));		
+			if(selectedType.getText().equals(collectionName)){
+				selectedType.click();
+				TimeUnit.SECONDS.sleep(1);		
+				addSampleName(sampleName);
+				break;
+			}
+		}
+		
+
+		saveSection(sectionIndex);
+		TimeUnit.SECONDS.sleep(2);
+		
+		refreshPage();
+		selectSection(sectionIndex);
+		TimeUnit.SECONDS.sleep(2);
+		
+		//check that after clicking on edit - the name of the sample from generic collection type is still shown
+		WebElement name = getWebDriver().findElement(By.xpath(".//*[@id='s2id_sample-item-id']/a/span[1]"));
+		if(name.getText().equals(sampleName)){
+			created = true;
+		}
+		
+		return created;
+	}
+	
+	private void addSampleName(String sampleName) throws InterruptedException {
+
+		//workaround due to auto save that causes the dropdown to close before selection is made
+		boolean addToFound = false;
+		while (!addToFound) {
+			openDropDown("#sample_item_id_input");
+			String scriptSetSearchInput = "$('.select2-search>input').keydown().val('"+ sampleName +"').keyup();";
+			executeJavascript(scriptSetSearchInput);
+			TimeUnit.SECONDS.sleep(5);
+			try{
+				WebElement addTo = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@class='select2-no-results']/a")));
+				TimeUnit.SECONDS.sleep(2);
+				String addToText = addTo.getText();
+				if(addToText.contains(sampleName.toLowerCase())){
+					executeJavascript("arguments[0].click();", addTo);
+					TimeUnit.SECONDS.sleep(3);
+				}
+				addToFound = true;
+			}catch(Exception e){
+				//continue - try again open dropdown
+			}
+		}
+
+		WebElement selectedName =  driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.cssSelector("li:last-child>.select2-result-label:last-child")));
+		selectedName.click();
+		TimeUnit.SECONDS.sleep(3);
+	}
+
+
 
 }
