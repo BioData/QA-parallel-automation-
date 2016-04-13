@@ -906,7 +906,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
-	@Test (groups = {"TODO"})
+	@Test (groups = {"basic sanity"})
 	public void addSampleWithGenericCollection() {
 		
 		try {
@@ -916,8 +916,10 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
 			assertTrue(sampleName +" was not shown as expected after refresh.",getPageManager().getExperimentPageV2().addSampleWithGenericCollection(PROCEDURE_SECTION_INDEX,collectionName,sampleName));
 			
+			getPageManager().getGenericCollectionPage().deleteGenericCollection(collectionName);
+			
 		} catch (Exception e) {
-			setLog(e);
+			setLog(e,"addSampleWithGenericCollection");
 			AssertJUnit.fail(e.getMessage());
 		}
 

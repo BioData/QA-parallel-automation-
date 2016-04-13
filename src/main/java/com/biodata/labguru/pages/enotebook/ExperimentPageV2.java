@@ -1558,7 +1558,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		selectSection(sectionIndex);
 		String typeInput = "#sample_item_type_input";
 
-
+		Sample sample = new Sample();
 		clickOnSectionMenuAction(sectionIndex, addSamplesActionId);
 	
 		//open the dropdown for type list to count the number of types
@@ -1574,6 +1574,9 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 				selectedType.click();
 				TimeUnit.SECONDS.sleep(1);		
 				addSampleName(sampleName);
+				sample.setName(sampleName);
+				//add stock
+				addStockName(sample);
 				break;
 			}
 		}
@@ -1587,8 +1590,9 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		TimeUnit.SECONDS.sleep(2);
 		
 		//check that after clicking on edit - the name of the sample from generic collection type is still shown
-		WebElement name = getWebDriver().findElement(By.xpath(".//*[@id='s2id_sample-item-id']/a/span[1]"));
-		if(name.getText().equals(sampleName)){
+		WebElement sampleNameElm = getWebDriver().findElement(By.xpath(".//*[@id='s2id_sample-item-id']/a/span[1]"));
+		WebElement stockName = getWebDriver().findElement(By.xpath(".//*[@id='s2id_sample-stock-id']/a/span[1]/span/span[2]"));
+		if((sampleNameElm.getText().equals(sampleName)) && (stockName.getText().equals(sample.stock)) ){
 			created = true;
 		}
 		
@@ -1597,25 +1601,18 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 	
 	private void addSampleName(String sampleName) throws InterruptedException {
 
-		//workaround due to auto save that causes the dropdown to close before selection is made
-		boolean addToFound = false;
-		while (!addToFound) {
-			openDropDown("#sample_item_id_input");
-			String scriptSetSearchInput = "$('.select2-search>input').keydown().val('"+ sampleName +"').keyup();";
-			executeJavascript(scriptSetSearchInput);
-			TimeUnit.SECONDS.sleep(5);
-			try{
-				WebElement addTo = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@class='select2-no-results']/a")));
-				TimeUnit.SECONDS.sleep(2);
-				String addToText = addTo.getText();
-				if(addToText.contains(sampleName.toLowerCase())){
-					executeJavascript("arguments[0].click();", addTo);
-					TimeUnit.SECONDS.sleep(3);
-				}
-				addToFound = true;
-			}catch(Exception e){
-				//continue - try again open dropdown
-			}
+
+		openDropDown("#sample_item_id_input");
+		String scriptSetSearchInput = "$('.select2-search>input').keydown().val('"+ sampleName +"').keyup();";
+		executeJavascript(scriptSetSearchInput);
+		TimeUnit.SECONDS.sleep(5);
+		
+		WebElement addTo = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@class='select2-no-results']/a")));
+		TimeUnit.SECONDS.sleep(2);
+		String addToText = addTo.getText();
+		if(addToText.contains(sampleName.toLowerCase())){
+			executeJavascript("arguments[0].click();", addTo);
+			TimeUnit.SECONDS.sleep(2);
 		}
 
 		WebElement selectedName =  driverWait.until(ExpectedConditions.visibilityOfElementLocated
