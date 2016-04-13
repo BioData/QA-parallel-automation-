@@ -369,7 +369,6 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 			String stockName = buildUniqueName(LGConstants.STOCK_PREFIX);
 			getPage().addStockLocatedInBox(stockName,null);
 			
-			getPage().selectStocksTab();
 			boolean archiveSucceeded = getPage().markAsConsumedStockInTable(stockName);
 			AssertJUnit.assertTrue("The stock was not marked as expected",archiveSucceeded);
 			

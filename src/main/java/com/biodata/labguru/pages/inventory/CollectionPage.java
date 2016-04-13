@@ -21,6 +21,9 @@ import com.biodata.labguru.pages.ITableView;
 
 public abstract class CollectionPage extends AdminPage implements ITableView{
 		
+	private static final String TAB_STOCKS_ID = "tabs-sample_stocks-link";
+	private static final String TABS_INFO_ID = "tabs-info-link";
+
 	protected abstract String getImportXPath();
 	
 	protected abstract String getFileNameToImport();
@@ -139,7 +142,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		
 		TimeUnit.SECONDS.sleep(2);
 		
-		selectStocksTab();
+		selectTabById(TAB_STOCKS_ID);
 		TimeUnit.SECONDS.sleep(2);
 		
 		String savedLocation = findStockInTable(storage,stockName);
@@ -488,17 +491,10 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		}
 	}
 
-	public void selectStocksTab() throws InterruptedException {
-		
-		WebElement tabStocks = getWebDriver().findElement(By.xpath(".//*[@id='tabs-sample_stocks-link']"));
-		tabStocks.click();
-		TimeUnit.SECONDS.sleep(1); 
-	}
-
 	public Stock addStockFromStocksTab(String stockName, String type) throws InterruptedException {
 		
 		Stock stockObj = new Stock();
-		selectStocksTab();
+		selectTabById(TAB_STOCKS_ID);
 		TimeUnit.SECONDS.sleep(2);
 		
 		WebElement btnAddStock = getWebDriver().findElement(By.id("add_stock"));
@@ -512,7 +508,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		stockObj.setLocation(location);
 		TimeUnit.SECONDS.sleep(2);
 	
-		selectStocksTab();
+		selectTabById(TAB_STOCKS_ID);
 		TimeUnit.SECONDS.sleep(2);
 		
 		findStockInTable(location,stockName);
@@ -545,7 +541,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 
 	public boolean addStockLocatedInBox(String stockName, String boxName) throws InterruptedException {
 		TimeUnit.SECONDS.sleep(2);
-		selectStocksTab();
+		selectTabById(TAB_STOCKS_ID);
 		TimeUnit.SECONDS.sleep(1);
 		
 		WebElement btnAddStock = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("sidebar_stock_add_link"))); 
@@ -557,7 +553,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 
 		TimeUnit.SECONDS.sleep(2);
 		
-		selectStocksTab();
+		selectTabById(TAB_STOCKS_ID);
 		TimeUnit.SECONDS.sleep(2);
 		
 		String savedLocation = findStockInTable(storageName,stockName);
@@ -565,6 +561,8 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 	}
 
 	public boolean markAsConsumedStockInTable(String stockName) throws InterruptedException {
+		
+		selectTabById(TAB_STOCKS_ID);
 		
 		List <WebElement> tableRows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.xpath(".//*[@class='stocks_table']/tr")));
@@ -629,6 +627,35 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 			getLogger().debug("@@ missing button 'Save & New' - not the right page...");
 		}
         return msg;
+	}
+
+	public String setThreshold(String stockCount) throws InterruptedException {
+		
+		WebElement btnThreshold = getWebDriver().findElement(By.id("add_threshold"));
+		btnThreshold.click();
+		
+		TimeUnit.SECONDS.sleep(2);
+		
+		WebElement stockCountInput = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("threshold_min_stock_count")));
+		stockCountInput.clear();
+		stockCountInput.sendKeys(stockCount);
+		
+		WebElement submit = getWebDriver().findElement(By.xpath(".//*[@id='new_threshold']/div[2]/input[@value='Subscribe']"));
+		submit.click();
+		TimeUnit.SECONDS.sleep(2);
+		
+		WebElement thresholdStatus = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("threshold_status")));
+		String thresholdStatusMsg = thresholdStatus.getText();
+		
+		return thresholdStatusMsg;
+	}
+
+	private void selectTabById(String tabId) throws InterruptedException {
+		
+		WebElement tab = getWebDriver().findElement(By.id(tabId));
+		tab.click();
+		TimeUnit.SECONDS.sleep(1); 
+		
 	}
 
 }
