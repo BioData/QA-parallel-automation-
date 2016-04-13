@@ -926,17 +926,24 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 	
 	@Test (groups = {"basic sanity"} ,timeOut = 600000)
-	public void uploadExcelAndAddToPage() {
+	public void uploadDifferentFilesAndAddToPage() {
 		try {
+			logger.info("Uploading excel and add to page");
 			String attachmentToLoad = LGConstants.UPLOAD_XLS_TEST_FILENAME;
 			createNewExperimentAndChangeVersion(null);
 			getPageManager().getExperimentPageV2().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
-			getPageManager().getExperimentPageV2().refreshPage();
-			boolean pageAdded = getPageManager().getExperimentPageV2().addToPage(DESCRIPTION_SECTION_INDEX);
+			boolean pageAdded = getPageManager().getExperimentPageV2().addToPage(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			AssertJUnit.assertTrue("The file '" + attachmentToLoad + "' was not added to page.",pageAdded);
+			
+			//check adding pdf file
+			logger.info("Uploading pdf and add to page");
+			attachmentToLoad = LGConstants.UPLOAD_PDF_TEST_FILENAME;			
+			getPageManager().getExperimentPageV2().uploadAttachmentToSection(PROCEDURE_SECTION_INDEX,attachmentToLoad);
+			pageAdded = getPageManager().getExperimentPageV2().addToPage(PROCEDURE_SECTION_INDEX,attachmentToLoad);
 			AssertJUnit.assertTrue("The file '" + attachmentToLoad + "' was not added to page.",pageAdded);
 			
 		} catch (Exception e) {
-			setLog(e,"uploadExcelAndAddToPage");
+			setLog(e,"uploadDifferentFilesAndAddToPage");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}

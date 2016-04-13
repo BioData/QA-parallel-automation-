@@ -1296,7 +1296,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		}	
 	}
 
-	public boolean addToPage(String sectionIndex) throws InterruptedException {
+	public boolean addToPage(String sectionIndex,String fileType) throws InterruptedException {
 		
 		selectSection(sectionIndex);
 		WebElement action = getWebDriver().findElement(By.id("add_to_page"));
@@ -1309,7 +1309,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		while(!finishLoadingElement){
 			try{
 				//if the pending message appears - keep waiting
-				WebElement pendingMsg = getWebDriver().findElement(By.cssSelector(".pending_element"));
+				getWebDriver().findElement(By.cssSelector(".pending_element"));
 				finishLoadingElement= false;
 			} catch (NoSuchElementException e) {
 				//no pending message - stop waiting and check the loaded element
@@ -1317,8 +1317,14 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 			}	
 		}
 		TimeUnit.SECONDS.sleep(2);
-		List <WebElement> elements = getWebDriver().findElements(By.cssSelector(".element_container.excel_element"));
-		return elements.size() > 0;
+		if(fileType.equals(LGConstants.UPLOAD_XLS_TEST_FILENAME)){
+			List <WebElement> elements = getWebDriver().findElements(By.cssSelector(".element_container.excel_element"));
+			return elements.size() > 0;
+		}
+		else {//pdf file
+			List <WebElement> elements = getWebDriver().findElements(By.cssSelector(".element_container.pdf_element"));
+			return elements.size() > 0;
+		}	
 		
 	}
 
