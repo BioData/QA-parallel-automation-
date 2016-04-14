@@ -21,8 +21,8 @@ import com.biodata.labguru.pages.ITableView;
 
 public abstract class CollectionPage extends AdminPage implements ITableView{
 		
-	private static final String TAB_STOCKS_ID = "tabs-sample_stocks-link";
-	private static final String TABS_INFO_ID = "tabs-info-link";
+	protected static final String TAB_STOCKS_ID = "tabs-sample_stocks-link";
+	protected static final String TABS_INFO_ID = "tabs-info-link";
 
 	protected abstract String getImportXPath();
 	
@@ -560,9 +560,8 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		return savedLocation.equals(storageName);
 	}
 
-	public boolean markAsConsumedStockInTable(String stockName) throws InterruptedException {
-		
-		selectTabById(TAB_STOCKS_ID);
+
+	public String markAsConsumedStockInTable(String stockName) throws InterruptedException {
 		
 		List <WebElement> tableRows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.xpath(".//*[@class='stocks_table']/tr")));
@@ -576,11 +575,11 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 				deleteIcon.click();
 				TimeUnit.SECONDS.sleep(2);
 				
-				openMarkAsConsumedPopup();
-				return true;
+				String msg = openMarkAsConsumedPopup();
+				return msg;
 			}
 		}
-		return false;
+		return "The stock was not mark as consumed as expected";
 	}
 	
 	public boolean invokeSearchStock(String itemToSearch) throws InterruptedException{
@@ -663,6 +662,10 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		String thresholdStatusMsg = thresholdStatus.getText();
 		
 		return thresholdStatusMsg;
+	}
+	
+	public void selectStocksTab() throws InterruptedException{
+		selectTabById(TAB_STOCKS_ID);
 	}
 
 	private void selectTabById(String tabId) throws InterruptedException {

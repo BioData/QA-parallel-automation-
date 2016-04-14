@@ -1,5 +1,6 @@
 package com.biodata.labguru.tests.inventory.rodents;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Locale;
@@ -22,7 +23,7 @@ public class SpecimensTest extends AbstractRodentsTest{
 
 	
 	@Override
-	@Test (groups = {"deep"})
+	@Test (groups = {"basic sanity"})
 	public void markAsConsumedStockFromStocksTab(){
 		
 		try {
@@ -43,15 +44,15 @@ public class SpecimensTest extends AbstractRodentsTest{
 			
 			getPageManager().getRodentSpecimensPage().selectTissuesAndSamplesTab();
 	
-			boolean archiveSucceeded = getPage().markAsConsumedStockInTable(stockName);
-			AssertJUnit.assertTrue("The stock was not archived as expected",archiveSucceeded);
+			String notyMsg = getPage().markAsConsumedStockInTable(stockName);
+			assertEquals(getMessageSource().getMessage("boxes.stock.marked.consumed.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
 			getPageManager().getAdminPage().showStocks();
 			
 			assertTrue(getPageManager().getStockPage().searchInConsumedStocks(stockName));
 		
 		} catch (Exception e) {
-			setLog(e,"archiveStockFromStocksTab");
+			setLog(e,"markAsConsumedStockFromStocksTab");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -104,6 +105,41 @@ public class SpecimensTest extends AbstractRodentsTest{
 			
 		} catch (Exception e) {
 			setLog(e,"addTissueWithStocksToSpecimen");
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	
+	@Test (groups = {"knownBugs"})//LAB-1186
+	public void addTissueWithStocksToSpecimenAndMarkItAsConsumed(){
+		
+		try {		
+		
+			getPageManager().getAdminPage().showRodentSpecimens();
+			String specimen = buildUniqueName(getPrefix());
+			getPage().addNewItem(specimen);
+			String tissueName = "tissue1";
+			getPageManager().getRodentSpecimensPage().addTissueToSpecimen(tissueName);
+			
+			//add stocks to the tissue
+			String type = LGConstants.STOCK_TYPES_ARRAY[0];
+			String stockName = type + "_" + buildUniqueName(LGConstants.STOCK_PREFIX) ;
+		
+			getPageManager().getTissuePage().addStockFromStocksTab(stockName,type);
+			
+			//go to recently viewed specimen
+			getPage().goToRecentlyViewed();
+			
+			getPageManager().getRodentSpecimensPage().selectTissuesAndSamplesTab();
+	
+			String currentUrl = getPageManager().getWebDriver().getCurrentUrl();
+			getPage().markAsConsumedStockInTable(stockName);
+			
+			Assert.assertEquals(getPageManager().getWebDriver().getCurrentUrl(), currentUrl);
+			
+			
+		} catch (Exception e) {
+			setLog(e,"addTissueWithStocksToSpecimenAndMarkItAsConsumed");
 			Assert.fail(e.getMessage());
 		}
 	}
