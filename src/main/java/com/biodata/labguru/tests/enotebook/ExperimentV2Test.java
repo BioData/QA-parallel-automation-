@@ -291,7 +291,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			}
 			//try to load experiment
 			try{
-				getPageManager().getExperimentPageV2().searchExperiment(expName,true);
+				getPageManager().getExperimentPageV2().openExperiment(expName);
 			}catch (Exception e) {
 				Assert.fail("the experiment did not load as expected.", e);
 			}
@@ -926,7 +926,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	}
 	
 	@Test (groups = {"basic sanity"} ,timeOut = 600000)
-	public void uploadDifferentFilesAndAddToPage() {
+	public void uploadExcelAndAddToPage() {
 		try {
 			logger.info("Uploading excel and add to page");
 			String attachmentToLoad = LGConstants.UPLOAD_XLS_TEST_FILENAME;
@@ -935,15 +935,26 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			boolean pageAdded = getPageManager().getExperimentPageV2().addToPage(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
 			AssertJUnit.assertTrue("The file '" + attachmentToLoad + "' was not added to page.",pageAdded);
 			
+		} catch (Exception e) {
+			setLog(e,"uploadExcelAndAddToPage");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"basic sanity"} ,timeOut = 600000)
+	public void uploadPdfAndAddToPage() {
+		try {
+
 			//check adding pdf file
 			logger.info("Uploading pdf and add to page");
-			attachmentToLoad = LGConstants.UPLOAD_PDF_TEST_FILENAME;			
+			String attachmentToLoad = LGConstants.UPLOAD_PDF_TEST_FILENAME;	
+			createNewExperimentAndChangeVersion(null);
 			getPageManager().getExperimentPageV2().uploadAttachmentToSection(PROCEDURE_SECTION_INDEX,attachmentToLoad);
-			pageAdded = getPageManager().getExperimentPageV2().addToPage(PROCEDURE_SECTION_INDEX,attachmentToLoad);
+			boolean pageAdded = getPageManager().getExperimentPageV2().addToPage(PROCEDURE_SECTION_INDEX,attachmentToLoad);
 			AssertJUnit.assertTrue("The file '" + attachmentToLoad + "' was not added to page.",pageAdded);
 			
 		} catch (Exception e) {
-			setLog(e,"uploadDifferentFilesAndAddToPage");
+			setLog(e,"uploadPdfAndAddToPage");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -1041,6 +1052,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		String name = getPage().addNewExperiment(expName);
 		//change to version V2
 		getPageManager().getExperimentPageV2().changeVersion(LGConstants.EXPERIMENT_BETA);
+		getPageManager().getAdminPage().discardNotyMessages();
+		closeIridizePopups();
 		return name;
 	}
 

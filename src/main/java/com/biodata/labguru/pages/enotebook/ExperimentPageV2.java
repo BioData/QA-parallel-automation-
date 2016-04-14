@@ -130,7 +130,8 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		
 		
 		checkForNotyMessage();	
-		return !searchExperiment(expName,false/*no loading*/);
+		boolean found = searchExperiment(expName,false/*no loading*/);
+		return !found;
 		
 	}
 	public boolean searchExperiment(String expName,boolean loadExperiment) {
@@ -139,7 +140,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 			
 			List<WebElement> rows = getWebDriver().findElements(By.xpath(".//*[@id='data']/table/tbody/tr"));
 			for (int i = 1; i <= rows.size(); i++) {
-				WebElement tableRow = getWebDriver().findElement(By.xpath(".//*[@id='data']/table/tbody/tr[" + i + "]/td[2]/b/a"));
+				WebElement tableRow = getWebDriver().findElement(By.xpath(".//*[@id='data']/table/tbody/tr[" + i + "]/td[3]/b/a"));
 				if(tableRow.getText().equals(expName)){
 					if(loadExperiment){
 						tableRow.click();
@@ -1214,7 +1215,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 				switchToNewTab();
 				TimeUnit.SECONDS.sleep(1);
 				//check that the tag page appears
-				WebElement tagTitle = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='page-title']/span")));
+				WebElement tagTitle = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".tagged-entity")));
 				return tagTitle.getText();
 			}
 		}
@@ -1316,15 +1317,19 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 				finishLoadingElement= true;
 			}	
 		}
+		
+		boolean succeeded = false;
 		TimeUnit.SECONDS.sleep(2);
 		if(fileType.equals(LGConstants.UPLOAD_XLS_TEST_FILENAME)){
 			List <WebElement> elements = getWebDriver().findElements(By.cssSelector(".element_container.excel_element"));
-			return elements.size() > 0;
+			succeeded = elements.size() > 0;
 		}
 		else {//pdf file
 			List <WebElement> elements = getWebDriver().findElements(By.cssSelector(".element_container.pdf_element"));
-			return elements.size() > 0;
-		}	
+			succeeded =  elements.size() > 0;
+		}
+
+		return succeeded;
 		
 	}
 
