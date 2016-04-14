@@ -31,12 +31,14 @@ public class StockPage extends BaseStoragePage implements ITableView{
 			return true;
 		}
 	}
+
 	/**
 	 * searchInConsumedStocks
 	 * @param stockName -the stock to search in the consumed stocks view
-	 * @return
+	 * @return true if found
+	 * @throws InterruptedException 
 	 */
-	public boolean searchInConsumedStocks(String stockName) {
+	public boolean searchInConsumedStocks(String stockName) throws InterruptedException {
 		
 		showConsumedStocks();
 		
@@ -46,10 +48,27 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		
 		WebElement btnSearch = getWebDriver().findElement(By.xpath(".//*[@value='search-button']"));
 		btnSearch.click();
+		TimeUnit.SECONDS.sleep(2);
+		
+		
+		List<WebElement> tableRows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//*[@id='index_table']/tbody/tr")));
+		
+
+		for (int  i= 2; i <= tableRows.size(); i++) {
+			WebElement NameElem = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[3]/span[2]/a"));
+			String name = NameElem.getText();
+			if(name.equals(stockName)){
+				if(tableRows.size() == 2)//found only one stock - the matching one
+					return true;
+				else
+					return false;
+			}
+		}
 		
 		WebElement label = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#class_count")));
 		return !label.getText().equals("(no search results)");
 	}
+	
 	private void showConsumedStocks() {
 		WebElement linkShowArchive;
 		if(hasList()){

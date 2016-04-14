@@ -124,7 +124,7 @@ public class StocksTest extends AbstractStoragesTest{
 				String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
 				getPageManager().getBoxPage().addNewBox(newBox,"1");
 				int numOfStocks = 3;
-				getPageManager().getBoxPage().addStock("stock", numOfStocks);
+				getPageManager().getBoxPage().addStock(LGConstants.STOCK_PREFIX, numOfStocks);
 				
 			}
 			getPageManager().getAdminPage().showStocks();
@@ -180,6 +180,32 @@ public class StocksTest extends AbstractStoragesTest{
 		}  catch (Exception e) {
 			setLog(e,"customizeTableView");
 			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"knowBugs"})//LAB-1185
+	public void simpleSearchInConsumedStocksView(){
+		
+		try {
+			
+			getPageManager().getAdminPage().showBoxes();
+			
+			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
+			getPageManager().getBoxPage().addNewBox(newBox,"1");
+			int numOfStocks = 3;
+			String stockName = getPageManager().getBoxPage().addStock(LGConstants.STOCK_PREFIX, numOfStocks);
+			
+		
+			getPageManager().getAdminPage().showStocks();
+			getPageManager().getStockPage().markAsConsumedAllStocks();
+			
+			//search stock- should have 1 item
+			boolean markAsConsumed = getPageManager().getStockPage().searchInConsumedStocks(stockName);
+			Assert.assertTrue(markAsConsumed,"Did not find 1 match.");
+				
+		}  catch (Exception e) {
+			setLog(e,"simpleSearchInConsumedStocksView");
+			AssertJUnit.fail(e.getMessage());
 		}
 	}
 

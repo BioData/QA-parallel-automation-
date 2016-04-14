@@ -14,6 +14,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.model.Stock;
 import com.biodata.labguru.pages.ITableView;
@@ -267,8 +268,16 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 	}
 	
 
-	public void addStock(String stockName,int numOfStocks) throws InterruptedException {
+	/**
+	 * Create stocks according to given number.Each stock created with different name generated random.
+	 * @param stockName prefix
+	 * @param numOfStocks
+	 * @return the last created stock name
+	 * @throws InterruptedException
+	 */
+	public String addStock(String stockName,int numOfStocks) throws InterruptedException {
 		
+		String createdStock =  "";
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("BoxViewTable")));
 		int i=0;
 		List<WebElement> emptyCells =  getWebDriver().findElements(By.cssSelector(".open_fancy"));
@@ -276,15 +285,19 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 			if(i < numOfStocks){
 				cell.click();
 				TimeUnit.SECONDS.sleep(2);
-				openStockSelectionDialogFromBoxPage(stockName, LGConstants.TUBE, null);		
+				createdStock = GenericHelper.buildUniqueName(stockName);
+				openStockSelectionDialogFromBoxPage(createdStock, LGConstants.TUBE, null);		
 				i++;
+				
 			}else{
 				break;
 			}
 		}
 		
 		TimeUnit.SECONDS.sleep(2);
+		return createdStock;
 	}
+	
 
 	public String duplicateStock(String stockName) throws InterruptedException {
 		
