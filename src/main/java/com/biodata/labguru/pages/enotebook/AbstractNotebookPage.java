@@ -82,7 +82,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 			}
 		
 			
-		} catch (NoSuchElementException e) {
+		} catch (Exception e) {
 			getLogger().debug("old account - should open on current version by default, switching to beta...");
 			if(version.equals(LGConstants.EXPERIMENT_CURRENT)){
 				//if we need current version - do nothing
