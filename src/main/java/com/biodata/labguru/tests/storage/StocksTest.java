@@ -143,19 +143,17 @@ public class StocksTest extends AbstractStoragesTest{
 		
 		try {
 
-			//create 1 stock
+			//create 2 stock and 2 boxes
 			getPageManager().getAdminPage().showBoxes();
+			addNewItem();
 			
-			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
-			getPageManager().getBoxPage().addNewBox(newBox,"1");
-			//add 3 stoks
-			int numOfStocks = 3;
-			getPageManager().getBoxPage().addStock("stock", numOfStocks);
+			getPageManager().getAdminPage().showBoxes();
+			String stockName = addNewItem();
 			
 			getPageManager().getAdminPage().showStocks();
-			getPageManager().getStockPage().markAsConsumedSelectedStock("stock");
-			boolean markAsConsumed = getPageManager().getStockPage().searchInConsumedStocks("stock");
-			Assert.assertTrue(markAsConsumed);
+			getPageManager().getStockPage().markAsConsumedSelectedStock(stockName);
+			boolean markAsConsumed = getPageManager().getStockPage().searchInConsumedStocks(stockName);
+			Assert.assertTrue(markAsConsumed,"Simple search in consumed stocks did not find stock");
 			
 		} catch (Exception e) {
 			setLog(e,"markAsConsumedStockFromIndexTable");
@@ -189,12 +187,10 @@ public class StocksTest extends AbstractStoragesTest{
 		try {
 			
 			getPageManager().getAdminPage().showBoxes();
+			addNewItem();
 			
-			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
-			getPageManager().getBoxPage().addNewBox(newBox,"1");
-			int numOfStocks = 3;
-			String stockName = getPageManager().getBoxPage().addStock(LGConstants.STOCK_PREFIX, numOfStocks);
-			
+			getPageManager().getAdminPage().showBoxes();
+			String stockName = addNewItem();
 		
 			getPageManager().getAdminPage().showStocks();
 			getPageManager().getStockPage().markAsConsumedAllStocks();

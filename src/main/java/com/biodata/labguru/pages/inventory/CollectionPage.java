@@ -234,7 +234,6 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		WebElement btnUpload = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@value='Upload']")));
 		btnUpload.click();
 		TimeUnit.SECONDS.sleep(1);
-		
 		closeIridizePopups();
 		
 		WebElement btnImport = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//input[@value='Start Import']")));
@@ -288,6 +287,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		}
 		
 	}
+
 
 
 	public boolean checkIfAllCustomFieldsAppear(List<String> fields) throws InterruptedException {
@@ -377,6 +377,8 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 			
 		deleteCustomFields();
 	}
+
+
 	
 	public String deleteItemFromShowPage(String importedName) throws InterruptedException {
 		
@@ -428,6 +430,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		}
 		return true;	
 	}
+
 	protected void searchAndOpenItem(String item) throws InterruptedException {
 		
 		invokeSearchInCollection(item);
@@ -560,7 +563,6 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		return savedLocation.equals(storageName);
 	}
 
-
 	public String markAsConsumedStockInTable(String stockName) throws InterruptedException {
 		
 		List <WebElement> tableRows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
@@ -582,25 +584,6 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		return "The stock was not mark as consumed as expected";
 	}
 	
-	public boolean invokeSearchStock(String itemToSearch) throws InterruptedException{
-		
-		WebElement txtSearch;
-		try {
-			txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".searchtextbox")));
-		} catch (Exception e) {
-			//search box not found - no stocks available
-			return false;
-		}
-		sendKeys(txtSearch, itemToSearch);
-  
-		WebElement btnSearch = getWebDriver().findElement(By.xpath(".//*[@value='search-button']"));
-		btnSearch.click();
-		TimeUnit.SECONDS.sleep(2);
-		
-		List<WebElement> tableRows = getWebDriver().findElements(By.xpath(".//*[@id='index_table']/tbody/tr"));
-		return (tableRows.size() > 1);//check that the item that we search for is found
-		
-	}
 
 	public String checkCustomizeTableView() throws InterruptedException {
 
@@ -662,7 +645,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		submit.click();
 		TimeUnit.SECONDS.sleep(2);
 		
-		WebElement thresholdStatus = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("threshold_status")));
+		WebElement thresholdStatus = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='threshold_status']/span")));
 		String thresholdStatusMsg = thresholdStatus.getText();
 		
 		return thresholdStatusMsg;

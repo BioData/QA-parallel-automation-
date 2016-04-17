@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -21,6 +22,7 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class BoxesTest extends AbstractStoragesTest{
 	
+	@AfterMethod
 	public void deleteAllBoxesAndStocks(){
 		//delete stocks
 		try {
@@ -33,7 +35,7 @@ public class BoxesTest extends AbstractStoragesTest{
 	}
 	
 	
-	@Test(groups = {"knownBugs"})
+	@Test(groups = {"knownBugs"})//LAB-1149
 	public void changeStockContentInGridlessBoxAndCheckDetails(){
 		
 		try {
@@ -60,7 +62,7 @@ public class BoxesTest extends AbstractStoragesTest{
 		}
 	}
 	
-	@Test(groups = {"knownBugs"})
+	@Test(groups = {"knownBugs"})//LAB-1145
 	public void checkStockContentInGridlessBox(){
 		
 		try {
@@ -123,8 +125,6 @@ public class BoxesTest extends AbstractStoragesTest{
 			addNewItem();
 			String msg = getPageManager().getBoxPage().editItemFromShowPage();
 			Assert.assertTrue(msg.endsWith("successfully updated."));
-			//TODO - after all messages will be the same
-			//Assert.assertEquals(msg,getMessageSource().getMessage("collection.updated.msg",new Object[]{"Box"},Locale.US));
 			
 		}  catch (Exception e) {
 			setLog(e,"editBoxFromShowPage");
@@ -442,12 +442,12 @@ public class BoxesTest extends AbstractStoragesTest{
 			String pageTitle = getPageManager().getBoxPage().createStock(stockName);
 			assertEquals("Stocks - " + stockName, pageTitle);
 			
+			
 			String notyMsg = getPageManager().getStockPage().markAsConsumedStock();
 			assertEquals(getMessageSource().getMessage("boxes.stock.marked.consumed.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			
-			getPageManager().getAdminPage().showStocks();
-			
-			assertTrue(getPageManager().getStockPage().searchInConsumedStocks(stockName));
+			String updateStorageLocation =  getPageManager().getStockPage().checkStorage();
+			assertTrue(updateStorageLocation.equals("None"));
 			
 		}  catch (Exception e) {
 			setLog(e,"archiveStockFromStockPageView");
@@ -542,7 +542,7 @@ public class BoxesTest extends AbstractStoragesTest{
 			getPageManager().getBoxPage().addNewBox(newBox,"1");
 			
 			String stockName = "markAsConsumedStockFromTableView";
-
+			
 			String notyMsg = getPageManager().getBoxPage().markAsConsumedStockFromTableView(stockName);
 			assertEquals(getMessageSource().getMessage("boxes.stock.marked.consumed.msg",new Object[]{"1"}, Locale.US), notyMsg);
 			

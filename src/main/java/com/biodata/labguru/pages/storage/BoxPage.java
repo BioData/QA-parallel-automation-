@@ -268,16 +268,8 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 	}
 	
 
-	/**
-	 * Create stocks according to given number.Each stock created with different name generated random.
-	 * @param stockName prefix
-	 * @param numOfStocks
-	 * @return the last created stock name
-	 * @throws InterruptedException
-	 */
-	public String addStock(String stockName,int numOfStocks) throws InterruptedException {
+	public void addStock(String stockName,int numOfStocks) throws InterruptedException {
 		
-		String createdStock =  "";
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("BoxViewTable")));
 		int i=0;
 		List<WebElement> emptyCells =  getWebDriver().findElements(By.cssSelector(".open_fancy"));
@@ -285,19 +277,15 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 			if(i < numOfStocks){
 				cell.click();
 				TimeUnit.SECONDS.sleep(2);
-				createdStock = GenericHelper.buildUniqueName(stockName);
-				openStockSelectionDialogFromBoxPage(createdStock, LGConstants.TUBE, null);		
+				openStockSelectionDialogFromBoxPage(stockName, LGConstants.TUBE, null);		
 				i++;
-				
 			}else{
 				break;
 			}
 		}
 		
 		TimeUnit.SECONDS.sleep(2);
-		return createdStock;
 	}
-	
 
 	public String duplicateStock(String stockName) throws InterruptedException {
 		
@@ -591,15 +579,16 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		
 		WebElement tabTableView =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("table_view")));
 		tabTableView.click();
+		TimeUnit.SECONDS.sleep(1);
 		
-		WebElement table = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='data']/table")));
-		List<WebElement> tableCells =  table.findElements(By.xpath("//tr"));
+		List<WebElement> tableCells =  driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//*[@id='data']/table/tbody/tr")));
 		
-		for (WebElement cell : tableCells) {
-			WebElement linkToStock = cell.findElement(By.xpath("//td[3]/strong/a"));
+		for (int i = 2; i <= tableCells.size(); i++) {
+			
+			WebElement linkToStock = getWebDriver().findElement(By.xpath(".//*[@id='data']/table/tbody/tr[" + i + "]/td[3]/strong/a"));
 			
 			if(linkToStock.getText().equals(stockName)){
-				WebElement chkSelect = cell.findElement(By.xpath("//td[1]/input[@type='checkbox']"));
+				WebElement chkSelect =getWebDriver().findElement(By.xpath(".//*[@id='data']/table/tbody/tr[" + i + "]/td[1]/input[@type='checkbox']"));
 				chkSelect.click();
 				TimeUnit.SECONDS.sleep(1);
 				break;

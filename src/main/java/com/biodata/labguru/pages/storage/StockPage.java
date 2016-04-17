@@ -31,7 +31,8 @@ public class StockPage extends BaseStoragePage implements ITableView{
 			return true;
 		}
 	}
-
+	
+	
 	/**
 	 * searchInConsumedStocks
 	 * @param stockName -the stock to search in the consumed stocks view
@@ -42,6 +43,24 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		
 		showConsumedStocks();
 		
+		invokeSearchInStocks(stockName);
+		
+		
+		List<WebElement> tableRows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//*[@id='index_table']/tbody/tr")));
+		
+		if(tableRows.size() == 2) {
+			WebElement NameElem = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[2]/td[3]/span[2]/a"));
+			String name = NameElem.getText();
+			if(name.equals(stockName))
+					return true;
+			
+		}
+		return false;
+		
+	}
+
+
+	private void invokeSearchInStocks(String stockName) throws InterruptedException {
 		WebElement txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 				(By.cssSelector(".searchtextbox")));
 		sendKeys(txtSearch, stockName);
@@ -49,27 +68,11 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		WebElement btnSearch = getWebDriver().findElement(By.xpath(".//*[@value='search-button']"));
 		btnSearch.click();
 		TimeUnit.SECONDS.sleep(2);
-		
-		
-		List<WebElement> tableRows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//*[@id='index_table']/tbody/tr")));
-		
-
-		for (int  i= 2; i <= tableRows.size(); i++) {
-			WebElement NameElem = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[3]/span[2]/a"));
-			String name = NameElem.getText();
-			if(name.equals(stockName)){
-				if(tableRows.size() == 2)//found only one stock - the matching one
-					return true;
-				else
-					return false;
-			}
-		}
-		
-		WebElement label = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#class_count")));
-		return !label.getText().equals("(no search results)");
 	}
 	
+	
 	private void showConsumedStocks() {
+		
 		WebElement linkShowArchive;
 		if(hasList()){
 			linkShowArchive = driverWait.until(ExpectedConditions.visibilityOfElementLocated
@@ -184,6 +187,7 @@ public class StockPage extends BaseStoragePage implements ITableView{
 	private void selectStockFromList(String name) throws InterruptedException {
 		
 		//find the specific stock and click its checkbox
+		invokeSearchInStocks(name);
 		List<WebElement> stocks = getWebDriver().findElements(By.xpath(".//*[@id='index_table']/tbody/tr"));
 		for (int i = 2; i <= stocks.size(); i++) {
 			WebElement selectedStock = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr["+i+"]/td[3]/span[2]/a"));
@@ -199,15 +203,9 @@ public class StockPage extends BaseStoragePage implements ITableView{
 	}
 	public Stock changeStockLocation(String newLocation,String stockName) throws InterruptedException {
 		
-		 WebElement txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".searchtextbox")));
-         sendKeys(txtSearch, stockName);
-        
-         WebElement btnSearch = getWebDriver().findElement(By.xpath(".//*[@value='search-button']"));
-         btnSearch.click();
+		 invokeSearchInStocks(stockName);
 		
-		TimeUnit.SECONDS.sleep(2);
-		
-		selectLastStockFromList();
+		openStockFromList(stockName);
 
 		editStockLocation(newLocation);
 
@@ -230,7 +228,7 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		btnSave.click();
 		TimeUnit.SECONDS.sleep(3);
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
-		String location = getWebDriver().findElement(By.id("lg_info_tab_storage")).getText();
+		String location = getWebDriver().findElement(By.id("lg_info_tab_box")).getText();
 		return location;
 	}
 	
@@ -287,6 +285,18 @@ public class StockPage extends BaseStoragePage implements ITableView{
 				break;
 			}
 		}	
+	}
+
+	/**
+	 * check the storage field of stock in its show page
+	 */
+	public String checkStorage() {
+		
+		WebElement storage = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("lg_info_tab_storage")));
+		String storageLocation = storage.getText();
+		return storageLocation;
+
+	
 	}
 
 }
