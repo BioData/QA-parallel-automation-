@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -119,6 +120,19 @@ public class DashboardPage extends AdminPage{
             		(By.xpath(".//*[@id='index_table']/tbody/tr"))); 
     		
 		}
+	}
+	
+	public String checkLowStockAlerts() {
+		
+		showDashboard();
+		try {
+			WebElement numberAlert = getWebDriver().findElement(By.cssSelector(".overdue-tasks-counter.fright"));
+			return numberAlert.getText();
+		} catch (NoSuchElementException e) {
+			//alert number not found
+			return "";
+		}
+		
 	}
 
 }

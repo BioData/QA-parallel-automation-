@@ -262,4 +262,35 @@ public class DashboardTest extends AbstractHomeTest{
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
+	
+	@Test(groups = {"knownBugs"})//LAB-1206
+	public void checkLowStockAlerts(){
+		
+		try {
+			
+			getPageManager().getAdminPage().showPlasmids();
+			
+			getPageManager().getPlasmidsPage().addNewItem(buildUniqueName(LGConstants.PLASMID_PREFIX));
+			
+			TimeUnit.SECONDS.sleep(3);
+			
+			String stockName = buildUniqueName(LGConstants.STOCK_PREFIX);
+			//add one stock and set the threshold to '2' - we expect a status message that alert for the low stocks
+			getPageManager().getPlasmidsPage().addStockFromStocksTab(stockName, LGConstants.STOCK_TYPES_ARRAY[1]);
+			
+			getPageManager().getPlasmidsPage().setThreshold("2");
+			//look for dashboard notification under 'Low Stuck Alerts' section - should be '1'
+			Assert.assertEquals(getPageManager().getDashboardPage().checkLowStockAlerts(),"1");
+		
+			getPageManager().getAdminPage().goToRecentlyViewed();
+			getPageManager().getPlasmidsPage().setThreshold("1");
+			//look again in the dashboard to see that notification is gone
+			Assert.assertEquals(getPageManager().getDashboardPage().checkLowStockAlerts(),"");
+			
+			
+		} catch (Exception e) {
+			setLog(e,"checkLowStockAlerts");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
 }

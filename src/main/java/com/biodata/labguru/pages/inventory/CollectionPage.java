@@ -638,10 +638,11 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		stockCountInput.sendKeys(stockCount);
 		
 		WebElement chkNotification = getWebDriver().findElement(By.id("threshold_notify_immediately"));
-		chkNotification.click();
+		if(!chkNotification.isSelected())
+			chkNotification.click();
 		TimeUnit.SECONDS.sleep(1);
 		
-		WebElement submit = getWebDriver().findElement(By.xpath(".//*[@id='new_threshold']/div[2]/input[@value='Subscribe']"));
+		WebElement submit = getWebDriver().findElement(By.xpath(".//*[@value='Subscribe']"));
 		submit.click();
 		TimeUnit.SECONDS.sleep(2);
 		

@@ -176,11 +176,11 @@ public class AdminPage extends BasePage{
 	
 	public String showDashboard(){
 
-		selectHomeMenu();
-		selectDropDownMenu(By.id("my_dashboard_menu"));
-	
+	   selectHomeMenu();
+	   selectDropDownMenu(By.id("my_dashboard_menu"));
 	   checkForAlerts();
        driverWait.until(ExpectedConditions.titleIs(getWebDriver().getTitle()));
+       discardNotyMessages();
        return getWebDriver().getTitle();
 	}
 	
