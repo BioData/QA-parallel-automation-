@@ -619,6 +619,8 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 	 */
 	public String setThreshold(String stockCount) throws InterruptedException {
 		
+		selectStocksTab();
+		
 		//in this case we want to see what the status message is(in case we updated the stocks count by adding/removing stocks)
 		if(stockCount == null){
 			
