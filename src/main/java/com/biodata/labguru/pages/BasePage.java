@@ -721,7 +721,7 @@ public abstract class BasePage {
 			 dayNum = 1;
 			 xpath = "//*[(contains(@class, 'xdsoft_other_month'))][@data-date  ='" + String.valueOf(dayNum) + "']/div";
 		 }else{
-			 dayNum += dayNum;
+			 dayNum += 1;
 			 xpath = "//*[not(contains(@class, 'xdsoft_other_month'))][@data-date  ='" + String.valueOf(dayNum) + "']/div";
 		 }
 		 List <WebElement> tommorowSelectList = getWebDriver().findElements(By.xpath(xpath));	 
