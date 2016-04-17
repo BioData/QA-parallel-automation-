@@ -77,7 +77,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 
 		linkSign.click();
 		TimeUnit.SECONDS.sleep(2);
-		WebElement proceedBtn = getWebDriver().findElement(By.xpath(".//*[@id='approve_sign']/div"));
+		WebElement proceedBtn = getWebDriver().findElement(By.id("proceed_sign_toggle"));
 		proceedBtn.click();
 		TimeUnit.SECONDS.sleep(5);
 		driverWait.until(ExpectedConditions
@@ -1112,7 +1112,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 
 		linkSign.click();
 		TimeUnit.SECONDS.sleep(2);
-		WebElement proceedBtn = getWebDriver().findElement(By.xpath(".//*[@id='approve_sign']/div"));
+		WebElement proceedBtn = getWebDriver().findElement(By.id("proceed_sign_toggle"));
 		proceedBtn.click();
 		TimeUnit.SECONDS.sleep(3);
 		
