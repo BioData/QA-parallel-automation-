@@ -1,7 +1,6 @@
 package com.biodata.labguru.tests;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Locale;
 
@@ -124,50 +123,50 @@ public class AccountAdminTest extends BaseTest{
 
 	}
 	
-	@Test (groups ={"scarlet"})
-	public void inviteFriendToLabguru(){
-
-		try {
-			String friend = LGConstants.QA_PREFIX_MAIL + "friend1" + LGConstants.GMAIL_SUFFIX_MAIL;
-			String msg = getPageManager().getAccountSettingPage().inviteFriendToLabguru(friend);
-			
-			assertEquals(getMessageSource().getMessage("dashboard.invitation.msg", new Object[]{friend},Locale.US),msg);
-			
-			assertTrue(getPageManager().getAdminPage().checkIfEmailRecieved());
-		} catch (Exception e) {
-			setLog(e,"inviteFriendToLabguru");
-			Assert.fail(e.getMessage());
-		}
-	}
-	
-	@Test (groups ={"scarlet"})
-	public void inviteFriendToLabguruWrongPattern(){
-		
-		try {
-			assertTrue(getPageManager().getAccountSettingPage().inviteFriendToLabguruWrongPattern());
-		} catch (Exception e) {
-			setLog(e,"inviteFriendToLabguruWrongPattern");
-			Assert.fail(e.getMessage());
-		}
-
-	}
-	
-	@Test (groups = {"scarlet"})
-	public void invite2FriendsToLabguru(){
-
-		try {
-			String friend1 = LGConstants.QA_PREFIX_MAIL + "friend1" + LGConstants.GMAIL_SUFFIX_MAIL;
-			String friend2 = LGConstants.QA_PREFIX_MAIL + "friend2" + LGConstants.GMAIL_SUFFIX_MAIL;
-			String msg = getPageManager().getAccountSettingPage().inviteFriendToLabguru(friend1 + ","+ friend2);
-			
-			assertEquals(getMessageSource().getMessage("dashboard.invitation.multi.msg", new Object[]{friend1,friend2},Locale.US),msg);
-			
-			assertTrue(getPageManager().getAdminPage().checkIfEmailRecieved());
-		} catch (Exception e) {
-			setLog(e,"invite2FriendsToLabguru");
-			Assert.fail(e.getMessage());
-		}
-	}
+//	@Test (groups ={"scarlet"})
+//	public void inviteFriendToLabguru(){
+//
+//		try {
+//			String friend = LGConstants.QA_PREFIX_MAIL + "friend1" + LGConstants.GMAIL_SUFFIX_MAIL;
+//			String msg = getPageManager().getAccountSettingPage().inviteFriendToLabguru(friend);
+//			
+//			assertEquals(getMessageSource().getMessage("dashboard.invitation.msg", new Object[]{friend},Locale.US),msg);
+//			
+//			assertTrue(getPageManager().getAdminPage().checkIfEmailRecieved());
+//		} catch (Exception e) {
+//			setLog(e,"inviteFriendToLabguru");
+//			Assert.fail(e.getMessage());
+//		}
+//	}
+//	
+//	@Test (groups ={"scarlet"})
+//	public void inviteFriendToLabguruWrongPattern(){
+//		
+//		try {
+//			assertTrue(getPageManager().getAccountSettingPage().inviteFriendToLabguruWrongPattern());
+//		} catch (Exception e) {
+//			setLog(e,"inviteFriendToLabguruWrongPattern");
+//			Assert.fail(e.getMessage());
+//		}
+//
+//	}
+//	
+//	@Test (groups = {"scarlet"})
+//	public void invite2FriendsToLabguru(){
+//
+//		try {
+//			String friend1 = LGConstants.QA_PREFIX_MAIL + "friend1" + LGConstants.GMAIL_SUFFIX_MAIL;
+//			String friend2 = LGConstants.QA_PREFIX_MAIL + "friend2" + LGConstants.GMAIL_SUFFIX_MAIL;
+//			String msg = getPageManager().getAccountSettingPage().inviteFriendToLabguru(friend1 + ","+ friend2);
+//			
+//			assertEquals(getMessageSource().getMessage("dashboard.invitation.multi.msg", new Object[]{friend1,friend2},Locale.US),msg);
+//			
+//			assertTrue(getPageManager().getAdminPage().checkIfEmailRecieved());
+//		} catch (Exception e) {
+//			setLog(e,"invite2FriendsToLabguru");
+//			Assert.fail(e.getMessage());
+//		}
+//	}
 	
 	@Test (groups = {"deep"})
 	public void dataExport(){
