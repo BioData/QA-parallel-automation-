@@ -39,7 +39,7 @@ public class PlasmidsTest extends SequenceableCollectionTest{
 		try {
 			String pageTitle = showTableIndex();
 			
-			if(getPageManager().getPlasmidsPage().hasList()){
+			if(getPage().hasList()){
 			    // Check the title of the page when we already have some plasmids
 				AssertJUnit.assertEquals(getMessageSource().getMessage("plasmids.title.has.plasmids",null, Locale.US), pageTitle);
 			}else{
