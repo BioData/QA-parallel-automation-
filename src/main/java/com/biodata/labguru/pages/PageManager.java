@@ -8,10 +8,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.stereotype.Component;
 
-import com.biodata.labguru.pages.enotebook.ExperimentPage;
 import com.biodata.labguru.pages.enotebook.ExperimentPageV2;
 import com.biodata.labguru.pages.enotebook.ProjectPage;
-import com.biodata.labguru.pages.enotebook.ProtocolPage;
+import com.biodata.labguru.pages.enotebook.ProtocolPageV2;
 import com.biodata.labguru.pages.home.CalendarPage;
 import com.biodata.labguru.pages.home.DashboardPage;
 import com.biodata.labguru.pages.home.LabActivitiesPage;
@@ -88,9 +87,8 @@ public class PageManager  {
 		storagePage = new StoragePage();
 
 		projectPage = new ProjectPage();
-		protocolPage = new ProtocolPage();
-		experimentPage = new ExperimentPage();
-		experimentPageV2 = new ExperimentPageV2();
+		protocolPage = new ProtocolPageV2();
+		experimentPage = new ExperimentPageV2();
 
 
 		paperPage = new PaperPage();
@@ -156,9 +154,7 @@ public class PageManager  {
 
 	private CalendarPage calendarPage;
 
-	private ExperimentPage experimentPage;
-
-	private ExperimentPageV2 experimentPageV2;
+	private ExperimentPageV2 experimentPage;
 
 	private ProjectPage projectPage;
 
@@ -234,7 +230,7 @@ public class PageManager  {
 	private BotanySeedsPage botanySeedsPage;
 
 
-	private ProtocolPage protocolPage;
+	private ProtocolPageV2 protocolPage;
 
 
 	private PaperPage paperPage;
@@ -382,7 +378,6 @@ public class PageManager  {
 		initPage(projectPage,remoteWebDriver,logger);
 		initPage(protocolPage,remoteWebDriver,logger);
 		initPage(experimentPage,remoteWebDriver,logger);
-		initPage(experimentPageV2,remoteWebDriver,logger);
 
 
 		initPage(paperPage,remoteWebDriver,logger);
@@ -427,15 +422,9 @@ public class PageManager  {
 	}
 
 
-
-
-	public ExperimentPage getExperimentPage() {
-		PageFactory.initElements(getWebDriver(), ExperimentPage.class);
+	public ExperimentPageV2 getExperimentPage() {
+		PageFactory.initElements(getWebDriver(), ExperimentPageV2.class);
 		return experimentPage;
-	}
-
-	public ExperimentPageV2 getExperimentPageV2() {
-		return experimentPageV2;
 	}
 
 	public ProjectPage getProjectPage() {
@@ -465,7 +454,8 @@ public class PageManager  {
 		return membersPage;
 	}
 
-	public ProtocolPage getProtocolPage() {
+	public ProtocolPageV2 getProtocolPage() {
+		PageFactory.initElements(getWebDriver(), ProtocolPageV2.class);
 		return protocolPage;
 	}
 

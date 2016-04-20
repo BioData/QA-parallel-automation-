@@ -18,9 +18,6 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class ExperimentV2Test extends AbstractEnotebookTest {
 
-	private static final String DESCRIPTION_SECTION_INDEX = "0";
-	private static final String PROCEDURE_SECTION_INDEX = "1";
-	private static final String SECOND_PROCEDURE_SECTION_INDEX = "2";
 	private static final String RESULTS_SECTION_INDEX = "2";
 	private static final String CONCLUSIONS_SECTION_INDEX = "3";
 
@@ -31,7 +28,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 //		
 //		try {
 //			createNewExperimentAndChangeVersion("ExperimentWithSetDateRangeInProcedure");	
-//			getPageManager().getExperimentPageV2().setDateRangeToProcedure(PROCEDURE_SECTION_INDEX);
+//			getPageManager().getExperimentPage().setDateRangeToProcedure(PROCEDURE_SECTION_INDEX);
 //			
 //		}  catch (Exception e) {
 //			setLog(e,"setDateRangeToProcedure");
@@ -46,7 +43,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			showTableIndex();
 			
 			String name = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
-			String expTitle = getPageManager().getExperimentPageV2().addNewExperiment(name);
+			String expTitle = getPageManager().getExperimentPage().addNewExperiment(name);
 			
 			// Check the title of the page
 			assertEquals(name, expTitle);
@@ -82,9 +79,9 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			createNewExperimentAndChangeVersion("ExpWithTextWithManipulation");
 			
 			String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non rutrum odio.";
-			getPageManager().getExperimentPageV2().addTextToSection(DESCRIPTION_SECTION_INDEX,text);
+			getPageManager().getExperimentPage().addTextToSection(DESCRIPTION_SECTION_INDEX,text);
 			String platform = getPageManager().getPlatform();
-			boolean succeeded = getPageManager().getExperimentPageV2().manipulateTextWithFontAction(DESCRIPTION_SECTION_INDEX,text,platform);
+			boolean succeeded = getPageManager().getExperimentPage().manipulateTextWithFontAction(DESCRIPTION_SECTION_INDEX,text,platform);
 			AssertJUnit.assertTrue(succeeded);
 		} catch (Exception e) {
 			setLog(e,"addManipulateTextToSection");
@@ -99,13 +96,13 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			//add new experiment with attachment
 			String attachmentToLoad = LGConstants.UPLOAD_TXT_TEST_FILENAME;
 			String resource = createNewExperimentAndChangeVersion(null);
-			getPageManager().getExperimentPageV2().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			getPageManager().getExperimentPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
 			
 			//sign the experiment
-			getPageManager().getExperimentPageV2().sign();
+			getPageManager().getExperimentPage().sign();
 	
 			//check that the attachment is not editable when experiment is sign
-			getPageManager().getExperimentPageV2().checkAttachment(resource,2,attachmentToLoad);
+			getPageManager().getExperimentPage().checkAttachment(resource,2,attachmentToLoad);
 			boolean editable = getPageManager().getAdminPage().isFileEditable();
 			AssertJUnit.assertFalse(editable);
 			
@@ -124,11 +121,11 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			createNewExperimentAndChangeVersion(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));	
 			
 			String tagName = buildUniqueName(LGConstants.TAG_PREFIX);
-			String tag = getPageManager().getExperimentPageV2().addInlineTag(tagName);
+			String tag = getPageManager().getExperimentPage().addInlineTag(tagName);
 			
 			assertEquals("Tag with name '" + tagName + "' was not craeted as should be.",tagName, tag);
 
-			assertTrue(getPageManager().getExperimentPageV2().deleteTagFromInlineTags(tagName));
+			assertTrue(getPageManager().getExperimentPage().deleteTagFromInlineTags(tagName));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -150,7 +147,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			
 			assertEquals(getMessageSource().getMessage("item.update.versions.footer.msg",new Object[]{currentDate,account},Locale.US),bottomMsg);
 		
-			String versionsTitle = getPageManager().getExperimentPageV2().showExperimentVersionHistory();
+			String versionsTitle = getPageManager().getExperimentPage().showExperimentVersionHistory();
 			currentDate = getCurrentDateFormatted(LGConstants.VERSIONS_HISTORY_CALENDAR_FORMAT);
 			assertEquals(getMessageSource().getMessage("version.history.title",new Object[]{account,currentDate},Locale.US),
 					versionsTitle.substring(0, versionsTitle.lastIndexOf(' ')));
@@ -167,7 +164,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			
 			createNewExperimentAndChangeVersion("ExperimentWith4StepsInDescription");	
-			assertTrue("The single step was not added as expected.",getPageManager().getExperimentPageV2().addSingleStepToSection(DESCRIPTION_SECTION_INDEX));
+			assertTrue("The single step was not added as expected.",getPageManager().getExperimentPage().addSingleStepToSection(DESCRIPTION_SECTION_INDEX));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -187,7 +184,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			createNewExperimentAndChangeVersion("ExpWithSectionFromProtocol");
 
 			//add new section from the created protocol
-			Assert.assertTrue(getPageManager().getExperimentPageV2().addNewSectionFromProtocol(DESCRIPTION_SECTION_INDEX,protocol),"Section not created from protocol as expected");
+			Assert.assertTrue(getPageManager().getExperimentPage().addNewSectionFromProtocol(DESCRIPTION_SECTION_INDEX,protocol),"Section not created from protocol as expected");
 			
 		} catch (Exception e) {
 			setLog(e,"loadSectionFromProtocol");
@@ -202,8 +199,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			
 			createNewExperimentAndChangeVersion(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));	
-			getPageManager().getExperimentPageV2().addStepToSection(PROCEDURE_SECTION_INDEX);
-			assertTrue(getPageManager().getExperimentPageV2().undoDeleteElementActionInSection(PROCEDURE_SECTION_INDEX));
+			getPageManager().getExperimentPage().addStepToSection(PROCEDURE_SECTION_INDEX);
+			assertTrue(getPageManager().getExperimentPage().undoDeleteElementActionInSection(PROCEDURE_SECTION_INDEX));
 					
 		} catch (Exception e) {
 			setLog(e,"undoDeletedElementInSection");
@@ -218,8 +215,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			
 			createNewExperimentAndChangeVersion(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));	
-			getPageManager().getExperimentPageV2().addStepToSection(PROCEDURE_SECTION_INDEX);
-			assertTrue(getPageManager().getExperimentPageV2().deleteElementInSection(PROCEDURE_SECTION_INDEX));
+			getPageManager().getExperimentPage().addStepToSection(PROCEDURE_SECTION_INDEX);
+			assertTrue(getPageManager().getExperimentPage().deleteElementInSection(PROCEDURE_SECTION_INDEX));
 					
 		} catch (Exception e) {
 			setLog(e,"deleteElementInSection");
@@ -234,8 +231,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			
 			createNewExperimentAndChangeVersion(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));	
-			getPageManager().getExperimentPageV2().addStepToSection(PROCEDURE_SECTION_INDEX);
-			assertTrue(getPageManager().getExperimentPageV2().deleteSection(PROCEDURE_SECTION_INDEX));
+			getPageManager().getExperimentPage().addStepToSection(PROCEDURE_SECTION_INDEX);
+			assertTrue(getPageManager().getExperimentPage().deleteSection(PROCEDURE_SECTION_INDEX));
 					
 		} catch (Exception e) {
 			setLog(e,"deleteSection");
@@ -251,16 +248,16 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			
 			for (int i = 0; i < 40; i++) {
 				String procedureName = LGConstants.SECTION_PREFIX + i;
-				String newProcedure = getPageManager().getExperimentPageV2().addNewSection(PROCEDURE_SECTION_INDEX,procedureName);
+				String newProcedure = getPageManager().getExperimentPage().addNewSection(PROCEDURE_SECTION_INDEX,procedureName);
 				assertEquals(procedureName, newProcedure);
 				String descName = "Description in " + LGConstants.SECTION_PREFIX + i;
-				String newDesc = getPageManager().getExperimentPageV2().addTextToSection(SECOND_PROCEDURE_SECTION_INDEX,descName);
+				String newDesc = getPageManager().getExperimentPage().addTextToSection(SECOND_PROCEDURE_SECTION_INDEX,descName);
 				assertEquals(descName, newDesc);
 				TimeUnit.SECONDS.sleep(1);
-				assertTrue(getPageManager().getExperimentPageV2().addStepToSection(SECOND_PROCEDURE_SECTION_INDEX));
+				assertTrue(getPageManager().getExperimentPage().addStepToSection(SECOND_PROCEDURE_SECTION_INDEX));
 				TimeUnit.SECONDS.sleep(1);
 				String dataToWrite = "test";
-				assertTrue(getPageManager().getExperimentPageV2().addTableToSection(dataToWrite,SECOND_PROCEDURE_SECTION_INDEX));
+				assertTrue(getPageManager().getExperimentPage().addTableToSection(dataToWrite,SECOND_PROCEDURE_SECTION_INDEX));
 			}
 			
 		} catch (Exception e) {
@@ -277,21 +274,21 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			
 			for (int i = 0; i < 3; i++) {
 				String procedureName = LGConstants.SECTION_PREFIX + i;
-				String newProcedure = getPageManager().getExperimentPageV2().addNewSection(PROCEDURE_SECTION_INDEX,procedureName);
+				String newProcedure = getPageManager().getExperimentPage().addNewSection(PROCEDURE_SECTION_INDEX,procedureName);
 				assertEquals(procedureName, newProcedure);
 				String descName = "Description in " + LGConstants.SECTION_PREFIX + i;
-				String newDesc = getPageManager().getExperimentPageV2().addTextToSection(SECOND_PROCEDURE_SECTION_INDEX,descName);
+				String newDesc = getPageManager().getExperimentPage().addTextToSection(SECOND_PROCEDURE_SECTION_INDEX,descName);
 				assertEquals(descName, newDesc);
 				TimeUnit.SECONDS.sleep(1);
 				//add 20 steps elements to section
 				for (int j = 0; j < 20; j++) {
-					getPageManager().getExperimentPageV2().addStepToSection(SECOND_PROCEDURE_SECTION_INDEX);
+					getPageManager().getExperimentPage().addStepToSection(SECOND_PROCEDURE_SECTION_INDEX);
 					TimeUnit.SECONDS.sleep(1);
 				}
 			}
 			//try to load experiment
 			try{
-				getPageManager().getExperimentPageV2().openExperiment(expName);
+				getPageManager().getExperimentPage().openExperiment(expName);
 			}catch (Exception e) {
 				Assert.fail("the experiment did not load as expected.", e);
 			}
@@ -311,7 +308,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	
 			String expName = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
 			createNewExperimentAndChangeVersion(expName);
-			String duplicateItemName = getPageManager().getExperimentPageV2().duplicate();
+			String duplicateItemName = getPageManager().getExperimentPage().duplicate();
 			
 			// Check the title of the page
 			assertTrue("The duplication did not finished as expected - " + duplicateItemName,duplicateItemName.startsWith(expName) && duplicateItemName.contains("(duplicate)"));		
@@ -328,7 +325,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String expName = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
 			createNewExperimentAndChangeVersion(expName);
 
-			String msg = getPageManager().getExperimentPageV2().saveAsProtocol();
+			String msg = getPageManager().getExperimentPage().saveAsProtocol();
 			Assert.assertEquals(getMessageSource().getMessage("experiment.save.as.protocol.success.msg",new Object[]{expName}, Locale.US),msg);
 			
 			getPage().showProtocols();
@@ -346,7 +343,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			createNewExperimentAndChangeVersion(null);
 			
-			assertTrue(getPageManager().getExperimentPageV2().changeToProjectPage());
+			assertTrue(getPageManager().getExperimentPage().changeToProjectPage());
 			
 		} catch (Exception e) {
 			setLog(e,"goToProjectFromExperiment");
@@ -359,7 +356,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			createNewExperimentAndChangeVersion(null);
 			
-			assertTrue(getPageManager().getExperimentPageV2().changeToFolderPage());
+			assertTrue(getPageManager().getExperimentPage().changeToFolderPage());
 			
 		} catch (Exception e) {
 			setLog(e,"goToFolderFromExperiment");
@@ -393,8 +390,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			String attachmentToLoad = LGConstants.UPLOAD_TXT_TEST_FILENAME;
 			String resource = createNewExperimentAndChangeVersion(null);
-			getPageManager().getExperimentPageV2().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
-			String pageTitle = getPageManager().getExperimentPageV2().checkAttachment(resource,2,attachmentToLoad);
+			getPageManager().getExperimentPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			String pageTitle = getPageManager().getExperimentPage().checkAttachment(resource,2,attachmentToLoad);
 			AssertJUnit.assertEquals(attachmentToLoad,pageTitle);
 			
 		} catch (Exception e) {
@@ -409,8 +406,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			String attachmentToLoad = LGConstants.UPLOAD_IMAGE_TEST_FILENAME;
 			String resource = createNewExperimentAndChangeVersion(null);
-			getPageManager().getExperimentPageV2().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
-			String pageTitle =  getPageManager().getExperimentPageV2().checkAttachment(resource, 1,attachmentToLoad);
+			getPageManager().getExperimentPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			String pageTitle =  getPageManager().getExperimentPage().checkAttachment(resource, 1,attachmentToLoad);
 			AssertJUnit.assertEquals(attachmentToLoad,pageTitle);
 			
 			
@@ -427,9 +424,9 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			showTableIndex();
 			TimeUnit.SECONDS.sleep(2);
 			createNewExperimentAndChangeVersion(null);
-			getPageManager().getExperimentPageV2().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,LGConstants.UPLOAD_TXT_TEST_FILENAME);
+			getPageManager().getExperimentPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,LGConstants.UPLOAD_TXT_TEST_FILENAME);
 			
-			boolean deleted = getPageManager().getExperimentPageV2().deleteSingleAttachmentFromSection(DESCRIPTION_SECTION_INDEX);
+			boolean deleted = getPageManager().getExperimentPage().deleteSingleAttachmentFromSection(DESCRIPTION_SECTION_INDEX);
 			Assert.assertTrue(deleted,"Attachment could not be deleted.");
 		} catch (Exception e) {
 			setLog(e,"deleteSingleAttachmentFromSection");
@@ -445,9 +442,9 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			showTableIndex();
 			TimeUnit.SECONDS.sleep(2);
 			createNewExperimentAndChangeVersion(null);
-			getPageManager().getExperimentPageV2().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,LGConstants.UPLOAD_TXT_TEST_FILENAME);
+			getPageManager().getExperimentPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,LGConstants.UPLOAD_TXT_TEST_FILENAME);
 			
-			boolean deleted = getPageManager().getExperimentPageV2().deleteAttachmentContainer(DESCRIPTION_SECTION_INDEX);
+			boolean deleted = getPageManager().getExperimentPage().deleteAttachmentContainer(DESCRIPTION_SECTION_INDEX);
 			Assert.assertTrue(deleted,"Attachment could not be deleted.");
 		} catch (Exception e) {
 			setLog(e,"deleteAttachment");
@@ -469,7 +466,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
     		
     		createNewExperimentAndChangeVersion(null);
 			
-			String linkedRes = getPageManager().getExperimentPageV2().addLinkedResource(LGConstants.EXPERIMENT);
+			String linkedRes = getPageManager().getExperimentPage().addLinkedResource(LGConstants.EXPERIMENT);
 			
 			AssertJUnit.assertTrue("No resource was linked.",!linkedRes.equals(""));
 		
@@ -487,7 +484,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
     		String  resourceToLink = getPageManager().getExperimentPage().addNewExperiment(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
     		createNewExperimentAndChangeVersion(null);
 			
-			String linkedRes = getPageManager().getExperimentPageV2().addLinkToSection(DESCRIPTION_SECTION_INDEX,resourceToLink);
+			String linkedRes = getPageManager().getExperimentPage().addLinkToSection(DESCRIPTION_SECTION_INDEX,resourceToLink);
 			
 			AssertJUnit.assertTrue("No resource was linked.",!linkedRes.equals(""));
 		
@@ -504,10 +501,10 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			createNewExperimentAndChangeVersion("ExpWithCommentOnDescription");
 			
 			String text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non rutrum odio.";
-			getPageManager().getExperimentPageV2().addTextToSection(DESCRIPTION_SECTION_INDEX,text);
+			getPageManager().getExperimentPage().addTextToSection(DESCRIPTION_SECTION_INDEX,text);
 			String commentToAdd = "comment1";
 			String platform = getPageManager().getPlatform();
-			String addedComment = getPageManager().getExperimentPageV2().addInlineCommentToSection(DESCRIPTION_SECTION_INDEX,commentToAdd,platform);
+			String addedComment = getPageManager().getExperimentPage().addInlineCommentToSection(DESCRIPTION_SECTION_INDEX,commentToAdd,platform);
 			assertEquals(addedComment, "comment1");
 		} catch (Exception e) {
 			setLog(e,"addInlineCommentToSection");
@@ -521,7 +518,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			
 			createNewExperimentAndChangeVersion("ExperimentWithStepsInDescription");	
-			assertTrue(getPageManager().getExperimentPageV2().addStepToSection(DESCRIPTION_SECTION_INDEX));
+			assertTrue(getPageManager().getExperimentPage().addStepToSection(DESCRIPTION_SECTION_INDEX));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -537,7 +534,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			createNewExperimentAndChangeVersion("ExpWith2SectionsInDescription");
 			
 			String descName = "Description2";
-			String newDesc = getPageManager().getExperimentPageV2().addNewSection(DESCRIPTION_SECTION_INDEX,descName);
+			String newDesc = getPageManager().getExperimentPage().addNewSection(DESCRIPTION_SECTION_INDEX,descName);
 			assertEquals(descName, newDesc);
 			
 		} catch (Exception e) {
@@ -552,7 +549,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			createNewExperimentAndChangeVersion("ExpWithTextInDescription");
 			
 			String descName = "Description";
-			String newDesc = getPageManager().getExperimentPageV2().addTextToSection(DESCRIPTION_SECTION_INDEX,descName);
+			String newDesc = getPageManager().getExperimentPage().addTextToSection(DESCRIPTION_SECTION_INDEX,descName);
 			assertEquals(descName, newDesc);
 		} catch (Exception e) {
 			setLog(e);
@@ -568,7 +565,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String expName = "ExpWithTableInDescription";
 			createNewExperimentAndChangeVersion(expName);
 			String dataToWrite = "test";
-			assertTrue(getPageManager().getExperimentPageV2().addTableToSection(dataToWrite,DESCRIPTION_SECTION_INDEX));
+			assertTrue(getPageManager().getExperimentPage().addTableToSection(dataToWrite,DESCRIPTION_SECTION_INDEX));
 			
 			assertEquals(expName,getPageManager().getExperimentPage().openExperiment(expName));
 			
@@ -587,7 +584,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			createNewExperimentAndChangeVersion("ExpWith2SectionsInProcedure");
 			
 			String procedureName = "Procedure2";
-			String newProcedure = getPageManager().getExperimentPageV2().addNewSection(PROCEDURE_SECTION_INDEX,procedureName);
+			String newProcedure = getPageManager().getExperimentPage().addNewSection(PROCEDURE_SECTION_INDEX,procedureName);
 			assertEquals(procedureName, newProcedure);
 		} catch (Exception e) {
 			setLog(e);
@@ -601,7 +598,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			
 			createNewExperimentAndChangeVersion("ExperimentWithStepsInProcedure");	
-			assertTrue(getPageManager().getExperimentPageV2().addStepToSection(PROCEDURE_SECTION_INDEX));
+			assertTrue(getPageManager().getExperimentPage().addStepToSection(PROCEDURE_SECTION_INDEX));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -614,9 +611,9 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	public void deleteStepsOfProcedure() {
 		try {
 			createNewExperimentAndChangeVersion("DeleteStepsInProcedure");	
-			assertTrue(getPageManager().getExperimentPageV2().addStepToSection(PROCEDURE_SECTION_INDEX));
+			assertTrue(getPageManager().getExperimentPage().addStepToSection(PROCEDURE_SECTION_INDEX));
 			
-			assertTrue(getPageManager().getExperimentPageV2().deleteStepsOfSection(PROCEDURE_SECTION_INDEX));
+			assertTrue(getPageManager().getExperimentPage().deleteStepsOfSection(PROCEDURE_SECTION_INDEX));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -635,7 +632,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String expName = "ExpWithTableInProcedure";
 			createNewExperimentAndChangeVersion(expName);
 			String dataToWrite = "test";
-			assertTrue(getPageManager().getExperimentPageV2().addTableToSection(dataToWrite,PROCEDURE_SECTION_INDEX));
+			assertTrue(getPageManager().getExperimentPage().addTableToSection(dataToWrite,PROCEDURE_SECTION_INDEX));
 			
 			assertEquals(expName,getPageManager().getExperimentPage().openExperiment(expName));
 			
@@ -653,7 +650,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			createNewExperimentAndChangeVersion("ExpWithTextInProcedure");
 			
 			String descName = "Description in procedure";
-			String newDesc = getPageManager().getExperimentPageV2().addTextToSection(PROCEDURE_SECTION_INDEX,descName);
+			String newDesc = getPageManager().getExperimentPage().addTextToSection(PROCEDURE_SECTION_INDEX,descName);
 			assertEquals(descName, newDesc);
 		} catch (Exception e) {
 			setLog(e);
@@ -667,14 +664,14 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			createNewExperimentAndChangeVersion("ExpWithDataInConclusion");
 			
 			String descName = "Description in conclusion";
-			getPageManager().getExperimentPageV2().addConclusionSection();
-			String newDesc = getPageManager().getExperimentPageV2().addTextToSection(CONCLUSIONS_SECTION_INDEX,descName);
+			getPageManager().getExperimentPage().addConclusionSection();
+			String newDesc = getPageManager().getExperimentPage().addTextToSection(CONCLUSIONS_SECTION_INDEX,descName);
 			assertEquals("failed to add text.",descName, newDesc);
 			TimeUnit.SECONDS.sleep(1);
-			assertTrue("failed to add steps.",getPageManager().getExperimentPageV2().addStepToSection(CONCLUSIONS_SECTION_INDEX));
+			assertTrue("failed to add steps.",getPageManager().getExperimentPage().addStepToSection(CONCLUSIONS_SECTION_INDEX));
 			TimeUnit.SECONDS.sleep(1);
 			String dataToWrite = "test";
-			assertTrue("failed to add table with data.",getPageManager().getExperimentPageV2().addTableToSection(dataToWrite,CONCLUSIONS_SECTION_INDEX));
+			assertTrue("failed to add table with data.",getPageManager().getExperimentPage().addTableToSection(dataToWrite,CONCLUSIONS_SECTION_INDEX));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -689,13 +686,13 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			createNewExperimentAndChangeVersion("ExpWithDataInResults");
 			
 			String descName = "Description in results";
-			String newDesc = getPageManager().getExperimentPageV2().addTextToSection(RESULTS_SECTION_INDEX,descName);
+			String newDesc = getPageManager().getExperimentPage().addTextToSection(RESULTS_SECTION_INDEX,descName);
 			assertEquals("failed to add text.",descName, newDesc);
 			TimeUnit.SECONDS.sleep(1);
-			assertTrue("failed to add steps.",getPageManager().getExperimentPageV2().addStepToSection(RESULTS_SECTION_INDEX));
+			assertTrue("failed to add steps.",getPageManager().getExperimentPage().addStepToSection(RESULTS_SECTION_INDEX));
 			TimeUnit.SECONDS.sleep(1);
 			String dataToWrite = "test";
-			assertTrue("failed to add table with data.",getPageManager().getExperimentPageV2().addTableToSection(dataToWrite,RESULTS_SECTION_INDEX));
+			assertTrue("failed to add table with data.",getPageManager().getExperimentPage().addTableToSection(dataToWrite,RESULTS_SECTION_INDEX));
 			
 		} catch (Exception e) {
 			setLog(e,"addDataToResults");
@@ -715,8 +712,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			
 			
 			createNewExperimentAndChangeVersion(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
-			String currentAccout =getPageManager().getExperimentPageV2().getAccountName();
-			String newAccount = getPageManager().getExperimentPageV2().assign(currentAccout);
+			String currentAccout =getPageManager().getExperimentPage().getAccountName();
+			String newAccount = getPageManager().getExperimentPage().assign(currentAccout);
 			Assert.assertNotEquals(currentAccout,newAccount,"The assignment did not succeeded.");
 		} catch (Exception e) {
 			setLog(e,"assignNewAccount");
@@ -731,12 +728,12 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String name = buildUniqueName("Signed Experiment");
 			createNewExperimentAndChangeVersion(name);
 			
-			boolean signSucceeded = getPageManager().getExperimentPageV2().sign();
+			boolean signSucceeded = getPageManager().getExperimentPage().sign();
 			assertTrue("The sign action did not succeeded.",signSucceeded);
 			
-			assertTrue("Some menu actions are not as they should be.",getPageManager().getExperimentPageV2().checkAllowedActionsOnSignedExp());
+			assertTrue("Some menu actions are not as they should be.",getPageManager().getExperimentPage().checkAllowedActionsOnSignedExp());
 			
-			assertTrue("Sign mark is missing from the list view for the signed experiment.",getPageManager().getExperimentPageV2().checkSignedImgInList());
+			assertTrue("Sign mark is missing from the list view for the signed experiment.",getPageManager().getExperimentPage().checkSignedImgInList());
 		
 			boolean exist = getPageManager().getRecentResultsPage().checkSignedExperimentInList(name);
 			Assert.assertTrue(exist, "Signed experiment is not shown in recent results page");
@@ -754,9 +751,9 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			createNewExperimentAndChangeVersion(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
 			
-			assertTrue("The sign action did not succeeded.",getPageManager().getExperimentPageV2().sign());
+			assertTrue("The sign action did not succeeded.",getPageManager().getExperimentPage().sign());
 			
-			boolean revertSucceeded = getPageManager().getExperimentPageV2().revertSignature();
+			boolean revertSucceeded = getPageManager().getExperimentPage().revertSignature();
 			assertTrue("The revert signature action did not succeeded.",revertSucceeded);
 			
 		} catch (Exception e) {
@@ -772,7 +769,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			String expName = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
 			createNewExperimentAndChangeVersion(expName);		
-			boolean deleted = getPageManager().getExperimentPageV2().deleteExperiment(expName);
+			boolean deleted = getPageManager().getExperimentPage().deleteExperiment(expName);
 			assertTrue("The delete action did not succeeded.",deleted);
 		} catch (Exception e) {
 			setLog(e,"deleteExperiment");
@@ -793,9 +790,9 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			 getPageManager().getProjectPage().addNewProject(newProject);
 			
 			getPageManager().getExperimentPage().openExperiment(expName);
-			getPageManager().getExperimentPageV2().changeVersion(LGConstants.EXPERIMENT_BETA);
+			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			
-			String movedTo = getPageManager().getExperimentPageV2().moveExperimentToProject(newProject);
+			String movedTo = getPageManager().getExperimentPage().moveExperimentToProject(newProject);
 			assertTrue("The move action did not succeeded.",movedTo.equals(newProject));
 		} catch (Exception e) {
 			setLog(e,"moveExperiment");
@@ -809,7 +806,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		
 		try {
 			createNewExperimentAndChangeVersion("ExperimentWithPlate2X3InProcedure");	
-			assertTrue(getPageManager().getExperimentPageV2().addPlate2X3ToSection(PROCEDURE_SECTION_INDEX));
+			assertTrue(getPageManager().getExperimentPage().addPlate2X3ToSection(PROCEDURE_SECTION_INDEX));
 			
 		}  catch (Exception e) {
 			setLog(e,"addPlateToProcedure");
@@ -822,7 +819,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		
 		try {
 			createNewExperimentAndChangeVersion("ExpWithSample");
-			String notCreated = getPageManager().getExperimentPageV2().addSamplesToSection(PROCEDURE_SECTION_INDEX);
+			String notCreated = getPageManager().getExperimentPage().addSamplesToSection(PROCEDURE_SECTION_INDEX);
 			assertTrue("The following sample types were not created as should be: " + notCreated , notCreated.isEmpty());
 		} catch (Exception e) {
 			setLog(e,"addSamplesToSection");
@@ -838,7 +835,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String expName = "ExpWithCompoundInProcedure";
 			createNewExperimentAndChangeVersion(expName);
 	
-			boolean created = getPageManager().getExperimentPageV2().addCompoundToSection(PROCEDURE_SECTION_INDEX);
+			boolean created = getPageManager().getExperimentPage().addCompoundToSection(PROCEDURE_SECTION_INDEX);
 			assertTrue("The compound was not created as should be",created);
 			
 			assertEquals(expName,getPageManager().getExperimentPage().openExperiment(expName));
@@ -857,8 +854,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String expName = "ExpWithCompoundToEdit";
 			createNewExperimentAndChangeVersion(expName);
 	
-			getPageManager().getExperimentPageV2().addCompoundToSection(DESCRIPTION_SECTION_INDEX);
-			boolean edited = getPageManager().getExperimentPageV2().editCompound(DESCRIPTION_SECTION_INDEX,"editedCompound");
+			getPageManager().getExperimentPage().addCompoundToSection(DESCRIPTION_SECTION_INDEX);
+			boolean edited = getPageManager().getExperimentPage().editCompound(DESCRIPTION_SECTION_INDEX,"editedCompound");
 			assertTrue("The compound was not edited as should be",edited);
 
 
@@ -876,7 +873,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			String expName = "ExpWithReactionInResults";
 			createNewExperimentAndChangeVersion(expName);
 	
-			boolean created = getPageManager().getExperimentPageV2().addReactionToSection(RESULTS_SECTION_INDEX);
+			boolean created = getPageManager().getExperimentPage().addReactionToSection(RESULTS_SECTION_INDEX);
 			assertTrue("Adding reaction to experiment results failed",created);
 			
 			//TODO - add the check inn recent results
@@ -897,7 +894,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		
 			String name = "sampleWithoutStock";
 			createNewExperimentAndChangeVersion(name);
-			assertTrue("Stock in sample could not be edited.",getPageManager().getExperimentPageV2().editSample(PROCEDURE_SECTION_INDEX));
+			assertTrue("Stock in sample could not be edited.",getPageManager().getExperimentPage().editSample(PROCEDURE_SECTION_INDEX));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -914,7 +911,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			getPageManager().getAccountSettingPage().addGenericCollection(collectionName);
 			createNewExperimentAndChangeVersion("sampleWithGenericCollection");
 			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
-			assertTrue(sampleName +" was not shown as expected after refresh.",getPageManager().getExperimentPageV2().addSampleWithGenericCollection(PROCEDURE_SECTION_INDEX,collectionName,sampleName));
+			assertTrue(sampleName +" was not shown as expected after refresh.",getPageManager().getExperimentPage().addSampleWithGenericCollection(PROCEDURE_SECTION_INDEX,collectionName,sampleName));
 			
 			getPageManager().getGenericCollectionPage().deleteGenericCollection(collectionName);
 			
@@ -931,8 +928,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			logger.info("Uploading excel and add to page");
 			String attachmentToLoad = LGConstants.UPLOAD_XLS_TEST_FILENAME;
 			createNewExperimentAndChangeVersion(null);
-			getPageManager().getExperimentPageV2().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
-			boolean pageAdded = getPageManager().getExperimentPageV2().addToPage(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			getPageManager().getExperimentPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			boolean pageAdded = getPageManager().getExperimentPage().addToPage(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
 			AssertJUnit.assertTrue("The file '" + attachmentToLoad + "' was not added to page.",pageAdded);
 			
 		} catch (Exception e) {
@@ -949,8 +946,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			logger.info("Uploading pdf and add to page");
 			String attachmentToLoad = LGConstants.UPLOAD_PDF_TEST_FILENAME;	
 			createNewExperimentAndChangeVersion(null);
-			getPageManager().getExperimentPageV2().uploadAttachmentToSection(PROCEDURE_SECTION_INDEX,attachmentToLoad);
-			boolean pageAdded = getPageManager().getExperimentPageV2().addToPage(PROCEDURE_SECTION_INDEX,attachmentToLoad);
+			getPageManager().getExperimentPage().uploadAttachmentToSection(PROCEDURE_SECTION_INDEX,attachmentToLoad);
+			boolean pageAdded = getPageManager().getExperimentPage().addToPage(PROCEDURE_SECTION_INDEX,attachmentToLoad);
 			AssertJUnit.assertTrue("The file '" + attachmentToLoad + "' was not added to page.",pageAdded);
 			
 		} catch (Exception e) {
@@ -972,8 +969,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			
 			//delete protocol after test
 			deleteProtocolAfterTest(protocol);
-		} catch (InterruptedException e) {
-			setLog(e);
+		} catch (Exception e) {
+			setLog(e,"startNewExperimentFromProtocolFromDropdown");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -986,8 +983,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			showTableIndex();			
 			checkCreateDocumentFromDropdown();
 			
-		} catch (InterruptedException e) {
-			setLog(e);
+		} catch (Exception e) {
+			setLog(e,"startNewDocumentFromDropdown");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -999,8 +996,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			showTableIndex();	
 			checkCreateProjectFromDropdown();
 			
-		} catch (InterruptedException e) {
-			setLog(e);
+		} catch (Exception e) {
+			setLog(e,"startNewProjectFromDropdown");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -1012,8 +1009,8 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		try {
 			showTableIndex();
 			checkCreateProtocolFromDropDown();
-		} catch (InterruptedException e) {
-			setLog(e);
+		} catch (Exception e) {
+			setLog(e,"startNewProtocolFromDropdown");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -1034,7 +1031,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	@Override
 	protected AbstractNotebookPage getPage() {
-		return getPageManager().getExperimentPageV2();
+		return getPageManager().getExperimentPage();
 	}
 
 	@Override
@@ -1045,16 +1042,4 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 	     //Check the title of the page
 		AssertJUnit.assertEquals(getMessageSource().getMessage("experiments.title",null, Locale.US), pageTitle);
 	}
-	
-	private String createNewExperimentAndChangeVersion(String expName) throws InterruptedException {
-		
-		showTableIndex();
-		String name = getPage().addNewExperiment(expName);
-		//change to version V2
-		getPageManager().getExperimentPageV2().changeVersion(LGConstants.EXPERIMENT_BETA);
-		getPageManager().getAdminPage().discardNotyMessages();
-		closeIridizePopups();
-		return name;
-	}
-
 }

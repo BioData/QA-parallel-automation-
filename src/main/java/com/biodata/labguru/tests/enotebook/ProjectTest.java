@@ -13,12 +13,30 @@ import org.testng.annotations.Test;
 
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.LGDataProvider;
-import com.biodata.labguru.pages.enotebook.AbstractNotebookPage;
+import com.biodata.labguru.tests.AbstractLGTest;
 import com.biodata.labguru.tests.TestOrderRandomizer;
-
+//TODO - after project will switch to new UI layout we need to extend again from AbstractEnotebookTest class
 @Listeners(TestOrderRandomizer.class)
-public class ProjectTest extends AbstractEnotebookTest{
+public class ProjectTest extends AbstractLGTest{
+	
+	
+	@Override
+	public void duplicateItem(){
+		
+		try {
+			showTableIndex();
 
+			String name = addNewItem();
+			
+			String duplicateItemName = getPageManager().getProjectPage().duplicateItem();	
+			
+			// Check the title of the page
+			assertTrue(duplicateItemName.startsWith(name));
+		} catch (Exception e) {
+			setLog(e,"duplicateItem");
+			Assert.fail(e.getMessage());
+		}
+	}
 	
 	@Test(groups = {"deep"})
 	public void shareProjectCheckPermissions(){
@@ -82,7 +100,7 @@ public class ProjectTest extends AbstractEnotebookTest{
 		}
 	}
 	
-	@Test(groups = {"deep"})
+	@Test(groups = {"test"})
 	public void startNewExperimentFromProtocolFromDropdown(){
 		
 		try {
@@ -96,8 +114,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 			//delete protocol after test
 			deleteProtocolAfterTest(protocol);
 			
-		} catch (InterruptedException e) {
-			setLog(e);
+		}catch (Exception e) {
+			setLog(e,"startNewExperimentFromProtocolFromDropdown");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -111,8 +129,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 			
 			checkCreateDocumentFromDropdown();
 			
-		} catch (InterruptedException e) {
-			setLog(e);
+		}catch (Exception e) {
+			setLog(e,"startNewDocumentFromDropdown");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -127,8 +145,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 			
 			checkCreateProjectFromDropdown();
 			
-		} catch (InterruptedException e) {
-			setLog(e);
+		}catch (Exception e) {
+			setLog(e,"startNewProjectFromDropdown");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -141,8 +159,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 			showTableIndex();
 			
 			checkCreateProtocolFromDropDown();
-		} catch (InterruptedException e) {
-			setLog(e);
+		}catch (Exception e) {
+			setLog(e,"startNewProtocolFromDropdown");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -164,8 +182,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 			//delete protocol after test
 			deleteProtocolAfterTest(protocol);
 			
-		} catch (InterruptedException e) {
-			setLog(e);
+		}catch (Exception e) {
+			setLog(e,"startNewExperimentFromProtocolFromDropdownInShowPage");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -182,8 +200,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 			addNewItem();
 			
 			checkCreateDocumentFromDropdown();
-		} catch (InterruptedException e) {
-			setLog(e);
+		}catch (Exception e) {
+			setLog(e,"startNewDocumentFromDropdownInShowPage");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -198,8 +216,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 			
 			checkCreateProjectFromDropdown();
 			
-		} catch (InterruptedException e) {
-			setLog(e);
+		}catch (Exception e) {
+			setLog(e,"startNewProjectFromDropdownInShowPage");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -207,7 +225,7 @@ public class ProjectTest extends AbstractEnotebookTest{
 
 	
 	
-	@Test(groups = {"deep"})
+	@Test(groups = {"test"})
 	public void startNewProtocolFromDropdownInShowPage(){
 		
 		try {
@@ -217,8 +235,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 			
 			checkCreateProtocolFromDropDown();
 			
-		} catch (InterruptedException e) {
-			setLog(e);
+		} catch (Exception e) {
+			setLog(e,"startNewProtocolFromDropdownInShowPage");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -263,8 +281,8 @@ public class ProjectTest extends AbstractEnotebookTest{
 			logger.info("creating document from dropdown");
 			checkCreateDocumentFromDropdown();
 
-		} catch (InterruptedException e) {
-			setLog(e);
+		} catch (Exception e) {
+			setLog(e,"checkNewExperimentFromDropdownInFolderShowPage");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -537,7 +555,6 @@ public class ProjectTest extends AbstractEnotebookTest{
 			showTableIndex();
 			addNewItem();
 			showTableIndex();
-			
 			String project = buildUniqueName(LGConstants.PROJECT_PREFIX);	
 			getPageManager().getProjectPage().addNewProject(project);
 			String notyMsg = getPageManager().getProjectPage().archivedProject();
@@ -609,7 +626,7 @@ public class ProjectTest extends AbstractEnotebookTest{
 	
 
 	
-	@Test (groups = {"deep"})
+	@Test (groups = {"knowBugs"})//will be fix when project will be in the new layout
 	public void addReactionToProjectDescription() {
 		
 		try {
@@ -625,7 +642,7 @@ public class ProjectTest extends AbstractEnotebookTest{
 		}
 	}
 	
-	@Test (groups = {"deep"})
+	@Test (groups = {"knownBugs"})//will be fix when project will be in the new layout
 	public void addCompoundToProjectDescription() {//only when compound option is enabled
 
 		try {
@@ -728,12 +745,12 @@ public class ProjectTest extends AbstractEnotebookTest{
 			assertTrue("Paper was not added as should be.",!addedPaper.isEmpty());
 			
 		} catch (Exception e) {
-			setLog(e,"addNoteFromNotesTab");
+			setLog(e,"addPaperFromPapersTab");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
 	
-	@Test (groups = {"deep"})
+	@Test (groups = {"test"})
 	public void addDocumentFromDocumentsTab() {
 		try {
 			
@@ -757,15 +774,59 @@ public class ProjectTest extends AbstractEnotebookTest{
 
 	@Override
 	protected String addNewItem() throws InterruptedException {
-		
 		String projectName = buildUniqueName(LGConstants.PROJECT_PREFIX);
 		return getPageManager().getProjectPage().addNewProject(projectName);
 		
 	}
-
-	@Override
-	protected AbstractNotebookPage getPage() {
+	
+	
+	protected void checkCreateExpFromProtocolFromDropdown(String protocol) throws InterruptedException {
 		
-		return getPageManager().getProjectPage();
+		getPageManager().getAdminPage().selectFromExperimentDropdown(LGConstants.NEW_EXP_FROM_PROTOCOL);
+		getPageManager().getExperimentPage().createExperimentFromSelectedProtocol(protocol);
+		// Check that the protocol is linked to this experiment
+		boolean linked = getPageManager().getExperimentPage().checkLinkedResources(protocol);
+		assertTrue(linked);
+	}
+	
+	protected void checkCreateDocumentFromDropdown() throws InterruptedException {
+		
+		getPageManager().getAdminPage().selectFromExperimentDropdown(LGConstants.NEW_DOCUMENT);
+		String expTitle = getPageManager().getDocumentPage().getTitle();
+		// Check the title of the page
+		assertTrue(expTitle.startsWith("My document"));
+		getPageManager().getDocumentPage().saveDocument();
+	}
+	
+	protected String createNewProtocol() throws InterruptedException {
+		
+		getPageManager().getAdminPage().showProtocols();
+		String newProtocol = buildUniqueName(LGConstants.PROTOCOL_PREFIX);	
+		getPageManager().getProtocolPage().addProtocolToAccount(newProtocol);
+		return newProtocol;
+	}
+	
+	protected void checkCreateProjectFromDropdown() throws InterruptedException {
+		
+		getPageManager().getAdminPage().selectFromExperimentDropdown(LGConstants.NEW_PROJECT);
+		String title = getPageManager().getProjectPage().getTitle();
+		// Check the title of the page
+		assertTrue(title.startsWith("My project"));
+	}
+
+	protected void checkCreateProtocolFromDropDown() throws InterruptedException {
+
+		//check create protocol
+		getPageManager().getAdminPage().selectFromExperimentDropdown(LGConstants.NEW_PROTOCOL);
+		String title = getPageManager().getProtocolPage().getTitle();
+		// Check the title of the page
+		assertTrue(title.startsWith("My protocol"));
+	}
+	
+	protected void deleteProtocolAfterTest(String protocol) throws InterruptedException {
+		//delete the created protocol
+		getPageManager().getAdminPage().showProtocols();
+		getPageManager().getProtocolPage().openProtocol(protocol);
+		getPageManager().getProtocolPage().deleteProtocol();
 	}
 }

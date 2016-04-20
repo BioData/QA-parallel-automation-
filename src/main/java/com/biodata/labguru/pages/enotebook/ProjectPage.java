@@ -36,6 +36,21 @@ public class ProjectPage extends AbstractNotebookPage {
 			return false;
 		}
 	}
+	
+	
+	@Override
+	public String duplicateItem() throws InterruptedException {
+		
+		TimeUnit.SECONDS.sleep(2);
+		
+		WebElement btnDuplicate = driverWait.until(ExpectedConditions.visibilityOfElementLocated(getDuplicateLocator()));
+		btnDuplicate.click();
+		
+		TimeUnit.SECONDS.sleep(2);
+        WebElement pageTitle = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(getPageTitleXPath())));
+        String newName = pageTitle.getText();
+        return newName;
+	}
 	public String addNewProject(String projectName) throws InterruptedException {
 		
         WebElement btnNewProj = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("new_project")));
@@ -287,18 +302,60 @@ public class ProjectPage extends AbstractNotebookPage {
 		TimeUnit.SECONDS.sleep(1);
 		return drawCompound();
 	}
-
-
 	
-	public String updateContent() throws Exception {
+	protected void writeInTable(String data) throws InterruptedException {
 		
+		String script = "var spread = $('.excel_container').find('.excel').wijspread('spread');"
+				+ "var sheet = spread.getActiveSheet();"
+				+ "var cell = sheet.getCell(1,1);"
+				+ "cell.value('" + data + "');";	
+		executeJavascript(script);
+	}
+	
+	protected boolean addTable(WebElement procedureDescToolBar ,String data) throws InterruptedException {
+		
+		boolean created;
+		WebElement tableLoader = procedureDescToolBar.findElement(By.cssSelector(".grid.load"));
+		tableLoader.click();
+
+		TimeUnit.SECONDS.sleep(4);
+		
+		writeInTable(data);
+		
+		TimeUnit.SECONDS.sleep(2);
+
+		WebElement imgSaveDesc = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fa.fa-check")));
+		imgSaveDesc.click();
+		TimeUnit.SECONDS.sleep(4);
+		
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".delete_me")));
+		
+		String value = readFromTable();
+
+		WebElement tableArea = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.cssSelector(".inline_form_container.type_excel.spreadJS_activated")));
+
+		created = ((tableArea != null) && (data.equals(value)));
+		return created;
+	}
+	
+	protected void deleteSample() throws InterruptedException {
+		  //delete all created samples
+		getLogger().debug("before delete samples");
+		executeJavascript("document.getElementsByClassName('delete_me')[0].click();");
+		getLogger().debug("after delete samples");
+		TimeUnit.SECONDS.sleep(2);
+		
+	}
+
+	public String updateContent() throws Exception {
+	
 		addTextProjectDescription("update content to check version history");
 		
 		
 		String msg = updateName("projects_project_title",".//*[@id='projects_project_submit_action']/input");
 		return msg;
 	}
-	
 	
 	@Override
 	public String getPageTitleXPath() {
@@ -523,7 +580,7 @@ public class ProjectPage extends AbstractNotebookPage {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Share a project with spreadsheet data and then check if it is seen in the shared url as read-only.
 	 * @param insertedData

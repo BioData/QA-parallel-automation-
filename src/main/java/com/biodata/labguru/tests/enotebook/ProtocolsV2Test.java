@@ -1,12 +1,34 @@
 package com.biodata.labguru.tests.enotebook;
 
-import org.testng.annotations.Listeners;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Locale;
+
+import org.testng.Assert;
+import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import com.biodata.labguru.LGConstants;
+import com.biodata.labguru.pages.enotebook.AbstractNotebookPage;
 import com.biodata.labguru.tests.TestOrderRandomizer;
-@Deprecated
+
 @Listeners(TestOrderRandomizer.class)
-public class ProtocolsTest {//extends AbstractEnotebookTest{
-	/*
+public class ProtocolsV2Test extends AbstractEnotebookTest{
+	
+	
+	@BeforeClass(alwaysRun = true , dependsOnMethods = "initialize")
+	public void switchToBetaVersion(){
+		try {
+			createNewExperimentAndChangeVersion("My Experiment");
+		} catch (Exception e) {
+			setLog(e,"switchToBetaVersion");
+		}
+	}
+	
 	@Test(groups = {"basic sanity"})
 	public void copyProtocolFromProtocolDirectory(){
 		
@@ -24,7 +46,105 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 		}
 	}
 	
-	@Test(groups = {"deep"})
+	@Override
+	@Test (groups = {"basic sanity"})
+	public void duplicateItem(){
+		
+		try {
+	
+			showTableIndex();			
+			String protocol = addNewItem();
+			String duplicateItemName = getPageManager().getProtocolPage().duplicate();
+			
+			// Check the title of the page
+			assertTrue("The duplication did not finished as expected - " + duplicateItemName,duplicateItemName.startsWith(protocol) && duplicateItemName.contains("(duplicate)"));		
+		
+		} catch (Exception e) {
+			setLog(e,"duplicateExperiment");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"basic sanity"})
+	public void signProtocol() {
+		
+		try {
+			
+			showTableIndex();
+			
+			String name = buildUniqueName("Signed Protocol");
+			getPageManager().getProtocolPage().addProtocol(name);
+			
+			boolean signSucceeded = getPageManager().getProtocolPage().sign();
+			assertTrue("The sign action did not succeeded.",signSucceeded);
+			
+			assertTrue("Some menu actions are not as they should be.",getPageManager().getProtocolPage().checkAllowedActionsOnSignedProtocol());
+			
+			
+		} catch (Exception e) {
+			setLog(e,"signProtocol");
+			AssertJUnit.fail(e.getMessage());
+		}
+
+	}
+	
+	@Test (groups = {"basic sanity"})
+	public void revertSignature() {
+		//Users that are not admin or signed the exp can't revert the signature.
+		try {
+			showTableIndex();
+			
+			String name = buildUniqueName(LGConstants.PROTOCOL_PREFIX);
+			getPageManager().getProtocolPage().addProtocol(name);
+			
+			assertTrue("The sign action did not succeeded.",getPageManager().getProtocolPage().sign());
+			
+			boolean revertSucceeded = getPageManager().getProtocolPage().revertSignature();
+			assertTrue("The revert signature action did not succeeded.",revertSucceeded);
+			
+		} catch (Exception e) {
+			setLog(e,"revertSignature");
+			AssertJUnit.fail(e.getMessage());
+		}
+
+	}
+	
+	
+	@Test (groups = {"test"})
+	public void archiveProtocol() {
+		
+		try {
+			showTableIndex();
+			
+			String name = buildUniqueName(LGConstants.PROTOCOL_PREFIX);
+			getPageManager().getProtocolPage().addProtocol(name);
+			
+			String msg = getPageManager().getProtocolPage().archiveProtocol();
+			assertEquals(msg,getMessageSource().getMessage("protocol.arcive.success.msg", null,Locale.US));
+			
+		} catch (Exception e) {
+			setLog(e,"archiveProtocol");
+			AssertJUnit.fail(e.getMessage());
+		}
+
+	}
+	
+	@Test (groups = {"basic sanity"})
+	public void deleteProtocol() {
+		
+		try {
+			showTableIndex();
+			getPageManager().getProtocolPage().addProtocol("ProtocolToDelete");	
+			String msg = getPageManager().getProtocolPage().deleteProtocol();
+			assertTrue("The delete action did not succeeded.",msg.equals("Protocol was successfully deleted"));
+		} catch (Exception e) {
+			setLog(e,"deleteProtocol");
+			AssertJUnit.fail(e.getMessage());
+		}
+
+	}
+	
+	@Test(groups = {"TODO"})//TODO - not working yet
 	public void shareProtocol(){
 		
 		try {
@@ -54,23 +174,6 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
-	
-	@Test(groups = {"deep"})
-	public void signAndLock(){
-		
-		try {
-			showTableIndex();			
-			addNewItem();
-			
-			String note = getPage().signAndLock();
-			
-			AssertJUnit.assertTrue(note.startsWith(getMessageSource().getMessage("signed.by.note.prefix",null, Locale.US)));
-		} catch (Exception e) {
-			setLog(e,"signAndLock");
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
 	
 	@Test (groups = {"deep"})
 	public void createAndUpdateProtocol() {
@@ -124,6 +227,21 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 		} catch (Exception e) {
 			setLog(e);
 			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"basic sanity"}) 
+	public void goToProtocolsListFromProtocol() {
+		try {
+			
+			showTableIndex();
+			addNewItem();
+			
+			assertEquals(getMessageSource().getMessage("protocol.title.has.protocols", null,Locale.US),getPageManager().getProtocolPage().goToProtocols());
+			
+		} catch (Exception e) {
+			setLog(e,"goToProtocolsListFromProtocol");
+ 			AssertJUnit.fail(e.getMessage());
 		}
 	}
 	
@@ -210,32 +328,17 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 		}
 	}
 	
-	
-	@Test (groups = {"basic sanity"})
-	public void addTextDescriptionToProtocol() {
-		
-		try {
-			showTableIndex();
-			getPageManager().getProtocolPage().addProtocol("ProtocolWithDesc");
-			
-			String descToTest = "Test text in experiment description";
-			String desc = getPageManager().getProtocolPage().addTextDescriptionToProtocol(descToTest);
-			assertEquals(descToTest, desc);
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
+
+
 	
 	
-	@Test (groups = {"knownBugs"})
+	@Test (groups = {"knownBugs"})//LAB-1086
 	public void addSamplesToProcedure() {
 		
 		try {
 			showTableIndex();
 			getPageManager().getProtocolPage().addProtocol("ProtocolWithSample");
-			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
-			String notCreated = getPageManager().getProtocolPage().addSamplesToProcedureInProtocol(sampleName);
+			String notCreated = getPageManager().getProtocolPage().addSamplesToSection(PROCEDURE_SECTION_INDEX);
 			assertTrue("The following sample types were not created as should be: " + notCreated , notCreated.isEmpty());
 		} catch (Exception e) {
 			setLog(e);
@@ -244,7 +347,7 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 
 	}
 	
-	@Test (groups = {"knownBugs"})
+	@Test (groups = {"knownBugs"})//LAB-1086
 	public void addSampleWithGenericCollection() {
 		
 		try {
@@ -253,8 +356,9 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 			showTableIndex();
 			getPageManager().getProtocolPage().addProtocol("ProtocolWithSampleWithGenericCollection");
 			String sampleName = buildUniqueName(LGConstants.SAMPLE_PREFIX);
-			assertTrue(sampleName +" was not shown as expected after refresh.",getPageManager().getProtocolPage().addSampleWithGenericCollection(collectionName,sampleName));
+			assertTrue(sampleName +" was not shown as expected after refresh.",getPageManager().getProtocolPage().addSampleWithGenericCollection(PROCEDURE_SECTION_INDEX,collectionName,sampleName));
 			
+			getPageManager().getGenericCollectionPage().deleteGenericCollection(collectionName);
 		} catch (Exception e) {
 			setLog(e);
 			AssertJUnit.fail(e.getMessage());
@@ -262,33 +366,34 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 
 	}
 	
-	
 	@Test (groups = {"basic sanity"})
-	public void addPlateToProcedure() {
+	public void addPlateToProcedure(){
 		
 		try {
+			
 			showTableIndex();
-			String name = "ProtocolWithPlate";
+			String name = "ProtocolWithPlate2X3InProcedure";
 			getPageManager().getProtocolPage().addProtocol(name);
-			assertTrue(getPageManager().getProtocolPage().addPlateToProcedure());
+			assertTrue(getPageManager().getExperimentPage().addPlate2X3ToSection(PROCEDURE_SECTION_INDEX));
 			
 			showTableIndex();
 			assertEquals(name,getPageManager().getProtocolPage().openProtocol(name));
 			
-		} catch (Exception e) {
-			setLog(e);
+		}  catch (Exception e) {
+			setLog(e,"addPlateToProcedure");
 			AssertJUnit.fail(e.getMessage());
 		}
-
 	}
+	
 	
 	@Test (groups = {"basic sanity"})
 	public void addStepsToProcedure() {
+		
 		try {
 			showTableIndex();
 			getPageManager().getProtocolPage().addProtocol("ProtocolWithStep");
-			int numOfSteps = 1;
-			assertTrue(getPageManager().getProtocolPage().addStepToProcedure(numOfSteps));
+			assertTrue(getPageManager().getProtocolPage().addStepToSection(PROCEDURE_SECTION_INDEX));
+			
 		} catch (Exception e) {
 			setLog(e);
 			AssertJUnit.fail(e.getMessage());
@@ -296,15 +401,14 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 
 	}
 	
-	@Test (groups = {"basic sanity"})
+		@Test (groups = {"basic sanity"})
 	public void deleteStepsOfProcedure() {
 		try {
 			showTableIndex();
 			getPageManager().getProtocolPage().addProtocol("ProtocolWithStepToDelete");
-			int numOfSteps = 1;
-			getPageManager().getProtocolPage().addStepToProcedure(numOfSteps);
+			assertTrue(getPageManager().getProtocolPage().addStepToSection(PROCEDURE_SECTION_INDEX));
 			
-			assertTrue(getPageManager().getProtocolPage().deleteStepsOfProcedure());
+			assertTrue(getPageManager().getProtocolPage().deleteStepsOfSection(PROCEDURE_SECTION_INDEX));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -312,54 +416,37 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 		}
 
 	}
-
-	@Test (groups = {"basic sanity"})
-	public void addTextDescriptionToProcedure() {
 		
+	
+
+
+	
+	@Test (groups = {"basic sanity"})
+	public void addTextToDescription() {
 		try {
 			showTableIndex();
 			getPageManager().getProtocolPage().addProtocol("ProtocolWithProcedureDesc");
 			
-			String descToTest = "Test description of procedure";
-			String desc = getPageManager().getProtocolPage().addTextDescriptionToProcedure(descToTest);
-			assertEquals(descToTest, desc);
+			String descName = "Description";
+			String newDesc = getPageManager().getProtocolPage().addTextToSection(PROCEDURE_SECTION_INDEX,descName);
+			assertEquals(descName, newDesc);
 		} catch (Exception e) {
 			setLog(e);
-			AssertJUnit.fail(e.getMessage());
+ 			AssertJUnit.fail(e.getMessage());
 		}
 	}
 	
 	@Test (groups = {"basic sanity"})
-	public void addCompoundDescToProcedure() {//only when compound option is enabled
-
-		try {
-			showTableIndex();
-			String name = "ProtocolWithCompound";
-			getPageManager().getProtocolPage().addProtocol(name);
-
-			assertTrue(getPageManager().getProtocolPage().addCompoundDescToExpProcedure());
-			
-			showTableIndex();
-			assertEquals(name,getPageManager().getProtocolPage().openProtocol(name));
-			
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}	
-
-	}
-	
-
-	@Test (groups = {"basic sanity"})
-	public void addTableToProcedure() {
+	public void addTableToDescription() {
 		
 		try {
+			
 			showTableIndex();
 			
 			String name = "ProtocolWithTable";
 			getPageManager().getProtocolPage().addProtocol(name);
 			String dataToWrite = "test";
-			assertTrue(getPageManager().getProtocolPage().addTableToProcedure(dataToWrite));
+			assertTrue(getPageManager().getProtocolPage().addTableToSection(dataToWrite,DESCRIPTION_SECTION_INDEX));
 			
 			showTableIndex();
 			assertEquals(name,getPageManager().getProtocolPage().openProtocol(name));
@@ -369,23 +456,46 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
-	
 
 	
 	@Test (groups = {"basic sanity"})
-	public void addNewProcedure() {
+	public void addCompoundToSection() {//only when compound option is enabled
+		
 		try {
 			showTableIndex();
-			getPageManager().getProtocolPage().addProtocol("ProtocolWith2Procedures");
+			String name = "ProtocolWithCompound";
+			getPageManager().getProtocolPage().addProtocol(name);
+	
+			boolean created = getPageManager().getProtocolPage().addCompoundToSection(PROCEDURE_SECTION_INDEX);
+			assertTrue("The compound was not created as should be",created);
 			
-			String procedureName = "Procedure2";
-			String newProcedure = getPageManager().getProtocolPage().addNewProcedureToProtocol(procedureName);
-			assertEquals(procedureName, newProcedure);
+			showTableIndex();
+			assertEquals(name,getPageManager().getProtocolPage().openProtocol(name));
+
+			
 		} catch (Exception e) {
-			setLog(e);
+			setLog(e,"addCompoundToSection");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
+	
+
+	@Test (groups = {"basic sanity"}) 
+	public void addNewSectionToDescription() {
+		try {
+			showTableIndex();
+			getPageManager().getProtocolPage().addProtocol("ProtocolWith2Sections");
+			
+			String descName = "Description2";
+			String newDesc = getPageManager().getProtocolPage().addNewSection(DESCRIPTION_SECTION_INDEX,descName);
+			assertEquals(descName, newDesc);
+			
+		} catch (Exception e) {
+			setLog(e);
+ 			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
 	
 
 	@Test (groups = {"basic sanity"})
@@ -394,9 +504,85 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 		try {
 			showTableIndex();
 			getPageManager().getProtocolPage().addProtocol("protocolWithReaction");
-			assertTrue("Adding reaction to protocol procedure description ",getPageManager().getProtocolPage().addReactionToExpProcedure());
+			boolean created = getPageManager().getProtocolPage().addReactionToSection(PROCEDURE_SECTION_INDEX);
+			assertTrue("Adding reaction to experiment results failed",created);
 			
-			assertTrue("Some data are not calculated as should be.. ",getPageManager().getProtocolPage().validateReactionEditingAndCalculating(new String[]{"450","375","185"}));
+			//assertTrue("Some data are not calculated as should be.. ",getPageManager().getProtocolPage().validateReactionEditingAndCalculating(new String[]{"450","375","185"}));
+			
+		} catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Override
+	@Test (groups = {"basic sanity"})
+	public void uploadFile() {
+		try {
+			String attachmentToLoad = LGConstants.UPLOAD_TXT_TEST_FILENAME;
+			showTableIndex();
+			String resource = getPageManager().getProtocolPage().addProtocol("protocolWithFile");
+		
+			getPageManager().getProtocolPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			String pageTitle = getPageManager().getProtocolPage().checkAttachment(resource,2,attachmentToLoad);
+			AssertJUnit.assertEquals(attachmentToLoad,pageTitle);
+			
+		} catch (Exception e) {
+			setLog(e,"uploadFile");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Override
+	@Test (groups = {"basic sanity"})
+	public void deleteAttachment() {
+		try {
+			
+			showTableIndex();
+			getPageManager().getProtocolPage().addProtocol(buildUniqueName(LGConstants.PROTOCOL_PREFIX));
+			getPageManager().getProtocolPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,LGConstants.UPLOAD_TXT_TEST_FILENAME);
+			
+			boolean deleted = getPageManager().getProtocolPage().deleteAttachmentContainer(DESCRIPTION_SECTION_INDEX);
+			Assert.assertTrue(deleted,"Attachment could not be deleted.");
+		} catch (Exception e) {
+			setLog(e,"deleteAttachment");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Override
+	@Test (groups = {"basic sanity"})
+	public void uploadImage() {
+		try {
+			String attachmentToLoad = LGConstants.UPLOAD_IMAGE_TEST_FILENAME;
+			showTableIndex();
+			String resource = getPageManager().getProtocolPage().addProtocol("protocolWithImage");
+			getPageManager().getProtocolPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			String pageTitle =  getPageManager().getProtocolPage().checkAttachment(resource, 1,attachmentToLoad);
+			AssertJUnit.assertEquals(attachmentToLoad,pageTitle);
+			
+			
+		} catch (Exception e) {
+			setLog(e,"uploadImage");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	
+	@Override
+	@Test (groups = {"basic sanity"})
+	public void addTag() {
+		try {
+
+			showTableIndex();
+			getPageManager().getProtocolPage().addProtocol("protocolWithTag");
+			
+			String tagName = buildUniqueName(LGConstants.TAG_PREFIX);
+			String tag = getPageManager().getProtocolPage().addInlineTag(tagName);
+			
+			assertEquals("Tag with name '" + tagName + "' was not craeted as should be.",tagName, tag);
+
+			assertTrue(getPageManager().getProtocolPage().deleteTagFromInlineTags(tagName));
 			
 		} catch (Exception e) {
 			setLog(e);
@@ -406,6 +592,7 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 	
 
 	@Override
+	@Test(enabled = false)
 	public void addTask() {
 		//no implementation for this for protocol - keep empty
 	}
@@ -429,5 +616,5 @@ public class ProtocolsTest {//extends AbstractEnotebookTest{
 	protected AbstractNotebookPage getPage() {
 		return getPageManager().getProtocolPage();
 	}
-*/
+
 }

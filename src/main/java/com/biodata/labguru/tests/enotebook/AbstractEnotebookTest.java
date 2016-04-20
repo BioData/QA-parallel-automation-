@@ -1,9 +1,12 @@
 package com.biodata.labguru.tests.enotebook;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.Assert;
+import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.pages.enotebook.AbstractNotebookPage;
@@ -15,6 +18,110 @@ public abstract class AbstractEnotebookTest extends AbstractLGTest{
 	
 	protected abstract AbstractNotebookPage getPage();
 	
+	protected static final String DESCRIPTION_SECTION_INDEX = "0";
+	protected static final String PROCEDURE_SECTION_INDEX = "1";
+	protected static final String SECOND_PROCEDURE_SECTION_INDEX = "2";
+	
+	
+	@Override
+	@Test (groups = {"basic sanity"})
+	public void addLinkedResource(){
+		
+		try {
+			//before addResource i want to make sure there is at least one experiment as a link resource
+			hasExperiments  = hasExperiments || getPageManager().getExperimentPage().hasList();
+    		if(!hasExperiments ){
+    			getPageManager().getExperimentPage().addNewExperiment("First Experiment");
+    			hasExperiments = true;
+    		}
+    		
+    		showTableIndex();
+    		addNewItem();
+			
+			String linkedRes = getPage().addLinkedResource(LGConstants.EXPERIMENT);
+			
+			AssertJUnit.assertTrue("No resource was linked.",!linkedRes.equals(""));
+		
+		} catch (Exception e) {
+			setLog(e,"addLinkedResource");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Override
+	@Test (groups = {"basic sanity"})
+	public void uploadFile() {
+		try {
+			String attachmentToLoad = LGConstants.UPLOAD_TXT_TEST_FILENAME;
+			showTableIndex();
+			String resource = addNewItem();
+		
+			getPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			String pageTitle = getPage().checkAttachment(resource,2,attachmentToLoad);
+			AssertJUnit.assertEquals(attachmentToLoad,pageTitle);
+			
+		} catch (Exception e) {
+			setLog(e,"uploadFile");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Override
+	@Test (groups = {"basic sanity"})
+	public void deleteAttachment() {
+		try {
+			
+			showTableIndex();
+			addNewItem();
+			getPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,LGConstants.UPLOAD_TXT_TEST_FILENAME);
+			
+			boolean deleted = getPage().deleteAttachmentContainer(DESCRIPTION_SECTION_INDEX);
+			Assert.assertTrue(deleted,"Attachment could not be deleted.");
+		} catch (Exception e) {
+			setLog(e,"deleteAttachment");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Override
+	@Test (groups = {"basic sanity"})
+	public void uploadImage() {
+		try {
+			String attachmentToLoad = LGConstants.UPLOAD_IMAGE_TEST_FILENAME;
+			showTableIndex();
+			String resource = addNewItem();
+			getPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
+			String pageTitle =  getPage().checkAttachment(resource, 1,attachmentToLoad);
+			AssertJUnit.assertEquals(attachmentToLoad,pageTitle);
+			
+			
+		} catch (Exception e) {
+			setLog(e,"uploadImage");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	
+	@Override
+	@Test (groups = {"basic sanity"})
+	public void addTag() {
+		try {
+
+			showTableIndex();
+			addNewItem();
+			
+			String tagName = buildUniqueName(LGConstants.TAG_PREFIX);
+			String tag = getPage().addInlineTag(tagName);
+			
+			assertEquals("Tag with name '" + tagName + "' was not craeted as should be.",tagName, tag);
+
+			assertTrue(getPage().deleteTagFromInlineTags(tagName));
+			
+		} catch (Exception e) {
+			setLog(e);
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
 	
 	@Override
 	public void duplicateItem(){
@@ -85,4 +192,14 @@ public abstract class AbstractEnotebookTest extends AbstractLGTest{
 	}
 
 
+	public String createNewExperimentAndChangeVersion(String expName) throws InterruptedException {
+		
+		getPageManager().getAdminPage().selectExperiments();
+		String name = getPageManager().getExperimentPage().addNewExperiment(expName);
+		//change to version V2
+		getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
+		getPageManager().getAdminPage().discardNotyMessages();
+		closeIridizePopups();
+		return name;
+	}
 }

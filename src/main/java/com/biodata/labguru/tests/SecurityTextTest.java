@@ -42,21 +42,21 @@ public class SecurityTextTest extends BaseTest{
 	}
 	
 	
-	@Test (groups = {"deep"})
-	public void addNewExperimentWithScriptInTextNotSecured(){
-		
-		try {
-			getPageManager().getAdminPage().showRecentResults();
-			
-			String name = getMessageSource().getMessage("script.msg.1",null, Locale.US);
-			assertTrue(getMessageSource().getMessage("script.test.error.msg",null,Locale.US),
-					getPageManager().getExperimentPage().addNewExperimentWithScriptInName(name));
-
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
+//	@Test (groups = {"deep"})
+//	public void addNewExperimentWithScriptInTextNotSecured(){
+//		
+//		try {
+//			getPageManager().getAdminPage().showRecentResults();
+//			
+//			String name = getMessageSource().getMessage("script.msg.1",null, Locale.US);
+//			assertTrue(getMessageSource().getMessage("script.test.error.msg",null,Locale.US),
+//					getPageManager().getExperimentPage().addNewExperimentWithScriptInName(name));
+//
+//		} catch (Exception e) {
+//			setLog(e);
+//			AssertJUnit.fail(e.getMessage());
+//		}
+//	}
 	
 	
 	@Test (groups = {"deep"})

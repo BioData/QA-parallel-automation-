@@ -1,26 +1,15 @@
 package com.biodata.labguru.tests.enotebook;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
-
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
-import org.testng.Assert;
-import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
 
-import com.biodata.labguru.LGConstants;
-import com.biodata.labguru.pages.enotebook.AbstractNotebookPage;
 import com.biodata.labguru.tests.TestOrderRandomizer;
 /**
 **This class will not be in use after moving forward to beta version of experiment***
 */
+@Deprecated
 @Listeners(TestOrderRandomizer.class)
-public class ExperimentTest extends AbstractEnotebookTest {
-	
+public class ExperimentTest {//extends AbstractEnotebookTest {
+/*	
 	private String createNewExperimentAndChangeToCurrentVersion(String expName) throws InterruptedException {
 		
 		showTableIndex();
@@ -409,5 +398,5 @@ public class ExperimentTest extends AbstractEnotebookTest {
 	protected AbstractNotebookPage getPage() {
 		return getPageManager().getExperimentPage();
 	}
-
+*/
 }

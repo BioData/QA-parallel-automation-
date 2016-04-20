@@ -38,10 +38,10 @@ public class SpecialScenariosTest extends BaseTest{
 			getPageManager().getAdminPage().selectExperiments();
 			TimeUnit.SECONDS.sleep(2);
 			String expName = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
-			getPageManager().getExperimentPageV2().addNewExperiment(expName);
-			getPageManager().getExperimentPageV2().changeVersion(LGConstants.EXPERIMENT_CURRENT);
+			getPageManager().getExperimentPage().addNewExperiment(expName);
+			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			String tagName = buildUniqueName(LGConstants.TAG_PREFIX);
-			getPageManager().getAdminPage().addTag(tagName);
+			getPageManager().getExperimentPage().addInlineTag(tagName);
 			
 			boolean succeeded = getPageManager().getAdminPage().searchTagAndSearchByIt(tagName, expName);
 			

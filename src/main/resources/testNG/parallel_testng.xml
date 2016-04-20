@@ -1,13 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
   
-<suite name="Labguru Automation Suite" verbose="1" parallel="classes" thread-count="5">
+<suite name="Labguru Automation Suite" verbose="1">
    <listeners>
         <listener class-name="com.biodata.labguru.CustomListener"/>
     </listeners>
  
 <test  name="Test on Exist Account">
    	<parameter name ="url" value="staging"/>
-   	<parameter name ="user" value="labguru.qa+s_parallel2902"/>
+   	<parameter name ="user" value=" labguru.qa+s_sunfire1304"/>
     <parameter name ="password" value="Test1234"/>
     <parameter name ="newAccount" value="false"/>
     <parameter name ="browser" value="firefox"/>
@@ -23,7 +23,9 @@
 	</groups>	
     <classes> 
 
-     <class name="com.biodata.labguru.tests.knowledgebase.SOPsTest" />
+   	      	 	 <class name="com.biodata.labguru.tests.enotebook.ProjectTest"/>
+              <class name="com.biodata.labguru.tests.enotebook.ProtocolsV2Test" /> 
+        <class name="com.biodata.labguru.tests.enotebook.ExperimentV2Test"/>
 
 
        <!-- 
@@ -36,8 +38,7 @@
 	    <class name="com.biodata.labguru.tests.SpecialScenariosTest" />
 	   
 	      	 	 <class name="com.biodata.labguru.tests.enotebook.ProjectTest"/>
-              <class name="com.biodata.labguru.tests.enotebook.ProtocolsTest" /> 
-           <class name="com.biodata.labguru.tests.enotebook.ExperimentTest"/>
+              <class name="com.biodata.labguru.tests.enotebook.ProtocolsV2Test" /> 
         <class name="com.biodata.labguru.tests.enotebook.ExperimentV2Test"/>
    
 	 

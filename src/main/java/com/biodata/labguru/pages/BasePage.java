@@ -590,7 +590,7 @@ public abstract class BasePage {
 	
 	protected void clickOnResourceLink() throws InterruptedException {
 		
-		WebElement lblLink = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='resources_box']/ul/li/div[2]/a")));
+		WebElement lblLink = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".link_name.ng-binding")));
 		lblLink.click();
 		TimeUnit.SECONDS.sleep(3);
 	}
