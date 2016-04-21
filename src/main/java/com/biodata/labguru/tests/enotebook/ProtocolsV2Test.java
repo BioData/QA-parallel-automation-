@@ -5,10 +5,7 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Locale;
-
-import org.testng.Assert;
 import org.testng.AssertJUnit;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -19,16 +16,7 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class ProtocolsV2Test extends AbstractEnotebookTest{
 	
-	
-	@BeforeClass(alwaysRun = true , dependsOnMethods = "initialize")
-	public void switchToBetaVersion(){
-		try {
-			createNewExperimentAndChangeVersion("My Experiment");
-		} catch (Exception e) {
-			setLog(e,"switchToBetaVersion");
-		}
-	}
-	
+
 	@Test(groups = {"basic sanity"})
 	public void copyProtocolFromProtocolDirectory(){
 		
@@ -109,8 +97,7 @@ public class ProtocolsV2Test extends AbstractEnotebookTest{
 
 	}
 	
-	
-	@Test (groups = {"test"})
+	@Test (groups = {"deep"})
 	public void archiveProtocol() {
 		
 		try {
@@ -189,13 +176,13 @@ public class ProtocolsV2Test extends AbstractEnotebookTest{
 			
 			assertEquals(getMessageSource().getMessage("item.update.versions.footer.msg",new Object[]{currentDate,account},Locale.US),bottomMsg);
 			
-			String versionsTitle = getPageManager().getAdminPage().showVersionHistory();
+			String versionsTitle = getPageManager().getProtocolPage().clickOnVersionHistory();
 			currentDate = getCurrentDateFormatted(LGConstants.VERSIONS_HISTORY_CALENDAR_FORMAT);
 			assertEquals(getMessageSource().getMessage("version.history.title",new Object[]{account,currentDate},Locale.US),
 					versionsTitle.substring(0, versionsTitle.lastIndexOf(' ')));
 			
 		} catch (Exception e) {
-			setLog(e);
+			setLog(e,"createAndUpdateProtocol");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
@@ -236,8 +223,8 @@ public class ProtocolsV2Test extends AbstractEnotebookTest{
 			
 			showTableIndex();
 			addNewItem();
-			
-			assertEquals(getMessageSource().getMessage("protocol.title.has.protocols", null,Locale.US),getPageManager().getProtocolPage().goToProtocols());
+			String title = getPageManager().getProtocolPage().goToProtocols();
+			assertTrue(title.startsWith(getMessageSource().getMessage("protocol.title.has.protocols", null,Locale.US)));
 			
 		} catch (Exception e) {
 			setLog(e,"goToProtocolsListFromProtocol");
@@ -514,81 +501,7 @@ public class ProtocolsV2Test extends AbstractEnotebookTest{
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
-	
-	@Override
-	@Test (groups = {"basic sanity"})
-	public void uploadFile() {
-		try {
-			String attachmentToLoad = LGConstants.UPLOAD_TXT_TEST_FILENAME;
-			showTableIndex();
-			String resource = getPageManager().getProtocolPage().addProtocol("protocolWithFile");
-		
-			getPageManager().getProtocolPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
-			String pageTitle = getPageManager().getProtocolPage().checkAttachment(resource,2,attachmentToLoad);
-			AssertJUnit.assertEquals(attachmentToLoad,pageTitle);
-			
-		} catch (Exception e) {
-			setLog(e,"uploadFile");
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-	@Override
-	@Test (groups = {"basic sanity"})
-	public void deleteAttachment() {
-		try {
-			
-			showTableIndex();
-			getPageManager().getProtocolPage().addProtocol(buildUniqueName(LGConstants.PROTOCOL_PREFIX));
-			getPageManager().getProtocolPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,LGConstants.UPLOAD_TXT_TEST_FILENAME);
-			
-			boolean deleted = getPageManager().getProtocolPage().deleteAttachmentContainer(DESCRIPTION_SECTION_INDEX);
-			Assert.assertTrue(deleted,"Attachment could not be deleted.");
-		} catch (Exception e) {
-			setLog(e,"deleteAttachment");
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-	@Override
-	@Test (groups = {"basic sanity"})
-	public void uploadImage() {
-		try {
-			String attachmentToLoad = LGConstants.UPLOAD_IMAGE_TEST_FILENAME;
-			showTableIndex();
-			String resource = getPageManager().getProtocolPage().addProtocol("protocolWithImage");
-			getPageManager().getProtocolPage().uploadAttachmentToSection(DESCRIPTION_SECTION_INDEX,attachmentToLoad);
-			String pageTitle =  getPageManager().getProtocolPage().checkAttachment(resource, 1,attachmentToLoad);
-			AssertJUnit.assertEquals(attachmentToLoad,pageTitle);
-			
-			
-		} catch (Exception e) {
-			setLog(e,"uploadImage");
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
-	
-	
-	@Override
-	@Test (groups = {"basic sanity"})
-	public void addTag() {
-		try {
 
-			showTableIndex();
-			getPageManager().getProtocolPage().addProtocol("protocolWithTag");
-			
-			String tagName = buildUniqueName(LGConstants.TAG_PREFIX);
-			String tag = getPageManager().getProtocolPage().addInlineTag(tagName);
-			
-			assertEquals("Tag with name '" + tagName + "' was not craeted as should be.",tagName, tag);
-
-			assertTrue(getPageManager().getProtocolPage().deleteTagFromInlineTags(tagName));
-			
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}
 	
 
 	@Override

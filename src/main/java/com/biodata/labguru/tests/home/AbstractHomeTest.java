@@ -28,11 +28,11 @@ public abstract class AbstractHomeTest extends BaseTest{
 		return newProtocol;
 	}
 	
-	
 	protected void deleteProtocolAfterTest(String protocol) throws InterruptedException {
 		//delete the created protocol
 		getPageManager().getAdminPage().showProtocols();
 		getPageManager().getProtocolPage().openProtocol(protocol);
-		getPageManager().getProtocolPage().deleteFromShowPage();
+		getPageManager().getProtocolPage().deleteProtocol();
 	}
+
 }

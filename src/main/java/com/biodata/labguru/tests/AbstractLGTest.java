@@ -8,12 +8,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.biodata.labguru.LGConstants;
 
-@Listeners({TestOrderRandomizer.class})
+@Listeners(TestOrderRandomizer.class)
 public abstract class AbstractLGTest extends BaseTest{
 	
 	protected static boolean hasExperiments = false;
@@ -22,6 +23,23 @@ public abstract class AbstractLGTest extends BaseTest{
 	protected abstract String addNewItem() throws InterruptedException ;
 	
 	protected abstract String showModule();
+	
+	//TODO - remove this after switching to beta version 
+	@BeforeClass(alwaysRun = true , dependsOnMethods = "initialize")
+	public void switchToBetaVersion(){
+		try {
+			//before starting i want to make sure there is at least one experiment in beta versuion
+			hasExperiments  = hasExperiments || getPageManager().getExperimentPage().hasList();
+    		if(!hasExperiments ){
+    			getPageManager().getExperimentPage().addNewExperiment("First Experiment");
+    			//change to version V2
+    			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
+    			hasExperiments = true;
+    		}
+		} catch (Exception e) {
+			setLog(e,"switchToBetaVersion");
+		}
+	}
 	
 	protected String showTableIndex() {
 		String pageTitle = showModule();	
@@ -93,17 +111,11 @@ public abstract class AbstractLGTest extends BaseTest{
 		}
 	}
 	
-	@Test (groups = {"test"})
+	@Test (groups = {"deep"})
 	public void addLinkedResource(){
 		
 		try {
-			//before addResource i want to make sure there is at least one experiment as a link resource
-			hasExperiments  = hasExperiments || getPageManager().getExperimentPage().hasList();
-    		if(!hasExperiments ){
-    			getPageManager().getExperimentPage().addNewExperiment("First Experiment");
-    			hasExperiments = true;
-    		}
-    		
+
 			showTableIndex();
 			addNewItem();
 			
@@ -117,7 +129,7 @@ public abstract class AbstractLGTest extends BaseTest{
 		}
 	}
 	
-	@Test (groups = {"test"})
+	@Test (groups = {"deep"})
 	public void uploadFile() {
 		try {
 			

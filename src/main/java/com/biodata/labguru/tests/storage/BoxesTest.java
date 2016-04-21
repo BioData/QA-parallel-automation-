@@ -103,7 +103,7 @@ public class BoxesTest extends AbstractStoragesTest{
 			
 			showTableIndex();
 			String tagName = buildUniqueName("BoxTag");
-			boolean succeeded = getPageManager().getAdminPage().addTagFromIndexTable(tagName,boxesToTag);
+			boolean succeeded = getPageManager().getBoxPage().addTagFromIndexTable(tagName,boxesToTag);
 			
 			AssertJUnit.assertTrue("Tag was not craeted as should be.",succeeded);
 			

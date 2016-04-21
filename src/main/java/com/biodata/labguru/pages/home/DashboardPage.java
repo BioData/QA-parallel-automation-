@@ -5,9 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.biodata.labguru.pages.AdminPage;
@@ -16,13 +14,8 @@ import com.biodata.labguru.pages.AdminPage;
 public class DashboardPage extends AdminPage{
 	
 	private final String ALL_TASKS_BREADCRUMBS = "all tasks";
-	
-	@Override
-	protected  void initPage(WebDriver webDriver) {
-		
-		PageFactory.initElements(webDriver, DashboardPage.class);
-
-	}
+	private final String LOW_STOCK_ALERTS_BLOCK_ID = "threshold_alerts_block";
+	private final String TASKS_BLOCK_ID = "tasks";
 
 	public String inviteMembers(String member) {
 
@@ -37,7 +30,7 @@ public class DashboardPage extends AdminPage{
 		return msg;
 	
 	}
-	
+
 	/**
 	 * Open the page that shows all tasks
 	 * @return true if found the all tasks breadcrumbs
@@ -91,6 +84,7 @@ public class DashboardPage extends AdminPage{
         return true;
 	}
 	
+	
 	/**
 	 * only invoked after clicking 'all tasks' to get to the all tasks page
 	 */
@@ -121,7 +115,7 @@ public class DashboardPage extends AdminPage{
     		
 		}
 	}
-	
+
 	public String checkLowStockAlerts() {
 		
 		showDashboard();
@@ -134,5 +128,4 @@ public class DashboardPage extends AdminPage{
 		}
 		
 	}
-
 }
