@@ -208,12 +208,10 @@ public class SOPPage extends DocumentPage{
 		//first archive sop
 		WebElement btnArchive = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='doctools']/ul/li[2]/a")));
 		btnArchive.click();
-	
-		//remove first message
-		checkForNotyMessage();
-		
+		TimeUnit.SECONDS.sleep(1);
 		//click on 'activate' link
-		getWebDriver().findElement(By.xpath(".//*[@class='noty_text']/a")).click();
+		WebElement message = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text>a")));
+		message.click();
 
 		TimeUnit.SECONDS.sleep(2);
 
