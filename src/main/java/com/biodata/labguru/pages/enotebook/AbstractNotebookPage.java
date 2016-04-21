@@ -26,7 +26,7 @@ import com.biodata.labguru.pages.IListView;
 public abstract class AbstractNotebookPage extends AdminPage implements IListView{
 
 	
-	protected static final String REVERT_SIGNATURE = "Revert Signature";
+	protected static final String REVERT_SIGNATURE = "Revert signature";
 	protected static final String SIGNED_BY = "Signed by";
 	
 	public abstract String getPageTitleXPath();
@@ -69,7 +69,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 	
 	protected boolean clickOnUpperMenuAction(String actionId) throws InterruptedException {
 		
-		WebElement action = getWebDriver().findElement(By.xpath(".//*[@id='more_actions']/ul/li[@id='" + actionId + "']"));	
+		WebElement action = getWebDriver().findElement(By.xpath(".//*[@id='more_actions']/ul/li[@id='" + actionId + "']/a"));	
 		executeJavascript("arguments[0].click();",action);
 		TimeUnit.SECONDS.sleep(1);
 		return true;
@@ -105,7 +105,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		
 		List<WebElement> inlineTags = getWebDriver().findElements(By.xpath(".//*[@class='inline_tags']/inline-tag"));
 		for (int i = 1; i <= inlineTags.size(); i++) {
-			WebElement lblTag = getWebDriver().findElement(By.xpath(".//*[@class='inline_tags']/inline-tag[" + i  + "]/span"));
+			WebElement lblTag = getWebDriver().findElement(By.xpath(".//*[@class='inline_tags']/inline-tag[" + i  + "]/span/a"));
 			if(lblTag.getText().equals(tagName)){
 				//click on the link to the tag
 				lblTag.click();
@@ -155,7 +155,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		List<WebElement> inlineTags = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.xpath(".//*[@class='inline_tags']/inline-tag")));
 		for (int i = 1; i <= inlineTags.size(); i++) {
-			WebElement tag = getWebDriver().findElement(By.xpath(".//*[@class='inline_tags']/inline-tag[" + i  + "]/span"));
+			WebElement tag = getWebDriver().findElement(By.xpath(".//*[@class='inline_tags']/inline-tag[" + i  + "]/span/a"));
 			if(tag.getText().equals(tagName)){
 				//delete the tag
 				getWebDriver().findElement(By.xpath(".//*[@class='inline_tags']/inline-tag[" + i  + "]/span/i")).click();
@@ -183,12 +183,13 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		
 		clickOnUpperMenuAction(duplicateActionId);	
 		TimeUnit.SECONDS.sleep(2);
-		WebElement duplicateBtn = getWebDriver().findElement(By.xpath(".//*[@id='do_print']"));
+		getWebDriver().switchTo().activeElement();
+		WebElement duplicateBtn = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("do_print")));
 		duplicateBtn.click();
 		TimeUnit.SECONDS.sleep(2);
 		switchToNewTab();
 		checkForNotyMessage();
-		
+		getWebDriver().switchTo().activeElement();
 		WebElement title = getWebDriver().findElement(By.xpath(getPageTitleXPath()));
 	    String newName = title.getText();
 		return newName;
@@ -275,7 +276,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		String script = "var spread = $('#section_" + sectionIndex + ">.excel_element').find('.excel').wijspread('spread');"
 				+ "var sheet = spread.getActiveSheet();"
 				+ "var cell = sheet.getCell(1,1);"
-				+ "cell.value('" + data + "');";	
+				+ "cell.value(\"" + data + "\");";	
 		executeJavascript(script);
 		
 	}
@@ -837,10 +838,24 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		return getWebDriver().getTitle();
 	}
 	
-	
 	public String addTextToSection(String sectionIndex,String descToTest) throws InterruptedException {
 
 		return addText(sectionIndex, descToTest);
+	}
+	
+
+	public String clickOnVersionHistory() throws InterruptedException{
+		
+		//select view version historyfrom menu
+		clickOnUpperMenuAction(viewVersionsActionId);	
+		TimeUnit.SECONDS.sleep(2);
+		switchToNewTab();
+		
+		WebElement titleElm = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='main-content']/div/lg-versions/div[1]/h3")));
+		String title = titleElm.getText();
+		
+		return title;
 	}
 	
 	
