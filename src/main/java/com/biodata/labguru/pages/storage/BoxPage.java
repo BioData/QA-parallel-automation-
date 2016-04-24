@@ -14,7 +14,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.model.Stock;
 import com.biodata.labguru.pages.ITableView;
@@ -830,14 +829,14 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 			//find the index for 'box name' header
 			int headerIndex = searchForColumnIndex(BOX_NAME_HEADER_ID);
 			int count = 0;
-			WebElement name = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-					(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[2]/p[2]/a")));
+			WebElement boxName = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+					(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td["+ headerIndex + "]/p[2]/a")));
 			
-			if(itemsToTag.contains(name.getText())){
+			if(itemsToTag.contains(boxName.getText())){
 				WebElement chekbox = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[1]/input"));
 				chekbox.click();
 				TimeUnit.SECONDS.sleep(1);
-				items.remove(name.getText());
+				items.remove(boxName.getText());
 				allItemsChecked--;
 			}
 		}
@@ -866,5 +865,4 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		
 		return items.size() == 0;
 	}
-
 }
