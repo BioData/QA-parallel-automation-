@@ -303,6 +303,8 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		TimeUnit.SECONDS.sleep(1);
 		saveSection(newSectionIndex);//the new section should be saved (index+1)		
 		
+		refreshPage();
+		waitForPageCompleteLoading();
 		String text = getSavedSectionTitle(newSectionIndex);
 
 		return text;
