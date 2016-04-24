@@ -17,6 +17,22 @@ public abstract class AbstractHomeTest extends BaseTest{
 		
 		getPageManager().getAdminPage().discardNotyMessages();
 	}
+	
+	
+	//TODO - remove this after switching to beta version 
+	@BeforeClass(alwaysRun = true , dependsOnMethods = "initialize")
+	public void switchToBetaVersion(){
+		try {
+			//before starting i want to make sure there is at least one experiment in beta versuion
+    		if(!getPageManager().getExperimentPage().hasList() ){
+    			getPageManager().getExperimentPage().addNewExperiment("First Experiment");
+    			//change to version V2
+    			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
+    		}
+		} catch (Exception e) {
+			setLog(e,"switchToBetaVersion");
+		}
+	}
 
 	@Test (groups = {"basic sanity"})
 	public abstract void showMenu();
