@@ -175,9 +175,15 @@ public final class GenericHelper {
 		return r.nextInt((max - min) + 1) + min;
 	}
     
-    public static String checkMail() throws Exception{
+    /**
+     * Go over the gmail account labguru.qa@gmail.com to look for the notification we send from the labguru application.
+     * Get all the inbox messages and take the subject content.
+     * @return true if the given message to search is found.
+     * @throws Exception
+     */
+    public static boolean checkMail(String msgToSearch) throws Exception{
     	
-    	String msg = "";
+    	boolean found = false;
     	
 
 		//create properties field
@@ -207,17 +213,22 @@ public final class GenericHelper {
 		
 		for (int i = 0, n = messages.length; i < n; i++) {
 			Message message = messages[i];
-			msg = message.getSubject();
+			String msg = message.getSubject();
 			System.out.println("Subject: " + msg);
 			message.setFlag(Flag.DELETED, true);
+			//the message we look for is found
+			if(msg.equals(msgToSearch))
+				found = true;
+			
 		}
 		emailFolder.expunge();
 	
 		//close the store and folder objects
 		emailFolder.close(true);
 		store.close();
-    	return msg;
+    	return found;
     }
+
 
 }
 

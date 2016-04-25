@@ -35,9 +35,7 @@ public class StocksTest extends AbstractStoragesTest{
 	public void exportAllStocks(){
 
 		try {
-			//check the mail and delete its content befor starting the test
-			GenericHelper.checkMail();
-			
+
 			getPageManager().getAdminPage().showBoxes();
 			
 			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
@@ -54,8 +52,9 @@ public class StocksTest extends AbstractStoragesTest{
 			//wait for mail to get to gmail inbox
 			TimeUnit.SECONDS.sleep(5);
 			
-			String msg = GenericHelper.checkMail();
-			Assert.assertEquals(msg,getMessageSource().getMessage("gmail.export.subject",null, Locale.US));
+			String msg = getMessageSource().getMessage("gmail.export.subject",null, Locale.US);
+			boolean foundMsg = GenericHelper.checkMail(msg);
+			Assert.assertTrue(foundMsg,"No notification appeared in inbox with subject: " + msg);
 			
 		} catch (Exception e) {
 			setLog(e,"exportAllStocks");

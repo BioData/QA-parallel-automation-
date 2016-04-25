@@ -80,9 +80,6 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 
 		try {
 			
-			//check the mail and delete its content befor starting the test
-			GenericHelper.checkMail();
-			
 			showTableIndex();
 			
 			if(!getPage().hasList()){
@@ -96,8 +93,10 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 			Assert.assertTrue(exportMsg.equals(getMessageSource().getMessage("export.submitted.message",null, Locale.US)));
 			//wait for mail to get to gmail inbox
 			TimeUnit.SECONDS.sleep(5);
-			String msg = GenericHelper.checkMail();
-			Assert.assertEquals(msg,getMessageSource().getMessage("gmail.export.subject",null, Locale.US));
+			
+			String msg = getMessageSource().getMessage("gmail.export.subject",null, Locale.US);
+			boolean foundMsg = GenericHelper.checkMail(msg);
+			Assert.assertTrue(foundMsg,"No notification appeared in inbox with subject: " + msg);
 			
 		} catch (Exception e) {
 			setLog(e,"exportAllItems");
