@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.biodata.labguru.pages.AdminPage;
 
@@ -38,7 +39,8 @@ public class RecentResultsPage extends AdminPage {
 	public boolean checkSignedExperimentInList(String name) {
 		showRecentResults();
 		
-		List<WebElement> signedExperiments = getWebDriver().findElements(By.xpath(".//*[@id='right-sidebar']/div[1]/ul/li"));
+		List<WebElement> signedExperiments = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='right-sidebar']/div[1]/ul/li")));
 		for (int i = 1; i <= signedExperiments.size(); i++) {
 			WebElement exp = getWebDriver().findElement(By.xpath(".//*[@id='right-sidebar']/div[1]/ul/li[" + i + "]/a"));
 			if(exp.getText().equals(name))
