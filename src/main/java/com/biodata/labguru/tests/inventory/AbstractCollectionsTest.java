@@ -75,6 +75,36 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 		}
 	}
 	
+	@Test (groups = {"knownBugs"})//LAB-1261
+	public void exportAllItems(){
+
+		try {
+			
+			//check the mail and delete its content befor starting the test
+			GenericHelper.checkMail();
+			
+			showTableIndex();
+			
+			if(!getPage().hasList()){
+				addNewItem();
+			}
+			showTableIndex();
+			
+			String exportMsg = getPage().export(null/*all*/);
+			
+			//export should be generated
+			Assert.assertTrue(exportMsg.equals(getMessageSource().getMessage("export.submitted.message",null, Locale.US)));
+			//wait for mail to get to gmail inbox
+			TimeUnit.SECONDS.sleep(5);
+			String msg = GenericHelper.checkMail();
+			Assert.assertEquals(msg,getMessageSource().getMessage("gmail.export.subject",null, Locale.US));
+			
+		} catch (Exception e) {
+			setLog(e,"exportAllItems");
+			Assert.fail(e.getMessage());
+		}
+	}
+	
 	@Test (groups = {"deep"})
 	public void checkCustomizeTableView(){
 		

@@ -1,12 +1,14 @@
 package com.biodata.labguru.tests.storage;
 
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.model.Stock;
 import com.biodata.labguru.tests.TestOrderRandomizer;
@@ -29,6 +31,37 @@ public class StocksTest extends AbstractStoragesTest{
 		}
 	}
 	
+	@Test (groups = {"deep"})
+	public void exportAllStocks(){
+
+		try {
+			//check the mail and delete its content befor starting the test
+			GenericHelper.checkMail();
+			
+			getPageManager().getAdminPage().showBoxes();
+			
+			String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
+			getPageManager().getBoxPage().addNewBox(newBox,"1");		
+			getPageManager().getBoxPage().addStock("stock", 2);
+			
+			getPageManager().getAdminPage().showStocks();
+			
+			String exportMsg = getPageManager().getStockPage().export(null/*all*/);
+			
+			//export should be generated
+			Assert.assertTrue(exportMsg.equals(getMessageSource().getMessage("export.submitted.message",null, Locale.US)));
+	
+			//wait for mail to get to gmail inbox
+			TimeUnit.SECONDS.sleep(5);
+			
+			String msg = GenericHelper.checkMail();
+			Assert.assertEquals(msg,getMessageSource().getMessage("gmail.export.subject",null, Locale.US));
+			
+		} catch (Exception e) {
+			setLog(e,"exportAllStocks");
+			Assert.fail(e.getMessage());
+		}
+	}
 	
 	@Test(groups = {"basic sanity"})
 	public void editStock(){

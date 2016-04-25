@@ -6,8 +6,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
+import javax.mail.Flags.Flag;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Store;
 
 import jxl.Cell;
 import jxl.Workbook;
@@ -167,6 +174,50 @@ public final class GenericHelper {
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
+    
+    public static String checkMail() throws Exception{
+    	
+    	String msg = "";
+    	
+
+		//create properties field
+		String host = "imap.gmail.com";
+		String username = "labguru.qa@gmail.com";
+		String password = "labguru 2015";
+
+		//create properties field
+		Properties properties = new Properties();
+
+		properties.put("mail.imap.host", host);
+		properties.put("mail.imap.ssl.enable", "true");
+		Session emailSession = Session.getInstance(properties);
+
+		//create the POP3 store object and connect with the pop server
+		Store store = emailSession.getStore("imap");
+
+		store.connect(host, username, password);
+
+		//create the folder object and open it
+		Folder emailFolder = store.getFolder("INBOX");
+		emailFolder.open(Folder.READ_WRITE);
+
+		// retrieve the messages from the folder in an array and print it
+		Message[] messages = emailFolder.getMessages();
+		
+		
+		for (int i = 0, n = messages.length; i < n; i++) {
+			Message message = messages[i];
+			msg = message.getSubject();
+			System.out.println("Subject: " + msg);
+			message.setFlag(Flag.DELETED, true);
+		}
+		emailFolder.expunge();
+	
+		//close the store and folder objects
+		emailFolder.close(true);
+		store.close();
+    	return msg;
+    }
 
 }
 

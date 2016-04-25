@@ -298,5 +298,35 @@ public class StockPage extends BaseStoragePage implements ITableView{
 
 	
 	}
+	
+	/**
+	 * Export all stocks in the list. If list is NULL - export all.
+	 * @param stocksToExport -list of stocks names to export or NULL if export all stocks
+	 * @return noty message
+	 * @throws InterruptedException
+	 */
+	public String export(List<String> stocksToExport) throws InterruptedException {
+		
+		if(stocksToExport == null){//select all
+			WebElement checkAll = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("check_all")));
+			checkAll.click();
+			TimeUnit.SECONDS.sleep(1);
+		}else{
+			for (String stockName : stocksToExport) {
+				selectStockFromList(stockName);
+			}
+		}
+		WebElement wheel = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("index_cog")));
+		wheel.click();
+		TimeUnit.SECONDS.sleep(1);
+		WebElement btnExport = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("export_link")));
+		btnExport.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+		String msg = checkForNotyMessage();
+		TimeUnit.SECONDS.sleep(2);
+		return msg;
+	}
+
 
 }

@@ -665,5 +665,55 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		TimeUnit.SECONDS.sleep(1); 
 		
 	}
+	
+	/**
+	 * Export all items in the list. If list is NULL - export all.
+	 * @param itemsToExport -list of stocks names to export or NULL if export all items
+	 * @return noty message 
+	 * @throws InterruptedException
+	 */
+	public String export(List<String> itemsToExport) throws InterruptedException {
+		
+		if(itemsToExport == null){//select all
+			WebElement checkAll = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("check_all")));
+			checkAll.click();
+			TimeUnit.SECONDS.sleep(1);
+		}else{
+			for (String itemName : itemsToExport) {
+				selectItemInIndexTable(itemName);
+			}
+		}
+		WebElement wheel = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("index_cog")));
+		wheel.click();
+		TimeUnit.SECONDS.sleep(1);
+		WebElement btnExport = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("export_link")));
+		btnExport.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+		String msg = checkForNotyMessage();
+		TimeUnit.SECONDS.sleep(2);
+		return msg;
+	}
+
+	private void selectItemInIndexTable(String itemName) throws InterruptedException {
+		
+		//find the specific item and click its checkbox
+		invokeSearchInCollection(itemName);
+		List<WebElement> stocks = getWebDriver().findElements(By.xpath(".//*[@id='index_table']/tbody/tr"));
+		for (int i = 2; i <= stocks.size(); i++) {
+			WebElement selectedStock = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr["+i+"]/td[3]/a"));
+			String name = selectedStock.getText();
+			if(name.equals(itemName)){
+				
+				WebElement chkBox = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr["+i+"]/td[1]/input"));
+				chkBox.click();
+				TimeUnit.SECONDS.sleep(1);
+				break;
+			}		
+		}
+	
+		
+	}
+
 
 }
