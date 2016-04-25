@@ -74,13 +74,13 @@ public class PrimersTest extends SequenceableCollectionTest{
 	}
 	
 	
-	@Test (groups = {"deep"})
+	@Test (groups = {"deep"})//LAB-1206
 	public void setThresholdFromStocksTab(){
 		
 		try {
 			
 			showTableIndex();
-			addNewItem();
+			String itemName = addNewItem();
 			
 			TimeUnit.SECONDS.sleep(3);
 			
@@ -92,11 +92,15 @@ public class PrimersTest extends SequenceableCollectionTest{
 
 			Assert.assertEquals("Threshold of " +  stockCountForThreshold + " stocks minimum is set. Currently there is only 1 available stock",statusMsg);
 		
-			statusMsg = getPage().setThreshold("1");
-			Assert.assertEquals(statusMsg,"Threshold of 1 stocks minimum is set.");
-			
-			//TODO - check update status in dashboard
+			//look for dashboard notification under 'Low Stuck Alerts' section - should be '1'
+			Assert.assertEquals(getPageManager().getDashboardPage().checkLowStockAlerts(itemName),itemName);
+			getPageManager().getAdminPage().goToRecentlyViewed();
+			getPage().addStockFromStocksTab(stockName, LGConstants.STOCK_TYPES_ARRAY[1]);
+			statusMsg = getPage().getThresholdStatus();
+			Assert.assertEquals(statusMsg,"Threshold of 2 stocks minimum is set.");
 		
+			//look for dashboard notification under 'Low Stuck Alerts' section - should be '0'
+			Assert.assertEquals(getPageManager().getDashboardPage().checkLowStockAlerts(itemName),"");
 			
 		} catch (Exception e) {
 			setLog(e,"setThresholdFromStocksTab");
@@ -105,7 +109,7 @@ public class PrimersTest extends SequenceableCollectionTest{
 	}
 	
 	@Test (groups = {"deep"})
-	public void checkThresholdStatusInStocksTab(){
+	public void checkThresholdStatusInStocksTabAddRemoveStocks(){
 		
 		try {
 			

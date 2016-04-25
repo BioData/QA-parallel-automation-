@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -116,16 +115,19 @@ public class DashboardPage extends AdminPage{
 		}
 	}
 
-	public String checkLowStockAlerts() {
+	public String checkLowStockAlerts(String itemName) {
 		
 		showDashboard();
-		try {
-			WebElement numberAlert = getWebDriver().findElement(By.cssSelector(".overdue-tasks-counter.fright"));
-			return numberAlert.getText();
-		} catch (NoSuchElementException e) {
-			//alert number not found
-			return "";
-		}
 		
+		List<WebElement> items = getWebDriver().findElements(By.xpath(".//*[@id='threshold_alerts_block']/ul/li"));
+		for (int i = 1; i <= items.size(); i++) {
+			WebElement name = getWebDriver().findElement(By.xpath(".//*[@id='threshold_alerts_block']/ul/li[" + i + "]/a"));
+			if(name.getText().equals(itemName)){
+				return itemName;
+			}		
+		}
+		//alert not found
+		return "";
+	
 	}
 }

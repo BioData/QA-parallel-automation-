@@ -263,14 +263,15 @@ public class DashboardTest extends AbstractHomeTest{
 		}
 	}
 	
-	@Test(groups = {"knownBugs"})//LAB-1206
-	public void checkLowStockAlerts(){
+	@Test(groups = {"knownBugs"})//LAB-1245
+	public void checkLowStockAlertsChangeThreshold(){
 		
 		try {
 			
 			getPageManager().getAdminPage().showPlasmids();
 			
-			getPageManager().getPlasmidsPage().addNewItem(buildUniqueName(LGConstants.PLASMID_PREFIX));
+			String itemName = buildUniqueName(LGConstants.PLASMID_PREFIX);
+			getPageManager().getPlasmidsPage().addNewItem(itemName);
 			
 			TimeUnit.SECONDS.sleep(3);
 			
@@ -280,12 +281,12 @@ public class DashboardTest extends AbstractHomeTest{
 			
 			getPageManager().getPlasmidsPage().setThreshold("2");
 			//look for dashboard notification under 'Low Stuck Alerts' section - should be '1'
-			Assert.assertEquals(getPageManager().getDashboardPage().checkLowStockAlerts(),"1");
+			Assert.assertEquals(getPageManager().getDashboardPage().checkLowStockAlerts(itemName),itemName);
 		
 			getPageManager().getAdminPage().goToRecentlyViewed();
 			getPageManager().getPlasmidsPage().setThreshold("1");
 			//look again in the dashboard to see that notification is gone
-			Assert.assertEquals(getPageManager().getDashboardPage().checkLowStockAlerts(),"");
+			Assert.assertEquals(getPageManager().getDashboardPage().checkLowStockAlerts(itemName),"");
 			
 			
 		} catch (Exception e) {

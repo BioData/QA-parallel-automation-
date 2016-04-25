@@ -644,9 +644,16 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 			chkNotification.click();
 		TimeUnit.SECONDS.sleep(1);
 		
-		WebElement submit = getWebDriver().findElement(By.xpath(".//*[@value='Subscribe']"));
-		submit.click();
+		WebElement subscribe = getWebDriver().findElement(By.id("subscribe_to_threshold"));
+		subscribe.click();
 		TimeUnit.SECONDS.sleep(2);
+		
+		return getThresholdStatus();
+	}
+	
+	public String getThresholdStatus() throws InterruptedException{
+		
+		selectStocksTab();
 		
 		WebElement thresholdStatus = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='threshold_status']/span")));
 		String thresholdStatusMsg = thresholdStatus.getText();
