@@ -148,6 +148,7 @@ public class DashboardTest extends AbstractHomeTest{
 			String expName = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
 			
 			getPageManager().getDashboardPage().addNewExperiment(expName);
+			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			getPageManager().getAdminPage().showDashboard();
 			
 			String recentlyViewed = getPageManager().getAdminPage().searchInRecentlyViewedList(expName);
@@ -186,6 +187,7 @@ public class DashboardTest extends AbstractHomeTest{
 			
 			String expName = "Experiment from Dashboard";
 			String pageTitle = getPageManager().getDashboardPage().addNewExperiment(expName);
+			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			Assert.assertEquals(expName, pageTitle);
 		
 		} catch (Exception e) {
