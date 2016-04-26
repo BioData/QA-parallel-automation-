@@ -259,7 +259,7 @@ public class ProjectTest extends AbstractLGTest{
 			logger.info("creating experiment from protocol");
 			checkCreateExpFromProtocolFromDropdown(protocol);
 			//changing experiment to current version since it opens by default on beta version
-			getPageManager().getProjectPage().changeVersion(LGConstants.EXPERIMENT_CURRENT);
+			getPageManager().getProjectPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			//back to the folder
 			logger.info("back to folder");
 			getPageManager().getProjectPage().goToRecentlyViewed(folder);

@@ -27,6 +27,7 @@ public class RecentResultsTest extends AbstractHomeTest{
 			
 			getPageManager().getAdminPage().selectFromExperimentDropdown(LGConstants.NEW_EXP_FROM_PROTOCOL);
 			getPageManager().getExperimentPage().createExperimentFromSelectedProtocol(protocol);
+			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			// Check that the protocol is linked to this experiment
 			boolean linked = getPageManager().getExperimentPage().checkLinkedResources(protocol);
 			assertTrue(linked);

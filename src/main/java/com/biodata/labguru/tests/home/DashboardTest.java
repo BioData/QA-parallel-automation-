@@ -237,6 +237,7 @@ public class DashboardTest extends AbstractHomeTest{
 		try {
 			getPageManager().getAdminPage().showDashboard();
 			getPageManager().getDashboardPage().addNewExperiment(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
+			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			getPageManager().getAdminPage().showDashboard();
 			getPageManager().getDashboardPage().addNewExperiment(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
 			String found = getPageManager().getAdminPage().searchFromElasticSearch(LGConstants.EXPERIMENT_PREFIX);
@@ -253,7 +254,7 @@ public class DashboardTest extends AbstractHomeTest{
 		try {
 			getPageManager().getAdminPage().showDashboard();
 			getPageManager().getDashboardPage().addNewExperiment(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
-			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_CURRENT);
+			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			getPageManager().getDashboardPage().uploadFile();
 			String text = getPageManager().getAdminPage().searchTextFromAttachment(LGConstants.SEARCH_TEXT);
 			Assert.assertEquals(text, LGConstants.UPLOAD_TXT_TEST_FILENAME);
