@@ -47,6 +47,7 @@
        <class name="com.biodata.labguru.tests.storage.CryogenicCanesTest"/>	
        <class name="com.biodata.labguru.tests.storage.StoragesTest"/>
        <class name="com.biodata.labguru.tests.storage.EquipmentTest" />
+       <class name="com.biodata.labguru.tests.storage.PlatesTest" />
    
        <class name="com.biodata.labguru.tests.knowledgebase.RecipesTest" />
        <class name="com.biodata.labguru.tests.knowledgebase.DocumentsTest" />
