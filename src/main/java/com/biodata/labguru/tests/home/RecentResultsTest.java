@@ -107,6 +107,7 @@ public class RecentResultsTest extends AbstractHomeTest{
 			
 			String expName = "Experiment from Recent Results";
 			String pageTitle = getPageManager().getRecentResultsPage().addNewExperiment(expName);
+			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			Assert.assertEquals(expName, pageTitle);
 		
 		} catch (Exception e) {
