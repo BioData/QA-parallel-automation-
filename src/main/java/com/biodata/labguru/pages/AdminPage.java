@@ -425,6 +425,14 @@ public class AdminPage extends BasePage{
 		return getWebDriver().getTitle();
 	}
 
+	
+	public String showPlates() {
+		
+        selectDropDownMenuById("plates_menu");
+		driverWait.until(ExpectedConditions.titleIs(getWebDriver().getTitle()));
+
+		return getWebDriver().getTitle();
+	}
 
 	public String showCryogenicCanes() {
 			

@@ -22,7 +22,6 @@ import com.biodata.labguru.pages.ITableView;
 public class BoxPage extends BaseStoragePage implements ITableView{
 	
 	private static final String EDIT_SELECTED_BOX_VIEW_ID = "edit_selected_box_view";
-	private static final String ID_ATTR = "id";
 	public static final String BOX_NAME_HEADER_ID = "box_name";
 	private static final String STOCK_COUNT_HEADER_ID = "stock_count";
 	
@@ -173,25 +172,6 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		return count;
 	}
 	
-	/**
-	 * Find the index of the given column name
-	 * @return
-	 * @throws InterruptedException 
-	 */
-	private int searchForColumnIndex(String headerName) throws InterruptedException {
-		
-		TimeUnit.SECONDS.sleep(3);
-		List<WebElement> headers = getWebDriver().findElements(By.xpath(".//*[@id='index_table']/tbody/tr[1]/th"));
-		int  headerIndex= 2;
-		for ( ;headerIndex <= headers.size(); headerIndex++) {
-			WebElement elem = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[1]/th[" + headerIndex +"]"));
-			String header = elem.getAttribute(ID_ATTR);
-			if(header.equals(headerName)){
-				return headerIndex;
-			}
-		}
-		return -1;//table not exist
-	}
 	
 	public void invokeSearchInBoxes(String itemToSearch) {
 			

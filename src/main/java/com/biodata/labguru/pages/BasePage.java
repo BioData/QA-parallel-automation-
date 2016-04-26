@@ -875,5 +875,25 @@ public abstract class BasePage {
         }
 
     }
+	
+	/**
+	 * Find the index of the given column name
+	 * @return
+	 * @throws InterruptedException 
+	 */
+	protected int searchForColumnIndex(String headerName) throws InterruptedException {
+		
+		TimeUnit.SECONDS.sleep(3);
+		List<WebElement> headers = getWebDriver().findElements(By.xpath(".//*[@id='index_table']/tbody/tr[1]/th"));
+		int  headerIndex= 2;
+		for ( ;headerIndex <= headers.size(); headerIndex++) {
+			WebElement elem = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[1]/th[" + headerIndex +"]"));
+			String header = elem.getAttribute("id");
+			if(header.equals(headerName)){
+				return headerIndex;
+			}
+		}
+		return -1;//table not exist
+	}
 
 }

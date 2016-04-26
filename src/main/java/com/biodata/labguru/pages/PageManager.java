@@ -48,6 +48,7 @@ import com.biodata.labguru.pages.knowledgebase.SOPPage;
 import com.biodata.labguru.pages.storage.BoxPage;
 import com.biodata.labguru.pages.storage.CryogenicCanePage;
 import com.biodata.labguru.pages.storage.EquipmentPage;
+import com.biodata.labguru.pages.storage.PlatePage;
 import com.biodata.labguru.pages.storage.StockPage;
 import com.biodata.labguru.pages.storage.StoragePage;
 
@@ -85,6 +86,7 @@ public class PageManager  {
 		stockPage = new StockPage();
 		equipmentPage = new EquipmentPage();
 		storagePage = new StoragePage();
+		platePage = new PlatePage();
 
 		projectPage = new ProjectPage();
 		protocolPage = new ProtocolPageV2();
@@ -254,6 +256,8 @@ public class PageManager  {
 
 
 	private StoragePage storagePage;
+
+	private PlatePage platePage;
 
 
 	private EquipmentPage equipmentPage;
@@ -469,6 +473,10 @@ public class PageManager  {
 
 	public StockPage getStockPage() {
 		return stockPage;
+	}
+	
+	public PlatePage getPlatePage() {
+		return platePage;
 	}
 
 	public PaperPage getPaperPage() {
