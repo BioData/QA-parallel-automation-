@@ -347,7 +347,9 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='index-header']/h1")));
 		invokeSearchInStocks(LGConstants.IMPORTED_STOCK_NAME);
 		openStockFromList(LGConstants.IMPORTED_STOCK_NAME);
-		return getWebDriver().findElement(By.id("page-title")).getText();
+		WebElement pageTitle = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
+		String title = pageTitle.getText();
+		return title;
 	}
 
 }
