@@ -98,7 +98,7 @@ public class AccountSettingsPage extends AdminPage{
 	
 	public String addPaymentMethod() throws InterruptedException{
 		
-		WebElement btnSetPayment = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='billing_cont']/p[2]/input[@value='Set Payment Method']")));
+		WebElement btnSetPayment = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("set_payment_method")));
 		btnSetPayment.click();
 		TimeUnit.SECONDS.sleep(1);
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-content>div>h1")));
@@ -154,7 +154,7 @@ public class AccountSettingsPage extends AdminPage{
 			TimeUnit.SECONDS.sleep(1);
 		}
 		
-		WebElement btnUpdate = getWebDriver().findElement(By.cssSelector(".green-line-buttons.top-green-line>input"));
+		WebElement btnUpdate = getWebDriver().findElement(By.xpath(".//*[@value='Update']"));
 		btnUpdate.click();
 		TimeUnit.SECONDS.sleep(1);
 		
@@ -182,7 +182,7 @@ public class AccountSettingsPage extends AdminPage{
 		selectAccountBillingMenu();
 		
 		WebElement btnUpdatePayment = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-				(By.xpath(".//*[@id='billing_cont']/p[2]/input[@value='Update Plan']")));
+				(By.id("update_plan")));
 		btnUpdatePayment.click();
 		TimeUnit.SECONDS.sleep(1);
 		
