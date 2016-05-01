@@ -1,28 +1,132 @@
 package com.biodata.labguru.tests.storage;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 import java.util.Locale;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.tests.TestOrderRandomizer;
 
 @Listeners(TestOrderRandomizer.class)
 public class PlatesTest extends AbstractStoragesTest{
+
+	@BeforeClass(alwaysRun = true , dependsOnMethods = "initialize")
+	public void addPlateInExperiment(){	
+		try {
+			//add plate in experiment
+			getPageManager().getAdminPage().selectExperiments();
+			String experimentName = buildUniqueName("ExpWithPlate_");
+			getPageManager().getExperimentPage().addNewExperiment(experimentName);
+			//change to version V2
+			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
+			getPageManager().getAdminPage().discardNotyMessages();
+			closeIridizePopups();
+			assertTrue(getPageManager().getExperimentPage().addPlate2X3ToSection("1"));
+		} catch (InterruptedException e) {
+			setLog(e,"before class method: addPlateInExperiment");
+		}
+	}
+
 
 	@Override
 	protected String addNewItem() throws InterruptedException {
 		// not implemented
 		throw new UnsupportedOperationException("This action is not supported by this module");
 	}
-	
 
 	@Override
 	protected String showModule() {
 		
 		return getPageManager().getAdminPage().showPlates();
+	}
+	
+	@Override
+	@Test (groups = {"deep"})
+	public void uploadFile() {
+		try {
+			
+			showTableIndex();	
+			
+			getPageManager().getPlatePage().selectPlateFromTable();
+			boolean attachmentExist = getPageManager().getAdminPage().uploadFile();
+			AssertJUnit.assertTrue("Attachment file: '" + LGConstants.UPLOAD_TXT_TEST_FILENAME +"' was not found.",attachmentExist);
+			getPageManager().getAdminPage().deleteAttachment();
+		} catch (Exception e) {
+			setLog(e,"uploadFile");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Override
+	
+	public void uploadImage() {
+		// not implemented
+		throw new UnsupportedOperationException("This action is not supported by this module");
+	}
+	
+	@Override
+	@Test (groups = {"deep"})
+	public void deleteAttachment() {
+		try {
+			
+			showTableIndex();	
+			
+			getPageManager().getPlatePage().selectPlateFromTable();
+			getPageManager().getAdminPage().uploadFile();
+			boolean deleted = getPageManager().getAdminPage().deleteAttachment();
+			Assert.assertTrue(deleted,"Attachment could not be deleted.");
+		} catch (Exception e) {
+			setLog(e,"deleteAttachment");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Override
+	public void addTag(){
+		
+		try {
+			showTableIndex();	
+		
+			getPageManager().getPlatePage().selectPlateFromTable();
+		
+			String tagName = buildUniqueName(LGConstants.TAG_PREFIX);
+			String tag = getPageManager().getAdminPage().addTag(tagName);
+		
+			AssertJUnit.assertEquals("Tag with name '" + tagName + "' was not craeted as should be.",tagName, tag);
+		
+			getPageManager().getAdminPage().deleteTagFromTaggedEntitiesList();
+			
+		
+		} catch (Exception e) {
+			setLog(e,"addTag");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	@Override
+	@Test (groups = {"deep"})
+	public void addLinkedResource(){
+		
+	
+		try {
+			showTableIndex();
+			getPageManager().getPlatePage().selectPlateFromTable();
+			
+			String linkedRes = getPageManager().getAdminPage().addLinkedResource(LGConstants.EXPERIMENT);
+			
+			AssertJUnit.assertTrue("No resource was linked.",!linkedRes.equals(""));
+			
+		
+		} catch (Exception e) {
+			setLog(e,"addLinkedResource");
+			AssertJUnit.fail(e.getMessage());
+		}
 	}
 
 	@Override
@@ -42,12 +146,11 @@ public class PlatesTest extends AbstractStoragesTest{
 	public void editPlateFromShowPage(){
 		
 		try {
+
+			getPageManager().getPlatePage().selectPlateFromTable();
+			String msg = getPageManager().getPlatePage().editItemFromShowPage();
+			Assert.assertTrue(msg.endsWith("successfully updated."));
 			
-			if(hasList()){
-				getPageManager().getPlatePage().selectPlateFromTable();
-				String msg = getPageManager().getPlatePage().editItemFromShowPage();
-				Assert.assertTrue(msg.endsWith("successfully updated."));
-			}
 			
 		}  catch (Exception e) {
 			setLog(e,"editPlateFromShowPage");
@@ -59,15 +162,10 @@ public class PlatesTest extends AbstractStoragesTest{
 	public void addTagToPlatesFromIndexTable(){
 		
 		try {
-			if(hasList()){
-
-				boolean succeeded = getPageManager().getPlatePage().addTagFromIndexTable();
-				
-				AssertJUnit.assertTrue("Tag was not craeted as should be.",succeeded);
-			}else{
-				//add first plate from experiment or protocol
-				
-			}
+			boolean succeeded = getPageManager().getPlatePage().addTagFromIndexTable();
+			
+			AssertJUnit.assertTrue("Tag was not craeted as should be.",succeeded);
+			
 			
 		} catch (Exception e) {
 			setLog(e,"addTagToPlatesFromIndexTable");
@@ -79,5 +177,4 @@ public class PlatesTest extends AbstractStoragesTest{
 		showTableIndex();
 		return getPageManager().getPlatePage().hasList();
 	}
-
 }

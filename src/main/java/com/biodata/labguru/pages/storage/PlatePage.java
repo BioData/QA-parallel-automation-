@@ -46,7 +46,7 @@ public class PlatePage extends AdminPage implements ITableView{
 		
 	}
 
-	public void selectPlateFromTable() {
+	public String selectPlateFromTable() {
 		
 		List<WebElement> rows = getWebDriver().findElements(By.xpath(".//*[@id='index_table']/tbody/tr"));
 		for (int i = 2; i <= rows.size(); i++) {
@@ -55,6 +55,7 @@ public class PlatePage extends AdminPage implements ITableView{
 			driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
 			break;
 		}
+		return getWebDriver().findElement(By.id("page-title")).getText();
 	}
 
 	public boolean addTagFromIndexTable() throws InterruptedException {
