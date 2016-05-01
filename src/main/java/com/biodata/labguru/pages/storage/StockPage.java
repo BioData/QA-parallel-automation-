@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.model.Stock;
 import com.biodata.labguru.pages.ITableView;
 
@@ -328,5 +329,25 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		return msg;
 	}
 
+	public String importStocks() throws InterruptedException {
+		
+		WebElement wheel = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("index_cog")));
+		wheel.click();
+		TimeUnit.SECONDS.sleep(1);
+		WebElement btnImport = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("import_stocks")));
+		btnImport.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+		String pathToImport = workingDir + LGConstants.ASSETS_FILES_DIRECTORY +  LGConstants.COLLECTIONS_IMPORT_DIRECTORY + "/"+ LGConstants.STOCKS_TEMPLATE;
+		TimeUnit.SECONDS.sleep(5);
+		uploadFile(pathToImport);
+		
+		TimeUnit.SECONDS.sleep(3);
+		//wait until stocks index table is shown
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='index-header']/h1")));
+		invokeSearchInStocks(LGConstants.IMPORTED_STOCK_NAME);
+		openStockFromList(LGConstants.IMPORTED_STOCK_NAME);
+		return getWebDriver().findElement(By.id("page-title")).getText();
+	}
 
 }

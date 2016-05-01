@@ -32,6 +32,35 @@ public class StocksTest extends AbstractStoragesTest{
 	}
 	
 	@Test (groups = {"deep"})
+	public void importStocks() {
+		
+		try {
+		
+			showTableIndex();
+			
+			//if has no stocks - create 1 stocks
+			if(!getPageManager().getStockPage().hasList()){
+				getPageManager().getAdminPage().showBoxes();
+				
+				String newBox = buildUniqueName(LGConstants.BOX_WITH_STOCK_PREFIX);
+				getPageManager().getBoxPage().addNewBox(newBox,"1");
+				
+				getPageManager().getBoxPage().addStock("stock", 1);
+				
+			}
+			getPageManager().getAdminPage().showStocks();
+			String importedStock = getPageManager().getStockPage().importStocks();
+		
+			AssertJUnit.assertEquals(LGConstants.IMPORTED_STOCK_NAME, importedStock);
+
+			
+		}catch (Exception e) {
+			setLog(e,"importStocks");
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test (groups = {"deep"})
 	public void exportAllStocks(){
 
 		try {

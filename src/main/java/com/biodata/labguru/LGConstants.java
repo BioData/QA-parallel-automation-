@@ -191,6 +191,10 @@ public final class LGConstants {
 	public static final String BOTANY_SEEDS_TEMPLATE = "Seed_Template.xls";
 	public static final String GENERIC_COLLECTION_TEMPLATE1 = "Generic_Template1.xls";
 	public static final String GENERIC_COLLECTION_TEMPLATE2_WITH_SEQUENCE = "Generic_Template2.xls";
+	
+	//stocks import template
+	public static final String STOCKS_TEMPLATE = "Stocks.xls";
+	public static final String IMPORTED_STOCK_NAME = "imported_stock";
 
 	//browsers
 	public static final String FIREFOX = "firefox";
