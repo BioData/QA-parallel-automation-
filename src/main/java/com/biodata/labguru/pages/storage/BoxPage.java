@@ -828,7 +828,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		addTagWithName(tagName);
 		
 		clickOnGivenTag(tagName);
-	
+		TimeUnit.SECONDS.sleep(2);
 		
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("class_count")));
 		rows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
