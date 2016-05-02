@@ -49,7 +49,7 @@ public class SpecimensTest extends AbstractRodentsTest{
 			
 			getPageManager().getAdminPage().showStocks();
 			
-			assertTrue(getPageManager().getStockPage().searchInConsumedStocks(stockName));
+			assertTrue("Simple search in consumed stocks did not find stock.",getPageManager().getStockPage().searchInConsumedStocks(stockName));
 		
 		} catch (Exception e) {
 			setLog(e,"markAsConsumedStockFromStocksTab");
