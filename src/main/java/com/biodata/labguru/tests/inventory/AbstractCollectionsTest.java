@@ -75,7 +75,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 		}
 	}
 	
-	@Test (groups = {"knownBugs"})//LAB-1261
+	@Test (groups = {"deep"})//LAB-1261
 	public void exportAllItems(){
 
 		try {
