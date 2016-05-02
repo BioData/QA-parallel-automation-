@@ -22,7 +22,7 @@ public class ProtocolsV2Test extends AbstractEnotebookTest{
 	public void copyProtocolFromProtocolDirectory(){
 		
 		try {
-			getPageManager().getAdminPage().showProtocols();
+			showTableIndex();
 			
 			//return true if we succeeded to add specific protocol from directory
 			String msg = getPageManager().getProtocolPage().copyProtocolFromDirectory();
@@ -507,18 +507,19 @@ public class ProtocolsV2Test extends AbstractEnotebookTest{
 	public void checkTagsNotEditableAfterSign(){
 		
 		try {
-			//add new experiment
+			//add new protocol
+			showTableIndex();
 			addNewItem();
 	
-			//sign the experiment
+			//sign the protocol
 			getPageManager().getProtocolPage().sign();
 	
-			//check that the tags element is not editable when experiment is sign
+			//check that the tags element is not editable when protocol is sign
 			getPageManager().getProtocolPage().checkIfEditable("inline_tag_input");
 			
 			
 		} catch (Exception e) {
-			setLog(e,"signExperimentWithAttachmentNotEditable");
+			setLog(e,"checkTagsNotEditableAfterSign");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
