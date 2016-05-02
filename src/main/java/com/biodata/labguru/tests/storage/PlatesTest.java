@@ -54,7 +54,7 @@ public class PlatesTest extends AbstractStoragesTest{
 			showTableIndex();	
 			
 			getPageManager().getPlatePage().selectPlateFromTable();
-			boolean attachmentExist = getPageManager().getAdminPage().uploadFile();
+			boolean attachmentExist = getPageManager().getAdminPage().uploadFileFromRightSide();
 			AssertJUnit.assertTrue("Attachment file: '" + LGConstants.UPLOAD_TXT_TEST_FILENAME +"' was not found.",attachmentExist);
 			getPageManager().getAdminPage().deleteAttachment();
 		} catch (Exception e) {
@@ -78,7 +78,7 @@ public class PlatesTest extends AbstractStoragesTest{
 			showTableIndex();	
 			
 			getPageManager().getPlatePage().selectPlateFromTable();
-			getPageManager().getAdminPage().uploadFile();
+			getPageManager().getAdminPage().uploadFileFromRightSide();
 			boolean deleted = getPageManager().getAdminPage().deleteAttachment();
 			Assert.assertTrue(deleted,"Attachment could not be deleted.");
 		} catch (Exception e) {

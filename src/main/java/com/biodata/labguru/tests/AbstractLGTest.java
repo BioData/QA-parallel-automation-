@@ -136,7 +136,7 @@ public abstract class AbstractLGTest extends BaseTest{
 			showTableIndex();
 			TimeUnit.SECONDS.sleep(2);
 			addNewItem();
-			boolean attachmentExist = getPageManager().getAdminPage().uploadFile();
+			boolean attachmentExist = getPageManager().getAdminPage().uploadFileFromRightSide();
 			AssertJUnit.assertTrue("Attachment file: '" + LGConstants.UPLOAD_TXT_TEST_FILENAME +"' was not found.",attachmentExist);
 			
 		} catch (Exception e) {
@@ -169,7 +169,7 @@ public abstract class AbstractLGTest extends BaseTest{
 			showTableIndex();
 			TimeUnit.SECONDS.sleep(2);
 			addNewItem();
-			getPageManager().getAdminPage().uploadFile();
+			getPageManager().getAdminPage().uploadFileFromRightSide();
 			boolean deleted = getPageManager().getAdminPage().deleteAttachment();
 			Assert.assertTrue(deleted,"Attachment could not be deleted.");
 		} catch (Exception e) {

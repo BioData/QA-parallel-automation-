@@ -237,7 +237,7 @@ public abstract class BasePage {
 	}
 	
 	
-	public boolean uploadFile() throws InterruptedException {
+	public boolean uploadFileFromRightSide() throws InterruptedException {
 
 		TimeUnit.SECONDS.sleep(2);
 		String path = workingDir + LGConstants.ASSETS_FILES_DIRECTORY  + LGConstants.UPLOAD_TXT_TEST_FILENAME;
