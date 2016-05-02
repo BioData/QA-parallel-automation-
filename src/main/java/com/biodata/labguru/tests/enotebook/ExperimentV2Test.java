@@ -922,6 +922,27 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 
 	}
 	
+	@Test(groups = {"deep"})//LAB-1267
+	public void checkTagsNotEditableAfterSign(){
+		
+		try {
+			//add new experiment
+			addNewItem();
+	
+			//sign the experiment
+			getPageManager().getExperimentPage().sign();
+	
+			//check that the tags element is not editable when experiment is sign
+			getPage().checkIfEditable("inline_tag_input");
+			
+			
+		} catch (Exception e) {
+			setLog(e,"signExperimentWithAttachmentNotEditable");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
+	
 	@Test (groups = {"basic sanity"} ,timeOut = 600000)
 	public void uploadExcelAndAddToPage() {
 		try {

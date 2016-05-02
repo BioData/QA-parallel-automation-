@@ -1408,4 +1408,13 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		txtInput.sendKeys(Keys.ENTER);
 		TimeUnit.SECONDS.sleep(1);
 	}
+	
+	public boolean checkIfEditable(String xpathToCheck) {
+		
+		WebElement element = getWebDriver().findElement(By.xpath(".//*[@id='" + xpathToCheck + "']"));
+		String disabledAttr = element.getAttribute("disabled");
+		if(disabledAttr.equals("disabled"))
+			return true;
+		return false;
+	}
 }

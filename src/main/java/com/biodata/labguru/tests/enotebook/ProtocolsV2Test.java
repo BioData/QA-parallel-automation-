@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Locale;
+
 import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -502,7 +503,25 @@ public class ProtocolsV2Test extends AbstractEnotebookTest{
 		}
 	}
 
+	@Test(groups = {"deep"})//LAB-1267
+	public void checkTagsNotEditableAfterSign(){
+		
+		try {
+			//add new experiment
+			addNewItem();
 	
+			//sign the experiment
+			getPageManager().getProtocolPage().sign();
+	
+			//check that the tags element is not editable when experiment is sign
+			getPageManager().getProtocolPage().checkIfEditable("inline_tag_input");
+			
+			
+		} catch (Exception e) {
+			setLog(e,"signExperimentWithAttachmentNotEditable");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
 
 	@Override
 	@Test(enabled = false)
