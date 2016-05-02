@@ -242,7 +242,7 @@ public class StocksTest extends AbstractStoragesTest{
 		}
 	}
 	
-	@Test (groups = {"knowBugs"})//LAB-1185
+	@Test (groups = {"knowBugs"})//LAB-1046
 	public void simpleSearchInConsumedStocksView(){
 		
 		try {
