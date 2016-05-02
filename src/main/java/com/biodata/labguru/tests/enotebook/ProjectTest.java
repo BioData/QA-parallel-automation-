@@ -262,21 +262,21 @@ public class ProjectTest extends AbstractLGTest{
 			getPageManager().getProjectPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			//back to the folder
 			logger.info("back to folder");
-			getPageManager().getProjectPage().goToRecentlyViewed(folder);
+			getPageManager().getProjectPage().goBack();
 			//create protocol
 			logger.info("creating protocol from dropdown");
 			checkCreateProtocolFromDropDown();
 			
 			//back to the folder
 			logger.info("back to folder");
-			getPageManager().getProjectPage().goToRecentlyViewed(folder);
+			getPageManager().getProjectPage().goBack();
 			//create document
 			logger.info("creating project from dropdown");
 			checkCreateProjectFromDropdown();
 			
 			//back to the folder
 			logger.info("back to folder");
-			getPageManager().getProjectPage().goToRecentlyViewed(folder);
+			getPageManager().getProjectPage().goBack();
 			//create document
 			logger.info("creating document from dropdown");
 			checkCreateDocumentFromDropdown();
