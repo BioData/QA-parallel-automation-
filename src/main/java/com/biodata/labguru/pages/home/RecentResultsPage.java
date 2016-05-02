@@ -40,9 +40,9 @@ public class RecentResultsPage extends AdminPage {
 		showRecentResults();
 		
 		List<WebElement> signedExperiments = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-				(By.xpath(".//*[@id='right-sidebar']/div[1]/ul/li")));
+				(By.xpath(".//*[@id='right-sidebar']/div[2]/ul/li")));
 		for (int i = 1; i <= signedExperiments.size(); i++) {
-			WebElement exp = getWebDriver().findElement(By.xpath(".//*[@id='right-sidebar']/div[1]/ul/li[" + i + "]/a"));
+			WebElement exp = getWebDriver().findElement(By.xpath(".//*[@id='right-sidebar']/div[2]/ul/li[" + i + "]/a"));
 			if(exp.getText().equals(name))
 				return true;
 		}
