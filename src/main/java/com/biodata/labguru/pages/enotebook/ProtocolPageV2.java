@@ -547,5 +547,30 @@ public class ProtocolPageV2 extends AbstractNotebookPage{
 		
 		return title.getText();
 	}
+	
+	public String activateProtocolFromNotyMessage() throws InterruptedException{
+		
+		archiveProtocol();
+		
+		WebElement linkActivate = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@class='noty_bar']/div/span/a")));
+		
+		linkActivate.click();
+		
+		WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
+		
+		return title.getText();
+	}
+	
+	public String activateProtocolFromMenu()  throws InterruptedException{
+		
+		archiveProtocol();
+		
+		clickOnUpperMenuAction("activate_item");
+		
+		WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".noty_text")));
+		
+		return title.getText();
+	}
 
 }

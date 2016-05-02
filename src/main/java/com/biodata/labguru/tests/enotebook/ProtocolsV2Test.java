@@ -117,6 +117,46 @@ public class ProtocolsV2Test extends AbstractEnotebookTest{
 
 	}
 	
+	@Test (groups = {"deep"})
+	public void activateProtocolFromNotyMessage(){
+		
+		try {
+			showTableIndex();
+			
+			String name = buildUniqueName(LGConstants.PROTOCOL_PREFIX);
+			getPageManager().getProtocolPage().addProtocol(name);
+			
+			
+			String notyMsg = getPageManager().getProtocolPage().activateProtocolFromNotyMessage();
+			
+			AssertJUnit.assertEquals(getMessageSource().getMessage("protocol.activated.msg",null, Locale.US),notyMsg);
+		} catch (Exception e) {
+			setLog(e,"activateProtocolFromNotyMessage");
+			AssertJUnit.fail(e.getMessage());
+		}
+		
+	}
+	
+	@Test (groups = {"deep"})
+	public void activateProtocolFromMenu(){
+		
+		try {
+			showTableIndex();
+			
+			String name = buildUniqueName(LGConstants.PROTOCOL_PREFIX);
+			getPageManager().getProtocolPage().addProtocol(name);
+			
+			
+			String notyMsg = getPageManager().getProtocolPage().activateProtocolFromMenu();
+			
+			AssertJUnit.assertEquals(getMessageSource().getMessage("protocol.activated.msg",null, Locale.US),notyMsg);
+		} catch (Exception e) {
+			setLog(e,"activateProtocolFromMenu");
+			AssertJUnit.fail(e.getMessage());
+		}
+		
+	}
+	
 	@Test (groups = {"basic sanity"})
 	public void deleteProtocol() {
 		
