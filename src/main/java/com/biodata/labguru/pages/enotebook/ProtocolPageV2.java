@@ -324,8 +324,7 @@ public class ProtocolPageV2 extends AbstractNotebookPage{
 			
 	    	WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='index-header']/h1")));
 	    	String fullTitle = title.getText();
-	    	fullTitle = fullTitle.substring(0, fullTitle.indexOf('\n') );
-	    	return fullTitle.equals("Lab Protocols");
+	    	return fullTitle.startsWith("Lab Protocols");
 		}catch(Exception e){
 			return false;
 		}
