@@ -110,24 +110,12 @@ public class PlatesTest extends AbstractStoragesTest{
 	}
 	
 	@Override
-	@Test (groups = {"deep"})
+	@Test (enabled = false)
 	public void addLinkedResource(){
-		
-	
-		try {
-			showTableIndex();
-			getPageManager().getPlatePage().selectPlateFromTable();
-			
-			String linkedRes = getPageManager().getAdminPage().addLinkedResource(LGConstants.EXPERIMENT);
-			
-			AssertJUnit.assertTrue("No resource was linked.",!linkedRes.equals(""));
-			
-		
-		} catch (Exception e) {
-			setLog(e,"addLinkedResource");
-			AssertJUnit.fail(e.getMessage());
-		}
+		// not implemented
+		throw new UnsupportedOperationException("This action is not supported by this module");
 	}
+
 
 	@Override
 	public void showMenu() {
