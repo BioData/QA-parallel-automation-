@@ -11,9 +11,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
@@ -27,7 +29,8 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 
-public class BaseTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider{
+@ContextConfiguration("classpath*:/spring/applicationContext-automation.xml")
+public class BaseTest extends AbstractTestNGSpringContextTests implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider{
 	
 	public BaseTest() {
 		super();
@@ -40,10 +43,16 @@ public class BaseTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
 	public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication("danainbar", "bff1466f-0523-4094-9329-69f12abc0f3c");
 
 
- 
-    private static ApplicationContext applicationContext;
+	@Autowired
+    private ApplicationContext applicationContext;
 
-    private PageManager pageManager;	
+	@Autowired
+    private PageManager pageManager;
+	
+    @Autowired
+	private ResourceBundleMessageSource messageSource;	
+
+	protected static final Logger logger = Logger.getLogger(BaseTest.class);
     
     private DesiredCapabilities dc;
 
@@ -63,9 +72,7 @@ public class BaseTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
     public static final String URL = "http://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:80/wd/hub";
 //    public static final String URL = "http://" + "gonichazor" + ":" + "bc580ecc-f8c7-4559-8337-fa6b16861e14" + "@ondemand.saucelabs.com:80/wd/hub";
 
-	private ResourceBundleMessageSource messageSource;	
 
-	protected static final Logger logger = Logger.getLogger(BaseTest.class);
 	
 	protected static String newAccountUser ;
 	private static boolean newAccountCreated = false;
@@ -80,9 +87,13 @@ public class BaseTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAu
 	
 	@BeforeSuite(alwaysRun = true )	
 	public void setup(){
-		applicationContext = new ClassPathXmlApplicationContext("/spring/applicationContext-automation.xml");
-		logger.debug("set up finished...");
-
+		logger.info("set up started...");
+		try {
+			springTestContextPrepareTestInstance();
+		} catch (Exception e) {
+			setLog(e);
+		}
+		logger.info("set up finished...");
 	}
 
 	
