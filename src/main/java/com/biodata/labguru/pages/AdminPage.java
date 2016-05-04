@@ -1179,7 +1179,7 @@ public class AdminPage extends BasePage{
 		TimeUnit.SECONDS.sleep(2);
 		
 		clickOnButton("edit_selected");
-		
+		TimeUnit.SECONDS.sleep(2);
 		editAlternativeName(newName);
 		
 	    WebElement txtSearch = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".searchtextbox")));
@@ -1197,11 +1197,12 @@ public class AdminPage extends BasePage{
 
 	protected void editAlternativeName(String newName) throws InterruptedException {
 		
-		WebElement editPencil = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='alternative_name_input']/span")));
+		WebElement editPencil = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='alternative_name_input']/span")));
 		editPencil.click();
 		TimeUnit.SECONDS.sleep(1);
 		
-		WebElement txt = getWebDriver().findElement(By.id("alternative_name"));
+		WebElement txt = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("alternative_name")));
 		txt.sendKeys(newName);
 		
 		save();
