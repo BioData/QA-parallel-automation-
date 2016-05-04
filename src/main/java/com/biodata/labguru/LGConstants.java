@@ -13,7 +13,7 @@ public final class LGConstants {
 	
 	public static final String GMAIL_SUFFIX_MAIL = "@gmail.com";
 	public static final String QA_PREFIX_MAIL = "labguru.qa+";
-	public static final String BIODATA_MEMBER_NAME = "automation";
+	public static final String BIODATA_MEMBER_NAME = "auto";
 	public static final String STRONG_PASSWORD = "Test1234";
 	public static final String JENKINS = "jen_";
 	public static final String NEW_ACCOUNT_PREFIX = "labguru.qa+new";
