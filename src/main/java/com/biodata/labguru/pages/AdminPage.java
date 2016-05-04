@@ -30,7 +30,7 @@ public class AdminPage extends BasePage{
 		
 		selectUserDropDown();
 		
-		selectMenu(By.xpath(".//*[@id='header']/div/div[2]/span[2]/ul/li[1]/a"));
+		selectMenu(By.xpath(".//*[@id='header']/div/div[5]/span/ul/li[1]/a"));
 		
 	}
 	
@@ -38,8 +38,41 @@ public class AdminPage extends BasePage{
 		
 		selectUserDropDown();
 		
-		selectMenu(By.xpath(".//*[@id='header']/div/div[2]/span[2]/ul/li[2]/a"));
+		selectMenu(By.xpath(".//*[@id='header']/div/div[5]/span/ul/li[2]/a"));
 		
+	}
+	
+	public void selectMessagesMenu() {
+		
+		selectUserDropDown();
+		
+		selectMenu(By.xpath(".//*[@id='header']/div/div[5]/span/ul/li[3]/a"));
+		
+	}
+	
+	public void selectAccountMembersMenu() {
+		selectDropDownMenuById("account_dropdown");
+		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[1]/a"));
+	}
+	
+	public void selectAccountSettingMenu() {
+		
+		selectDropDownMenuById("account_dropdown");
+		
+		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[2]/a"));
+		
+	}
+	
+	public void selectAccountBillingMenu() {
+
+		selectDropDownMenuById("account_dropdown");
+		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[3]/a"));
+	}
+	
+	public void selectAccountTagsMenu() {
+
+		selectDropDownMenuById("account_dropdown");
+		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[4]/a"));
 	}
 	
 	protected boolean selectDropDownMenuById(String id) {
@@ -57,30 +90,7 @@ public class AdminPage extends BasePage{
 		return true;
 	}
 	
-	public void selectAccountMembersMenu() {
 
-		selectDropDownMenu(By.id("account_dropdown"));
-		selectMenu(By.xpath(".//*[@id='header']/div/div[3]/span/ul/li[1]/a"));
-	}
-	
-	public void selectAccountSettingMenu() {
-
-		selectDropDownMenu(By.id("account_dropdown"));
-
-		selectMenu(By.xpath(".//*[@id='header']/div/div[3]/span/ul/li[2]/a"));	
-	}
-	
-	public void selectAccountBillingMenu() {
-
-		selectDropDownMenu(By.id("account_dropdown"));
-		selectMenu(By.xpath(".//*[@id='header']/div/div[3]/span/ul/li[3]/a"));	
-	}
-	
-	public void selectAccountTagsMenu() {
-
-		selectDropDownMenuById("account_dropdown");
-		selectMenu(By.xpath(".//*[@id='header']/div/div[3]/span/ul/li[4]/a"));
-	}
 	
 	private void selectUserDropDown() {
 		try {
