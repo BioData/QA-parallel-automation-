@@ -802,12 +802,15 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		List<WebElement> rows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.xpath(".//*[@id='index_table']/tbody/tr")));
 		int allItemsChecked = itemsToTag.size();
+		
+		int headerIndex = searchForColumnIndex(BOX_NAME_HEADER_ID);
+		
 		for (int i = 2; i <= rows.size(); i++) {
 			if(allItemsChecked == 0)
 				break;
 			
 			//find the index for 'box name' header
-			int headerIndex = searchForColumnIndex(BOX_NAME_HEADER_ID);
+			
 			int count = 0;
 			WebElement boxName = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 					(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td["+ headerIndex + "]/p[2]/a")));
@@ -836,7 +839,7 @@ public class BoxPage extends BaseStoragePage implements ITableView{
 		items = new ArrayList<String>(itemsToTag);
 		for (int i = 2; i <= rows.size(); i++) {
 
-			WebElement name = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[2]/p[2]/a"));
+			WebElement name = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td["+ headerIndex + "]/p[2]/a"));
 			if(items.contains(name.getText())){
 				allItemsChecked++;
 				items.remove(name.getText());
