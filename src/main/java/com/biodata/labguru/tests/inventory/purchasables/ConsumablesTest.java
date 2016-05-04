@@ -19,7 +19,7 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 public class ConsumablesTest extends PurchasableCollectionTest{
 	
 	@Override
-	@Test (groups = {"knownBugs"})
+	@Test (groups = {"deep"})//LAB-479
 	public void checkShowPageOfCreatedItem(){
 		super.checkShowPageOfCreatedItem();
 	}
