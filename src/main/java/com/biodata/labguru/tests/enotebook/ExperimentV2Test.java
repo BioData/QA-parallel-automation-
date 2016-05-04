@@ -330,7 +330,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			
 			getPage().showProtocols();
 			boolean found = getPageManager().getProtocolPage().searchProtocolInDirectory(expName);
-			Assert.assertTrue(found);
+			Assert.assertTrue(found,"Protocol not found in directory- something went wrong...");
 		} catch (Exception e) {
 			setLog(e,"saveAsProtocol");
  			AssertJUnit.fail(e.getMessage());
