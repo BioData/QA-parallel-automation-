@@ -64,6 +64,23 @@ public class RecipesTest extends AbstractKnowledgebaseTest{
 		}
 	}
 	
+	@Test (groups = {"deep"})
+	public void addRecipeWithIngredient(){
+		
+		try {
+			showTableIndex();
+
+			String recipeName = buildUniqueName(LGConstants.RECIPE_PREFIX);
+			boolean ingredientAdded = getPageManager().getRecipePage().addRecipeWithIngredients(recipeName);
+			assertTrue("Ingredient not added.",ingredientAdded);
+			
+			
+		} catch (Exception e) {
+			setLog(e,"addRecipeWithIngredient");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
 	@Override
 	protected AbstractKnowledgebasePage getPage() {
 		

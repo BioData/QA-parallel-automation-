@@ -115,6 +115,59 @@ public class RecipePage extends AbstractKnowledgebasePage{
 		}
 	}
 	
+	public boolean addRecipeWithIngredients(String recipeName) throws InterruptedException {
+		
+		waitForPageCompleteLoading();
+		addNewRecipe(recipeName);
+		
+		
+		WebElement btnAddIngredient = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.cssSelector(".addto.fleft")));
+		btnAddIngredient.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+		String nameOfIngred = "ingredient1";
+		addIngredient(nameOfIngred);
+		
+		
+		//check that the ingredient was added
+		List<WebElement> table = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+				(By.xpath(".//*[@id='ingredient_table']/tbody/tr")));
+		for (int i = 2; i <= table.size(); i++) {
+			WebElement ingredientName = getWebDriver().findElement(By.xpath(".//*[@id='ingredient_table']/tbody/tr[" + i + "]/td[1]"));
+			if(ingredientName.getText().equals(nameOfIngred))
+					return true;
+		}
+		return false;
+	}
+
+	private void addIngredient(String name) throws InterruptedException {
+		
+		WebElement drpdwnArrow = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='s2id_knowledgebase_recipe_ingredient_name']/a/span[2]/b")));
+		drpdwnArrow.click();
+		TimeUnit.SECONDS.sleep(1);
+		
+		WebElement inputName =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='select2-drop']/div/input")));
+		inputName.sendKeys(name);
+		TimeUnit.SECONDS.sleep(1);
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='select2-drop']/ul/li/div/span"))).click();
+		TimeUnit.SECONDS.sleep(1);
+		WebElement mwInput = getWebDriver().findElement(By.id("ingredient_form_concentration_mw"));
+		mwInput.sendKeys("12 gr/mol");	
+		TimeUnit.SECONDS.sleep(1);
+		
+		WebElement concentaration = getWebDriver().findElement(By.id("ingredient_form_final_concentration"));
+		concentaration.sendKeys("100");	
+		TimeUnit.SECONDS.sleep(1);
+		
+		WebElement volume = getWebDriver().findElement(By.id("ingredient_form_weight_volume"));
+		volume.sendKeys("500");
+		TimeUnit.SECONDS.sleep(1);
+		
+		clickOnButton("submit_add_recipe_ingredient");
+	}
+	
 
 	@Override
 	public String getPageTitleXPath() {
