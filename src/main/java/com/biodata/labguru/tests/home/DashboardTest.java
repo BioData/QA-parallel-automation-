@@ -266,7 +266,7 @@ public class DashboardTest extends AbstractHomeTest{
 		}
 	}
 	
-	@Test(groups = {"knownBugs"})//LAB-1245
+	@Test(groups = {"deep"})//LAB-1245
 	public void checkLowStockAlertsChangeThreshold(){
 		
 		try {
