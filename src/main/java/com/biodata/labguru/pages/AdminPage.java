@@ -90,7 +90,15 @@ public class AdminPage extends BasePage{
 		return true;
 	}
 	
-
+	private void selectAccountDropDown() {
+		try {
+			TimeUnit.SECONDS.sleep(2);	
+			selectDropDownMenu(By.id("account_dropdown"));
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e) {
+			getLogger().debug(e.getMessage());
+		}	
+	}
 	
 	private void selectUserDropDown() {
 		try {
@@ -555,8 +563,9 @@ public class AdminPage extends BasePage{
 
 	public String logout() throws InterruptedException {
 	
-		 WebElement btnLogout = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-	        		(By.cssSelector("#logout>a>img")));
+		selectAccountDropDown();
+		WebElement btnLogout = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+	        		(By.cssSelector("#logout")));
         btnLogout.click();
         
         checkForAlerts();
