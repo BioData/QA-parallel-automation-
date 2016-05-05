@@ -75,6 +75,7 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 		}
 	}
 	
+	//TODO - check mail in remote server
 	@Test (groups = {"deep"})//LAB-1261
 	public void exportAllItems(){
 
@@ -91,12 +92,15 @@ public abstract class AbstractCollectionsTest extends AbstractLGTest{
 			
 			//export should be generated
 			Assert.assertTrue(exportMsg.equals(getMessageSource().getMessage("export.submitted.message",null, Locale.US)));
+			
+			//TODO- change it to real check
+			Assert.assertTrue(false,"Check that export file recived in labguru qa mail...");
 			//wait for mail to get to gmail inbox
 			TimeUnit.SECONDS.sleep(5);
-			
-			String msg = getMessageSource().getMessage("gmail.export.subject",null, Locale.US);
-			boolean foundMsg = GenericHelper.checkMail(msg);
-			Assert.assertTrue(foundMsg,"No notification appeared in inbox with subject: " + msg);
+			//TODO- need to check how to get into gmail in remote server
+//			String msg = getMessageSource().getMessage("gmail.export.subject",null, Locale.US);
+//			boolean foundMsg = GenericHelper.checkMail(msg);
+//			Assert.assertTrue(foundMsg,"No notification appeared in inbox with subject: " + msg);
 			
 		} catch (Exception e) {
 			setLog(e,"exportAllItems");

@@ -8,7 +8,6 @@ import org.testng.AssertJUnit;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import com.biodata.labguru.GenericHelper;
 import com.biodata.labguru.LGConstants;
 import com.biodata.labguru.model.Stock;
 import com.biodata.labguru.tests.TestOrderRandomizer;
@@ -60,6 +59,7 @@ public class StocksTest extends AbstractStoragesTest{
 		}
 	}
 	
+	//TODO - check mail in remote server
 	@Test (groups = {"deep"})
 	public void exportAllStocks(){
 
@@ -77,19 +77,21 @@ public class StocksTest extends AbstractStoragesTest{
 			
 			//export should be generated
 			Assert.assertTrue(exportMsg.equals(getMessageSource().getMessage("export.submitted.message",null, Locale.US)));
-	
+			//TODO- change it to real check
+			Assert.assertTrue(false,"Check that export file recived in labguru qa mail...");
 			//wait for mail to get to gmail inbox
 			TimeUnit.SECONDS.sleep(5);
-			
-			String msg = getMessageSource().getMessage("gmail.export.subject",null, Locale.US);
-			boolean foundMsg = GenericHelper.checkMail(msg);
-			Assert.assertTrue(foundMsg,"No notification appeared in inbox with subject: " + msg);
+			//TODO- need to check how to get into gmail in remote server
+//			String msg = getMessageSource().getMessage("gmail.export.subject",null, Locale.US);
+//			boolean foundMsg = GenericHelper.checkMail(msg);
+//			Assert.assertTrue(foundMsg,"No notification appeared in inbox with subject: " + msg);
 			
 		} catch (Exception e) {
 			setLog(e,"exportAllStocks");
 			Assert.fail(e.getMessage());
 		}
 	}
+	
 	
 	@Test(groups = {"basic sanity"})
 	public void editStock(){
