@@ -64,7 +64,7 @@ public class PlatesTest extends AbstractStoragesTest{
 	}
 	
 	@Override
-	
+	@Test (enabled = false)
 	public void uploadImage() {
 		// not implemented
 		throw new UnsupportedOperationException("This action is not supported by this module");
