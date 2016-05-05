@@ -96,7 +96,8 @@ public class LoginTest extends BaseTest{
     		String memberName = buildUniqueName(LGConstants.NEW_ACCOUNT_PREFIX);
 			String email = memberName + LGConstants.GMAIL_SUFFIX_MAIL;
 	
-	        String pageTitle = getPageManager().getLoginPage().createNewAccount(urlToTest,memberName, "test", email,LGConstants.STRONG_PASSWORD);
+			String signupUrl = LGConstants.STAGING_SIGNUP_URL;
+	        String pageTitle = getPageManager().getLoginPage().createNewAccount(signupUrl,memberName, "test", email,LGConstants.STRONG_PASSWORD);
 	        
 	        // Check the title of the page
 	        AssertJUnit.assertEquals(memberName + " test" , pageTitle);
@@ -115,9 +116,10 @@ public class LoginTest extends BaseTest{
         try {	
 			String memberName = buildUniqueName(LGConstants.NEW_ACCOUNT_PREFIX);
 			String email = memberName + LGConstants.GMAIL_SUFFIX_MAIL;
-	        
+			
+			String signupUrl = LGConstants.STAGING_SIGNUP_URL;
 	        // Check the title of the page
-	        AssertJUnit.assertTrue( getPageManager().getLoginPage().createNewAccountJoinExistLab(urlToTest,memberName, "test", email));
+	        AssertJUnit.assertTrue( getPageManager().getLoginPage().createNewAccountJoinExistLab(signupUrl,memberName, "test", email));
 			
 		} catch (Exception e) {
 			setLog(e,"createNewAccountJoinExistLab");
@@ -134,7 +136,8 @@ public class LoginTest extends BaseTest{
 			String email = memberName + LGConstants.GMAIL_SUFFIX_MAIL;
 	
 			getPageManager().getLogger().info("Sign up in production\n email: " + email);
-	        String pageTitle = getPageManager().getLoginPage().createNewAccount(getPageManager().getProductionUrl(),memberName, "production", email,LGConstants.STRONG_PASSWORD);
+			String signupUrl = LGConstants.PRODUCTION_SIGNUP_URL;
+	        String pageTitle = getPageManager().getLoginPage().createNewAccount(signupUrl,memberName, "production", email,LGConstants.STRONG_PASSWORD);
 	        
 	        // Check the title of the page
 	        AssertJUnit.assertEquals(memberName + " production" , pageTitle);
@@ -160,8 +163,9 @@ public class LoginTest extends BaseTest{
 			String memberName = buildUniqueName(LGConstants.NEW_ACCOUNT_PREFIX);
 			String email = memberName + LGConstants.GMAIL_SUFFIX_MAIL;
 	        
+			String signupUrl = LGConstants.STAGING_SIGNUP_URL;
 	        // Check the title of the page
-	        AssertJUnit.assertFalse( getPageManager().getLoginPage().createNewAccountJoinExistLab(urlToTest,memberName, "", email));
+	        AssertJUnit.assertFalse( getPageManager().getLoginPage().createNewAccountJoinExistLab(signupUrl,memberName, "", email));
 			
 		} catch (Exception e) {
 			setLog(e,"createNewAccountNoUserShouldFailed");

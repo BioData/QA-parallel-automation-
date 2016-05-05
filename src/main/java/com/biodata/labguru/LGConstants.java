@@ -7,6 +7,9 @@ import java.util.List;
 
 public final class LGConstants {
 	
+	public static final String STAGING_SIGNUP_URL = "https://staging.labguru.com/signup";
+	public static final String PRODUCTION_SIGNUP_URL = "https://my.labguru.com/signup";
+	
 	public static final String WOOOPS_MESSAGE = "Whooooops";
 	
 	public static final String NOTY_TEXT_CLASS_NAME = ".noty_text";

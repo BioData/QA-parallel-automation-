@@ -110,23 +110,22 @@ public class LoginPage extends BasePage{
 	private boolean insertAccountData(String url, String memberFName,String memberLName, String email,String password) throws InterruptedException {
 		
 		getWebDriver().get(url);
-		getLogger().info("2");
-		WebElement signin = driverWait.until(ExpectedConditions.visibilityOfElementLocated( By.cssSelector("#sign-in>p>a")));
-		signin.click(); 
-		TimeUnit.SECONDS.sleep(2);
-		getLogger().info("3");
+//		WebElement signin = driverWait.until(ExpectedConditions.visibilityOfElementLocated( By.cssSelector("#sign-in>p>a")));
+//		signin.click(); 
+//		TimeUnit.SECONDS.sleep(2);
+		
 		WebElement fname = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("user_first_name")));
 		fname.sendKeys(memberFName);
-		getLogger().info("4");
+		
 		WebElement lname = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("user_last_name")));
 		lname.sendKeys(memberLName);
-		getLogger().info("5");
+		
 	    WebElement emailAdd = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email_add")));
 	    emailAdd.sendKeys(email);
-	    getLogger().info("5");
+	    
 	    selectDropDownOption("role", "Other","1");	    
 	    TimeUnit.SECONDS.sleep(2);
-	    getLogger().info("7 - " + Thread.currentThread().getId());
+	    
 	    selectDropDownOption("select_institution", "Biodata","2");
 	    TimeUnit.SECONDS.sleep(2);
 	    
@@ -137,7 +136,7 @@ public class LoginPage extends BasePage{
 	    WebElement chkTerms =  getWebDriver().findElement(By.id("terms_of_use_check"));
 	    chkTerms.click();
 	    TimeUnit.SECONDS.sleep(1);
-	    getLogger().info("8 - " + Thread.currentThread().getId());
+	 
 	    // Now submit the form. WebDriver will find the form for us from the element
 	    WebElement submitBtn = getWebDriver().findElement(By.id("submit_btn"));
 	    submitBtn.click();
@@ -145,10 +144,10 @@ public class LoginPage extends BasePage{
 	    String alert = checkForAlerts();
 	    if(!alert.isEmpty())
 	    	return false;
-	    getLogger().info("9 - " + Thread.currentThread().getId());
+	   
 	    String script = "$('.button.get_started').click();";
 		executeJavascript(script);
-		getLogger().info("10 - " + Thread.currentThread().getId());
+		
 	    TimeUnit.SECONDS.sleep(2);
 	    return true;
 	}

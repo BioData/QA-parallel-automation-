@@ -136,10 +136,7 @@ public class BaseTest extends AbstractTestNGSpringContextTests implements SauceO
 	@Parameters ({"url" ,"user","password","newAccount","browser"})
 	@BeforeClass (alwaysRun = true)
 	public void initialize(String url,String user,String password,String newAccount,String browser) throws Exception{
-		logger.debug("initializing page manager...");
-		pageManager = (PageManager) applicationContext.getBean("pageManager");
-		messageSource = (ResourceBundleMessageSource) applicationContext.getBean("messageSource");
-		
+
 		initAccountData(url, user, password, newAccount);
 		
 		logger.info("start browser: " + browser);
@@ -197,7 +194,8 @@ public class BaseTest extends AbstractTestNGSpringContextTests implements SauceO
 	private void createNewAccount(String fName) {
 		try {
 			logger.debug( getDebugMessage() + "creating new account" + userToTest);
-			pageManager.getLoginPage().createNewAccount(urlToTest,fName, LGConstants.BIODATA_MEMBER_NAME, userToTest,passwordToTest);
+			String signupUrl = LGConstants.STAGING_SIGNUP_URL;
+			pageManager.getLoginPage().createNewAccount(signupUrl,fName, LGConstants.BIODATA_MEMBER_NAME, userToTest,passwordToTest);
 			logger.info("User name: " + fName);
 			logger.info("User last name: " + LGConstants.BIODATA_MEMBER_NAME);		
 			pageManager.getLoginPage().closeIridizePopups();
