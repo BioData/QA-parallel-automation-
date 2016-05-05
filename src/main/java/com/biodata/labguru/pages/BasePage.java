@@ -301,7 +301,7 @@ public abstract class BasePage {
 			checkForAlerts();
 			
 			driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title"))); 
-			WebElement ToInput = getWebDriver().findElement(By.xpath(".//table/tbody/tr[3]/td/a"));
+			WebElement ToInput = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_to']/a"));
 			String relatedTo = ToInput.getText();
 			if(!relatedTo.equals(resource))
 				return "Not the right image for the created resource...";
