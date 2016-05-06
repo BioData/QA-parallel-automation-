@@ -115,7 +115,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 			WebElement txtName = getWebDriver().findElement(By.id("page-title"));
 			item.setName(txtName.getText());
 			 
-			WebElement txtOwner = getWebDriver().findElement(By.id("lg_info_tab_owner"));
+			WebElement txtOwner = getWebDriver().findElement(By.id(".//*[@id='lg_info_tab_owner']/a"));
 			item.setOwner(txtOwner.getText());
 			
 			WebElement txtCreatedAt = getWebDriver().findElement(By.id("lg_info_tab_created_at"));
