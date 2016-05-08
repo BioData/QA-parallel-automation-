@@ -55,7 +55,7 @@ public abstract class SequenceableCollectionTest extends PurchasableCollectionTe
 			String addedSequence = ((SequenceableCollectionPage) getPage()).addNewSequenceFromSequencesTab(seqToAdd);
 			
 			// Check the title of the page
-			 assertEquals(addedSequence, seqToAdd);
+			 assertEquals(seqToAdd,addedSequence);
 		}catch (Exception e) {
 			setLog(e,"addNewItemWithSequence");
 			Assert.fail(e.getMessage());
