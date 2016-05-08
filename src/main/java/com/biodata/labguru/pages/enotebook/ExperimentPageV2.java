@@ -739,8 +739,8 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 
 		//check that the text is as ment to be
 		try {
-			driverWait.until(ExpectedConditions.visibilityOfElementLocated
-					(By.xpath(".//*[@id='section_" +sectionIndex+ "']/div/div/element/div/div/p/*[@data-redactor-tag='" +tagToCheck+ "']")));	
+			getWebDriver().findElement(By.xpath
+					(".//*[@id='section_" +sectionIndex+ "']/div/div/element/div/div/p/*[@data-redactor-tag='" +tagToCheck+ "']"));	
 			TimeUnit.SECONDS.sleep(1);
 			//revert action
 			executeJavascript(script);
