@@ -927,6 +927,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		
 		try {
 			//add new experiment
+			showTableIndex();
 			addNewItem();
 	
 			//sign the experiment
