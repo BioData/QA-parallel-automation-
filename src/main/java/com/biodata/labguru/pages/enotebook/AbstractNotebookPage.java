@@ -1412,8 +1412,8 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 	public boolean checkIfEditable(String xpathToCheck) {
 		
 		WebElement element = getWebDriver().findElement(By.xpath(".//*[@id='" + xpathToCheck + "']"));
-		String disabledAttr = element.getAttribute("disabled");
-		if(disabledAttr.equals("disabled"))
+		String disabledAttr = element.getAttribute("ng-disabled");
+		if(disabledAttr.equals("true"))
 			return true;
 		return false;
 	}
