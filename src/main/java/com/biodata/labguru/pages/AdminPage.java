@@ -26,11 +26,61 @@ public class AdminPage extends BasePage{
 
 	}
 	
+//	public void selectMyProfileMenu() {
+//		
+//		selectUserDropDown();
+//		
+//		selectMenu(By.xpath(".//*[@id='header']/div/div[5]/span/ul/li[1]/a"));
+//		
+//	}
+//	
+//	public void selectSetPasswordMenu() {
+//		
+//		selectUserDropDown();
+//		
+//		selectMenu(By.xpath(".//*[@id='header']/div/div[5]/span/ul/li[2]/a"));
+//		
+//	}
+//	
+//	public void selectMessagesMenu() {
+//		
+//		selectUserDropDown();
+//		
+//		selectMenu(By.xpath(".//*[@id='header']/div/div[5]/span/ul/li[3]/a"));
+//		
+//	}
+//	
+//	public void selectAccountMembersMenu() {
+//		selectDropDownMenuById("account_dropdown");
+//		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[1]/a"));
+//	}
+//	
+//	public void selectAccountSettingMenu() {
+//		
+//		selectDropDownMenuById("account_dropdown");
+//		
+//		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[2]/a"));
+//		
+//	}
+//	
+//	public void selectAccountBillingMenu() {
+//
+//		selectDropDownMenuById("account_dropdown");
+//		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[3]/a"));
+//	}
+//	
+//	public void selectAccountTagsMenu() {
+//
+//		selectDropDownMenuById("account_dropdown");
+//		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[4]/a"));
+//	}
+	
+	
 	public void selectMyProfileMenu() {
 		
 		selectUserDropDown();
 		
-		selectMenu(By.xpath(".//*[@id='header']/div/div[5]/span/ul/li[1]/a"));
+		selectMenu(By.id("profile"));
 		
 	}
 	
@@ -38,7 +88,7 @@ public class AdminPage extends BasePage{
 		
 		selectUserDropDown();
 		
-		selectMenu(By.xpath(".//*[@id='header']/div/div[5]/span/ul/li[2]/a"));
+		selectMenu(By.id("set_password"));
 		
 	}
 	
@@ -46,35 +96,34 @@ public class AdminPage extends BasePage{
 		
 		selectUserDropDown();
 		
-		selectMenu(By.xpath(".//*[@id='header']/div/div[5]/span/ul/li[3]/a"));
+		selectMenu(By.xpath(".//*[@id='header']/div/div[5]/span/ul/li[5]/a"));
 		
 	}
 	
 	public void selectAccountMembersMenu() {
 		selectDropDownMenuById("account_dropdown");
-		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[1]/a"));
+		selectMenu(By.id("members"));
 	}
 	
 	public void selectAccountSettingMenu() {
 		
 		selectDropDownMenuById("account_dropdown");
 		
-		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[2]/a"));
+		selectMenu(By.id("settings"));
 		
 	}
 	
 	public void selectAccountBillingMenu() {
 
 		selectDropDownMenuById("account_dropdown");
-		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[3]/a"));
+		selectMenu(By.id("billing"));
 	}
 	
 	public void selectAccountTagsMenu() {
 
 		selectDropDownMenuById("account_dropdown");
-		selectMenu(By.xpath(".//*[@id='header']/div/div[6]/span/ul/li[4]/a"));
+		selectMenu(By.id("tags"));
 	}
-	
 	protected boolean selectDropDownMenuById(String id) {
 		
 		try {
