@@ -26,8 +26,15 @@ public class CagesTest extends AbstractRodentsTest{
 		//this test is not relevant for this module
 	}
 	
+	@Override
 	@Test (enabled = false)
 	public void addItemSaveAndNew(){
+		//this test is not relevant for this module
+	}
+	
+	@Override
+	@Test (enabled = false)
+	public void exportAllItems(){
 		//this test is not relevant for this module
 	}
 	
