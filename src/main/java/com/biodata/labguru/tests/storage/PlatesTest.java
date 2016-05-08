@@ -134,7 +134,7 @@ public class PlatesTest extends AbstractStoragesTest{
 	public void editPlateFromShowPage(){
 		
 		try {
-
+			showTableIndex();
 			getPageManager().getPlatePage().selectPlateFromTable();
 			String msg = getPageManager().getPlatePage().editItemFromShowPage();
 			Assert.assertTrue(msg.endsWith("successfully updated."));
@@ -150,6 +150,7 @@ public class PlatesTest extends AbstractStoragesTest{
 	public void addTagToPlatesFromIndexTable(){
 		
 		try {
+			showTableIndex();
 			boolean succeeded = getPageManager().getPlatePage().addTagFromIndexTable();
 			
 			AssertJUnit.assertTrue("Tag was not craeted as should be.",succeeded);
