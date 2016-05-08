@@ -685,8 +685,14 @@ public class AdminPage extends BasePage{
 
 	public String getAccountName() {
 		
-		WebElement accountElm = getWebDriver().findElement(By.xpath(".//*[@id='user_dropdown']"));
-		return accountElm.getText();
+		String script = "return $('.user-name').text();";
+		String accountName = "";
+		try {
+			accountName = (String) executeJavascript(script);
+		} catch (Exception e) {
+			getLogger().debug(e.getMessage());
+		}
+		return accountName;
 	}
 
 

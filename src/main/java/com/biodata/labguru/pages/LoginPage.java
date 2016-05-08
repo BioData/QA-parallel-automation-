@@ -76,8 +76,7 @@ public class LoginPage extends BasePage{
 		String script = "$('#submit_signup_form').click();";
 		executeJavascript(script);
 		TimeUnit.SECONDS.sleep(8);
-		getLogger().info("after submit" + Thread.currentThread().getId());
-	    String name = (String) executeJavascript("return $('#user_dropdown').text();");
+		 String name = (String) executeJavascript("return $('.user-name').text();");
 	    return name;
 	   
 	}
