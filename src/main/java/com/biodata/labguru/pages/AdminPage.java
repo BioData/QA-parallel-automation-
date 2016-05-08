@@ -741,7 +741,7 @@ public class AdminPage extends BasePage{
 		} catch (Exception e) {
 			getLogger().debug(e.getMessage());
 		}
-		return accountName;
+		return accountName.trim();
 	}
 
 
