@@ -198,6 +198,7 @@ public final class LGConstants {
 	//stocks import template
 	public static final String STOCKS_TEMPLATE = "Stocks.xls";
 	public static final String IMPORTED_STOCK_NAME = "imported_stock";
+	public static final String ERROR_STOCK_IMPORT = "Error_stock_import.xls";
 
 	//browsers
 	public static final String FIREFOX = "firefox";

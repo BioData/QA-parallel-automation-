@@ -329,7 +329,39 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		return msg;
 	}
 
-	public String importStocks() throws InterruptedException {
+
+	public String importStocks(String stocksImporFile) throws InterruptedException {
+		
+		importTemplate(stocksImporFile);
+		
+		//wait until stocks index table is shown
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='index-header']/h1")));
+		invokeSearchInStocks(LGConstants.IMPORTED_STOCK_NAME);
+		openStockFromList(LGConstants.IMPORTED_STOCK_NAME);
+		WebElement pageTitle = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
+		String title = pageTitle.getText();
+		return title;
+	}
+	
+	/**
+	 * Import file that has one stock that can be import and one is with error.We expect to get the page with
+	 * 'Try again' button and to see that 1 stock reported that was import.
+	 * @param stocksImporFile - the file to import
+	 * @return the number of successfull imported stucks
+	 * @throws InterruptedException
+	 */
+	public String importStockFailed(String stocksImporFile) throws InterruptedException {
+		
+		importTemplate(stocksImporFile);
+		
+		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='reimport']/input")));
+		WebElement numOfImportSucceeded = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[@id='reimport']/div/table/tbody/tr[2]/td")));
+		return numOfImportSucceeded.getText();
+	}
+
+
+	private void importTemplate(String stocksImporFile) throws InterruptedException {
 		
 		WebElement wheel = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("index_cog")));
 		wheel.click();
@@ -338,18 +370,10 @@ public class StockPage extends BaseStoragePage implements ITableView{
 		btnImport.click();
 		TimeUnit.SECONDS.sleep(1);
 		
-		String pathToImport = workingDir + LGConstants.ASSETS_FILES_DIRECTORY +  LGConstants.COLLECTIONS_IMPORT_DIRECTORY + "/"+ LGConstants.STOCKS_TEMPLATE;
+		String pathToImport = workingDir + LGConstants.ASSETS_FILES_DIRECTORY +  LGConstants.COLLECTIONS_IMPORT_DIRECTORY + "/"+ stocksImporFile;
 		TimeUnit.SECONDS.sleep(5);
 		uploadFile(pathToImport);
-		
 		TimeUnit.SECONDS.sleep(3);
-		//wait until stocks index table is shown
-		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='index-header']/h1")));
-		invokeSearchInStocks(LGConstants.IMPORTED_STOCK_NAME);
-		openStockFromList(LGConstants.IMPORTED_STOCK_NAME);
-		WebElement pageTitle = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page-title")));
-		String title = pageTitle.getText();
-		return title;
 	}
 
 }
