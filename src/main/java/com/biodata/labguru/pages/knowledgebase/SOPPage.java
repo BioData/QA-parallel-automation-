@@ -206,7 +206,7 @@ public class SOPPage extends DocumentPage{
 	public String activateArchivedItemFromNotyMessage() throws InterruptedException{
 		
 		//first archive sop
-		WebElement btnArchive = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='doctools']/ul/li[2]/a")));
+		WebElement btnArchive = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".icon-lock")));
 		btnArchive.click();
 		TimeUnit.SECONDS.sleep(1);
 		//click on 'activate' link
