@@ -927,8 +927,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 		
 		try {
 			//add new experiment
-			showTableIndex();
-			addNewItem();
+			createNewExperimentAndChangeVersion(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
 	
 			//sign the experiment
 			getPageManager().getExperimentPage().sign();
@@ -938,7 +937,7 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			
 			
 		} catch (Exception e) {
-			setLog(e,"signExperimentWithAttachmentNotEditable");
+			setLog(e,"checkTagsNotEditableAfterSign");
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
