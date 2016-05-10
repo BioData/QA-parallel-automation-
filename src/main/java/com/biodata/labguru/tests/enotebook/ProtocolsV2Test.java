@@ -17,6 +17,25 @@ import com.biodata.labguru.tests.TestOrderRandomizer;
 @Listeners(TestOrderRandomizer.class)
 public class ProtocolsV2Test extends AbstractEnotebookTest{
 	
+	
+	@Test (groups = {"deep"})
+	public void addNewProtocolCheckDefaultSections(){
+		
+		try {
+	
+			showTableIndex();			
+			addNewItem();
+			// Check the protocol page has 2 default sections - description,procedure
+			assertTrue(getPageManager().getProtocolPage().checkSectionExist(DESCRIPTION_SECTION_INDEX,DESCRIPTION_SECTION_LABEL));
+			assertTrue(getPageManager().getProtocolPage().checkSectionExist(PROCEDURE_SECTION_INDEX,PROCEDURE_SECTION_LABEL));
+		
+			//check that the result section is not shown in protocol page
+			assertFalse(getPageManager().getProtocolPage().checkSectionExist("2",RESULTS_SECTION_LABEL));
+		} catch (Exception e) {
+			setLog(e,"addNewProtocolCheckDefaultSections");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
 
 	@Test(groups = {"basic sanity"})
 	public void copyProtocolFromProtocolDirectory(){

@@ -36,6 +36,30 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 //		}
 //	}
 	
+	@Test (groups = {"deep"})
+	public void addNewExperimentCheckDefaultSections(){
+		
+		try {
+	
+			showTableIndex();
+			
+			getPageManager().getExperimentPage().addNewExperiment(null);
+			
+			// Check the experiment page has 3 default sections - description,procedure and results
+			assertTrue(getPageManager().getExperimentPage().checkSectionExist(DESCRIPTION_SECTION_INDEX,DESCRIPTION_SECTION_LABEL));
+			assertTrue(getPageManager().getExperimentPage().checkSectionExist(PROCEDURE_SECTION_INDEX,PROCEDURE_SECTION_LABEL));
+			assertTrue(getPageManager().getExperimentPage().checkSectionExist(RESULTS_SECTION_INDEX,RESULTS_SECTION_LABEL));
+			
+			//add section
+			getPageManager().getExperimentPage().addNewSection(DESCRIPTION_SECTION_INDEX, null);
+			String newSectionIndex = String.valueOf(Integer.valueOf(DESCRIPTION_SECTION_INDEX).intValue() + 1);
+			assertTrue(getPageManager().getExperimentPage().checkSectionExist(newSectionIndex,CUSTOM_SECTION_LABEL));
+		} catch (Exception e) {
+			setLog(e,"addNewExperimentCheckDefaultSections");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
 	@Test (groups = {"basic sanity"})
 	public void addNewExperimentGivenName(){
 		
@@ -52,24 +76,6 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			AssertJUnit.fail(e.getMessage());
 		}
 	}
-	
-	@Test (groups = {"basic sanity"})
-	public void addNewExperiment(){
-		
-		try {
-			showTableIndex();
-			
-			String expTitle = getPageManager().getExperimentPage().addNewExperiment(null);
-			
-			// Check the title of the page
-			assertTrue(expTitle.contains(LGConstants.EXPERIMENT));
-			//- later we will add the date and sequence number as args and check that the right date is concatenate to it
-			//assertEquals(getMessageSource().getMessage("experiments.default.exp.name",new Object[]{date,seqNum}, Locale.US), expTitle); 
-		} catch (Exception e) {
-			setLog(e);
-			AssertJUnit.fail(e.getMessage());
-		}
-	}	
 	
 	
 	@Test (groups = {"basic sanity"})

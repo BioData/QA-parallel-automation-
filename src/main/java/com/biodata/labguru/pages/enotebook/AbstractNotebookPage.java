@@ -294,16 +294,19 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 	
 	public String addNewSection(String sectionIndex,String sectionName) throws InterruptedException {
 
+
 		addSection(sectionIndex);
 
 		String newSectionIndex = String.valueOf(Integer.valueOf(sectionIndex).intValue() + 1);
 		
 		//change section name
-		WebElement sectionNameArea = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-				(By.xpath(".//div[@index='" + newSectionIndex +"']/h3/*[@id='section_title']")));
-		sendKeys(sectionNameArea, sectionName);
+		if(sectionName != null){
+			WebElement sectionNameArea = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+					(By.xpath(".//div[@index='" + newSectionIndex +"']/h3/*[@id='section_title']")));
+			sendKeys(sectionNameArea, sectionName);
+		}
 
-		writeInEditor(newSectionIndex, "description for " + sectionName);
+		writeInEditor(newSectionIndex, "description test" );
 		TimeUnit.SECONDS.sleep(1);
 		saveSection(newSectionIndex);//the new section should be saved (index+1)		
 		
@@ -312,7 +315,6 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		String text = getSavedSectionTitle(newSectionIndex);
 
 		return text;
-
 
 	}
 	
@@ -452,29 +454,6 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		return created;
 	}
 	
-	
-	protected String addTextToDesc(String toolBarXPath ,String descToTest) throws InterruptedException {
-		
-		WebElement descriptionToolBar = getWebDriver().findElement(By.xpath(toolBarXPath));
-		
-		TimeUnit.SECONDS.sleep(2);
-		
-		WebElement textLoader = descriptionToolBar.findElement(By.cssSelector(".text.load"));
-		textLoader.click();
-		
-		writeInRedactor("element_data", descToTest);
-
-		List<WebElement> saveImgList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".re-save_button")));
-		for (WebElement imgSave : saveImgList) {
-			imgSave.click();
-		}
-	
-
-		WebElement text = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='element_data_input']/span/p")));
-		String description = text.getText();
-		
-		return description;
-	}
 	
 	protected boolean drawCompound() throws InterruptedException {
 		
@@ -1420,6 +1399,27 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		String disabledAttr = element.getAttribute("ng-disabled");
 		if(disabledAttr.equals("true"))
 			return true;
+		return false;
+	}
+	
+
+	/**
+	 * search the navigation label according to the section index (+1 because it starts with 0)
+	 * @param sectionIndex - the section index
+	 * @param label the label that suppose to be on the navigate label (e.g: Description,Procedure,Results)
+	 * @return
+	 */
+	public boolean checkSectionExist(String sectionIndex,String label) {
+		
+		try {
+			int navIndex = Integer.valueOf(sectionIndex).intValue() + 1;
+			WebElement section = getWebDriver().findElement(By.xpath(".//*[@id='side_nav_container']/ul[1]/li["+ navIndex +"]/span"));
+			if(section.getText().equals(label))
+				return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	
 		return false;
 	}
 }

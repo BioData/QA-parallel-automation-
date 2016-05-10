@@ -22,6 +22,12 @@ public abstract class AbstractEnotebookTest extends AbstractLGTest{
 	protected static final String PROCEDURE_SECTION_INDEX = "1";
 	protected static final String SECOND_PROCEDURE_SECTION_INDEX = "2";
 	
+	protected static final String DESCRIPTION_SECTION_LABEL = "Description";
+	protected static final String PROCEDURE_SECTION_LABEL = "Procedure";
+	protected static final String CUSTOM_SECTION_LABEL = "Custom";
+	public static final String RESULTS_SECTION_LABEL = "Results";
+	public static final String CONCLUSIONS_SECTION_LABEL = "Conclusions";
+	
 	
 	@Override
 	@Test (groups = {"basic sanity"})

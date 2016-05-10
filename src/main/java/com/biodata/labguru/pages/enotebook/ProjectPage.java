@@ -611,5 +611,28 @@ public class ProjectPage extends AbstractNotebookPage {
 		return created;
 
 	}
+	
+	protected String addTextToDesc(String toolBarXPath ,String descToTest) throws InterruptedException {
+		
+		WebElement descriptionToolBar = getWebDriver().findElement(By.xpath(toolBarXPath));
+		
+		TimeUnit.SECONDS.sleep(2);
+		
+		WebElement textLoader = descriptionToolBar.findElement(By.cssSelector(".text.load"));
+		textLoader.click();
+		
+		writeInRedactor("element_data", descToTest);
+
+		List<WebElement> saveImgList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".re-save_button")));
+		for (WebElement imgSave : saveImgList) {
+			imgSave.click();
+		}
+	
+
+		WebElement text = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='element_data_input']/span/p")));
+		String description = text.getText();
+		
+		return description;
+	}
 
 }
