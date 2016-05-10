@@ -298,8 +298,12 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 
 		String newSectionIndex = String.valueOf(Integer.valueOf(sectionIndex).intValue() + 1);
 		
-		WebElement textArea = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='section_" + newSectionIndex +"']/h3/input")));
-		sendKeys(textArea, sectionName);
+		//change section name
+		WebElement sectionNameArea = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//div[@index='" + newSectionIndex +"']/h3/*[@id='section_title']")));
+		sendKeys(sectionNameArea, sectionName);
+
+		writeInEditor(newSectionIndex, "description for " + sectionName);
 		TimeUnit.SECONDS.sleep(1);
 		saveSection(newSectionIndex);//the new section should be saved (index+1)		
 		
@@ -308,6 +312,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		String text = getSavedSectionTitle(newSectionIndex);
 
 		return text;
+
 
 	}
 	
