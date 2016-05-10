@@ -77,9 +77,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		WebElement action = getWebDriver().findElement(By.cssSelector("#link_to_confirm_delete_experiment>a"));	
 		executeJavascript("arguments[0].click();",action);
 		TimeUnit.SECONDS.sleep(1);
-		
-		TimeUnit.SECONDS.sleep(1);
-		
+
 		//choose the delete btn and click
 		WebElement delete =  getWebDriver().findElement(By.cssSelector("#link_to_delete_experiment>.fright>a"));
 		executeJavascript("arguments[0].click();",delete);
@@ -108,6 +106,7 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 				if(tableRow.getText().equals(expName)){
 					if(loadExperiment){
 						tableRow.click();
+						waitForPageCompleteLoading();
 					}
 					return true;
 				}

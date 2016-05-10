@@ -157,7 +157,7 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 		}
 	}
 	
-	@Test (groups = {"deep"})
+	@Test (groups = {"basic sanity"})//LAB-1352
 	public void startExperimentFromSOP(){
 		
 		try {
@@ -169,10 +169,13 @@ public class SOPsTest extends AbstractKnowledgebaseTest{
 			String name = buildUniqueName(LGConstants.SOP_PREFIX);
 			String addedProtocol = getPageManager().getSOPPage().addSOPWithProtocol(name,protocol);
 			getPage().goBack();
+			//check that the new experiment was created from the SOP
 			String linkedProtocol = getPageManager().getSOPPage().startExperimentFromSOP(addedProtocol);
 			
-			AssertJUnit.assertEquals(addedProtocol, linkedProtocol);
-			
+			Assert.assertEquals(addedProtocol, linkedProtocol);
+			boolean isExperiment = getPageManager().getExperimentPage().searchExperiment(addedProtocol,true);
+			Assert.assertTrue(isExperiment, "The experiment " + addedProtocol + "was not found in experiments list");
+			getPageManager().getExperimentPage().deleteExperiment(addedProtocol);
 			//delete the protocol after test
 			deleteProtocolAfterTest(protocol);
 			
