@@ -108,6 +108,39 @@ public class PrimersTest extends SequenceableCollectionTest{
 		}
 	}
 	
+	@Test (groups = {"deep"})//LAB-1311
+	public void checkThresholdAlertsAfterItemDeleted(){
+		
+		try {
+			
+			showTableIndex();
+			String itemName = addNewItem();
+			
+			TimeUnit.SECONDS.sleep(3);
+			
+			String stockName = buildUniqueName(LGConstants.STOCK_PREFIX);
+			//add one stock and set the threshold to '2' - we expect a status message that alert for the low stocks
+			getPage().addStockFromStocksTab(stockName, LGConstants.STOCK_TYPES_ARRAY[1]);
+			String stockCountForThreshold = "2";
+			String statusMsg = getPage().setThreshold(stockCountForThreshold);
+
+			Assert.assertEquals("Threshold of " +  stockCountForThreshold + " stocks minimum is set. Currently there is only 1 available stock",statusMsg);
+		
+			//look for dashboard notification under 'Low Stuck Alerts' section - should be '1'
+			Assert.assertEquals(getPageManager().getDashboardPage().checkLowStockAlerts(itemName),itemName);
+			getPageManager().getAdminPage().goToRecentlyViewed();
+			
+			//delete collection item that raise the alert
+			getPage().deleteItemFromShowPage(itemName);
+			//look for dashboard notification under 'Low Stuck Alerts' section - should be '0'
+			Assert.assertEquals(getPageManager().getDashboardPage().checkLowStockAlerts(itemName),"");
+			
+		} catch (Exception e) {
+			setLog(e,"checkThresholdAlertsAfterItemDeleted");
+			AssertJUnit.fail(e.getMessage());
+		}
+	}
+	
 	@Test (groups = {"deep"})
 	public void checkThresholdStatusInStocksTabAddRemoveStocks(){
 		
