@@ -136,8 +136,7 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 
 	}
 	
-	@Override
-	@Test (groups = {"knownBugs"})
+	@Override //LAB-1056
 	public void checkCustomizeTableView(){
 		
 		try {
@@ -148,7 +147,8 @@ public class GenericCollectionTest extends SequenceableCollectionTest{
 				addNewItem();
 				getPageManager().getGenericCollectionPage().showCollectionFromBreadCrumbs();
 			}
-			
+			((SequenceableCollectionPage) getPage()).enableCustomField(LGConstants.SEQUENCE_FIELD,getCollectionId());
+			showTableIndex();
 			String msg = getPage().checkCustomizeTableView();
 			Assert.assertTrue(msg.equals(""),"Not all selected columns are shown: " + msg);
 		}  catch (Exception e) {
