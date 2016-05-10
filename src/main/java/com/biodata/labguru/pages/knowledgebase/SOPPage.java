@@ -152,7 +152,7 @@ public class SOPPage extends DocumentPage{
 		for (int i = 1; i <= experiments.size(); i++) {
 			
 			WebElement exp = getWebDriver().findElement(By.xpath(".//*[@class='experiment-sortable ui-sortable']/li[" + i + "]/h3/a[2]"));
-			//if it is the added protocol - click on it to see it links to the protocol
+			//if it is the added protocol - click on it to see it links to the new experiment(that has the same name of the protocol)
 			if(exp.getText().equals(addedProtocol)){
 				exp.click();
 				TimeUnit.SECONDS.sleep(2);
