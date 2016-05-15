@@ -989,9 +989,8 @@ public class AdminPage extends BasePage{
 	
 	public void goToRecentlyViewed() throws InterruptedException {
 		
-		WebElement recentViewLink = getWebDriver().findElement(By.xpath(".//*[@id='history_items']/ul/li[1]/a"));
-		recentViewLink.click();
-		TimeUnit.SECONDS.sleep(2);
+		executeJavascript("$('.recently_viewed_item')[0].click();");
+		TimeUnit.SECONDS.sleep(3);
 		
 	}
 
