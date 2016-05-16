@@ -795,7 +795,7 @@ public class ProjectTest extends AbstractLGTest{
 		String expTitle = getPageManager().getDocumentPage().getTitle();
 		// Check the title of the page
 		assertTrue(expTitle.startsWith("My document"));
-		getPageManager().getDocumentPage().saveDocument();
+		getPageManager().getDocumentPage().saveTextBoxIO();
 	}
 	
 	protected String createNewProtocol() throws InterruptedException {

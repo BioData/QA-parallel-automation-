@@ -379,20 +379,7 @@ public class ProjectPage extends AbstractNotebookPage {
 		}
 		return false;
 	}
-	public void goToRecentlyViewed(String newFolderName) throws InterruptedException {
-		
-		List<WebElement> historyItems = getWebDriver().findElements(By.xpath(".//*[@id='history_items']/ul/li"));
-		for (int i = 1; i <= historyItems.size(); i++) {
-			
-			WebElement folderNameElm = getWebDriver().findElement(By.xpath(".//*[@id='history_items']/ul/li["+ i + "]/a"));		
-			if(folderNameElm.getText().equals(newFolderName)){
-				executeJavascript("arguments[0].click();", folderNameElm);
-				TimeUnit.SECONDS.sleep(3);
-				waitForPageCompleteLoading();
-				return;
-			}
-		}
-	}
+
 	
 	public boolean addNoteFromNotesTab(String note) throws InterruptedException {
 
@@ -408,6 +395,9 @@ public class ProjectPage extends AbstractNotebookPage {
 		
 		WebElement title = getWebDriver().findElement(By.id("title"));
 		title.sendKeys(note);
+		
+		
+		writeInRedactor(1, "This is a note description");
 		
 		WebElement save = getWebDriver().findElement(By.id("Save"));
 		save.click();
@@ -447,12 +437,14 @@ public class ProjectPage extends AbstractNotebookPage {
 			}
 		} 
 		
-		//save description
-		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".re-save_button")));
-		saveDescription.click();
+		
+		writeInRedactor(1, addedDoc);
+		TimeUnit.SECONDS.sleep(2);
+		
+		saveTextBoxIO();
 		TimeUnit.SECONDS.sleep(1);
 		//go back to project and check if document added
-		goToRecentlyViewed(projectName);
+		searchInRecentlyViewedList(projectName);
 		
 		return checkDocumentInList(addedDoc);
 		
@@ -522,14 +514,16 @@ public class ProjectPage extends AbstractNotebookPage {
 	}
 	
 	
-	private String checkTextInDescription(String text) throws InterruptedException {
+private String checkTextInDescription(String text) throws InterruptedException {
 		
 		clickOnTab("tabs-progress-link");
 
-		WebElement textInDesc = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='element_data_input']/span/p")));
+		WebElement textInDesc = driverWait.until(ExpectedConditions.visibilityOfElementLocated
+				(By.xpath(".//*[starts-with(@id,'form_for_textarea_')]/span")));
 		if(textInDesc.getText().equals(text))
-				return text;
+			return text;
 		return "";
+		
 	}
 	
 	private String checkPaperInList(String paperToAdd) throws InterruptedException {
@@ -621,15 +615,13 @@ public class ProjectPage extends AbstractNotebookPage {
 		WebElement textLoader = descriptionToolBar.findElement(By.cssSelector(".text.load"));
 		textLoader.click();
 		
-		writeInRedactor("element_data", descToTest);
+		writeInRedactor(1, descToTest);
 
-		List<WebElement> saveImgList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".re-save_button")));
-		for (WebElement imgSave : saveImgList) {
-			imgSave.click();
-		}
+		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@title='Save']")));
+		saveDescription.click();
 	
 
-		WebElement text = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='element_data_input']/span/p")));
+		WebElement text = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[starts-with(@id,'form_for_textarea_')]/span")));
 		String description = text.getText();
 		
 		return description;

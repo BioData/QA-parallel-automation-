@@ -165,6 +165,19 @@ public final class GenericHelper {
 	  
     }
     
+    /**
+     * isCurrentDatePreviousFutureDate - check that Date1 is previous to Date2
+     *
+     * @return true if result is less then 0  - fromDate is previous to  toDate,false otherwise
+     */
+    public static boolean isCurrentDatePreviousFutureDate(Date currentDate, Date futureDate) {
+
+        int result = currentDate.compareTo(futureDate);
+
+        return (result < 0);
+
+    }
+    
     public static int getRandomNumberInRange(int min, int max) {
 
 		if (min >= max) {

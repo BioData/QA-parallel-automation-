@@ -799,7 +799,14 @@ public abstract class BasePage {
     
     public void writeInRedactor(String textAreaId,String text) throws InterruptedException{
     	TimeUnit.SECONDS.sleep(1);
-    	executeJavascript("$('#" + textAreaId + "').redactor('code.set', '<p>"+text+"</p>');");
+    	executeJavascript("textboxio.get('textarea')[0].content.set('"+text+"')");
+    	//executeJavascript("$('#" + textAreaId + "').redactor('code.set', '<p>"+text+"</p>');");
+    	TimeUnit.SECONDS.sleep(1);
+    }
+    
+    public void writeInRedactor(int textAreaIndex,String text) throws InterruptedException{
+    	TimeUnit.SECONDS.sleep(1);
+    	executeJavascript("textboxio.get('textarea')[" + textAreaIndex + "].content.set('"+text+"')");
     	TimeUnit.SECONDS.sleep(1);
     }
     
@@ -895,5 +902,13 @@ public abstract class BasePage {
 		}
 		return -1;//table not exist
 	}
+	
+	
+	public void saveTextBoxIO() {
+		
+		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@title='Save']")));
+		saveDescription.click();
+	}
+
 
 }

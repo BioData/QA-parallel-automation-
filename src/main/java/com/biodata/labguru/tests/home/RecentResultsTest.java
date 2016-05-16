@@ -48,7 +48,7 @@ public class RecentResultsTest extends AbstractHomeTest{
 			getPageManager().getAdminPage().showRecentResults();
 			getPageManager().getAdminPage().selectFromExperimentDropdown(LGConstants.NEW_DOCUMENT);
 			String expTitle = getPageManager().getDocumentPage().getTitle();
-			getPageManager().getDocumentPage().saveDocument();
+			getPageManager().getDocumentPage().saveTextBoxIO();
 			// Check the title of the page
 			assertTrue(expTitle.startsWith("My document"));
 		} catch (InterruptedException e) {

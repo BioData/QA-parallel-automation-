@@ -135,10 +135,10 @@ public class EquipmentPage extends AdminPage implements ITableView{
 			item.setMaintenanceDate(txtMaintenanceDate.getText());
 			
 			
-			WebElement txtMaintainInfo = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_maintenance_information']/div/p"));
+			WebElement txtMaintainInfo = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_maintenance_information']/div"));
 			item.setMaintenanceInformation(txtMaintainInfo.getText());
 			
-			WebElement txtDescription = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_description']/div/p"));
+			WebElement txtDescription = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_description']/div"));
 			item.setDescription(txtDescription.getText());
 			
 			WebElement txtLocation = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_location']/a/span"));
@@ -173,10 +173,10 @@ public class EquipmentPage extends AdminPage implements ITableView{
 		date = setDate("maintenance_date_date_picker",LGConstants.TOMORROW);
 		itemToCreate.setMaintenanceDate(date);
 		
-		addTextToTextArea("maintenance_information",itemToCreate.name);
+		addTextToTextArea(0,itemToCreate.name);
 		itemToCreate.setMaintenanceInformation(itemToCreate.name);
 		
-		addTextToTextArea("description",itemToCreate.name);
+		addTextToTextArea(1,itemToCreate.name);
 		itemToCreate.setDescription(itemToCreate.name);
 		
 		WebElement treeNode = getWebDriver().findElement(By.cssSelector(".jqtree_common.jqtree-title.jqtree-title-folder>span"));
@@ -202,9 +202,9 @@ public class EquipmentPage extends AdminPage implements ITableView{
 		sendKeys(txtName, text);
 	}
 
-	protected void addTextToTextArea(String textAreaId ,String name){
+	protected void addTextToTextArea(int textAreaIndex ,String name){
 		try {
-			writeInRedactor(textAreaId, name);
+			writeInRedactor(textAreaIndex, name);
 		} catch (Exception e) {
 			getLogger().debug("@@Error while writing in redactor");
 		}

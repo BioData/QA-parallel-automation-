@@ -612,7 +612,7 @@ public class AdminPage extends BasePage{
 
 	public String logout() throws InterruptedException {
 	
-		selectAccountDropDown();
+		selectUserDropDown();
 		WebElement btnLogout = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 	        		(By.cssSelector("#logout")));
         btnLogout.click();
@@ -637,7 +637,7 @@ public class AdminPage extends BasePage{
 				executeJavascript("return $('.recently_viewed_item')[" + i +"].click();");
 				
 				WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-						(By.id("projects_experiment_title_input")));
+						(By.cssSelector(".string.input>span")));
 				
 				return title.getText();
 			}

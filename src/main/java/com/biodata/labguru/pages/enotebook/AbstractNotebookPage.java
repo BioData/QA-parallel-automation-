@@ -294,7 +294,6 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 	
 	public String addNewSection(String sectionIndex,String sectionName) throws InterruptedException {
 
-
 		addSection(sectionIndex);
 
 		String newSectionIndex = String.valueOf(Integer.valueOf(sectionIndex).intValue() + 1);
@@ -361,7 +360,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 	
 
 	
-	public void changeVersion(String version) throws InterruptedException {
+	public void changeVersion(String version) {
 		
 		WebElement versionBtn;
 		try {
@@ -383,7 +382,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 			}
 			versionBtn = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("link_to_beta")));
 			versionBtn.click();
-			TimeUnit.SECONDS.sleep(3);
+			driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("link_to_v1")));
 		}
 		
 		
@@ -634,8 +633,10 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		TimeUnit.SECONDS.sleep(1);
 		
 		//write in step 4
-		executeJavascript("$('#section_"+ sectionIndex + ">.element_container>div>element.steps-element>div>table>tbody>tr:nth-of-type(" + 4 + ")>td>div.redactor-box>div')"
-					+ ".redactor('code.set', '<p>test step editor: 4 </p>');");
+		executeJavascript("$('#section_"+ sectionIndex + ">.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(4)>"
+				+ "td:nth-of-type(2)>div').text('test step editor: 4');");
+//		executeJavascript("$('#section_"+ sectionIndex + ">.element_container>div>element.steps-element>div>table>tbody>tr:nth-of-type(" + 4 + ")>td>div.redactor-box>div')"
+//					+ ".redactor('code.set', '<p>test step editor: 4 </p>');");
 		saveSection(sectionIndex);
 		
 		List <WebElement> createdStepsList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
@@ -664,8 +665,10 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		List<WebElement> stepsList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 				(By.cssSelector(getStepsListInSection(sectionIndex))));
 		for (int i = 1; i <= stepsList.size(); i++) {
-			executeJavascript("$('#section_"+ sectionIndex + ">.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(" + i + ")>td>div.redactor-box>div')"
-					+ ".redactor('code.set', '<p>test step editor: " + i + "</p>');");
+			executeJavascript("$('#section_"+ sectionIndex + ">.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(" + i + ")>"
+					+ "td:nth-of-type(2)>div').text('test step editor: " + i + "');");
+//			executeJavascript("$('#section_"+ sectionIndex + ">.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(" + i + ")>td>div.redactor-box>div')"
+//					+ ".redactor('code.set', '<p>test step editor: " + i + "</p>');");
 			steps++;
 		}
 		
@@ -674,12 +677,18 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 			List <WebElement> createdStepsList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
 					(By.cssSelector(getStepsListInSection(sectionIndex))));
 			for (int i = 1; i <= createdStepsList.size(); i++) {
-				WebElement input = getWebDriver().findElement
-						(By.cssSelector("#section_"+ sectionIndex + ">.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(" + i + ")>"
-								+ "td>div.redactor-box>div.redactor-editor>p"));
+				WebElement input = getWebDriver().findElement(By.cssSelector
+						("#section_"+ sectionIndex + ">.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(" + i + ")>td:nth-of-type(2)>div"));
+
 				if(!input.getText().isEmpty()){
 					created ++;	
 				}
+//				WebElement input = getWebDriver().findElement
+//						(By.cssSelector("#section_"+ sectionIndex + ">.steps_element>div>.steps-element>div>table>tbody>tr:nth-of-type(" + i + ")>"
+//								+ "td>div.redactor-box>div.redactor-editor>p"));
+//				if(!input.getText().isEmpty()){
+//					created ++;	
+//				}
 			}
 		}catch(Exception e){
 			//no steps found - test failed
@@ -852,7 +861,7 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		writeInEditor(sectionIndex, descToTest);
 
 		saveSection(sectionIndex);
-		WebElement textArea = getWebDriver().findElement(By.cssSelector("#section_" +sectionIndex+ ">div>div>.text-element>.redactor-box>.redactor-editor>p"));
+		WebElement textArea = getWebDriver().findElement(By.cssSelector("#section_" +sectionIndex+ ">div>div>element>div"));
 		String text = textArea.getText();
 
 		return text;
@@ -862,7 +871,8 @@ public abstract class AbstractNotebookPage extends AdminPage implements IListVie
 		
 		TimeUnit.SECONDS.sleep(1);
 	
-    	executeJavascript("$('#section_"+ sectionIndex +"').find('.redactor-editor').redactor('code.set', '<p>"+descToTest+"</p>');");
+    	//executeJavascript("$('#section_"+ sectionIndex +"').find('.redactor-editor').redactor('code.set', '<p>"+descToTest+"</p>');");
+		executeJavascript("$('#section_"+ sectionIndex +">div>div>element>div').text('"+descToTest+"');");
     	TimeUnit.SECONDS.sleep(1);
 		
 	}

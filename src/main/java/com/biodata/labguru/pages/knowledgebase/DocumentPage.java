@@ -79,11 +79,11 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 				}
 			} 
 			
-			writeInRedactor("element_data", docName);
+			writeInRedactor(1, docName);
 
 			TimeUnit.SECONDS.sleep(2);
 			
-			saveAllItemsOnPage();
+			saveTextBoxIO();
 			
 		}catch(NoSuchElementException ex){
 			//first document -  it automaticaly open in new document page - do nothing
@@ -100,11 +100,11 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 		executeJavascript("document.getElementsByClassName('edit_me')[1].click();");
 		TimeUnit.SECONDS.sleep(2);
 		
-		writeInRedactor("element_data", "update content to check version history");
+		writeInRedactor(1, "update content to check version history");
 
 		TimeUnit.SECONDS.sleep(2);
 		
-		saveAllItemsOnPage();
+		saveTextBoxIO();
 		return updateName("knowledgebase_document_title",".//*[@id='knowledgebase_document_submit_action']/input");
 		
 	}
@@ -113,13 +113,6 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 	public String getPageTitleXPath() {
 
 		return ".//*[@id='knowledgebase_document_title_input']/span";
-	}
-
-	public void saveDocument() {
-	
-		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".fa.fa-check")));
-		saveDescription.click();
-		
 	}
 
 	public boolean checkAllTagsInEditorNotDissapear() throws InterruptedException {
@@ -132,7 +125,7 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 		executeJavascript("document.getElementsByClassName('edit_me')[1].click();");
 		TimeUnit.SECONDS.sleep(2);
 		
-		saveAllItemsOnPage();
+		saveTextBoxIO();
 		
 		String htmlAfter = (String) executeJavascript(script);
 		
