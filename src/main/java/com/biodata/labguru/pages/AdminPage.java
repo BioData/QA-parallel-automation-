@@ -624,18 +624,18 @@ public class AdminPage extends BasePage{
 
 	}
 
-	public String searchInRecentlyViewedList(String expName) {
-			
-		List<WebElement> list = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-				(By.xpath(".//*[@id='history_items']/ul/li")));
+	public String searchInRecentlyViewedList(String expName) throws InterruptedException {
+		
+		List<WebElement> list = getWebDriver().findElements(By.cssSelector(".recently_viewed_item"));
 		
 			
-		for (int i = 1; i <= list.size(); i++) {
-			WebElement item = getWebDriver().findElement(By.xpath(".//*[@id='history_items']/ul/li[" + i + "]"));
-			String name = item.getText();
+		for (int i = 0; i < list.size(); i++) {
+				
+			String name  = (String) executeJavascript("return $('.recently_viewed_item>span')[" + i +"].textContent;");
+			
 			if(name.equals(expName)){
-				WebElement link = getWebDriver().findElement(By.xpath(".//*[@id='history_items']/ul/li[" + i + "]/a"));
-				link.click();
+				executeJavascript("return $('.recently_viewed_item')[" + i +"].click();");
+				
 				WebElement title = driverWait.until(ExpectedConditions.visibilityOfElementLocated
 						(By.id("projects_experiment_title_input")));
 				
