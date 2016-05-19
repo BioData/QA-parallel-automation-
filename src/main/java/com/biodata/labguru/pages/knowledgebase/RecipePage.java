@@ -128,7 +128,7 @@ public class RecipePage extends AbstractKnowledgebasePage{
 		
 		String nameOfIngred = "ingredient1";
 		addIngredient(nameOfIngred);
-		
+		TimeUnit.SECONDS.sleep(1);
 		
 		//check that the ingredient was added
 		List<WebElement> table = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
