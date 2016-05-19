@@ -63,7 +63,7 @@ public abstract class RodentPage extends CollectionPage{
 	
 	protected Map<String,List<String>> insertTreatmentDetails(String name, String date) throws InterruptedException {
 		
-		writeInRedactor("name", name);
+		writeInRedactor("name",0, name);
         
         WebElement txtScheduledAt = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id( "scheduled_at")));
         txtScheduledAt.click();
@@ -139,6 +139,28 @@ public abstract class RodentPage extends CollectionPage{
 	  return "";
 	}
 	
+	/**
+	 * Check the specimen alternative name updated in the specimen table in the specimens tab in cage/strain
+	 */
+	protected boolean checkSpecimenAlternativeNameUpdated(String specName) {
+		
+	  //go over all rows and check that the right name and specimens are written
+	  List<WebElement> rows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
+	  		(By.xpath(".//*[@id='index_table']/tbody/tr")));
+	  
+	  int nameColumIndex = serchForColumnIndex("Alternative name");
+	  
+	  for (int i=2; i<= rows.size() ; i++) {
+		  	WebElement nameElm = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[" + nameColumIndex + "]/span"));
+		  
+		  	if(!nameElm.getText().equals(specName)){
+		  		return false;
+		  	}
+			  	
+	  }
+	  return true;
+	}
+	
 	protected int serchForColumnIndex(String columnName) {
 		
 		List<WebElement> cols = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
@@ -191,28 +213,6 @@ public abstract class RodentPage extends CollectionPage{
 		
 		return checkSpecimenAlternativeNameUpdated(newName);
 
-	}
-	
-	/**
-	 * Check the specimen alternative name updated in the specimen table in the specimens tab in cage/strain
-	 */
-	protected boolean checkSpecimenAlternativeNameUpdated(String specName) {
-		
-	  //go over all rows and check that the right name and specimens are written
-	  List<WebElement> rows = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-	  		(By.xpath(".//*[@id='index_table']/tbody/tr")));
-	  
-	  int nameColumIndex = serchForColumnIndex("Alternative name");
-	  
-	  for (int i=2; i<= rows.size() ; i++) {
-		  	WebElement nameElm = getWebDriver().findElement(By.xpath(".//*[@id='index_table']/tbody/tr[" + i + "]/td[" + nameColumIndex + "]/span"));
-		  
-		  	if(!nameElm.getText().equals(specName)){
-		  		return false;
-		  	}
-			  	
-	  }
-	  return true;
 	}
 	
 	@Override

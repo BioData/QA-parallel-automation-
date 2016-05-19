@@ -292,6 +292,34 @@ public class ProjectPage extends AbstractNotebookPage {
 		 return addTextToDesc(".//*[@id='tabs-progress']/div[4]/div/ul",descToTest);
 
 	}
+	
+	protected String addTextToDesc(String toolBarXPath ,String descToTest) throws InterruptedException {
+		
+		WebElement descriptionToolBar = getWebDriver().findElement(By.xpath(toolBarXPath));
+		
+		TimeUnit.SECONDS.sleep(2);
+		
+		WebElement textLoader = descriptionToolBar.findElement(By.cssSelector(".text.load"));
+		textLoader.click();
+		
+		writeInRedactor(descToTest);
+
+		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@title='Save']")));
+		saveDescription.click();
+	
+
+		WebElement text = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[starts-with(@id,'form_for_textarea_')]/span")));
+		String description = text.getText();
+		
+		return description;
+	}
+	
+    private void writeInRedactor(String text) throws InterruptedException{
+    	
+    	TimeUnit.SECONDS.sleep(1);
+    	executeJavascript("textboxio.get('textarea')[1].content.set('"+text+"')");
+    	TimeUnit.SECONDS.sleep(1);
+     }
 
 	public boolean addCompoundToProjectDescription() throws InterruptedException {
 		
@@ -397,7 +425,7 @@ public class ProjectPage extends AbstractNotebookPage {
 		title.sendKeys(note);
 		
 		
-		writeInRedactor(1, "This is a note description");
+		writeInRedactor("This is a note description");
 		
 		WebElement save = getWebDriver().findElement(By.id("Save"));
 		save.click();
@@ -437,8 +465,8 @@ public class ProjectPage extends AbstractNotebookPage {
 			}
 		} 
 		
-		
-		writeInRedactor(1, addedDoc);
+		writeInRedactor(addedDoc);
+
 		TimeUnit.SECONDS.sleep(2);
 		
 		saveTextBoxIO();
@@ -514,7 +542,7 @@ public class ProjectPage extends AbstractNotebookPage {
 	}
 	
 	
-private String checkTextInDescription(String text) throws InterruptedException {
+	private String checkTextInDescription(String text) throws InterruptedException {
 		
 		clickOnTab("tabs-progress-link");
 
@@ -522,7 +550,7 @@ private String checkTextInDescription(String text) throws InterruptedException {
 				(By.xpath(".//*[starts-with(@id,'form_for_textarea_')]/span")));
 		if(textInDesc.getText().equals(text))
 			return text;
-		return "";
+	    return "";
 		
 	}
 	
@@ -604,27 +632,6 @@ private String checkTextInDescription(String text) throws InterruptedException {
 		boolean created = ((tableArea != null) && (insertedData.equals(value)));
 		return created;
 
-	}
-	
-	protected String addTextToDesc(String toolBarXPath ,String descToTest) throws InterruptedException {
-		
-		WebElement descriptionToolBar = getWebDriver().findElement(By.xpath(toolBarXPath));
-		
-		TimeUnit.SECONDS.sleep(2);
-		
-		WebElement textLoader = descriptionToolBar.findElement(By.cssSelector(".text.load"));
-		textLoader.click();
-		
-		writeInRedactor(1, descToTest);
-
-		WebElement saveDescription = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@title='Save']")));
-		saveDescription.click();
-	
-
-		WebElement text = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[starts-with(@id,'form_for_textarea_')]/span")));
-		String description = text.getText();
-		
-		return description;
 	}
 
 }

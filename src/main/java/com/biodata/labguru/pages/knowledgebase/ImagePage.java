@@ -46,7 +46,7 @@ public class ImagePage extends AbstractKnowledgebasePage{
 		WebElement imageName = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("title")));
 		imageName.clear();
 		imageName.sendKeys(GenericHelper.buildUniqueName(noSuffix) + ".gif");
-		writeInRedactor("description", "edited image description");
+		writeInRedactor("description", 0,"edited image description");
 	   	save();
 	   
 		

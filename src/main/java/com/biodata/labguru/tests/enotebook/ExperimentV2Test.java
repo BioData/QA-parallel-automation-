@@ -796,7 +796,6 @@ public class ExperimentV2Test extends AbstractEnotebookTest {
 			 getPageManager().getProjectPage().addNewProject(newProject);
 			
 			getPageManager().getExperimentPage().openExperiment(expName);
-			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			
 			String movedTo = getPageManager().getExperimentPage().moveExperimentToProject(newProject);
 			assertTrue("The move action did not succeeded.",movedTo.equals(newProject));

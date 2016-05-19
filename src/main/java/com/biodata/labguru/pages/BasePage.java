@@ -797,16 +797,16 @@ public abstract class BasePage {
 
     }
     
-    public void writeInRedactor(String textAreaId,String text) throws InterruptedException{
-    	TimeUnit.SECONDS.sleep(1);
-    	executeJavascript("textboxio.get('textarea')[0].content.set('"+text+"')");
-    	//executeJavascript("$('#" + textAreaId + "').redactor('code.set', '<p>"+text+"</p>');");
-    	TimeUnit.SECONDS.sleep(1);
-    }
+//    public void writeInRedactor(String textAreaId,String text) throws InterruptedException{
+//    	TimeUnit.SECONDS.sleep(1);
+//    	executeJavascript("textboxio.get('#" + textAreaId + "')[0].content.set('"+text+"')");
+//    	//executeJavascript("$('#" + textAreaId + "').redactor('code.set', '<p>"+text+"</p>');");
+//    	TimeUnit.SECONDS.sleep(1);
+//    }
     
-    public void writeInRedactor(int textAreaIndex,String text) throws InterruptedException{
+    public void writeInRedactor(String textAreaId,int textAreaIndex,String text) throws InterruptedException{
     	TimeUnit.SECONDS.sleep(1);
-    	executeJavascript("textboxio.get('textarea')[" + textAreaIndex + "].content.set('"+text+"')");
+    	executeJavascript("textboxio.get('#" + textAreaId + "')[" + textAreaIndex + "].content.set('"+text+"')");
     	TimeUnit.SECONDS.sleep(1);
     }
     

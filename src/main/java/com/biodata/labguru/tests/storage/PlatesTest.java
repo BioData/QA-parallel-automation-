@@ -23,8 +23,6 @@ public class PlatesTest extends AbstractStoragesTest{
 			getPageManager().getAdminPage().selectExperiments();
 			String experimentName = buildUniqueName("ExpWithPlate_");
 			getPageManager().getExperimentPage().addNewExperiment(experimentName);
-			//change to version V2
-			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			getPageManager().getAdminPage().discardNotyMessages();
 			closeIridizePopups();
 			assertTrue(getPageManager().getExperimentPage().addPlate2X3ToSection("1"));

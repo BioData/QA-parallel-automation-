@@ -26,8 +26,6 @@ public abstract class AbstractHomeTest extends BaseTest{
 			//before starting i want to make sure there is at least one experiment in beta versuion
     		if(!getPageManager().getExperimentPage().hasList() ){
     			getPageManager().getExperimentPage().addNewExperiment("First Experiment");
-    			//change to version V2
-    			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
     		}
 		} catch (Exception e) {
 			setLog(e,"switchToBetaVersion");

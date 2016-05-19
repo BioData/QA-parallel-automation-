@@ -268,7 +268,7 @@ public class RodentTreatmentPage extends AdminPage{
 	     
 		//write in the redactor editor
 		if(!name.isEmpty())
-			writeInRedactor("name", name);   
+			writeInRedactor("name",0, name);   
  
         WebElement txtScheduledAt = driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("scheduled_at")));
         txtScheduledAt.click();
@@ -347,17 +347,7 @@ public class RodentTreatmentPage extends AdminPage{
 				(By.xpath(".//*[@id='select2-drop']/div/input")));
 		sendKeys(inputText, selectedProtocol);
 		inputText.sendKeys(Keys.ENTER);
-		TimeUnit.SECONDS.sleep(1);
-		//take the last protocol in the list
-//		List<WebElement> list = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//*[@id='select2-drop']/ul/li")));
-//		for (int i = 1; i <= list.size(); i++) {
-//			WebElement selected = driverWait.until(ExpectedConditions.visibilityOfElementLocated
-//					(By.xpath(".//*[@id='select2-drop']/ul/li[" + i + "]/div")));
-//			if(selected.getText().equals(selectedProtocol)){
-//				selected.click();
-//				TimeUnit.SECONDS.sleep(1);
-//			}
-//		}
+		TimeUnit.SECONDS.sleep(3);
 	}
 	
 	private void selectTabByLocator(By locator) throws InterruptedException{

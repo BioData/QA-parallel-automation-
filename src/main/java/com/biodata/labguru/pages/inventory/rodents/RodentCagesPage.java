@@ -30,7 +30,7 @@ public class RodentCagesPage extends RodentPage{
 	@Override
 	protected void addDescription(String name){
 		try {
-			writeInRedactor("system_storage_rodent_cage_description", "this is the description for the " + name);
+			writeInRedactor("description",0, "this is the description for the " + name);
 		} catch (InterruptedException e) {
 			
 		}

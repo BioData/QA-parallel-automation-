@@ -51,13 +51,6 @@ public class ExperimentPageV2 extends AbstractNotebookPage {
 		}
 	}
 
-	@Override
-	protected void clickOnResourceLink() throws InterruptedException {
-		//switch to beta experiment and click on the link label there
-		changeVersion(LGConstants.EXPERIMENT_BETA);
-		super.clickOnResourceLink();
-	}
-
 	public String saveAsProtocol() throws InterruptedException{
 		
 		clickOnUpperMenuAction(saveAsProtocolActionId);

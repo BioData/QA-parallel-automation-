@@ -173,10 +173,10 @@ public class EquipmentPage extends AdminPage implements ITableView{
 		date = setDate("maintenance_date_date_picker",LGConstants.TOMORROW);
 		itemToCreate.setMaintenanceDate(date);
 		
-		addTextToTextArea(0,itemToCreate.name);
+		addTextToTextArea("maintenance_information",0,itemToCreate.name);
 		itemToCreate.setMaintenanceInformation(itemToCreate.name);
 		
-		addTextToTextArea(1,itemToCreate.name);
+		addTextToTextArea("description",0,itemToCreate.name);
 		itemToCreate.setDescription(itemToCreate.name);
 		
 		WebElement treeNode = getWebDriver().findElement(By.cssSelector(".jqtree_common.jqtree-title.jqtree-title-folder>span"));
@@ -202,9 +202,9 @@ public class EquipmentPage extends AdminPage implements ITableView{
 		sendKeys(txtName, text);
 	}
 
-	protected void addTextToTextArea(int textAreaIndex ,String name){
+	protected void addTextToTextArea(String textAreaId,int textAreaIndex ,String name){
 		try {
-			writeInRedactor(textAreaIndex, name);
+			writeInRedactor(textAreaId,textAreaIndex, name);
 		} catch (Exception e) {
 			getLogger().debug("@@Error while writing in redactor");
 		}
@@ -267,4 +267,5 @@ public class EquipmentPage extends AdminPage implements ITableView{
 		customize.click();
 		TimeUnit.SECONDS.sleep(2);
 	}
+
 }

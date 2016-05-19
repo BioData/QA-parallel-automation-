@@ -33,12 +33,12 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 	public void addNewDocument(String docName) throws InterruptedException {
 		
 		addSimpleDocument(docName);
-	     
+     
 		executeJavascript("document.getElementsByClassName('grid load')[0].click();");
 	   	TimeUnit.SECONDS.sleep(3);
-       
-	}
 
+	}
+	
 	protected void saveAllItemsOnPage() throws InterruptedException {
 		List <WebElement> imgSaveList = driverWait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".fa.fa-check")));
         for (WebElement imgSave : imgSaveList) {
@@ -55,12 +55,11 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 			//wait for page to load
 			TimeUnit.SECONDS.sleep(3);
 			if(hasList()){
-				getLogger().info("has list");
 				//if not first document - look for button 'New document'
 				clickOnButton("new_document");
 				TimeUnit.SECONDS.sleep(2);
-				getLogger().info("click new document");
 			}
+			
 			driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("knowledgebase_document_title_input")));
 			
 			executeJavascript("document.getElementsByClassName('edit_me')[0].click();");
@@ -79,7 +78,7 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 				}
 			} 
 			
-			writeInRedactor(1, docName);
+			writeInRedactor(docName);
 
 			TimeUnit.SECONDS.sleep(2);
 			
@@ -89,18 +88,23 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 			//first document -  it automaticaly open in new document page - do nothing
 			
 		}
-		
+
 	}
 
-
-
+    protected void writeInRedactor(String text) throws InterruptedException{
+    	
+    	TimeUnit.SECONDS.sleep(1);
+    	executeJavascript("textboxio.get('textarea')[1].content.set('"+text+"')");
+    	TimeUnit.SECONDS.sleep(1);
+     }
+    
 	public String updateContent() throws InterruptedException {
 		
 		//click on edit description to update the content
 		executeJavascript("document.getElementsByClassName('edit_me')[1].click();");
 		TimeUnit.SECONDS.sleep(2);
 		
-		writeInRedactor(1, "update content to check version history");
+		writeInRedactor("update content to check version history");
 
 		TimeUnit.SECONDS.sleep(2);
 		
@@ -114,7 +118,8 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 
 		return ".//*[@id='knowledgebase_document_title_input']/span";
 	}
-
+	
+	
 	public boolean checkAllTagsInEditorNotDissapear() throws InterruptedException {
 		
 		driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".element-plain-text.user-content.redactor-editor")));
@@ -155,5 +160,4 @@ public class DocumentPage extends AbstractKnowledgebasePage {
 				.visibilityOfElementLocated(By.xpath(".//*[@id='knowledgebase_document_title_input']/span")));
 		return getWebDriver().getTitle();
 	}
-
 }

@@ -27,7 +27,6 @@ public class RecentResultsTest extends AbstractHomeTest{
 			
 			getPageManager().getAdminPage().selectFromExperimentDropdown(LGConstants.NEW_EXP_FROM_PROTOCOL);
 			getPageManager().getExperimentPage().createExperimentFromSelectedProtocol(protocol);
-			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			// Check that the protocol is linked to this experiment
 			boolean linked = getPageManager().getExperimentPage().checkLinkedResources(protocol);
 			assertTrue(linked);
@@ -107,7 +106,6 @@ public class RecentResultsTest extends AbstractHomeTest{
 			
 			String expName = "Experiment from Recent Results";
 			String pageTitle = getPageManager().getRecentResultsPage().addNewExperiment(expName);
-			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			Assert.assertEquals(expName, pageTitle);
 		
 		} catch (Exception e) {

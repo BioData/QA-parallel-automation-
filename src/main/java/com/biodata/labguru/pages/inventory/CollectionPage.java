@@ -115,13 +115,13 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 			WebElement txtName = getWebDriver().findElement(By.id("page-title"));
 			item.setName(txtName.getText());
 			 
-			WebElement txtOwner = getWebDriver().findElement(By.id(".//*[@id='lg_info_tab_owner']/a"));
+			WebElement txtOwner = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_owner']/a"));
 			item.setOwner(txtOwner.getText());
 			
 			WebElement txtCreatedAt = getWebDriver().findElement(By.id("lg_info_tab_created_at"));
 			item.setCreatedAt(txtCreatedAt.getText());
 			
-			WebElement txtDescription = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_description']/div/p"));
+			WebElement txtDescription = getWebDriver().findElement(By.xpath(".//*[@id='lg_info_tab_description']/div"));
 			item.setDescription(txtDescription.getText());
 		} catch (NoSuchElementException e) {
 			Assert.fail("One of the info fields is missing: " + e.getMessage(), e);
@@ -206,7 +206,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 	
 	protected void addDescription(String name){
 		try {
-			writeInRedactor("description", name);
+			writeInRedactor("description",0, name);
 		} catch (Exception e) {
 			getLogger().debug("@@Error while writing in redactor");
 		}
@@ -221,7 +221,7 @@ public abstract class CollectionPage extends AdminPage implements ITableView{
 		TimeUnit.SECONDS.sleep(5);
 		uploadFileToImport(pathToImport);
 		//wait maximum 5 minutes for the noty message that indicates that import finished
-		TimeUnit.MINUTES.sleep(5);
+		TimeUnit.MINUTES.sleep(3);
         String msg = checkForNotyMessage();
 
 	    return msg;

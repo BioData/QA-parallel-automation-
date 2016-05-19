@@ -154,7 +154,7 @@ public class ConsumablesPage extends PurchasableCollectionPage{
 	@Override
 	protected void addDescription(String name) {
 		try {
-			writeInRedactor("catalog_material_description", name);
+			writeInRedactor("description",0, name);
 		} catch (InterruptedException e) {
 			
 		}

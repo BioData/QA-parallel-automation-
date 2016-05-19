@@ -202,9 +202,6 @@ public abstract class AbstractEnotebookTest extends AbstractLGTest{
 		
 		getPageManager().getAdminPage().selectExperiments();
 		String name = getPageManager().getExperimentPage().addNewExperiment(expName);
-		//change to version V2
-		getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
-		getPageManager().getAdminPage().discardNotyMessages();
 		closeIridizePopups();
 		return name;
 	}

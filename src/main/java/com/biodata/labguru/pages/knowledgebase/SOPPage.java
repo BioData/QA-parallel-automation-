@@ -32,7 +32,7 @@ public class SOPPage extends DocumentPage{
 	public void addEmptySOP(String name) throws InterruptedException {
 		try{
 			//wait for page to load
-			TimeUnit.SECONDS.sleep(3);
+			waitForPageCompleteLoading();
 			
 			//if not first sop - look for button 'New SOP'
 			WebElement btnNewSop =  driverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("new_sop")));
@@ -48,22 +48,20 @@ public class SOPPage extends DocumentPage{
 			txtName.clear();
 			txtName.sendKeys(name);
 			
-			List<WebElement> saveBtnList = getWebDriver().findElements(By.xpath(".//*[@id='knowledgebase_sop_submit_action']/input"));
-			for (WebElement btnSave : saveBtnList) {
-				if(btnSave.isDisplayed())
-					btnSave.click();
-			} 
+			WebElement saveBtn = getWebDriver().findElement(By.xpath(".//*[@id='knowledgebase_sop_submit_action']/input"));
+			saveBtn.click();
+		
 			
-			writeInRedactor("element_data", name);
+			writeInRedactor(name);
 
 			TimeUnit.SECONDS.sleep(2);
+			saveAllItemsOnPage();	
 			
 		}catch(Exception ex){
 			//first document -  it automaticaly open in new document page - do nothing
 			
 		}
-		 saveAllItemsOnPage();
-		
+		 
 	}
 	
 	public String addSOPWithProtocol(String name,String protocolName) throws InterruptedException {
@@ -174,7 +172,7 @@ public class SOPPage extends DocumentPage{
         TimeUnit.SECONDS.sleep(3);
          
 		WebElement item = driverWait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath(".//*[@id='documents']/div[2]/h4/a/strong")));
+				.visibilityOfElementLocated(By.xpath(".//*[@id='documents']/div[2]/h4/a")));
 		
 		item.click();
 

@@ -148,7 +148,6 @@ public class DashboardTest extends AbstractHomeTest{
 			String expName = buildUniqueName(LGConstants.EXPERIMENT_PREFIX);
 			
 			getPageManager().getDashboardPage().addNewExperiment(expName);
-			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			getPageManager().getAdminPage().showDashboard();
 			
 			String recentlyViewed = getPageManager().getAdminPage().searchInRecentlyViewedList(expName);
@@ -187,7 +186,6 @@ public class DashboardTest extends AbstractHomeTest{
 			
 			String expName = "Experiment from Dashboard";
 			String pageTitle = getPageManager().getDashboardPage().addNewExperiment(expName);
-			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			Assert.assertEquals(expName, pageTitle);
 		
 		} catch (Exception e) {
@@ -239,7 +237,6 @@ public class DashboardTest extends AbstractHomeTest{
 		try {
 			getPageManager().getAdminPage().showDashboard();
 			getPageManager().getDashboardPage().addNewExperiment(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
-			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			getPageManager().getAdminPage().showDashboard();
 			getPageManager().getDashboardPage().addNewExperiment(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
 			String found = getPageManager().getAdminPage().searchFromElasticSearch(LGConstants.EXPERIMENT_PREFIX);
@@ -256,7 +253,6 @@ public class DashboardTest extends AbstractHomeTest{
 		try {
 			getPageManager().getAdminPage().showDashboard();
 			getPageManager().getDashboardPage().addNewExperiment(buildUniqueName(LGConstants.EXPERIMENT_PREFIX));
-			getPageManager().getExperimentPage().changeVersion(LGConstants.EXPERIMENT_BETA);
 			getPageManager().getExperimentPage().uploadAttachmentToSection("0",LGConstants.UPLOAD_TXT_TEST_FILENAME);
 			String text = getPageManager().getAdminPage().searchTextFromAttachment(LGConstants.SEARCH_TEXT);
 			Assert.assertEquals(text, LGConstants.UPLOAD_TXT_TEST_FILENAME);
