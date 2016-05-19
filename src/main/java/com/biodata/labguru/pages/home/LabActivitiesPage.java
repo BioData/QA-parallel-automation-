@@ -36,7 +36,7 @@ public class LabActivitiesPage extends AdminPage {
 		
 		txtSubject.sendKeys(subject);
 		
-		writeInRedactor("system_whiteboard_post_body",0, "This is a test message");
+		writeInRedactor("body",0, "This is a test message");
 		
 		
 		WebElement btnPostMsg = getWebDriver().findElement(By.id("create_whiteboard_posts_submit"));
