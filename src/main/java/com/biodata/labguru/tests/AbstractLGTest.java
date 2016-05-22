@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.AssertJUnit;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -23,6 +24,19 @@ public abstract class AbstractLGTest extends BaseTest{
 	
 	protected abstract String showModule();
 	
+	@BeforeClass(alwaysRun = true , dependsOnMethods = "initialize")
+	public void addFirstExperiment(){
+		try {
+			//before starting i want to make sure there is at least one experiment
+			hasExperiments  = hasExperiments || getPageManager().getExperimentPage().hasList();
+    		if(!hasExperiments ){
+    			getPageManager().getExperimentPage().addNewExperiment("First Experiment");
+    			hasExperiments = true;
+    		}
+		} catch (Exception e) {
+			setLog(e,"addFirstExperiment");
+		}
+	}
 	protected String showTableIndex() {
 		String pageTitle = showModule();	
 		closeIridizePopups();
